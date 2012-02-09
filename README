@@ -1,0 +1,31 @@
+Overview
+--------
+Smart Wizard is a flexible jQuery plug-in for wizard like interface. 
+It allows to group contents into sections and so it saves page space and also gives a neat and stylish interface for users.
+Using Smart Wizard 2.0 you can easily do input validation and so it is good for user registration and kind of tasks. 
+Please see the demos and documentation for more details.
+
+Features
+--------
+  Easy to implement, Minimal HTML required.
+  Ajax contents loading option.
+  Cool animation effects on step navigation. (none/fade/slide/slideleft)
+  Keyboard navigation option.
+  Horizontal and vertical style step anchors.
+  Easy step input validation option
+  Option to highlight error steps
+  In-built message box
+  Easy navigation with step anchors and navigation buttons
+  Can have multiple wizards on same page
+  Option to enable all steps on first load
+  
+Homepage
+---------
+http://www.techlaboratory.net/products.php?product=smartwizard
+
+License
+-------
+Free to use and modify on both personal and commercial environment
+
+Licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License.
+http://creativecommons.org/licenses/by-sa/3.0/ 
