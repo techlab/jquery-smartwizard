@@ -5,7 +5,7 @@
 <link href="styles/demo_style.css" rel="stylesheet" type="text/css">
 
 <link href="styles/smart_wizard.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript" src="js/jquery.smartWizard-2.0.js"></script>
 
 <script type="text/javascript">
