@@ -1,32 +1,28 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Smart Wizard 2 - a javascript jQuery wizard control plugin</title>
-<link href="styles/demo_style.css" rel="stylesheet" type="text/css">
+<title>Smart Wizard 2 - Basic Example  - a javascript jQuery wizard control plugin</title>
 
 <link href="styles/smart_wizard.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
-<script type="text/javascript" src="js/jquery.smartWizard-2.0.js"></script>
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.smartWizard-2.0.min.js"></script>
 
 <script type="text/javascript">
-   
     $(document).ready(function(){
-    	// Smart Wizard  contentURL:'services/service.php?action=1',  	
-  		$('#wizard').smartWizard({transitionEffect:'slideleft',onLeaveStep:leaveAStep,onShowStep:showAStep});
-      function showAStep(obj){
-        var step_num= obj.attr('rel');
-        //$('#wizard').smartWizard('showMessage',{title:'Showing Step'+step_num,message:'This is my messgae'});
-        //$('#wizard').smartWizard('setError',{stepnum:step_num,iserror:true});
-        return true;
-      }
-      function leaveAStep(obj){
-        return true;
-      }      
+    	// Smart Wizard 	
+  		$('#wizard').smartWizard();
+      
+      function onFinishCallback(){
+        $('#wizard').smartWizard('showMessage','Finish Clicked');
+      }     
 		});
 </script>
+
 </head><body>
 
-<!-- Tabs -->
+<table align="center" border="0" cellpadding="0" cellspacing="0">
+<tr><td> 
+<!-- Smart Wizard -->
   		<div id="wizard" class="swMain">
   			<ul>
   				<li><a href="#step-1">
@@ -40,7 +36,7 @@
                 <label class="stepNumber">2</label>
                 <span class="stepDesc">
                    Step 2<br />
-                   <small>Step 2 description having some more text</small>
+                   <small>Step 2 description</small>
                 </span>
             </a></li>
   				<li><a href="#step-3">
@@ -60,6 +56,10 @@
   			</ul>
   			<div id="step-1">	
             <h2 class="StepTitle">Step 1 Content</h2>
+            <ul type="disk">
+  				    <li>List 1</li>
+  				    <li>List 2</li>
+            </ul>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
             quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
@@ -151,5 +151,10 @@
             </p>                			
         </div>
   		</div>
+<!-- End SmartWizard Content -->  		
+ 		
+</td></tr>
+</table>
+    		
 </body>
 </html>

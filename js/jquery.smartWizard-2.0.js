@@ -13,60 +13,72 @@
         var args = arguments;
         
         return this.each(function(){
-                obj = $(this);
+                var obj = $(this);
                 var curStepIdx = options.selected;
                 var steps = $("ul > li > a", obj); // Get all anchors in this array
                 var contentWidth = 0;
                 var loader,msgBox,elmActionBar,elmStepContainer,btNext,btPrevious,btFinish;
                 
-                msgBox = $('.msgBox',obj);
-                if(msgBox.length == 0){
-                  msgBox = $('<div class="msgBox"><div class="title"><span></span><a href="#" class="close">X</a></div><div class="content"></div></div>');                
+                elmActionBar = $('.actionBar',obj);
+                if(elmActionBar.length == 0){
+                  elmActionBar = $('<div></div>').addClass("actionBar");                
                 }
 
+                msgBox = $('.msgBox',obj);
+                if(msgBox.length == 0){
+                  msgBox = $('<div class="msgBox"><div class="content"></div><a href="#" class="close">X</a></div>');
+                  elmActionBar.append(msgBox);                
+                }
+                
+                $('.close',msgBox).click(function() {
+                    msgBox.fadeOut("normal");
+                    return false;
+                });
+                
+
                 // Method calling logic
-                if (action === 'init' || typeof action === 'object') {
+                if (!action || action === 'init' || typeof action === 'object') {
                   init();
                 }else if (action === 'showMessage') {
                   //showMessage(Array.prototype.slice.call( args, 1 ));
                   var ar =  Array.prototype.slice.call( args, 1 );
-                  showMessage(ar[0].title,ar[0].message);
+                  showMessage(ar[0]);
                   return true;
                 }else if (action === 'setError') {
                   var ar =  Array.prototype.slice.call( args, 1 );
                   setError(ar[0].stepnum,ar[0].iserror);
                   return true;
                 } else {
-                  $.error( 'Method ' +  action + ' does not exist on jQuery.tooltip' );
+                  $.error( 'Method ' +  action + ' does not exist' );
                 }
                 
                 function init(){
+                  var allDivs =obj.children('div'); //$("div", obj);                
+                  obj.children('ul').addClass("anchor");
+                  allDivs.addClass("content");
                   // Create Elements
                   loader = $('<div>Loading</div>').addClass("loader");
                   elmActionBar = $('<div></div>').addClass("actionBar");
                   elmStepContainer = $('<div></div>').addClass("stepContainer");
-                  btNext = $('<a>Next</a>').attr("href","#").addClass("buttonNext").attr("title","Next");
-                  btPrevious = $('<a>Previous</a>').attr("href","#").addClass("buttonPrevious");
-                  btFinish = $('<a>Finish</a>').attr("href","#").addClass("buttonFinish");                
+                  btNext = $('<a>'+options.labelNext+'</a>').attr("href","#").addClass("buttonNext");
+                  btPrevious = $('<a>'+options.labelPrevious+'</a>').attr("href","#").addClass("buttonPrevious");
+                  btFinish = $('<a>'+options.labelFinish+'</a>').attr("href","#").addClass("buttonFinish");
+                  
+                  // highlight steps with errors
+                  if(options.errorSteps && options.errorSteps.length>0){
+                    $.each(options.errorSteps, function(i, n){
+                      setError(n,true);
+                    });
+                  }
 
-                  var allDivs = $("div", obj);
+
                   elmStepContainer.append(allDivs);
-                  obj.append(loader);
-                  obj.append(msgBox);
+                  elmActionBar.append(loader);
                   obj.append(elmStepContainer);
                   obj.append(elmActionBar); 
                   elmActionBar.append(btFinish).append(btNext).append(btPrevious); 
                   contentWidth = elmStepContainer.width();
-                  
-                  var loderLeft = obj.offset().left + (obj.width()/2) - (loader.width()/2);
-                  var loderTop = obj.offset().top + (obj.height()/2) - (loader.height()/2);
-                  loader.css({'top':loderTop, 'left':loderLeft});
-                  
-                  $('.close',msgBox).click(function() {
-                      msgBox.fadeOut("normal");
-                      return false;
-                  });
-       
+
                   $(btNext).click(function() {
                       doForwardProgress();
                       return false;
@@ -76,11 +88,19 @@
                       return false;
                   }); 
                   $(btFinish).click(function() {
-                       if($.isFunction(options.onFinish)) {
-                          if(!options.onFinish.call(this,$(steps))){
-                            return false;
-                          }
-                       }
+                      if(!$(this).hasClass('buttonDisabled')){
+                         if($.isFunction(options.onFinish)) {
+                            if(!options.onFinish.call(this,$(steps))){
+                              return false;
+                            }
+                         }else{
+                           var frm = obj.parents('form');
+                           if(frm && frm.length){
+                             frm.submit();
+                           }                         
+                         }                      
+                      }
+
                       return false;
                   }); 
                   
@@ -91,7 +111,6 @@
                       var nextStepIdx = steps.index(this);
                       var isDone = steps.eq(nextStepIdx).attr("isDone") - 0;
                       if(isDone == 1){
-                        //showStep(nextStepIdx);
                         LoadContent(nextStepIdx);                    
                       }
                       return false;
@@ -110,7 +129,6 @@
                   //  Prepare the steps
                   prepareSteps();
                   // Show the first slected step
-                  //showStep(curStepIdx);
                   LoadContent(curStepIdx);                  
                 }
 
@@ -204,7 +222,6 @@
                               $($(curStep, obj).attr("href"), obj).hide();
                             });                       
                         }
-                        //alert("LF1:"+nextElmLeft1+" LF2:"+nextElmLeft2+" CURL:"+curElementLeft);
 
                         $($(selStep, obj).attr("href"), obj).css("left",nextElmLeft1);
                         $($(selStep, obj).attr("href"), obj).show();
@@ -245,7 +262,6 @@
                     }                  
                     nextStepIdx = 0;
                   }
-                  //showStep(nextStepIdx);
                   LoadContent(nextStepIdx);
                 }
                 
@@ -257,7 +273,6 @@
                     }
                     nextStepIdx = steps.length - 1;
                   }
-                  //showStep(nextStepIdx);
                   LoadContent(nextStepIdx);
                 }  
                 
@@ -274,26 +289,21 @@
                       $(btNext).removeClass("buttonDisabled");
                     }
                   }
-                  // Finish Button
-                  //(steps.length-1) == curStepIdx && 
-                  if(!steps.hasClass('dis') || options.enableFinishButton){
+                  // Finish Button 
+                  if(!steps.hasClass('disabled') || options.enableFinishButton){
                     $(btFinish).removeClass("buttonDisabled");
                   }else{
                     $(btFinish).addClass("buttonDisabled");
                   }                  
                 }
                 
-                function showMessage(title,msg){
-                  $('.title > span',msgBox).html(title);
+                function showMessage(msg){
                   $('.content',msgBox).html(msg);
-                  var msgLeft = obj.offset().left + (obj.width()/2) - (msgBox.width()/2);
-                  var msgTop = obj.offset().top + (obj.height()/2) - (msgBox.height()/2);
-                  msgBox.css({'top':msgTop, 'left':msgLeft});
               		msgBox.show();
                 }
                 
                 function setError(stepnum,iserror){
-                  if(iserror){
+                  if(iserror){                    
                     $(steps.eq(stepnum-1), obj).addClass('error')
                   }else{
                     $(steps.eq(stepnum-1), obj).removeClass("error");
@@ -307,19 +317,18 @@
           selected: 0,  // Selected Step, 0 = first step   
           keyNavigation: true, // Enable/Disable key navigation(left and right keys are used if enabled)
           enableAllSteps: false,
-          transitionEffect: 'fade', // Effect on navigation, none/fade/slide
+          transitionEffect: 'fade', // Effect on navigation, none/fade/slide/slideleft
           contentURL:null, // content url, Enables Ajax content loading
           contentCache:true, // cache step contents, if false content is fetched always from ajax url
           cycleSteps: false, // cycle step navigation
           enableFinishButton: false, // make finish button enabled always
+          errorSteps:[],    // Array Steps with errors
+          labelNext:'Next',
+          labelPrevious:'Previous',
+          labelFinish:'Finish',          
           onLeaveStep: null, // triggers when leaving a step
           onShowStep: null,  // triggers when showing a step
           onFinish: null  // triggers when Finish button is clicked
     };    
     
-    jQuery.log = function(message) {
-      if(window.console) {
-         console.debug(message);
-      }
-    };
 })(jQuery);

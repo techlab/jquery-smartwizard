@@ -27,7 +27,7 @@
   height:300px;
 }
 
-.swMain .stepContainer div {
+.swMain .stepContainer div.content {
   display:block;
   position: absolute;  
   float:left;
@@ -81,7 +81,7 @@
   -webkit-border-radius: 5px;
   -moz-border-radius  : 5px;    
 }
-.swMain ul {
+.swMain ul.anchor {
   position: relative;
   display:block;
   float:left;
@@ -92,7 +92,7 @@
   border: 0px solid #CCCCCC;    
   background: transparent; /*#EEEEEE */
 }
-.swMain ul li{ 
+.swMain ul.anchor li{ 
   position: relative; 
   display:block;
   margin: 0;
@@ -103,7 +103,7 @@
   float: left;
 }
 /* Anchor Element Style */
-.swMain ul li a {
+.swMain ul.anchor li a {
   display:block;
   position:relative;
   float:left;
@@ -117,7 +117,7 @@
   -webkit-border-radius: 5px;
   z-index:99;
 }
-.swMain ul li a .stepNumber{
+.swMain ul.anchor li a .stepNumber{
   position:relative;
   float:left;
   width:30px;
@@ -126,61 +126,61 @@
   padding-top:0;
   font: bold 45px Verdana, Arial, Helvetica, sans-serif;
 }
-.swMain ul li a .stepDesc{
+.swMain ul.anchor li a .stepDesc{
   position:relative;
   display:block;
   float:left;
   text-align: left;
   padding:5px;
-  width:70%;
+
   font: bold 20px Verdana, Arial, Helvetica, sans-serif;
 }
-.swMain ul li a .stepDesc small{
+.swMain ul.anchor li a .stepDesc small{
   font: normal 12px Verdana, Arial, Helvetica, sans-serif;
 }
-.swMain ul li a.selected{
+.swMain ul.anchor li a.selected{
   color:#F8F8F8;
   background: #EA8511;  /* EA8511 */
   border: 1px solid #EA8511;
   cursor:text;
-  -moz-box-shadow: 10px 10px 5px #888;
-  -webkit-box-shadow: 10px 10px 5px #888;
+  -moz-box-shadow: 5px 5px 8px #888;
+  -webkit-box-shadow: 5px 5px 8px #888;
   box-shadow: 5px 5px 8px #888;
 }
-.swMain ul li a.selected:hover {
+.swMain ul.anchor li a.selected:hover {
   color:#F8F8F8;  
   background: #EA8511;  
 }
 
-.swMain ul li a.done { 
+.swMain ul.anchor li a.done { 
   position:relative;
   color:#FFF;  
   background: #8CC63F;  
   border: 1px solid #8CC63F;   
   z-index:99;
 }
-.swMain ul li a.done:hover {
+.swMain ul.anchor li a.done:hover {
   color:#5A5655;  
   background: #8CC63F; 
   border: 1px solid #5A5655;   
 }
-.swMain ul li a.disabled {
+.swMain ul.anchor li a.disabled {
   color:#CCCCCC;  
   background: #F8F8F8;
   border: 1px solid #CCC;  
   cursor:text;   
 }
-.swMain ul li a.disabled:hover {
+.swMain ul.anchor li a.disabled:hover {
   color:#CCCCCC;  
   background: #F8F8F8;     
 }
 
-.swMain ul li a.error {
+.swMain ul.anchor li a.error {
   color:#6c6c6c !important;  
   background: #f08f75 !important;
   border: 1px solid #fb3500 !important;      
 }
-.swMain ul li a.error:hover {
+.swMain ul.anchor li a.error:hover {
   color:#000 !important;       
 }
 
@@ -253,29 +253,27 @@
 }
 
 .swMain .loader {
-  position:absolute;  
+  position:relative;  
   display:none;
-  margin:0;
-  left:50%;
-  top:50%;
-  padding:35px 10px 5px 10px;
-  border: 1px solid #EA8511; 
+  float:left;  
+  margin: 2px 0 0 2px;
+  padding:8px 10px 8px 40px;
+  border: 1px solid #FFD700; 
   font: bold 13px Verdana, Arial, Helvetica, sans-serif; 
   color:#5A5655;       
-  background: #FFF url(../images/loader.gif) no-repeat 50% 30%;  
+  background: #FFF url(../images/loader.gif) no-repeat 5px;  
   -moz-border-radius  : 5px;
   -webkit-border-radius: 5px;
   z-index:998;
 }
 .swMain .msgBox {
-  position:absolute;  
+  position:relative;  
   display:none;
-  margin:0;
-  left:50%;
-  top:50%;
+  float:left;
+  margin: 4px 0 0 5px;
   padding:5px;
-  border: 1px solid #EA8511; 
-  background-color: #FFF;  
+  border: 1px solid #FFD700; 
+  background-color: #FFFFDD;  
   font: normal 12px Verdana, Arial, Helvetica, sans-serif; 
   color:#5A5655;         
   -moz-border-radius  : 5px;
@@ -283,17 +281,10 @@
   z-index:999;
   min-width:200px;  
 }
-.swMain .msgBox .title {
-  background-color: #EA8511;
-  border: 1px solid #EA8511;
-  border-radius: 5px;
-  color: #FFFFFF;
-  font: bold 12px Verdana,Arial,Helvetica,sans-serif;
-  padding: 3px;
-}
 .swMain .msgBox .content {
   font: normal 12px Verdana,Arial,Helvetica,sans-serif;
-  padding: 3px;
+  padding: 0px;
+  float:left;
 }
 .swMain .msgBox .close {
   border: 1px solid #CCC;
@@ -301,7 +292,7 @@
   color: #CCC;
   display: block;
   float: right;
-  margin: 0;
+  margin: 0 0 0 5px;
   outline-style: none;
   padding: 0 2px 0 2px;
   position: relative;
@@ -309,6 +300,6 @@
   text-decoration: none;
 }
 .swMain .msgBox .close:hover{
-  color: #FFF;
-  border: 1px solid #FFF;  
+  color: #EA8511;
+  border: 1px solid #EA8511;  
 }
