@@ -188,7 +188,8 @@
                         }
                       }
                     }     
-                    elmStepContainer.height($($(selStep, obj).attr("href"), obj).outerHeight());               
+                    if (options.updateHeight)
+                        elmStepContainer.height($($(selStep, obj).attr("href"), obj).outerHeight());               
                     if(options.transitionEffect == 'slide'){
                       $($(curStep, obj).attr("href"), obj).slideUp("fast",function(e){
                             $($(selStep, obj).attr("href"), obj).slideDown("fast");
@@ -317,6 +318,7 @@
           selected: 0,  // Selected Step, 0 = first step   
           keyNavigation: true, // Enable/Disable key navigation(left and right keys are used if enabled)
           enableAllSteps: false,
+          updateHeight: true,
           transitionEffect: 'fade', // Effect on navigation, none/fade/slide/slideleft
           contentURL:null, // content url, Enables Ajax content loading
           contentCache:true, // cache step contents, if false content is fetched always from ajax url
