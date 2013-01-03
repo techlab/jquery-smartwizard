@@ -15,7 +15,7 @@
         return this.each(function(){
                 var obj = $(this);
                 var curStepIdx = options.selected;
-                var steps = $("ul > li > a", obj); // Get all anchors in this array
+                var steps = $("ul > li > a[href^='#step-']", obj); // Get all anchors in this array
                 var contentWidth = 0;
                 var loader,msgBox,elmActionBar,elmStepContainer,btNext,btPrevious,btFinish;
                 
