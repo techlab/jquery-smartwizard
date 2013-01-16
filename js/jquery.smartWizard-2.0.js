@@ -80,10 +80,16 @@
                   contentWidth = elmStepContainer.width();
 
                   $(btNext).click(function() {
+                      if($(this).hasClass('buttonDisabled')){
+                        return false;
+                      }
                       doForwardProgress();
                       return false;
                   }); 
                   $(btPrevious).click(function() {
+                      if($(this).hasClass('buttonDisabled')){
+                        return false;
+                      }
                       doBackwardProgress();
                       return false;
                   }); 
