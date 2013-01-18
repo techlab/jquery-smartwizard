@@ -76,7 +76,10 @@
                   elmActionBar.append(loader);
                   obj.append(elmStepContainer);
                   obj.append(elmActionBar); 
-                  elmActionBar.append(btFinish).append(btNext).append(btPrevious); 
+                  if (options.includeFinishButton) {
+                    elmActionBar.append(btFinish);
+                  }
+                  elmActionBar.append(btNext).append(btPrevious); 
                   contentWidth = elmStepContainer.width();
 
                   $(btNext).click(function() {
@@ -327,6 +330,7 @@
           contentURL:null, // content url, Enables Ajax content loading
           contentCache:true, // cache step contents, if false content is fetched always from ajax url
           cycleSteps: false, // cycle step navigation
+          includeFinishButton: true, // whether to show a Finish button
           enableFinishButton: false, // make finish button enabled always
           errorSteps:[],    // Array Steps with errors
           labelNext:'Next',
