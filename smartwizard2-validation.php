@@ -160,28 +160,28 @@
   		<div id="wizard" class="swMain">
   			<ul>
   				<li><a href="#step-1">
-                <label class="stepNumber">1</label>
+                <span class="stepNumber">1</span>
                 <span class="stepDesc">
                    Account Details<br />
                    <small>Fill your account details</small>
                 </span>
             </a></li>
   				<li><a href="#step-2">
-                <label class="stepNumber">2</label>
+                <span class="stepNumber">2</span>
                 <span class="stepDesc">
                    Profile Details<br />
                    <small>Fill your profile details</small>
                 </span>
             </a></li>
   				<li><a href="#step-3">
-                <label class="stepNumber">3</label>
+                <span class="stepNumber">3</span>
                 <span class="stepDesc">
                    Contact Details<br />
                    <small>Fill your contact details</small>
                 </span>
              </a></li>
   				<li><a href="#step-4">
-                <label class="stepNumber">3</label>
+                <span class="stepNumber">3</span>
                 <span class="stepDesc">
                    Other Details<br />
                    <small>Fill your other details</small>
