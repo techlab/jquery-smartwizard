@@ -106,7 +106,7 @@ $.widget("sw.smartWizard",
                 elmActionBar.append(this.options.buttonFinish);
             }
             elmActionBar.append(this.options.buttonNext);
-            if(this.options.includePreviousButton)
+            if (this.options.includePreviousButton)
                 elmActionBar.append(this.options.buttonPrevious);
             this.options.contentWidth = this.options.stepContainer.width();
 
@@ -114,31 +114,31 @@ $.widget("sw.smartWizard",
             this.options.buttonPrevious.click($.proxy(this._previousClick, this));
             this.options.buttonFinish.click($.proxy(this._finishClick, this));
 
-            if (this.options.directClick == true) {
-                $(this.options.steps).click($.proxy(function (event) {
-                    if (this.options.directClick == true) {
-                        var requestedStep = this.options.steps.index(event.currentTarget);
-                        if (requestedStep == this.options.currentStep)
-                            return false;
+            $(this.options.steps).click($.proxy(function (event) {
+                if (this.options.directClick == true) {
+                    var requestedStep = this.options.steps.index(event.currentTarget);
+                    if (requestedStep == this.options.currentStep)
+                        return false;
 
-                        var isDone = this.options.steps.eq(requestedStep).attr("isDone") - 0;
-                        if (isDone == 1)
-                            this._LoadContent(requestedStep, 'directClick');
-                    }
-                    return false;
-                }, this));
-            }
+                    var isDone = this.options.steps.eq(requestedStep).attr("isDone") - 0;
+                    if (isDone == 1)
+                        this._LoadContent(requestedStep, 'directClick');
+                }
+                return false;
+            }, this));
 
             // Enable keyboard navigation                 
-            if (this.options.keyNavigation) {
-                $(document).keyup($.proxy(function (e) {
+            $(document).keyup($.proxy(function (e) {
+                if (this.options.keyNavigation) {
                     if (e.which == 39) { // Right Arrow
                         this._doForwardProgress();
                     } else if (e.which == 37) { // Left Arrow
                         this._doBackwardProgress();
                     }
-                }, this));
-            }
+                }
+                return ((this.options.keyNavigation + 0) & 1) == 0;
+            }, this));
+
             //  Prepare the steps
             this._prepareSteps();
             // Show the first slected step
@@ -151,6 +151,10 @@ $.widget("sw.smartWizard",
             this.options.messageContainer.show();
         },
 
+        hideMessage: function () {
+            this.options.messageContainer.fadeOut("normal");
+        },
+
         setError: function (stepnum, iserror) {
             var obj = $(this.element);
             if (iserror) {
@@ -160,13 +164,57 @@ $.widget("sw.smartWizard",
             }
         },
 
-        gotoStep: function (step) {
+        currentStep: function (val) {
+            if (typeof val == 'undefined')
+                return this.options.currentStep + 1;
+            else
+                this.gotoStep(val, false);
+        },
+
+        enableFinish: function (enable) {
+            if (typeof enable == 'undefined')
+                enable = true;
+            if (!enable)
+                this.options.buttonFinish.addClass(this.options.css_buttonDisabled_Class);
+            else
+                this.options.buttonFinish.removeClass(this.options.css_buttonDisabled_Class);
+        },
+
+        enableNext: function (enable) {
+            if (typeof enable == 'undefined')
+                enable = true;
+            if (!enable)
+                this.options.buttonNext.addClass(this.options.css_buttonDisabled_Class);
+            else
+                this.options.buttonNext.removeClass(this.options.css_buttonDisabled_Class);
+        },
+
+        enablePrevious: function (enable) {
+            if (typeof enable == 'undefined')
+                enable = true;
+            if (!enable)
+                this.options.buttonPrevious.addClass(this.options.css_buttonDisabled_Class);
+            else
+                this.options.buttonPrevious.removeClass(this.options.css_buttonDisabled_Class);
+        },
+
+        moveNext: function () {
+            this._doForwardProgress();
+        },
+
+        movePrevious: function () {
+            this._doBackwardProgress();
+        },
+
+        gotoStep: function (step, force) {
             var requestedStep = step - 1;
             if (requestedStep == this.options.currentStep)
                 return false;
-
-            //var isDone = this.options.steps.eq(requestedStep).attr("isDone") - 0;
             var isDone = 1;
+            if (typeof force == 'undefined')
+                force = false;
+            if (!force)
+                isDone = this.options.steps.eq(requestedStep).attr("isDone") - 0;
             if (isDone == 1)
                 this._LoadContent(requestedStep, 'directClick');
         },
@@ -368,7 +416,7 @@ $.widget("sw.smartWizard",
         },
 
         _previousClick: function () {
-            if ($(this.options.buttonNext).hasClass(this.options.css_buttonDisabled_Class)) {
+            if ($(this.options.buttonPrevious).hasClass(this.options.css_buttonDisabled_Class)) {
                 return false;
             }
             this._doBackwardProgress();
