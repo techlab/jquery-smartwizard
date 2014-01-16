@@ -462,7 +462,7 @@ $.widget("sw.smartWizard",
             }
         },
 
-        _update: function () { },
+        _update: function () { }
 
     }
     );
