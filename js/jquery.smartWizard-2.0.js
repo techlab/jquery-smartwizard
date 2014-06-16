@@ -1,10 +1,13 @@
-/*
- * SmartWizard 2.0 plugin
+/* SmartWizard 2.0 plugin
  * jQuery Wizard control Plugin
- * by Dipu 
+ * http://www.techlaboratory.net/smartwizard
  * 
- * http://www.techlaboratory.net 
- * http://tech-laboratory.blogspot.com
+ * by Dipu Raj  
+ * http://dipuraj.me
+ * 
+ * License 
+ * https://github.com/techlab/SmartWizard/blob/master/MIT-LICENSE.txt 
+ * 
  */
  
 (function($){
