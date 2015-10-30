@@ -168,7 +168,7 @@
                        if(options.contentCache && hasContent){
                            showStep(stepIdx);                          
                        }else{
-                           $.ajax({
+                           $ajaxsatatus = $.ajax({
                             url: ajaxurl,
                             type: "POST",
                             data: ({step_number : stepNum}),
@@ -182,8 +182,13 @@
                                  $($(selStep, obj).attr("href"), obj).html(res);
                                  showStep(stepIdx);
                               }
+                                if (options.onAjaxLoadComplete != undefined) {
+                                        options.onAjaxLoadComplete();
+                                }
                             }
-                          }); 
+                          });
+
+
                       }
                     }else{
                       showStep(stepIdx);
