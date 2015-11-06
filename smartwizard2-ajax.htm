@@ -5,17 +5,26 @@
 
 <link href="styles/smart_wizard.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
-<script type="text/javascript" src="js/jquery.smartWizard-2.0.min.js"></script>
+<script type="text/javascript" src="js/jquery.smartWizard-2.0.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function(){
     	// Smart Wizard    	
-  		$('#wizard').smartWizard({contentURL:'services/service.php?action=1',transitionEffect:'slideleft',onFinish:onFinishCallback});
+  		$('#wizard').smartWizard({
+            contentURL:'services/service.php?action=1',
+            transitionEffect:'slideleft',
+            onFinish:onFinishCallback,
+            onAjaxLoadComplete : onAjaxLoadCompleteCallBack
+        });
       
       function onFinishCallback(){
         alert('Finish Called');
-      }     
-		});
+      }
+
+      function onAjaxLoadCompleteCallBack(){
+          console.log('Ajax Content Load Complete');
+      }
+	});
 </script>
 </head><body>
 
