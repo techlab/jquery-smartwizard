@@ -1,0 +1,29 @@
+{
+    "name": "techlab/smartwizard",
+    "description": "An awesome step wizard plugin",
+    "homepage": "http://techlaboratory.net/smartwizard",
+    "license": "MIT",      
+    "support": {
+        "source": "https://github.com/techlab/smartwizard",
+        "issues": "https://github.com/techlab/smartwizard/issues",
+        "docs": "http://techlaboratory.net/smartwizard/documentation"
+        },
+    "keywords": [
+        "bootstrap",
+        "wizard",
+        "step",
+        "ui",
+        "jquery"
+    ],
+    "authors": [
+        {
+            "name": "Dipu Raj",
+            "email": "hello@techlaboratory.net",
+            "homepage": "http://dipuraj.me"
+        }
+    ],
+    "require": {
+        "jquery": ">=1.9.0",
+        "bootstrap": ">=3.0.0"
+    }
+}

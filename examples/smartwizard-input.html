@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Wizard - a JavaScript jQuery Step Wizard plugin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Optional Bootstrap theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- Include SmartWizard CSS -->
+    <link href="../css/smart_wizard.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- Optional SmartWizard theme -->
+    <link href="../css/smart_wizard_theme_dots.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="container">
+        <br />
+        <form action="#" id="myForm" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+                    
+        <!-- SmartWizard html -->
+        <div id="smartwizard">
+            <ul>
+                <li><a href="#step-1"><small>Email Address</small></a></li>
+                <li><a href="#step-2"><small>Name</small></a></li>
+                <li><a href="#step-3"><small>This is tab's description</small></a></li>
+                <li><a href="#step-4"><small>This is tab's description</small></a></li>
+            </ul>
+            
+            <div>
+                <div id="step-1">
+                    <h2>Your Email Address</h2>
+                    <div id="form-step-0" role="form" data-toggle="validator">
+                        <div class="form-group">
+                            <label for="email">Email address:</label>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Write your email address" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div id="step-2">
+                    <h2>Your Name</h2>
+                    <div id="form-step-1" role="form" data-toggle="validator">
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control" name="name" id="email" placeholder="Write your name" required>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="step-3">
+                    <h2>Your Address</h2>
+                    <div id="form-step-2" role="form" data-toggle="validator">
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <textarea class="form-control" name="address" id="address" rows="3" placeholder="Write your address..." required></textarea>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="step-4" class="">
+                    <h2>Terms and Conditions</h2>
+                    <p>
+                        Terms and conditions: Keep your smile :) 
+                    </p>
+                    <div id="form-step-3" role="form" data-toggle="validator">
+                        <div class="form-group">
+                            <label for="terms">I agree with the T&C</label>
+                            <input type="checkbox" id="terms" data-error="Please accept the Terms and Conditions" required>  
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        </form>
+        
+    </div>
+    
+    <!-- Include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include jQuery Validator plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
+    
+
+    <!-- Include SmartWizard JavaScript source -->
+    <script type="text/javascript" src="../js/jquery.smartWizard.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            // Smart Wizard
+            $('#smartwizard').smartWizard({ 
+                    selected: 0, 
+                    theme: 'dots',
+                    transitionEffect:'fade',
+                    toolbarSettings: {toolbarPosition: 'bottom',
+                                      toolbarExtraButtons: [
+                                            {label: 'Finish', css: 'btn-info disabled btn-finish', onClick: function(){ 
+                                                    if( !$(this).hasClass('disabled')){ 
+                                                         
+                                                        var elmForm = $("#myForm");
+                                                        if(elmForm){
+                                                            elmForm.validator('validate'); 
+                                                            var elmErr = elmForm.find('.has-error');
+                                                            if(elmErr && elmErr.length > 0){
+                                                                alert('Oops we still have error in the form');
+                                                                return false;    
+                                                            }else{
+                                                                alert('Great! we are ready to submit form');
+                                                                elmForm.submit();
+                                                                return false;
+                                                            }
+                                                        }
+                                                    }
+                                                } 
+                                            },
+                                            {label: 'Cancel', css: 'btn-danger', onClick: function(){ $('#smartwizard').smartWizard("reset"); $('#myForm').find("input, textarea").val(""); }}
+                                        ]
+                                    }
+                 });
+            
+            $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber) {
+                var elmForm = $("#form-step-" + stepNumber);
+                if(elmForm){
+                    elmForm.validator('validate'); 
+                    var elmErr = elmForm.children('.has-error');
+                    if(elmErr && elmErr.length > 0){
+                        // Error found
+                        return false;    
+                    }
+                }
+                return true;
+            });
+            
+            $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber) {
+                if(stepNumber == 3){ 
+                    $('.btn-finish').removeClass('disabled');  
+                }else{
+                    $('.btn-finish').addClass('disabled');
+                }
+            });                               
+            
+        });   
+    </script>  
+</body>
+</html>
