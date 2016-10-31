@@ -1,4 +1,4 @@
-# Smart Wizard
+# Smart Wizard v4.x
 An awesome step wizard jQuery plugin with Bootstrap support
 
 + [Homepage](http://techlaboratory.net/smartwizard)
