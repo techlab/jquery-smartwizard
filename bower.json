@@ -16,6 +16,7 @@
         "wizard", 
         "step", 
         "ui",
+        "jquery-plugin",
         "jquery"
     ],
     "dependencies": {

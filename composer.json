@@ -14,6 +14,7 @@
         "wizard",
         "step",
         "ui",
+        "jquery-plugin",
         "jquery"
     ],
     "authors": [
