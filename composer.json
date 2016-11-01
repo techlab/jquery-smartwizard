@@ -1,11 +1,12 @@
 {
     "name": "techlab/smartwizard",
-    "description": "An awesome step wizard plugin",
+    "description": "An awesome step wizard jQuery plugin with Bootstrap support",
+    "version": "4.0.1",
     "homepage": "http://techlaboratory.net/smartwizard",
     "license": "MIT",      
     "support": {
-        "source": "https://github.com/techlab/smartwizard",
-        "issues": "https://github.com/techlab/smartwizard/issues",
+        "source": "https://github.com/techlab/SmartWizard",
+        "issues": "https://github.com/techlab/SmartWizard/issues",
         "docs": "http://techlaboratory.net/smartwizard/documentation"
         },
     "keywords": [

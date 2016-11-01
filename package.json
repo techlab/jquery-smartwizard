@@ -1,0 +1,36 @@
+{
+  "name": "smartwizard",
+  "version": "4.0.2",
+  "author": "Dipu Raj <hello@techlaboratory.net>",
+  "description": "An awesome step wizard jQuery plugin with Bootstrap support",
+  "homepage": "http://techlaboratory.net/smartwizard",
+  "contributors": [
+    {
+      "name": "Dipu Raj",
+      "email": "hello@techlaboratory.net"
+    }
+  ],
+  "main": "./js/jquery.smartWizard.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/techlab/SmartWizard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/techlab/SmartWizard/issues"
+  },
+  "keywords": [
+    "bootstrap",
+    "tabs",
+    "wizard",
+    "step",
+    "ui",
+    "jquery-plugin",
+    "tabs",
+    "jquery"
+  ],
+  "dependencies": {
+    "jquery": ">=1.9.0",
+    "bootstrap": ">=3.0.0"
+  },
+  "license": "MIT"
+}

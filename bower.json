@@ -5,7 +5,7 @@
     "authors": [
         "Dipu Raj <hello@techlaboratory.net>"
     ],
-    "description": "An awesome step wizard plugin",
+    "description": "An awesome step wizard jQuery plugin with Bootstrap support",
     "main": [
         "./css/smart_wizard.min.css",
         "./js/jquery.smartWizard.min.js"
@@ -29,6 +29,10 @@
         "composer.json",
         "examples",
         "bower_components",
+        ".git*",
+        ".travis*",
+        "*bower.json",
+        "*jquery.json",
         "test"
     ]
 }
