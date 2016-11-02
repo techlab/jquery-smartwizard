@@ -27,7 +27,7 @@ Requirements
   + [Bootstrap 3+](http://getbootstrap.com/getting-started/#download)
   + [jQuery](http://jquery.com/)
 
- Installation and usage 
+Installation and usage 
 -----
 
 ### [NPM](https://www.npmjs.com/package/smartwizard)
