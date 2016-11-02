@@ -27,9 +27,22 @@ Requirements
   + [Bootstrap 3+](http://getbootstrap.com/getting-started/#download)
   + [jQuery](http://jquery.com/)
 
-Installation and usage 
+ Installation and usage 
 -----
- Please see the [documentation](http://techlaboratory.net/smartwizard/documentation)
+
+### [NPM](https://www.npmjs.com/package/smartwizard)
+    npm install smartwizard
+    
+### Bower
+    bower install smartwizard
+    
+### [Composer](https://packagist.org/packages/techlab/smartwizard)
+    composer require techlab/smartwizard
+    
+### Download
+#### [Download from GitHub](https://github.com/techlab/SmartWizard/archive/master.zip)    
+###  
+ Please see the [documentation](http://techlaboratory.net/smartwizard/documentation) for more deatils on implementation and usage.
 
 Features
 -----
