@@ -220,7 +220,7 @@
             $('.sw-btn-next', this.main).on( "click", function(e) {
                 e.preventDefault();
                 if(mi.steps.index(this) !== mi.current_index) {
-                    mi._showNext();
+                    mi._showNext( 'next' );
                 }                    
             });
             
@@ -228,7 +228,7 @@
             $('.sw-btn-prev', this.main).on( "click", function(e) {
                 e.preventDefault();
                 if(mi.steps.index(this) !== mi.current_index) {
-                    mi._showPrevious();
+                    mi._showPrevious( 'previous' );
                 }                    
             });
             
@@ -254,7 +254,7 @@
             
             return true;
         },
-        _showNext: function () {
+        _showNext: function ( direction ) {
             var si = this.current_index + 1;
             // Find the next not disabled step
             for(var i = si; i < this.steps.length; i++){
@@ -265,10 +265,10 @@
               if(!this.options.cycleSteps){ return false; }                  
               si = 0;
             }
-            this._showStep(si);
+            this._showStep(si, direction );
             return true;
         },
-        _showPrevious: function () {
+        _showPrevious: function ( direction ) {
             var si = this.current_index - 1;
             // Find the previous not disabled step
             for(var i = si; i >= 0; i--){
@@ -278,10 +278,10 @@
               if(!this.options.cycleSteps){ return false; }
               si = this.steps.length - 1;
             }
-            this._showStep(si);
+            this._showStep(si, direction);
             return true;
         },
-        _showStep: function (idx) {
+        _showStep: function (idx, direction) {
             // If step not found, skip
             if(!this.steps.eq(idx)){ return false; }
             // If current step is requested again, skip 
@@ -289,10 +289,10 @@
             // If it is a disabled step, skip
             if(this.steps.eq(idx).parent('li').hasClass('disabled')){ return false; }
             // Load step content
-            this._loadStepContent(idx);
+            this._loadStepContent(idx, direction);
             return true;
         },
-        _loadStepContent: function (idx) {
+        _loadStepContent: function (idx, direction) {
             var mi = this;
             var elm = this.steps.eq(idx);
             var contentURL = (elm.data('content-url') && elm.data('content-url').length > 0) ? elm.data('content-url') : this.options.contentURL;
@@ -318,11 +318,11 @@
                 });
             }else{
                 // Show step
-                this._transitPage(idx);
+                this._transitPage(idx, direction);
             }
             return true;
         },
-        _transitPage: function (idx) {
+        _transitPage: function (idx, direction) {
             var mi = this;
             // If still doing the animation, bypass
             if(this.is_animating){ return false; }  
@@ -333,7 +333,7 @@
             var selTab = this.steps.eq(idx);
             var selPage = (selTab.length>0) ? $(selTab.attr("href"),this.main) : null;
             // Trigger "leaveStep" event
-            if(this.current_index !== null && this._triggerEvent("leaveStep", [curTab, this.current_index]) === false){ return false; }
+            if(this.current_index !== null && this._triggerEvent("leaveStep", [curTab, this.current_index, direction]) === false){ return false; }
             
             this.is_animating = true;
             this.options.transitionEffect = this.options.transitionEffect.toLowerCase();
@@ -375,7 +375,7 @@
             this.is_animating = false;
             
             // Trigger "showStep" event
-            this._triggerEvent("showStep", [selTab, this.current_index]);
+            this._triggerEvent("showStep", [selTab, this.current_index, direction]);
             return true;
         },
         _setAnchor: function (idx) {
@@ -414,11 +414,11 @@
             // Keyboard navigation
             switch(e.which) {
                 case 37: // left
-                    mi._showPrevious();
+                    mi._showPrevious( 'previous' );
                     e.preventDefault();
                     break;
                 case 39: // right
-                    mi._showNext();
+                    mi._showNext( 'next' );
                     e.preventDefault();
                     break;
                 default: return; // exit this handler for other keys
@@ -448,10 +448,10 @@
             this.main.addClass('sw-theme-' + this.options.theme);
         },
         next: function () {
-            this._showNext();
+            this._showNext( 'next' );
         },
         prev: function () {
-            this._showPrevious();
+            this._showPrevious( 'previous' );
         },
         reset: function () {
             // Reset all elements and classes
@@ -472,7 +472,7 @@
     $.fn.smartWizard = function(options) {
         var args = arguments;
         var instance;
-
+       
         if (options === undefined || typeof options === 'object') {
             return this.each( function() {
                 if ( !$.data( this, "smartWizard") ) {
