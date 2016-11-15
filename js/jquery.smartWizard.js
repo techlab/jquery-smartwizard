@@ -220,7 +220,7 @@
             $('.sw-btn-next', this.main).on( "click", function(e) {
                 e.preventDefault();
                 if(mi.steps.index(this) !== mi.current_index) {
-                    mi._showNext( 'next' );
+                    mi._showNext();
                 }                    
             });
             
@@ -228,7 +228,7 @@
             $('.sw-btn-prev', this.main).on( "click", function(e) {
                 e.preventDefault();
                 if(mi.steps.index(this) !== mi.current_index) {
-                    mi._showPrevious( 'previous' );
+                    mi._showPrevious();
                 }                    
             });
             
@@ -254,7 +254,7 @@
             
             return true;
         },
-        _showNext: function ( direction ) {
+        _showNext: function () {
             var si = this.current_index + 1;
             // Find the next not disabled step
             for(var i = si; i < this.steps.length; i++){
@@ -265,10 +265,10 @@
               if(!this.options.cycleSteps){ return false; }                  
               si = 0;
             }
-            this._showStep(si, direction );
+            this._showStep(si);
             return true;
         },
-        _showPrevious: function ( direction ) {
+        _showPrevious: function () {
             var si = this.current_index - 1;
             // Find the previous not disabled step
             for(var i = si; i >= 0; i--){
@@ -278,10 +278,10 @@
               if(!this.options.cycleSteps){ return false; }
               si = this.steps.length - 1;
             }
-            this._showStep(si, direction);
+            this._showStep(si);
             return true;
         },
-        _showStep: function (idx, direction) {
+        _showStep: function (idx) {
             // If step not found, skip
             if(!this.steps.eq(idx)){ return false; }
             // If current step is requested again, skip 
@@ -289,10 +289,10 @@
             // If it is a disabled step, skip
             if(this.steps.eq(idx).parent('li').hasClass('disabled')){ return false; }
             // Load step content
-            this._loadStepContent(idx, direction);
+            this._loadStepContent(idx);
             return true;
         },
-        _loadStepContent: function (idx, direction) {
+        _loadStepContent: function (idx) {
             var mi = this;
             var elm = this.steps.eq(idx);
             var contentURL = (elm.data('content-url') && elm.data('content-url').length > 0) ? elm.data('content-url') : this.options.contentURL;
@@ -318,11 +318,16 @@
                 });
             }else{
                 // Show step
-                this._transitPage(idx, direction);
+                this._transitPage(idx);
             }
             return true;
         },
-        _transitPage: function (idx, direction) {
+        _getActiveContent : function () {
+
+            var index = this.pages.index($('.step-content.active'));
+            return index;
+        },
+        _transitPage: function (idx) {
             var mi = this;
             // If still doing the animation, bypass
             if(this.is_animating){ return false; }  
@@ -332,8 +337,22 @@
             // Get step to show elements
             var selTab = this.steps.eq(idx);
             var selPage = (selTab.length>0) ? $(selTab.attr("href"),this.main) : null;
+            var currentIndex = this.pages .index( selPage );
+            var stepDirection;            
+            var prevIndex = this._getActiveContent();
+
+            this.pages .removeClass( 'active' );
+            selPage.addClass( 'active' );
+
+            if ( prevIndex !== -1 ) {
+                if ( prevIndex < currentIndex )
+                    stepDirection = 'next';
+                else
+                    stepDirection = 'previous';
+            }
+
             // Trigger "leaveStep" event
-            if(this.current_index !== null && this._triggerEvent("leaveStep", [curTab, this.current_index, direction]) === false){ return false; }
+            if(this.current_index !== null && this._triggerEvent("leaveStep", [curTab, this.current_index, stepDirection]) === false){ return false; }
             
             this.is_animating = true;
             this.options.transitionEffect = this.options.transitionEffect.toLowerCase();
@@ -375,7 +394,7 @@
             this.is_animating = false;
             
             // Trigger "showStep" event
-            this._triggerEvent("showStep", [selTab, this.current_index, direction]);
+            this._triggerEvent("showStep", [selTab, this.current_index, stepDirection]);
             return true;
         },
         _setAnchor: function (idx) {
@@ -414,11 +433,11 @@
             // Keyboard navigation
             switch(e.which) {
                 case 37: // left
-                    mi._showPrevious( 'previous' );
+                    mi._showPrevious();
                     e.preventDefault();
                     break;
                 case 39: // right
-                    mi._showNext( 'next' );
+                    mi._showNext();
                     e.preventDefault();
                     break;
                 default: return; // exit this handler for other keys
@@ -448,10 +467,10 @@
             this.main.addClass('sw-theme-' + this.options.theme);
         },
         next: function () {
-            this._showNext( 'next' );
+            this._showNext();
         },
         prev: function () {
-            this._showPrevious( 'previous' );
+            this._showPrevious();
         },
         reset: function () {
             // Reset all elements and classes
