@@ -322,6 +322,11 @@
             }
             return true;
         },
+        _getActiveContent : function () {
+
+            var index = this.pages.index($('.step-content.active'));
+            return index;
+        },
         _transitPage: function (idx) {
             var mi = this;
             // If still doing the animation, bypass
@@ -332,8 +337,22 @@
             // Get step to show elements
             var selTab = this.steps.eq(idx);
             var selPage = (selTab.length>0) ? $(selTab.attr("href"),this.main) : null;
+            var currentIndex = this.pages.index( selPage );
+            var stepDirection;            
+            var prevIndex = this._getActiveContent();
+
+            this.pages.removeClass( 'active' );
+            selPage.addClass( 'active' );
+
+            if ( prevIndex !== -1 ) {
+                if ( prevIndex < currentIndex )
+                    stepDirection = 'next';
+                else
+                    stepDirection = 'previous';
+            }
+
             // Trigger "leaveStep" event
-            if(this.current_index !== null && this._triggerEvent("leaveStep", [curTab, this.current_index]) === false){ return false; }
+            if(this.current_index !== null && this._triggerEvent("leaveStep", [curTab, this.current_index, stepDirection]) === false){ return false; }
             
             this.is_animating = true;
             this.options.transitionEffect = this.options.transitionEffect.toLowerCase();
@@ -375,7 +394,7 @@
             this.is_animating = false;
             
             // Trigger "showStep" event
-            this._triggerEvent("showStep", [selTab, this.current_index]);
+            this._triggerEvent("showStep", [selTab, this.current_index, stepDirection]);
             return true;
         },
         _setAnchor: function (idx) {
@@ -472,7 +491,7 @@
     $.fn.smartWizard = function(options) {
         var args = arguments;
         var instance;
-
+       
         if (options === undefined || typeof options === 'object') {
             return this.each( function() {
                 if ( !$.data( this, "smartWizard") ) {
