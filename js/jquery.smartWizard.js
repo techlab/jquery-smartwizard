@@ -337,11 +337,11 @@
             // Get step to show elements
             var selTab = this.steps.eq(idx);
             var selPage = (selTab.length>0) ? $(selTab.attr("href"),this.main) : null;
-            var currentIndex = this.pages .index( selPage );
+            var currentIndex = this.pages.index( selPage );
             var stepDirection;            
             var prevIndex = this._getActiveContent();
 
-            this.pages .removeClass( 'active' );
+            this.pages.removeClass( 'active' );
             selPage.addClass( 'active' );
 
             if ( prevIndex !== -1 ) {
