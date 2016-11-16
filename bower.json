@@ -1,11 +1,11 @@
 {
     "name": "smartwizard",
-    "version": "4.0.1",
+    "version": "4.0.5",
     "homepage": "https://github.com/techlab/SmartWizard",
     "authors": [
         "Dipu Raj <hello@techlaboratory.net>"
     ],
-    "description": "An awesome step wizard jQuery plugin with Bootstrap support",
+    "description": "An awesome jQuery step wizard plugin with Bootstrap support",
     "main": [
         "./css/smart_wizard.min.css",
         "./js/jquery.smartWizard.min.js"

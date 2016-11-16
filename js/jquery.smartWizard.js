@@ -1,4 +1,4 @@
-/* SmartWizard v4.0.1
+/* SmartWizard v4.0.5
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
  * 
@@ -47,7 +47,7 @@
     // The plugin constructor
     function SmartWizard (element, options) {
         this._defaults = defaults;
-        // Merge user settigs with default, recursively
+        // Merge user settings with default, recursively
         this.options = $.extend( true, {}, defaults, options );
         // Main container element
         this.main = $(element);
@@ -332,8 +332,14 @@
             // Get step to show elements
             var selTab = this.steps.eq(idx);
             var selPage = (selTab.length>0) ? $(selTab.attr("href"),this.main) : null;
+            // Get the direction of step navigation
+            var stepDirection = '';
+            if(this.current_index !== null && this.current_index !== idx){
+                stepDirection = (this.current_index < idx) ? "forward" : "backward";
+            }
+            
             // Trigger "leaveStep" event
-            if(this.current_index !== null && this._triggerEvent("leaveStep", [curTab, this.current_index]) === false){ return false; }
+            if(this.current_index !== null && this._triggerEvent("leaveStep", [curTab, this.current_index, stepDirection]) === false){ return false; }
             
             this.is_animating = true;
             this.options.transitionEffect = this.options.transitionEffect.toLowerCase();
@@ -373,9 +379,9 @@
             
             this.current_index = idx;
             this.is_animating = false;
-            
+
             // Trigger "showStep" event
-            this._triggerEvent("showStep", [selTab, this.current_index]);
+            this._triggerEvent("showStep", [selTab, this.current_index, stepDirection]);
             return true;
         },
         _setAnchor: function (idx) {
@@ -406,7 +412,6 @@
             return true;
         },
 
-        
 // HELPER FUNCTIONS
 
         _keyNav: function (e) {
@@ -443,9 +448,12 @@
 // PUBLIC FUNCTIONS
 
         theme: function (v) {
+            if(this.options.theme === v) { return false; }
             this.main.removeClass('sw-theme-' + this.options.theme);
             this.options.theme = v;
             this.main.addClass('sw-theme-' + this.options.theme);
+            // Trigger "themeChanged" event
+            this._triggerEvent("themeChanged", [this.options.theme]);
         },
         next: function () {
             this._showNext();
@@ -454,6 +462,9 @@
             this._showPrevious();
         },
         reset: function () {
+            // Trigger "beginReset" event
+            if(this._triggerEvent("beginReset") === false){ return false; }
+            
             // Reset all elements and classes
             this.container.stop(true);
             this.pages.stop(true);
@@ -465,6 +476,9 @@
             this.steps.parents('li').removeClass();
             this.steps.data('has-content', false);
             this.init();
+            
+            // Trigger "endReset" event
+            this._triggerEvent("endReset");
         }
     });
     

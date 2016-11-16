@@ -62,13 +62,14 @@ Features
   + Ajax content loading with option to specify individual url for steps
   + Keyboard navigation
   + Easy navigation with step anchors and navigation buttons
+  + Navigation direction parameter on events
   + Multiple wizard instance on same page
   + Easy to implement, Minimal HTML required
   + and a lot more...
 
 Version
 -----
-**SmartWizard v4.0.1**
+**SmartWizard v4.0.5**
 
 License
 ----

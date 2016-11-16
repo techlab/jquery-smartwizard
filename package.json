@@ -1,8 +1,8 @@
 {
   "name": "smartwizard",
-  "version": "4.0.2",
+  "version": "4.0.5",
   "author": "Dipu Raj <hello@techlaboratory.net>",
-  "description": "An awesome step wizard jQuery plugin with Bootstrap support",
+  "description": "An awesome jQuery step wizard plugin with Bootstrap support",
   "homepage": "http://techlaboratory.net/smartwizard",
   "contributors": [
     {
