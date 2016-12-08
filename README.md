@@ -30,7 +30,7 @@ Demos
 Requirements
 -----
   + [Bootstrap 3+](http://getbootstrap.com/getting-started/#download)
-  + [jQuery](http://jquery.com/)
+  + [jQuery](http://jquery.com/) (supports jQuery 1.9+, jQuery 2+ and jQuery 3+)
 
 Installation and usage 
 -----
