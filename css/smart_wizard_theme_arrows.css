@@ -11,66 +11,66 @@
 
 /* SmartWizard Theme: Arrows */
 .sw-theme-arrows{
-    /*box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);*/ 
+    border-radius: 5px;
+    border: 1px solid #ddd;
 }
-.sw-theme-arrows .sw-container {
+.sw-theme-arrows > .sw-container {
     min-height: 200px;
 }
 .sw-theme-arrows .step-content { 
-    padding: 10px 0;     
+    padding: 0 10px;     
     border: 0px solid #D4D4D4;    
     background-color: #FFF;
     text-align: left;
 }
 .sw-theme-arrows .sw-toolbar{
-    background: #fff;
-    border-radius: 0 !important; 
     padding-left: 10px;
     padding-right: 10px;
     margin-bottom: 0 !important;
+    border-radius: 5px;
 }
-.sw-theme-arrows .sw-toolbar-top{
-    border-bottom-color: #fff !important;
+.sw-theme-arrows > .sw-toolbar-top{
 }
-.sw-theme-arrows .sw-toolbar-bottom{
-    border-top-color: #fff !important;
-    border-bottom-color: #ddd !important;
+.sw-theme-arrows > .sw-toolbar-bottom{
 }
 .sw-theme-arrows > ul.step-anchor{
     display: block;
-    border: 0px solid #ccc !important;
+    border: 0;
+    border-bottom: 1px solid #ddd;
     padding: 0px;
 	background: #f5f5f5;
     border-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 	list-style: none; 
 	overflow: hidden;
-    margin-top: 20px;
+    /*margin: -1px -1px 0 -1px -1px;*/
 }
 .sw-theme-arrows > ul.step-anchor li+li:before {
 	padding: 0;
 }
 .sw-theme-arrows > ul.step-anchor > li { 
-	float: left; 
 }
-.sw-theme-arrows > ul.step-anchor > li > a{
+
+.sw-theme-arrows > ul.step-anchor > li > a, .sw-theme-arrows > ul.step-anchor > li > a:hover  {
 	color: #bbb;
 	text-decoration: none; 
 	padding: 10px 0 10px 45px;
 	position: relative; 
 	display: block;
-	float: left;
+    border: 0 !important;
     border-radius: 0;
     outline-style:none;
-    background: #ddd;
+    background: #f5f5f5;
 }
 .sw-theme-arrows > ul.step-anchor > li > a:after { 
 	content: " "; 
 	display: block; 
 	width: 0; 
 	height: 0;
-	border-top: 50px solid transparent;           /* Go big on the size, and let overflow hide */
+	border-top: 50px solid transparent;
 	border-bottom: 50px solid transparent;
-	border-left: 30px solid #ddd;
+	border-left: 30px solid #f5f5f5;
 	position: absolute;
 	top: 50%;
 	margin-top: -50px; 
@@ -84,7 +84,7 @@
 	height: 0;
 	border-top: 50px solid transparent;           /* Go big on the size, and let overflow hide */
 	border-bottom: 50px solid transparent;
-	border-left: 30px solid white;
+	border-left: 30px solid #ddd;
 	position: absolute;
 	top: 50%;
 	margin-top: -50px; 
@@ -99,11 +99,11 @@
     color: #bbb; 
     text-decoration: none;
     outline-style:none;
-    background: #ffc107;
-    border-color: #ffc107; 
+    background: #f5f5f5;
+    border-color: #f5f5f5; 
 }
 .sw-theme-arrows > ul.step-anchor > li > a:hover:after { 
-    border-left-color: #ffc107; 
+    border-left-color: #f5f5f5; 
 }
 .sw-theme-arrows > ul.step-anchor > li > a small{ 
 }
@@ -134,6 +134,26 @@
 }
 .sw-theme-arrows > ul.step-anchor > li.disabled > a, .sw-theme-arrows > ul.step-anchor > li.disabled > a:hover {
     color: #eee !important;
+}
+
+/* Responsive CSS */
+@media screen and (max-width: 768px) {
+    .sw-theme-arrows > ul.step-anchor{
+        border: 0;
+        background: #ddd !important;
+    }
+    .sw-theme-arrows > .nav-tabs > li {
+        float: none !important;
+        margin-bottom: 0;
+    }  
+    .sw-theme-arrows > ul.step-anchor > li > a, .sw-theme-arrows > ul.step-anchor > li > a:hover {
+        padding-left: 15px;
+        margin-right: 0;
+        margin-bottom: 1px;
+    }
+    .sw-theme-arrows > ul.step-anchor > li > a:after, .sw-theme-arrows > ul.step-anchor > li > a:before {
+        display: none;
+    }
 }
 
 /* Loader Animation 

@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
     <!-- Include SmartWizard CSS -->
-    <link href="../css/smart_wizard.min.css" rel="stylesheet" type="text/css" />
+    <link href="../css/smart_wizard.css" rel="stylesheet" type="text/css" />
     
     <!-- Optional SmartWizard theme -->
-    <link href="../css/smart_wizard_theme_arrows.min.css" rel="stylesheet" type="text/css" />
+    <link href="../css/smart_wizard_theme_arrows.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div class="container">
@@ -73,16 +73,21 @@
     <script type="text/javascript">
         $(document).ready(function(){
             
+            // Toolbar extra buttons
+            var btnFinish = $('<button></button>').text('Finish')
+                                             .addClass('btn btn-info')
+                                             .on('click', function(){ alert('Finish Clicked'); });
+            var btnCancel = $('<button></button>').text('Cancel')
+                                             .addClass('btn btn-danger')
+                                             .on('click', function(){ $('#smartwizard').smartWizard("reset"); });                         
+            
             // Smart Wizard
             $('#smartwizard').smartWizard({ 
                     selected: 0, 
                     theme: 'arrows',
                     transitionEffect:'fade',
                     toolbarSettings: {toolbarPosition: 'bottom',
-                                      toolbarExtraButtons: [
-                                            {label: 'Finish', css: 'btn-info', onClick: function(){ alert('Finish Clicked'); }},
-                                            {label: 'Reset', css: 'btn-danger', onClick: function(){ $('#smartwizard').smartWizard("reset"); }}
-                                        ]
+                                      toolbarExtraButtons: [btnFinish, btnCancel]
                                     }
                  });
         });   

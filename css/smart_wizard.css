@@ -38,7 +38,7 @@
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3); 
 }
 .sw-theme-default .sw-container {
-    min-height: 300px;
+    min-height: 250px;
 }
 .sw-theme-default .step-content { 
     padding: 10px;     
@@ -110,6 +110,13 @@
 }
 .sw-theme-default > ul.step-anchor > li.disabled > a, .sw-theme-default > ul.step-anchor > li.disabled > a:hover {
     color: #eee !important;
+}
+
+/* Responsive CSS */
+@media screen and (max-width: 768px) {
+    .sw-theme-default > .nav-tabs > li {
+        float: none !important;
+    }  
 }
 
 /* Loader Animation 

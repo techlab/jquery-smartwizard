@@ -55,21 +55,23 @@ Features
   + Heavily customizable toolbar, option to add extra buttons
   + Theme support with various themes included
   + Url navigation and step selection
-  + Auto content height adjustment
   + Public methods for external function call
   + Enhanced event support
-  + In-built reset method
+  + In-built wizard reset method
   + Ajax content loading with option to specify individual url for steps
   + Keyboard navigation
   + Easy navigation with step anchors and navigation buttons
-  + Navigation direction parameter on events
   + Multiple wizard instance on same page
+  + Integratable to model window  
+  + Dynamically hide or disable steps
+  + Auto content height adjustment
+  + Compatible with latest jQuery versions (jQuery 1.9+, jQuery 2+, jQuery 3+)
   + Easy to implement, Minimal HTML required
   + and a lot more...
 
 Version
 -----
-**SmartWizard v4.0.5**
+**SmartWizard v4.1.1**
 
 License
 ----
