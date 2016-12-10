@@ -1,14 +1,12 @@
 # Smart Wizard 4
-#### An awesome jQuery step wizard plugin with Bootstrap support.
+#### The awesome jQuery step wizard plugin with Bootstrap support.
 
 [![npm version](https://badge.fury.io/js/smartwizard.svg)](https://badge.fury.io/js/smartwizard)
 [![Bower version](https://badge.fury.io/bo/smartwizard.svg)](https://badge.fury.io/bo/smartwizard)
 [![Latest Stable Version](https://poser.pugx.org/techlab/smartwizard/v/stable)](https://packagist.org/packages/techlab/smartwizard)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/techlab/SmartWizard/master/LICENSE)
 
-Smart Wizard is a flexible and heavily customizable jQuery **step wizard plugin** with **Bootstrap** support. It is easy to implement, have a lot of features added and gives a neat and stylish screen interface for your forms, checkout etc. 
-
-On the new version Smart Wizard 4, we have completely rewritten the code from scratch to make it more robust based on the feedback from our users over the past years. We have added the theme support and will be adding more themes on the go. Also we have added a toolbar with heavily customizable options. Please see the demos and documentation for more details. 
+Smart Wizard is a flexible and heavily customizable **jQuery step wizard plugin** with **Bootstrap** support. It is easy to implement and gives a neat and stylish interface for your forms, checkout screen, registration steps etc. Based on the feedback from our users over the past years we have come up with the **best ever built jQuery wizard plugin of all time**, All new Smart Wizard 4. The plugin is been completely rewritten from scratch, made it more powerful, robust, scalable and customizable. We have added a lot of features not limited to Bootstrap support, themes, customizable toolbars, customizable options, public methods, event support and a lot more. See the list of [features](http://techlaboratory.net/smartwizard#features), [demos](http://techlaboratory.net/smartwizard/demo) and [documentation](http://techlaboratory.net/smartwizard/documentation) for more details. 
 
 + [Homepage](http://techlaboratory.net/smartwizard)
 + [Documentation](http://techlaboratory.net/smartwizard/documentation)
@@ -17,7 +15,7 @@ On the new version Smart Wizard 4, we have completely rewritten the code from sc
 Screenshots
 -----
 ![Smart Wizard Screenshot1](http://techlaboratory.net/assets/media/products/SmartWizard4_1.png?v2)
-![Smart Wizard Screenshot2](http://techlaboratory.net/assets/media/products/SmartWizard4_2.png?v2)
+![Smart Wizard Screenshot2](http://techlaboratory.net/assets/media/products/SmartWizard4_2.png?v3)
 ![Smart Wizard Screenshot3](http://techlaboratory.net/assets/media/products/SmartWizard4_3.png?v2)
 
 Demos
