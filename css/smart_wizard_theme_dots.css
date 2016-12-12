@@ -1,31 +1,31 @@
 /* SmartWizard v4.x
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
- * 
- * Created by Dipu Raj  
+ *
+ * Created by Dipu Raj
  * http://dipuraj.me
- * 
+ *
  * Licensed under the terms of MIT License
- * https://github.com/techlab/SmartWizard/blob/master/MIT-LICENSE.txt 
+ * https://github.com/techlab/SmartWizard/blob/master/LICENSE
  */
 
 /* SmartWizard Theme: Dots */
 .sw-theme-dots{
-    /*box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);*/ 
+    /*box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);*/
 }
 .sw-theme-dots .sw-container {
     min-height: 300px;
 }
-.sw-theme-dots .step-content { 
+.sw-theme-dots .step-content {
     margin-top: 45px;
-    padding: 10px 0;     
-    border: 0px solid #D4D4D4;    
+    padding: 10px 0;
+    border: 0px solid #D4D4D4;
     background-color: #FFF;
     text-align: left;
 }
 .sw-theme-dots .sw-toolbar{
     background: #fff;
-    border-radius: 0 !important; 
+    border-radius: 0 !important;
     padding-left: 10px;
     padding-right: 10px;
     margin-bottom: 0 !important;
@@ -77,7 +77,7 @@
     margin-right: 45px;
     border-radius: 50%;
     border: 0 !important;
-        
+
     color: #428bca;
     text-decoration: none;
 }
@@ -89,22 +89,22 @@
     margin-top: 20px;
     width: 120px;
 }
-.sw-theme-dots > ul.step-anchor > li > a, .sw-theme-dots > ul.step-anchor > li > a:hover  { 
-    color: #bbb; 
+.sw-theme-dots > ul.step-anchor > li > a, .sw-theme-dots > ul.step-anchor > li > a:hover  {
+    color: #bbb;
     text-decoration: none;
     outline-style:none;
     background: #f5f5f5 !important;
 }
 .sw-theme-dots > ul.step-anchor > li.clickable > a:hover {
-    color: #4285F4 !important; 
+    color: #4285F4 !important;
 }
 .sw-theme-dots > ul.step-anchor > li.active{
-   background: #fbbd19 !important; 
+   background: #fbbd19 !important;
 }
-.sw-theme-dots > ul.step-anchor > li.active > a { 
-    border-color: #4285F4 !important; 
-    color: #4285F4 !important; 
-    background: #fbe8aa !important; 
+.sw-theme-dots > ul.step-anchor > li.active > a {
+    border-color: #4285F4 !important;
+    color: #4285F4 !important;
+    background: #fbe8aa !important;
 }
 .sw-theme-dots > ul.step-anchor > li.active > a:after {
     content: ' ';
@@ -117,12 +117,12 @@
     left: 8px;
 }
 .sw-theme-dots > ul.step-anchor > li.done{
-   background: #fbbd19 !important; 
+   background: #fbbd19 !important;
 }
-.sw-theme-dots > ul.step-anchor > li.done > a { 
-    border-color: #5cb85c !important; 
-    color: #5cb85c !important; 
-    background: #fbe8aa !important; 
+.sw-theme-dots > ul.step-anchor > li.done > a {
+    border-color: #5cb85c !important;
+    color: #5cb85c !important;
+    background: #fbe8aa !important;
 }
 .sw-theme-dots > ul.step-anchor > li.done > a:after {
     content: ' ';
@@ -134,16 +134,16 @@
     top: 8px;
     left: 8px;
 }
-.sw-theme-dots > ul.step-anchor > li.danger > a { 
-    border-color: #d9534f !important; 
-    color: #d9534f !important; 
-    background: #fff !important; 
+.sw-theme-dots > ul.step-anchor > li.danger > a {
+    border-color: #d9534f !important;
+    color: #d9534f !important;
+    background: #fff !important;
 }
 .sw-theme-dots > ul.step-anchor > li.disabled > a, .sw-theme-dots > ul.step-anchor > li.disabled > a:hover {
     color: #eee !important;
 }
 
-/* Loader Animation 
+/* Loader Animation
  * Courtesy: http://bootsnipp.com/snippets/featured/loading-button-effect-no-js
  */
 @-webkit-keyframes ld {

@@ -6,7 +6,7 @@
  * http://dipuraj.me
  *
  * Licensed under the terms of the MIT License
- * https://github.com/techlab/SmartWizard/blob/master/MIT-LICENSE.txt
+ * https://github.com/techlab/SmartWizard/blob/master/LICENSE
  */
 
 ;(function ($, window, document, undefined) {
@@ -19,7 +19,7 @@
             cycleSteps: false, // Allows to cycle the navigation of steps
             backButtonSupport: true, // Enable the back button support
             useURLhash: true, // Enable selection of the step based on url hash
-            showStepURLhash: true, // Show url hash based on step 
+            showStepURLhash: true, // Show url hash based on step
             lang: {  // Language variables for button
                 next: 'Next',
                 previous: 'Previous'
@@ -112,7 +112,7 @@
             this.container.addClass('sw-container tab-content');
             // Set content pages
             this.pages.addClass('step-content');
-            
+
 
             // Disabled steps
             var mi = this;
