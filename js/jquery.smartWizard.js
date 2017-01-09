@@ -1,4 +1,4 @@
-/* SmartWizard v4.1.1
+/* SmartWizard v4.1.2
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
  *
@@ -88,13 +88,15 @@
                     if(elm.length > 0){
                         var id = this.steps.index(elm);
                         idx = (id >= 0) ? id : idx;
-                        if(idx > 0 && this.options.anchorSettings.markDoneStep && this.options.anchorSettings.markAllPreviousStepsAsDone){
-                            // Mark previous steps of the active step as done
-                            this.steps.eq(idx).parent('li').prevAll().addClass("done");
-                        }
                     }
                 }
             }
+
+            if(idx > 0 && this.options.anchorSettings.markDoneStep && this.options.anchorSettings.markAllPreviousStepsAsDone){
+                // Mark previous steps of the active step as done
+                this.steps.eq(idx).parent('li').prevAll().addClass("done");
+            }
+
             // Show the initial step
             this._showStep(idx);
         },
@@ -501,7 +503,7 @@
             this.pages.stop(true);
             this.pages.hide();
             this.current_index = null;
-            window.location.hash = this.steps.eq(this.options.selected).attr("href");
+            this._setURLHash(this.steps.eq(this.options.selected).attr("href"));
             $(".sw-toolbar", this.main).remove();
             this.steps.removeClass();
             this.steps.parents('li').removeClass();
