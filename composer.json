@@ -14,7 +14,8 @@
         "step",
         "ui",
         "jquery-plugin",
-        "jquery"
+        "jquery",
+        "wizard plugin"
     ],
     "authors": [
         {
@@ -25,6 +26,6 @@
     ],
     "require": {
         "components/jquery": ">=1.9",
-        "components/bootstrap": ">=3.0.0"
+        "components/bootstrap": ">=3.0.0" 
     }
 }

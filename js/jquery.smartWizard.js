@@ -1,4 +1,4 @@
-/* SmartWizard v4.1.2
+/* SmartWizard v4.1.5
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
  *
@@ -41,6 +41,7 @@
             },
             contentURL: null, // content url, Enables Ajax content loading. Can also set as data data-content-url on anchor
             contentCache: true, // cache step contents, if false content is fetched always from ajax url
+            ajaxSettings: {}, // Ajax extra settings
             disabledSteps: [], // Array Steps disabled
             errorSteps: [], // Highlight step with errors
             hiddenSteps: [], // Hidden steps
@@ -115,7 +116,6 @@
             this.container.addClass('sw-container tab-content');
             // Set content pages
             this.pages.addClass('step-content');
-
 
             // Disabled steps
             var mi = this;
@@ -319,43 +319,34 @@
             var mi = this;
             // Get current step elements
             var curTab = this.steps.eq(this.current_index);
-            var curPage = (curTab.length>0) ? $(curTab.attr("href"),this.main) : null;
-            // Get step to show elements
-            var selTab = this.steps.eq(idx);
-            var selPage = (selTab.length>0) ? $(selTab.attr("href"),this.main) : null;
             // Get the direction of step navigation
             var stepDirection = '';
             var elm = this.steps.eq(idx);
             var contentURL = (elm.data('content-url') && elm.data('content-url').length > 0) ? elm.data('content-url') : this.options.contentURL;
-            
+
             if(this.current_index !== null && this.current_index !== idx){
                 stepDirection = (this.current_index < idx) ? "forward" : "backward";
             }
 
-            var stepPosition = 'middle';
-            if(idx === 0){
-                stepPosition = 'first';
-            }else if(idx === (this.steps.length-1)){
-                stepPosition = 'final';
-            }
-
             // Trigger "leaveStep" event
             if(this.current_index !== null && this._triggerEvent("leaveStep", [curTab, this.current_index, stepDirection]) === false){ return false; }
-            
-            // check contentCache
-            if(!this.options.contentCache){
-                elm.data('has-content', false);
-            }
-            if(contentURL && contentURL.length > 0 && !elm.data('has-content')){
+
+            if(contentURL && contentURL.length > 0 && (!elm.data('has-content') || !this.options.contentCache)){
                 // Get ajax content and then show step
                 var selPage = (elm.length>0) ? $(elm.attr("href"),this.main) : null;
-                $.ajax({
+
+                var ajaxSettings = $.extend(true, {}, {
                     url: contentURL,
                     type: "POST",
                     data: ({step_number : idx}),
                     dataType: "text",
-                    beforeSend: function(){ elm.parent('li').addClass('loading'); },
-                    error: function(){ elm.parent('li').removeClass('loading'); },
+                    beforeSend: function(){
+                        elm.parent('li').addClass('loading');
+                    },
+                    error: function(jqXHR, status, message){
+                        elm.parent('li').removeClass('loading');
+                        $.error(message);
+                    },
                     success: function(res){
                         if(res && res.length > 0){
                             elm.data('has-content',true);
@@ -364,7 +355,9 @@
                         elm.parent('li').removeClass('loading');
                         mi._transitPage(idx);
                     }
-                });
+                }, this.options.ajaxSettings);
+
+                $.ajax(ajaxSettings);
             }else{
                 // Show step
                 this._transitPage(idx);
@@ -391,7 +384,7 @@
             }else if(idx === (this.steps.length-1)){
                 stepPosition = 'final';
             }
-            
+
             this.options.transitionEffect = this.options.transitionEffect.toLowerCase();
             this.pages.finish();
             if(this.options.transitionEffect === 'slide'){ // normal slide
