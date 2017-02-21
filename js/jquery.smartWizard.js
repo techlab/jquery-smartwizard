@@ -1,4 +1,5 @@
-/* SmartWizard v4.1.5
+/*! 
+ * SmartWizard v4.1.7
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
  *

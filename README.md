@@ -1,4 +1,4 @@
-# Smart Wizard 4
+# jQuery Smart Wizard 4
 #### The awesome jQuery step wizard plugin with Bootstrap support.
 
 [![npm version](https://badge.fury.io/js/smartwizard.svg)](https://badge.fury.io/js/smartwizard)
@@ -16,7 +16,8 @@ Screenshots
 -----
 ![Smart Wizard Screenshot1](http://techlaboratory.net/assets/media/products/SmartWizard4_1.png?v2)
 ![Smart Wizard Screenshot2](http://techlaboratory.net/assets/media/products/SmartWizard4_2.png?v3)
-![Smart Wizard Screenshot3](http://techlaboratory.net/assets/media/products/SmartWizard4_3.png?v2)
+![Smart Wizard Screenshot3](http://techlaboratory.net/assets/media/products/SmartWizard4_3.png?v3)
+![Smart Wizard Screenshot3](http://techlaboratory.net/assets/media/products/SmartWizard4_5.png?v1)
 
 Demos
 -----
@@ -50,8 +51,10 @@ Installation and usage
 Features
 -----
   + Bootstrap support
+  + Responsive themes
   + Heavily customizable toolbar, option to add extra buttons
   + Theme support with various themes included
+  + Customizable css styles
   + Url navigation and step selection
   + Public methods for external function call
   + Enhanced event support
@@ -69,7 +72,7 @@ Features
 
 Version
 -----
-**SmartWizard v4.1.5**
+**SmartWizard v4.1.7**
 
 License
 ----

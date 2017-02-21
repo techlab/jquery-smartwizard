@@ -28,7 +28,7 @@
                     <option value="default">default</option>
                     <option value="arrows">arrows</option>
                     <option value="circles">circles</option>
-                    <!--<option value="dots">dots</option>-->
+                    <option value="dots">dots</option>
               </select>
             </div>           
             
@@ -45,10 +45,10 @@
         <!-- SmartWizard html -->
         <div id="smartwizard">
             <ul>
-                <li><a href="#step-1">Step 1<br /><small>This is tab's description</small></a></li>
-                <li><a href="#step-2">Step 2<br /><small>This is tab's description</small></a></li>
-                <li><a href="#step-3">Step 3<br /><small>This is tab's description</small></a></li>
-                <li><a href="#step-4">Step 4<br /><small>This is tab's description</small></a></li>
+                <li><a href="#step-1">Step 1<br /><small>This is step description</small></a></li>
+                <li><a href="#step-2">Step 2<br /><small>This is step description</small></a></li>
+                <li><a href="#step-3">Step 3<br /><small>This is step description</small></a></li>
+                <li><a href="#step-4">Step 4<br /><small>This is step description</small></a></li>
             </ul>
             
             <div>
@@ -122,10 +122,11 @@
                     selected: 0, 
                     theme: 'default',
                     transitionEffect:'fade',
+                    showStepURLhash: true,
                     toolbarSettings: {toolbarPosition: 'both',
                                       toolbarExtraButtons: [btnFinish, btnCancel]
                                     }
-                 });
+            });
                                          
             
             // External Button Events
@@ -153,6 +154,8 @@
                 return true;
             });
             
+            // Set selected theme on page refresh
+            $("#theme_selector").change();
         });   
     </script>  
 </body>
