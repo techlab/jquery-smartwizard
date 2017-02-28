@@ -10,46 +10,55 @@
  * https://github.com/techlab/SmartWizard/blob/master/LICENSE
  */
 
-;(function ($, window, document, undefined) {
+/*!
+    - by Miller Nguyen @- 28-Feb-2017
+        - added stepState: "done" and "notdone" to allow dynamic setup done steps
+        - added toolbarSettings/toolbarExtraItems and toolbarExtraItemsPosition: allow to create title in toolbar
+        - minimize the code of setupToolbar
+*/
+
+; (function ($, window, document, undefined) {
     "use strict";
     // Default options
     var defaults = {
-            selected: 0,  // Initial selected step, 0 = first step
-            keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
-            autoAdjustHeight: true, // Automatically adjust content height
-            cycleSteps: false, // Allows to cycle the navigation of steps
-            backButtonSupport: true, // Enable the back button support
-            useURLhash: true, // Enable selection of the step based on url hash
-            showStepURLhash: true, // Show url hash based on step
-            lang: {  // Language variables for button
-                next: 'Next',
-                previous: 'Previous'
-            },
-            toolbarSettings: {
-                toolbarPosition: 'bottom', // none, top, bottom, both
-                toolbarButtonPosition: 'right', // left, right
-                showNextButton: true, // show/hide a Next button
-                showPreviousButton: true, // show/hide a Previous button
-                toolbarExtraButtons: [] // Extra buttons to show on toolbar, array of jQuery input/buttons elements
-            },
-            anchorSettings: {
-                anchorClickable: true, // Enable/Disable anchor navigation
-                enableAllAnchors: false, // Activates all anchors clickable all times
-                markDoneStep: true, // Add done css
-                markAllPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
-                removeDoneStepOnNavigateBack: false, // While navigate back done step after active step will be cleared
-                enableAnchorOnDoneStep: true // Enable/Disable the done steps navigation
-            },
-            contentURL: null, // content url, Enables Ajax content loading. Can also set as data data-content-url on anchor
-            contentCache: true, // cache step contents, if false content is fetched always from ajax url
-            ajaxSettings: {}, // Ajax extra settings
-            disabledSteps: [], // Array Steps disabled
-            errorSteps: [], // Highlight step with errors
-            hiddenSteps: [], // Hidden steps
-            theme: 'default', // theme for the wizard, related css need to include for other than default theme
-            transitionEffect: 'none', // Effect on navigation, none/slide/fade
-            transitionSpeed: '400'
-        };
+        selected: 0,  // Initial selected step, 0 = first step
+        keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
+        autoAdjustHeight: true, // Automatically adjust content height
+        cycleSteps: false, // Allows to cycle the navigation of steps
+        backButtonSupport: true, // Enable the back button support
+        useURLhash: true, // Enable selection of the step based on url hash
+        showStepURLhash: true, // Show url hash based on step
+        lang: {  // Language variables for button
+            next: 'Next',
+            previous: 'Previous'
+        },
+        toolbarSettings: {
+            toolbarPosition: 'bottom', // none, top, bottom, both
+            toolbarButtonPosition: 'right', // left, right
+            toolbarExtraItemsPosition: 'left',
+            showNextButton: true, // show/hide a Next button
+            showPreviousButton: true, // show/hide a Previous button
+            toolbarExtraButtons: [], // Extra buttons to show on toolbar, array of jQuery input/buttons elements,
+            toolbarExtraItems: []
+        },
+        anchorSettings: {
+            anchorClickable: true, // Enable/Disable anchor navigation
+            enableAllAnchors: false, // Activates all anchors clickable all times
+            markDoneStep: true, // Add done css
+            markAllPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
+            removeDoneStepOnNavigateBack: false, // While navigate back done step after active step will be cleared
+            enableAnchorOnDoneStep: true // Enable/Disable the done steps navigation
+        },
+        contentURL: null, // content url, Enables Ajax content loading. Can also set as data data-content-url on anchor
+        contentCache: true, // cache step contents, if false content is fetched always from ajax url
+        ajaxSettings: {}, // Ajax extra settings
+        disabledSteps: [], // Array Steps disabled
+        errorSteps: [], // Highlight step with errors
+        hiddenSteps: [], // Hidden steps
+        theme: 'default', // theme for the wizard, related css need to include for other than default theme
+        transitionEffect: 'none', // Effect on navigation, none/slide/fade
+        transitionSpeed: '400'
+    };
 
     // The plugin constructor
     function SmartWizard(element, options) {
@@ -83,19 +92,19 @@
 
             var idx = this.options.selected;
             // Get selected step from the url
-            if(this.options.useURLhash){
+            if (this.options.useURLhash) {
                 // Get step number from url hash if available
                 var hash = window.location.hash;
-                if(hash && hash.length > 0){
+                if (hash && hash.length > 0) {
                     var elm = $("a[href*='" + hash + "']", this.nav);
-                    if(elm.length > 0){
+                    if (elm.length > 0) {
                         var id = this.steps.index(elm);
                         idx = (id >= 0) ? id : idx;
                     }
                 }
             }
 
-            if(idx > 0 && this.options.anchorSettings.markDoneStep && this.options.anchorSettings.markAllPreviousStepsAsDone){
+            if (idx > 0 && this.options.anchorSettings.markDoneStep && this.options.anchorSettings.markAllPreviousStepsAsDone) {
                 // Mark previous steps of the active step as done
                 this.steps.eq(idx).parent('li').prevAll().addClass("done");
             }
@@ -104,7 +113,7 @@
             this._showStep(idx);
         },
 
-// PRIVATE FUNCTIONS
+        // PRIVATE FUNCTIONS
 
         _setElements: function () {
             // Set the main element
@@ -112,7 +121,7 @@
             // Set anchor elements
             this.nav.addClass('nav nav-tabs step-anchor'); // nav-justified  nav-pills
             // Make the anchor clickable
-            if(this.options.anchorSettings.enableAllAnchors !== false && this.options.anchorSettings.anchorClickable !== false){ this.steps.parent('li').addClass('clickable'); }
+            if (this.options.anchorSettings.enableAllAnchors !== false && this.options.anchorSettings.anchorClickable !== false) { this.steps.parent('li').addClass('clickable'); }
             // Set content container
             this.container.addClass('sw-container tab-content');
             // Set content pages
@@ -120,95 +129,75 @@
 
             // Disabled steps
             var mi = this;
-            if(this.options.disabledSteps && this.options.disabledSteps.length > 0){
-                $.each(this.options.disabledSteps, function(i, n){
+            if (this.options.disabledSteps && this.options.disabledSteps.length > 0) {
+                $.each(this.options.disabledSteps, function (i, n) {
                     mi.steps.eq(n).parent('li').addClass('disabled');
                 });
             }
             // Error steps
-            if(this.options.errorSteps && this.options.errorSteps.length > 0){
-              $.each(this.options.errorSteps, function(i, n){
-                mi.steps.eq(n).parent('li').addClass('danger');
-              });
+            if (this.options.errorSteps && this.options.errorSteps.length > 0) {
+                $.each(this.options.errorSteps, function (i, n) {
+                    mi.steps.eq(n).parent('li').addClass('danger');
+                });
             }
             // Hidden steps
-            if(this.options.hiddenSteps && this.options.hiddenSteps.length > 0){
-              $.each(this.options.hiddenSteps, function(i, n){
-                mi.steps.eq(n).parent('li').addClass('hidden');
-              });
+            if (this.options.hiddenSteps && this.options.hiddenSteps.length > 0) {
+                $.each(this.options.hiddenSteps, function (i, n) {
+                    mi.steps.eq(n).parent('li').addClass('hidden');
+                });
             }
 
             return true;
         },
         _setToolbar: function () {
             // Skip right away if the toolbar is not enabled
-            if(this.options.toolbarSettings.toolbarPosition === 'none'){ return true; }
+            if (this.options.toolbarSettings.toolbarPosition === 'none') { return true; }
 
             // Create the toolbar buttons
-            var btnNext = (this.options.toolbarSettings.showNextButton !== false) ? $('<button></button>').text(this.options.lang.next).addClass('btn btn-default sw-btn-next').attr('type','button') : null;
-            var btnPrevious = (this.options.toolbarSettings.showPreviousButton !== false) ? $('<button></button>').text(this.options.lang.previous).addClass('btn btn-default sw-btn-prev').attr('type','button') : null;
-            var btnGroup = $('<div></div>').addClass('btn-group navbar-btn sw-btn-group pull-' + this.options.toolbarSettings.toolbarButtonPosition).attr('role','group').append(btnPrevious, btnNext);
+            var btnNext = (this.options.toolbarSettings.showNextButton !== false) ? $('<button></button>').text(this.options.lang.next).addClass('btn btn-default sw-btn-next').attr('type', 'button') : null;
+            var btnPrevious = (this.options.toolbarSettings.showPreviousButton !== false) ? $('<button></button>').text(this.options.lang.previous).addClass('btn btn-default sw-btn-prev').attr('type', 'button') : null;
+            var btnGroup = $('<div></div>').addClass('btn-group navbar-btn sw-btn-group pull-' + this.options.toolbarSettings.toolbarButtonPosition).attr('role', 'group').append(btnPrevious, btnNext);
 
             // Add extra toolbar buttons
             var btnGroupExtra = null;
 
-            if(this.options.toolbarSettings.toolbarExtraButtons && this.options.toolbarSettings.toolbarExtraButtons.length > 0){
-                btnGroupExtra = $('<div></div>').addClass('btn-group navbar-btn sw-btn-group-extra pull-' + this.options.toolbarSettings.toolbarButtonPosition).attr('role','group');
-                $.each(this.options.toolbarSettings.toolbarExtraButtons, function( i, n ) {
+            if (this.options.toolbarSettings.toolbarExtraButtons && this.options.toolbarSettings.toolbarExtraButtons.length > 0) {
+                btnGroupExtra = $('<div></div>').addClass('btn-group navbar-btn sw-btn-group-extra pull-' + this.options.toolbarSettings.toolbarButtonPosition).attr('role', 'group');
+                $.each(this.options.toolbarSettings.toolbarExtraButtons, function (i, n) {
                     btnGroupExtra.append(n.clone(true));
                 });
             }
 
+            var extraItemsGroup = null;
+            if (this.options.toolbarSettings.toolbarExtraItems && this.options.toolbarSettings.toolbarExtraItems.length > 0) {
+                extraItemsGroup = $('<div></div>').addClass('pull-' + this.options.toolbarSettings.toolbarExtraItemsPosition).attr('role', 'group');
+                $.each(this.options.toolbarSettings.toolbarExtraItems, function (i, n) {
+                    extraItemsGroup.append(n.clone(true));
+                });
+            }
+
+            var setupToolbar = function (pos, p) {
+                var toolbar = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-' + pos);
+                toolbar.append(btnGroup.clone(true));
+                p.options.toolbarSettings.toolbarButtonPosition === 'left' ? toolbar.append(btnGroupExtra.clone(true)) : toolbar.prepend(btnGroupExtra.clone(true));
+                p.options.toolbarSettings.toolbarExtraItemsPosition === 'left' ? toolbar.append(extraItemsGroup.clone(true)) : toolbar.prepend(extraItemsGroup.clone(true));
+                pos == 'top' ? p.container.before(toolbar) : p.container.after(toolbar);
+            }
+
             // Append toolbar based on the position
-            switch(this.options.toolbarSettings.toolbarPosition){
+            switch (this.options.toolbarSettings.toolbarPosition) {
                 case 'top':
-                    var toolbarTop = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-top');
-                    toolbarTop.append(btnGroup);
-                    if(this.options.toolbarSettings.toolbarButtonPosition === 'left'){
-                        toolbarTop.append(btnGroupExtra);
-                    }else{
-                        toolbarTop.prepend(btnGroupExtra);
-                    }
-                    this.container.before(toolbarTop);
+                    setupToolbar('top', this);
                     break;
                 case 'bottom':
-                    var toolbarBottom = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-bottom');
-                    toolbarBottom.append(btnGroup);
-                    if(this.options.toolbarSettings.toolbarButtonPosition === 'left'){
-                        toolbarBottom.append(btnGroupExtra);
-                    }else{
-                        toolbarBottom.prepend(btnGroupExtra);
-                    }
-                    this.container.after(toolbarBottom);
+                    setupToolbar('bottom', this);
                     break;
                 case 'both':
-                    var toolbarTop = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-top');
-                    toolbarTop.append(btnGroup);
-                    if(this.options.toolbarSettings.toolbarButtonPosition === 'left'){
-                        toolbarTop.append(btnGroupExtra);
-                    }else{
-                        toolbarTop.prepend(btnGroupExtra);
-                    }
-                    this.container.before(toolbarTop);
-
-                    var toolbarBottom = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-bottom');
-                    toolbarBottom.append(btnGroup.clone(true));
-                    if(this.options.toolbarSettings.toolbarButtonPosition === 'left'){
-                        toolbarBottom.append(btnGroupExtra.clone(true));
-                    }else{
-                        toolbarBottom.prepend(btnGroupExtra.clone(true));
-                    }
-                    this.container.after(toolbarBottom);
+                    setupToolbar('top', this);
+                    setupToolbar('bottom', this);
                     break;
                 default:
-                    var toolbarBottom = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-bottom');
-                    toolbarBottom.append(btnGroup);
-                    if(this.options.toolbarSettings.toolbarButtonPosition === 'left'){
-                        toolbarBottom.append(btnGroupExtra);
-                    }else{
-                        toolbarBottom.prepend(btnGroupExtra);
-                    }
-                    this.container.after(toolbarBottom);
+                    setupToolbar('bottom', this);
                     break;
             }
             return true;
@@ -216,17 +205,17 @@
         _setEvents: function () {
             // Anchor click event
             var mi = this;
-            $(this.steps).on( "click", function(e) {
+            $(this.steps).on("click", function (e) {
                 e.preventDefault();
-                if(mi.options.anchorSettings.anchorClickable === false) { return true; }
+                if (mi.options.anchorSettings.anchorClickable === false) { return true; }
                 var idx = mi.steps.index(this);
-                if(mi.options.anchorSettings.enableAnchorOnDoneStep === false && mi.steps.eq(idx).parent('li').hasClass('done')) { return true; }
+                if (mi.options.anchorSettings.enableAnchorOnDoneStep === false && mi.steps.eq(idx).parent('li').hasClass('done')) { return true; }
 
-                if(idx !== mi.current_index) {
-                    if(mi.options.anchorSettings.enableAllAnchors !== false && mi.options.anchorSettings.anchorClickable !== false){
+                if (idx !== mi.current_index) {
+                    if (mi.options.anchorSettings.enableAllAnchors !== false && mi.options.anchorSettings.anchorClickable !== false) {
                         mi._showStep(idx);
-                    }else{
-                        if(mi.steps.eq(idx).parent('li').hasClass('done')){
+                    } else {
+                        if (mi.steps.eq(idx).parent('li').hasClass('done')) {
                             mi._showStep(idx);
                         }
                     }
@@ -234,35 +223,35 @@
             });
 
             // Next button event
-            $('.sw-btn-next', this.main).on( "click", function(e) {
+            $('.sw-btn-next', this.main).on("click", function (e) {
                 e.preventDefault();
-                if(mi.steps.index(this) !== mi.current_index) {
+                if (mi.steps.index(this) !== mi.current_index) {
                     mi._showNext();
                 }
             });
 
             // Previous button event
-            $('.sw-btn-prev', this.main).on( "click", function(e) {
+            $('.sw-btn-prev', this.main).on("click", function (e) {
                 e.preventDefault();
-                if(mi.steps.index(this) !== mi.current_index) {
+                if (mi.steps.index(this) !== mi.current_index) {
                     mi._showPrevious();
                 }
             });
 
             // Keyboard navigation event
-            if(this.options.keyNavigation){
-                $(document).keyup(function(e){
+            if (this.options.keyNavigation) {
+                $(document).keyup(function (e) {
                     mi._keyNav(e);
                 });
             }
 
             // Back/forward browser button event
-            if(this.options.backButtonSupport){
-                $(window).on('hashchange', function(e) {
-                    if(!mi.options.useURLhash) { return true; }
-                    if(window.location.hash) {
-                        var elm = $("a[href*='"+window.location.hash+"']", mi.nav);
-                        if(elm && elm.length > 0){
+            if (this.options.backButtonSupport) {
+                $(window).on('hashchange', function (e) {
+                    if (!mi.options.useURLhash) { return true; }
+                    if (window.location.hash) {
+                        var elm = $("a[href*='" + window.location.hash + "']", mi.nav);
+                        if (elm && elm.length > 0) {
                             e.preventDefault();
                             mi._showStep(mi.steps.index(elm));
                         }
@@ -275,16 +264,16 @@
         _showNext: function () {
             var si = this.current_index + 1;
             // Find the next not disabled step
-            for(var i = si; i < this.steps.length; i++){
-                if(!this.steps.eq(i).parent('li').hasClass('disabled') && !this.steps.eq(i).parent('li').hasClass('hidden')){
-                    si=i;
+            for (var i = si; i < this.steps.length; i++) {
+                if (!this.steps.eq(i).parent('li').hasClass('disabled') && !this.steps.eq(i).parent('li').hasClass('hidden')) {
+                    si = i;
                     break;
                 }
             }
 
-            if(this.steps.length <= si){
-              if(!this.options.cycleSteps){ return false; }
-              si = 0;
+            if (this.steps.length <= si) {
+                if (!this.options.cycleSteps) { return false; }
+                si = 0;
             }
             this._showStep(si);
             return true;
@@ -292,26 +281,26 @@
         _showPrevious: function () {
             var si = this.current_index - 1;
             // Find the previous not disabled step
-            for(var i = si; i >= 0; i--){
-                if(!this.steps.eq(i).parent('li').hasClass('disabled') && !this.steps.eq(i).parent('li').hasClass('hidden')){
-                    si=i;
+            for (var i = si; i >= 0; i--) {
+                if (!this.steps.eq(i).parent('li').hasClass('disabled') && !this.steps.eq(i).parent('li').hasClass('hidden')) {
+                    si = i;
                     break;
                 }
             }
-            if(0 > si){
-              if(!this.options.cycleSteps){ return false; }
-              si = this.steps.length - 1;
+            if (0 > si) {
+                if (!this.options.cycleSteps) { return false; }
+                si = this.steps.length - 1;
             }
             this._showStep(si);
             return true;
         },
         _showStep: function (idx) {
             // If step not found, skip
-            if(!this.steps.eq(idx)){ return false; }
+            if (!this.steps.eq(idx)) { return false; }
             // If current step is requested again, skip
-            if(idx == this.current_index){ return false; }
+            if (idx == this.current_index) { return false; }
             // If it is a disabled step, skip
-            if(this.steps.eq(idx).parent('li').hasClass('disabled') || this.steps.eq(idx).parent('li').hasClass('hidden')){ return false; }
+            if (this.steps.eq(idx).parent('li').hasClass('disabled') || this.steps.eq(idx).parent('li').hasClass('hidden')) { return false; }
             // Load step content
             this._loadStepContent(idx);
             return true;
@@ -325,32 +314,32 @@
             var elm = this.steps.eq(idx);
             var contentURL = (elm.data('content-url') && elm.data('content-url').length > 0) ? elm.data('content-url') : this.options.contentURL;
 
-            if(this.current_index !== null && this.current_index !== idx){
+            if (this.current_index !== null && this.current_index !== idx) {
                 stepDirection = (this.current_index < idx) ? "forward" : "backward";
             }
 
             // Trigger "leaveStep" event
-            if(this.current_index !== null && this._triggerEvent("leaveStep", [curTab, this.current_index, stepDirection]) === false){ return false; }
+            if (this.current_index !== null && this._triggerEvent("leaveStep", [curTab, this.current_index, stepDirection]) === false) { return false; }
 
-            if(contentURL && contentURL.length > 0 && (!elm.data('has-content') || !this.options.contentCache)){
+            if (contentURL && contentURL.length > 0 && (!elm.data('has-content') || !this.options.contentCache)) {
                 // Get ajax content and then show step
-                var selPage = (elm.length>0) ? $(elm.attr("href"),this.main) : null;
+                var selPage = (elm.length > 0) ? $(elm.attr("href"), this.main) : null;
 
                 var ajaxSettings = $.extend(true, {}, {
                     url: contentURL,
                     type: "POST",
-                    data: ({step_number : idx}),
+                    data: ({ step_number: idx }),
                     dataType: "text",
-                    beforeSend: function(){
+                    beforeSend: function () {
                         elm.parent('li').addClass('loading');
                     },
-                    error: function(jqXHR, status, message){
+                    error: function (jqXHR, status, message) {
                         elm.parent('li').removeClass('loading');
                         $.error(message);
                     },
-                    success: function(res){
-                        if(res && res.length > 0){
-                            elm.data('has-content',true);
+                    success: function (res) {
+                        if (res && res.length > 0) {
+                            elm.data('has-content', true);
                             selPage.html(res);
                         }
                         elm.parent('li').removeClass('loading');
@@ -359,7 +348,7 @@
                 }, this.options.ajaxSettings);
 
                 $.ajax(ajaxSettings);
-            }else{
+            } else {
                 // Show step
                 this._transitPage(idx);
             }
@@ -369,47 +358,47 @@
             var mi = this;
             // Get current step elements
             var curTab = this.steps.eq(this.current_index);
-            var curPage = (curTab.length>0) ? $(curTab.attr("href"),this.main) : null;
+            var curPage = (curTab.length > 0) ? $(curTab.attr("href"), this.main) : null;
             // Get step to show elements
             var selTab = this.steps.eq(idx);
-            var selPage = (selTab.length>0) ? $(selTab.attr("href"),this.main) : null;
+            var selPage = (selTab.length > 0) ? $(selTab.attr("href"), this.main) : null;
             // Get the direction of step navigation
             var stepDirection = '';
-            if(this.current_index !== null && this.current_index !== idx){
+            if (this.current_index !== null && this.current_index !== idx) {
                 stepDirection = (this.current_index < idx) ? "forward" : "backward";
             }
 
             var stepPosition = 'middle';
-            if(idx === 0){
+            if (idx === 0) {
                 stepPosition = 'first';
-            }else if(idx === (this.steps.length-1)){
+            } else if (idx === (this.steps.length - 1)) {
                 stepPosition = 'final';
             }
 
             this.options.transitionEffect = this.options.transitionEffect.toLowerCase();
             this.pages.finish();
-            if(this.options.transitionEffect === 'slide'){ // normal slide
-                if(curPage && curPage.length > 0){
-                    curPage.slideUp('fast',this.options.transitionEasing,function(){
-                        selPage.slideDown(mi.options.transitionSpeed,mi.options.transitionEasing);
+            if (this.options.transitionEffect === 'slide') { // normal slide
+                if (curPage && curPage.length > 0) {
+                    curPage.slideUp('fast', this.options.transitionEasing, function () {
+                        selPage.slideDown(mi.options.transitionSpeed, mi.options.transitionEasing);
                     });
-                }else{
-                    selPage.slideDown(this.options.transitionSpeed,this.options.transitionEasing);
+                } else {
+                    selPage.slideDown(this.options.transitionSpeed, this.options.transitionEasing);
                 }
-            }else if(this.options.transitionEffect === 'fade'){ // normal fade
-                if(curPage && curPage.length > 0){
-                    curPage.fadeOut('fast',this.options.transitionEasing,function(){
-                        selPage.fadeIn('fast',mi.options.transitionEasing,function(){
+            } else if (this.options.transitionEffect === 'fade') { // normal fade
+                if (curPage && curPage.length > 0) {
+                    curPage.fadeOut('fast', this.options.transitionEasing, function () {
+                        selPage.fadeIn('fast', mi.options.transitionEasing, function () {
                             $(this).show();
                         });
                     });
-                }else{
-                    selPage.fadeIn(this.options.transitionSpeed,this.options.transitionEasing,function(){
+                } else {
+                    selPage.fadeIn(this.options.transitionSpeed, this.options.transitionEasing, function () {
                         $(this).show();
                     });
                 }
-            }else{
-                if(curPage && curPage.length > 0) { curPage.hide(); }
+            } else {
+                if (curPage && curPage.length > 0) { curPage.hide(); }
                 selPage.show();
             }
             // Change the url hash to new step
@@ -430,9 +419,9 @@
         _setAnchor: function (idx) {
             // Current step anchor > Remove other classes and add done class
             this.steps.eq(this.current_index).parent('li').removeClass("active danger loading");
-            if(this.options.anchorSettings.markDoneStep !== false && this.current_index !== null){
+            if (this.options.anchorSettings.markDoneStep !== false && this.current_index !== null) {
                 this.steps.eq(this.current_index).parent('li').addClass("done");
-                if(this.options.anchorSettings.removeDoneStepOnNavigateBack !== false){
+                if (this.options.anchorSettings.removeDoneStepOnNavigateBack !== false) {
                     this.steps.eq(idx).parent('li').nextAll().removeClass("done");
                 }
             }
@@ -443,27 +432,27 @@
         },
         _setButtons: function (idx) {
             // Previous/Next Button enable/disable based on step
-            if(!this.options.cycleSteps){
-                if(0 >= idx){
-                  $('.sw-btn-prev', this.main).addClass("disabled");
-                }else{
-                  $('.sw-btn-prev', this.main).removeClass("disabled");
+            if (!this.options.cycleSteps) {
+                if (0 >= idx) {
+                    $('.sw-btn-prev', this.main).addClass("disabled");
+                } else {
+                    $('.sw-btn-prev', this.main).removeClass("disabled");
                 }
-                if((this.steps.length-1) <= idx){
-                  $('.sw-btn-next', this.main).addClass("disabled");
-                }else{
-                  $('.sw-btn-next', this.main).removeClass("disabled");
+                if ((this.steps.length - 1) <= idx) {
+                    $('.sw-btn-next', this.main).addClass("disabled");
+                } else {
+                    $('.sw-btn-next', this.main).removeClass("disabled");
                 }
             }
             return true;
         },
 
-// HELPER FUNCTIONS
+        // HELPER FUNCTIONS
 
         _keyNav: function (e) {
             var mi = this;
             // Keyboard navigation
-            switch(e.which) {
+            switch (e.which) {
                 case 37: // left
                     mi._showPrevious();
                     e.preventDefault();
@@ -477,9 +466,9 @@
         },
         _fixHeight: function (idx) {
             // Auto adjust height of the container
-            if(this.options.autoAdjustHeight){
-                var selPage = (this.steps.eq(idx).length > 0) ? $(this.steps.eq(idx).attr("href"),this.main) : null;
-                this.container.finish().animate({height: selPage.outerHeight()}, this.options.transitionSpeed, function(){});
+            if (this.options.autoAdjustHeight) {
+                var selPage = (this.steps.eq(idx).length > 0) ? $(this.steps.eq(idx).attr("href"), this.main) : null;
+                this.container.finish().animate({ height: selPage.outerHeight() }, this.options.transitionSpeed, function () { });
             }
             return true;
         },
@@ -491,15 +480,15 @@
             return e.result;
         },
         _setURLHash: function (hash) {
-            if(this.options.showStepURLhash && window.location.hash !== hash){
+            if (this.options.showStepURLhash && window.location.hash !== hash) {
                 window.location.hash = hash;
             }
         },
 
-// PUBLIC FUNCTIONS
+        // PUBLIC FUNCTIONS
 
         theme: function (v) {
-            if(this.options.theme === v) { return false; }
+            if (this.options.theme === v) { return false; }
             this.main.removeClass('sw-theme-' + this.options.theme);
             this.options.theme = v;
             this.main.addClass('sw-theme-' + this.options.theme);
@@ -514,7 +503,7 @@
         },
         reset: function () {
             // Trigger "beginReset" event
-            if(this._triggerEvent("beginReset") === false){ return false; }
+            if (this._triggerEvent("beginReset") === false) { return false; }
 
             // Reset all elements and classes
             this.container.stop(true);
@@ -534,12 +523,11 @@
         stepState: function (stepArray, state) {
             var mi = this;
             stepArray = $.isArray(stepArray) ? stepArray : [stepArray];
-            var selSteps = $.grep( this.steps, function( n, i ) {
+            var selSteps = $.grep(this.steps, function (n, i) {
                 return ($.inArray(i, stepArray) !== -1 && i !== mi.current_index);
             });
-            if(selSteps && selSteps.length > 0){
-                switch (state)
-                {
+            if (selSteps && selSteps.length > 0) {
+                switch (state) {
                     case 'disable':
                         $(selSteps).parents('li').addClass('disabled');
                         break;
@@ -552,20 +540,26 @@
                     case 'show':
                         $(selSteps).parents('li').removeClass('hidden');
                         break;
+                    case 'done':
+                        $(selSteps).parents('li').addClass('done');
+                        break;
+                    case 'notdone':
+                        $(selSteps).parents('li').removeClass('done');
+                        break;
                 }
             }
         }
     });
 
     // Wrapper for the plugin
-    $.fn.smartWizard = function(options) {
+    $.fn.smartWizard = function (options) {
         var args = arguments;
         var instance;
 
         if (options === undefined || typeof options === 'object') {
-            return this.each( function() {
-                if ( !$.data( this, "smartWizard") ) {
-                    $.data( this, "smartWizard", new SmartWizard( this, options ) );
+            return this.each(function () {
+                if (!$.data(this, "smartWizard")) {
+                    $.data(this, "smartWizard", new SmartWizard(this, options));
                 }
             });
         } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
@@ -576,7 +570,7 @@
             }
 
             if (instance instanceof SmartWizard && typeof instance[options] === 'function') {
-                return instance[options].apply( instance, Array.prototype.slice.call( args, 1 ) );
+                return instance[options].apply(instance, Array.prototype.slice.call(args, 1));
             } else {
                 return this;
             }
