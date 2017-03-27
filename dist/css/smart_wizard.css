@@ -1,0 +1,210 @@
+/*!  
+ * SmartWizard v4.x
+ * jQuery Wizard Plugin
+ * http://www.techlaboratory.net/smartwizard
+ *
+ * Created by Dipu Raj
+ * http://dipuraj.me
+ *
+ * Licensed under the terms of MIT License
+ * https://github.com/techlab/SmartWizard/blob/master/LICENSE
+ */
+
+/* SmartWizard Basic CSS */
+.sw-main {
+    position: relative;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.sw-main .sw-container {
+    display: block;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.sw-main .step-content {
+    display: none;
+    position: relative;
+    margin: 0;
+}
+
+.sw-main .sw-toolbar {
+    margin-left: 0;
+}
+
+
+/* SmartWizard Theme: White */
+.sw-theme-default {
+    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.sw-theme-default .sw-container {
+    min-height: 250px;
+}
+
+.sw-theme-default .step-content {
+    padding: 10px;
+    border: 0px solid #D4D4D4;
+    background-color: #FFF;
+    text-align: left;
+}
+
+.sw-theme-default .sw-toolbar {
+    background: #f9f9f9;
+    border-radius: 0 !important;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 0 !important;
+}
+
+.sw-theme-default .sw-toolbar-top {
+    border-bottom-color: #ddd !important;
+}
+
+.sw-theme-default .sw-toolbar-bottom {
+    border-top-color: #ddd !important;
+}
+
+.sw-theme-default > ul.step-anchor > li > a, .sw-theme-default > ul.step-anchor > li > a:hover {
+    border: none !important;
+    color: #bbb;
+    text-decoration: none;
+    outline-style: none;
+    background: transparent !important;
+    border: none !important;
+}
+
+.sw-theme-default > ul.step-anchor > li.clickable > a:hover {
+    color: #4285F4 !important;
+    background: transparent !important;
+}
+
+.sw-theme-default > ul.step-anchor > li > a::after {
+    content: "";
+    background: #4285F4;
+ /* #5bc0de #4285F4*/
+    height: 2px;
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    bottom: 0px;
+    -webkit-transition: all 250ms ease 0s;
+    transition: all 250ms ease 0s;
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
+}
+
+.sw-theme-default > ul.step-anchor > li.active > a {
+    border: none !important;
+    color: #4285F4 !important;
+    background: transparent !important;
+}
+
+.sw-theme-default > ul.step-anchor > li.active > a::after {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+}
+
+.sw-theme-default > ul.step-anchor > li.done > a {
+    border: none !important;
+    color: #000 !important;
+    background: transparent !important;
+}
+
+.sw-theme-default > ul.step-anchor > li.done > a::after {
+    background: #5cb85c;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+}
+
+.sw-theme-default > ul.step-anchor > li.danger > a {
+    border: none !important;
+    color: #d9534f !important;
+    background: transparent !important;
+}
+
+.sw-theme-default > ul.step-anchor > li.danger > a::after {
+    background: #d9534f;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+}
+
+.sw-theme-default > ul.step-anchor > li.disabled > a, .sw-theme-default > ul.step-anchor > li.disabled > a:hover {
+    color: #eee !important;
+}
+
+/* Responsive CSS */
+@media screen and (max-width: 768px) {
+    .sw-theme-default > .nav-tabs > li {
+        float: none !important;
+    }
+}
+
+/* Loader Animation
+Courtesy: http://bootsnipp.com/snippets/featured/loading-button-effect-no-js
+*/
+@-webkit-keyframes ld {
+    0% {
+        -webkit-transform: rotate(0deg) scale(1);
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        -webkit-transform: rotate(180deg) scale(1.1);
+        transform: rotate(180deg) scale(1.1);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg) scale(1);
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@keyframes ld {
+    0% {
+        -webkit-transform: rotate(0deg) scale(1);
+        transform: rotate(0deg) scale(1);
+    }
+
+    50% {
+        -webkit-transform: rotate(180deg) scale(1.1);
+        transform: rotate(180deg) scale(1.1);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg) scale(1);
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+.sw-theme-default > ul.step-anchor > li.loading:before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    background: transparent;
+    border-radius: 50%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 2px solid #fff;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: #4285f4;
+    border-right-color: #4285f4;
+    top: 50%;
+    left: 50%;
+    margin-top: -16px;
+    margin-left: -16px;
+    width: 32px;
+    height: 32px;
+    -webkit-animation: ld 1s ease-in-out infinite;
+    animation: ld 1s ease-in-out infinite;
+}

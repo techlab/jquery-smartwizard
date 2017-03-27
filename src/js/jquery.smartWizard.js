@@ -159,10 +159,11 @@
                 });
             }
 
+            var toolbarTop, toolbarBottom;
             // Append toolbar based on the position
             switch(this.options.toolbarSettings.toolbarPosition){
                 case 'top':
-                    var toolbarTop = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-top');
+                    toolbarTop = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-top');
                     toolbarTop.append(btnGroup);
                     if(this.options.toolbarSettings.toolbarButtonPosition === 'left'){
                         toolbarTop.append(btnGroupExtra);
@@ -172,7 +173,7 @@
                     this.container.before(toolbarTop);
                     break;
                 case 'bottom':
-                    var toolbarBottom = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-bottom');
+                    toolbarBottom = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-bottom');
                     toolbarBottom.append(btnGroup);
                     if(this.options.toolbarSettings.toolbarButtonPosition === 'left'){
                         toolbarBottom.append(btnGroupExtra);
@@ -182,7 +183,7 @@
                     this.container.after(toolbarBottom);
                     break;
                 case 'both':
-                    var toolbarTop = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-top');
+                    toolbarTop = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-top');
                     toolbarTop.append(btnGroup);
                     if(this.options.toolbarSettings.toolbarButtonPosition === 'left'){
                         toolbarTop.append(btnGroupExtra);
@@ -191,7 +192,7 @@
                     }
                     this.container.before(toolbarTop);
 
-                    var toolbarBottom = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-bottom');
+                    toolbarBottom = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-bottom');
                     toolbarBottom.append(btnGroup.clone(true));
                     if(this.options.toolbarSettings.toolbarButtonPosition === 'left'){
                         toolbarBottom.append(btnGroupExtra.clone(true));
@@ -201,7 +202,7 @@
                     this.container.after(toolbarBottom);
                     break;
                 default:
-                    var toolbarBottom = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-bottom');
+                    toolbarBottom = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-bottom');
                     toolbarBottom.append(btnGroup);
                     if(this.options.toolbarSettings.toolbarButtonPosition === 'left'){
                         toolbarBottom.append(btnGroupExtra);

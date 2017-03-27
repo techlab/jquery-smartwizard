@@ -72,7 +72,7 @@ Features
 
 Version
 -----
-**SmartWizard v4.1.7**
+**SmartWizard v4.2.1**
 
 License
 ----

@@ -1,0 +1,20 @@
+/mpp-sw.txt
+/examples/smartwizard-bs.html
+/examples/Wizard Button.html
+/node_modules/
+/bower_components/
+/vendor/
+
+# IDE Files
+#-------------------------
+/nbproject/
+.idea/*
+.vscode/*
+
+## Sublime Text cache files
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+/nbproject/private/
