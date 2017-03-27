@@ -29,6 +29,13 @@
         "tabs",
         "jquery"
     ],
+    "scripts": {
+        "start": "",
+        "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS",
+        "build": "gulp",
+        "clean": "gulp clean",
+        "lint": "gulp lint"
+    },
     "dependencies": {
         "jquery": ">=1.9.0",
         "bootstrap": ">=3.0.0"
