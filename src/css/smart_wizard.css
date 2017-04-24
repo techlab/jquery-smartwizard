@@ -21,7 +21,6 @@
     display: block;
     margin: 0;
     padding: 0;
-    overflow:hidden;
     position: relative;
 }
 .sw-main .step-content {

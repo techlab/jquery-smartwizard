@@ -1,6 +1,6 @@
 /*! 
- * SmartWizard v4.1.7
- * jQuery Wizard Plugin
+ * SmartWizard v4.2.2
+ * The awesome jQuery step wizard plugin with Bootstrap support
  * http://www.techlaboratory.net/smartwizard
  *
  * Created by Dipu Raj
@@ -480,7 +480,7 @@
             // Auto adjust height of the container
             if(this.options.autoAdjustHeight){
                 var selPage = (this.steps.eq(idx).length > 0) ? $(this.steps.eq(idx).attr("href"),this.main) : null;
-                this.container.finish().animate({height: selPage.outerHeight()}, this.options.transitionSpeed, function(){});
+                this.container.finish().animate({minHeight: selPage.outerHeight()}, this.options.transitionSpeed, function(){});
             }
             return true;
         },
