@@ -11,8 +11,8 @@
       "email": "hello@techlaboratory.net"
     }
   ],
-  "main": "./js/jquery.smartWizard.js",
-  "style": "./css/smart_wizard.css",
+  "main": "./dist/js/jquery.smartWizard.js",
+  "style": "./dist/css/smart_wizard.css",
   "repository": {
     "type": "git",
     "url": "https://github.com/techlab/SmartWizard.git"
@@ -66,3 +66,4 @@
     "karma-spec-reporter": "0.0.31"
   }
 }
+
