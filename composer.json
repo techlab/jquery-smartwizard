@@ -26,6 +26,7 @@
     ],
     "require": {
         "components/jquery": ">=1.9",
-        "components/bootstrap": ">=3.0.0" 
+        "components/bootstrap": ">=3.0.0",
+        "twbs/bootstrap": "4.0.0-alpha.6" 
     }
 }
