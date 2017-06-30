@@ -7,8 +7,8 @@
     ],
     "description": "The awesome jQuery step wizard plugin with Bootstrap support",
     "main": [
-        "./css/smart_wizard.min.css",
-        "./js/jquery.smartWizard.min.js"
+        "./dist/css/smart_wizard.min.css",
+        "./dist/js/jquery.smartWizard.min.js"
     ],
     "keywords": [
         "bootstrap",
