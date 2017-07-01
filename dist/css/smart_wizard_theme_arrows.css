@@ -1,4 +1,4 @@
-/*!  
+/*!
  * SmartWizard v4.x
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
@@ -41,7 +41,6 @@
 }
 
 .sw-theme-arrows > ul.step-anchor {
-    display: block;
     border: 0;
     border-bottom: 1px solid #ddd;
     padding: 0px;

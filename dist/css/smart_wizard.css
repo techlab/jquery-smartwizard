@@ -1,4 +1,4 @@
-/*!  
+/*!
  * SmartWizard v4.x
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
@@ -58,6 +58,7 @@
     border-radius: 0 !important;
     padding-left: 10px;
     padding-right: 10px;
+    padding: 10px;
     margin-bottom: 0 !important;
 }
 
@@ -67,6 +68,11 @@
 
 .sw-theme-default .sw-toolbar-bottom {
     border-top-color: #ddd !important;
+}
+
+.sw-theme-default > ul.step-anchor > li {
+    position: relative;
+    margin-right: 2px;
 }
 
 .sw-theme-default > ul.step-anchor > li > a, .sw-theme-default > ul.step-anchor > li > a:hover {
