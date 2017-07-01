@@ -1,4 +1,4 @@
-/*! 
+/*!
  * SmartWizard v4.2.2
  * The awesome jQuery step wizard plugin with Bootstrap support
  * http://www.techlaboratory.net/smartwizard
@@ -28,7 +28,7 @@
         },
         toolbarSettings: {
             toolbarPosition: 'bottom', // none, top, bottom, both
-            toolbarButtonPosition: 'right', // left, right
+            toolbarButtonPosition: 'end', // start, end
             showNextButton: true, // show/hide a Next button
             showPreviousButton: true, // show/hide a Previous button
             toolbarExtraButtons: [] // Extra buttons to show on toolbar, array of jQuery input/buttons elements
@@ -111,7 +111,8 @@
             // Set the main element
             this.main.addClass('sw-main sw-theme-' + this.options.theme);
             // Set anchor elements
-            this.nav.addClass('nav nav-tabs step-anchor'); // nav-justified  nav-pills
+            this.nav.addClass('nav nav-tabs step-anchor').children('li').addClass('nav-item').children('a').addClass('nav-link'); // nav-justified  nav-pills
+
             // Make the anchor clickable
             if (this.options.anchorSettings.enableAllAnchors !== false && this.options.anchorSettings.anchorClickable !== false) {
                 this.steps.parent('li').addClass('clickable');
@@ -119,7 +120,7 @@
             // Set content container
             this.container.addClass('sw-container tab-content');
             // Set content pages
-            this.pages.addClass('step-content');
+            this.pages.addClass('tab-pane step-content');
 
             // Disabled steps
             var mi = this;
@@ -148,17 +149,18 @@
             if (this.options.toolbarSettings.toolbarPosition === 'none') {
                 return true;
             }
+            console.log(this.options.toolbarSettings.toolbarPosition);
 
             // Create the toolbar buttons
-            var btnNext = this.options.toolbarSettings.showNextButton !== false ? $('<button></button>').text(this.options.lang.next).addClass('btn btn-default sw-btn-next').attr('type', 'button') : null;
-            var btnPrevious = this.options.toolbarSettings.showPreviousButton !== false ? $('<button></button>').text(this.options.lang.previous).addClass('btn btn-default sw-btn-prev').attr('type', 'button') : null;
-            var btnGroup = $('<div></div>').addClass('btn-group navbar-btn sw-btn-group pull-' + this.options.toolbarSettings.toolbarButtonPosition).attr('role', 'group').append(btnPrevious, btnNext);
+            var btnNext = this.options.toolbarSettings.showNextButton !== false ? $('<button></button>').text(this.options.lang.next).addClass('btn sw-btn-next').attr('type', 'button') : null;
+            var btnPrevious = this.options.toolbarSettings.showPreviousButton !== false ? $('<button></button>').text(this.options.lang.previous).addClass('btn sw-btn-prev').attr('type', 'button') : null;
+            var btnGroup = $('<div></div>').addClass('btn-group mr-2 sw-btn-group').attr('role', 'group').append(btnPrevious, btnNext);
 
             // Add extra toolbar buttons
             var btnGroupExtra = null;
 
             if (this.options.toolbarSettings.toolbarExtraButtons && this.options.toolbarSettings.toolbarExtraButtons.length > 0) {
-                btnGroupExtra = $('<div></div>').addClass('btn-group navbar-btn sw-btn-group-extra pull-' + this.options.toolbarSettings.toolbarButtonPosition).attr('role', 'group');
+                btnGroupExtra = $('<div></div>').addClass('btn-group mr-2 sw-btn-group-extra').attr('role', 'group');
                 $.each(this.options.toolbarSettings.toolbarExtraButtons, function (i, n) {
                     btnGroupExtra.append(n.clone(true));
                 });
@@ -168,7 +170,7 @@
             // Append toolbar based on the position
             switch (this.options.toolbarSettings.toolbarPosition) {
                 case 'top':
-                    toolbarTop = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-top');
+                    toolbarTop = $('<div></div>').addClass('btn-toolbar sw-toolbar sw-toolbar-top justify-content-' + this.options.toolbarSettings.toolbarButtonPosition);
                     toolbarTop.append(btnGroup);
                     if (this.options.toolbarSettings.toolbarButtonPosition === 'left') {
                         toolbarTop.append(btnGroupExtra);
@@ -178,7 +180,7 @@
                     this.container.before(toolbarTop);
                     break;
                 case 'bottom':
-                    toolbarBottom = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-bottom');
+                    toolbarBottom = $('<div></div>').addClass('btn-toolbar sw-toolbar sw-toolbar-bottom justify-content-' + this.options.toolbarSettings.toolbarButtonPosition);
                     toolbarBottom.append(btnGroup);
                     if (this.options.toolbarSettings.toolbarButtonPosition === 'left') {
                         toolbarBottom.append(btnGroupExtra);
@@ -188,7 +190,7 @@
                     this.container.after(toolbarBottom);
                     break;
                 case 'both':
-                    toolbarTop = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-top');
+                    toolbarTop = $('<div></div>').addClass('btn-toolbar sw-toolbar sw-toolbar-top justify-content-' + this.options.toolbarSettings.toolbarButtonPosition);
                     toolbarTop.append(btnGroup);
                     if (this.options.toolbarSettings.toolbarButtonPosition === 'left') {
                         toolbarTop.append(btnGroupExtra);
@@ -197,7 +199,7 @@
                     }
                     this.container.before(toolbarTop);
 
-                    toolbarBottom = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-bottom');
+                    toolbarBottom = $('<div></div>').addClass('btn-toolbar sw-toolbar sw-toolbar-bottom justify-content-' + this.options.toolbarSettings.toolbarButtonPosition);
                     toolbarBottom.append(btnGroup.clone(true));
                     if (this.options.toolbarSettings.toolbarButtonPosition === 'left') {
                         toolbarBottom.append(btnGroupExtra.clone(true));
@@ -207,7 +209,7 @@
                     this.container.after(toolbarBottom);
                     break;
                 default:
-                    toolbarBottom = $('<nav></nav>').addClass('navbar btn-toolbar sw-toolbar sw-toolbar-bottom');
+                    toolbarBottom = $('<div></div>').addClass('btn-toolbar sw-toolbar sw-toolbar-bottom justify-content-' + this.options.toolbarSettings.toolbarButtonPosition);
                     toolbarBottom.append(btnGroup);
                     if (this.options.toolbarSettings.toolbarButtonPosition === 'left') {
                         toolbarBottom.append(btnGroupExtra);
