@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <!-- Optional Bootstrap theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <!-- Optional Bootstrap Theme -->
+    <link rel="stylesheet" href="../dist/css/bootstrap.min.css">
 
     <!-- Include SmartWizard CSS -->
     <link href="../dist/css/smart_wizard.css" rel="stylesheet" type="text/css" />
-    
+
     <!-- Optional SmartWizard theme -->
     <link href="../dist/css/smart_wizard_theme_arrows.css" rel="stylesheet" type="text/css" />
 </head>
@@ -27,7 +27,7 @@
                 <li><a href="#step-3">Step 3<br /><small>This is tab's description</small></a></li>
                 <li><a href="#step-4" data-content-url="./ajaxtest.php">Step 4<br /><small>This is tab's description</small></a></li>
             </ul>
-            
+
             <div>
                 <div id="step-1" class="">
                     <h2>Step 1 Content, Non ajax content</h2>
@@ -48,22 +48,24 @@
                 </div>
                 <div id="step-4" class="">
                     <h2>Step 4 Content, Non ajax content</h2>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">My Details</div>
-                        <table class="table">
-                            <tbody>
-                                <tr> <th>Name:</th> <td>Tim Smith</td> </tr>
-                                <tr> <th>Email:</th> <td>example@example.com</td> </tr>
-                            </tbody>
-                        </table>
+                    <div class="card">
+                        <div class="card-header">My Details</div>
+                        <div class="card-block p-0">
+                          <table class="table">
+                              <tbody>
+                                  <tr> <th>Name:</th> <td>Tim Smith</td> </tr>
+                                  <tr> <th>Email:</th> <td>example@example.com</td> </tr>
+                              </tbody>
+                          </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        
+
+
     </div>
-    
+
     <!-- Include jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
@@ -72,25 +74,25 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            
+
             // Toolbar extra buttons
             var btnFinish = $('<button></button>').text('Finish')
                                              .addClass('btn btn-info')
                                              .on('click', function(){ alert('Finish Clicked'); });
             var btnCancel = $('<button></button>').text('Cancel')
                                              .addClass('btn btn-danger')
-                                             .on('click', function(){ $('#smartwizard').smartWizard("reset"); });                         
-            
+                                             .on('click', function(){ $('#smartwizard').smartWizard("reset"); });
+
             // Smart Wizard
-            $('#smartwizard').smartWizard({ 
-                    selected: 0, 
+            $('#smartwizard').smartWizard({
+                    selected: 0,
                     theme: 'arrows',
                     transitionEffect:'fade',
                     toolbarSettings: {toolbarPosition: 'bottom',
                                       toolbarExtraButtons: [btnFinish, btnCancel]
                                     }
                  });
-        });   
-    </script>  
+        });
+    </script>
 </body>
 </html>
