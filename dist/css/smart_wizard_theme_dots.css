@@ -1,4 +1,4 @@
-/*!  
+/*!
  * SmartWizard v4.x
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
@@ -45,7 +45,6 @@
 .sw-theme-dots > ul.step-anchor {
     position: relative;
     background: #fff;
-    display: block;
     border: 0px solid #ccc !important;
     list-style: none;
 }
@@ -53,7 +52,7 @@
 .sw-theme-dots > ul.step-anchor:before {
     content: " ";
     position: absolute;
-    top: 65px;
+    top: 70px;
     bottom: 0;
     width: 100%;
     height: 5px;
@@ -101,6 +100,7 @@
     content: ' ';
     position: relative;
     left: 43%;
+    bottom: 2px;
     margin-top: 10px;
     display: block;
     width: 15px;

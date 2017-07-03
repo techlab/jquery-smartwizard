@@ -37,8 +37,8 @@
     "lint": "gulp lint"
   },
   "dependencies": {
-    "jquery": ">=1.9.0",
-    "bootstrap": ">=3.0.0"
+    "bootstrap": "^4.0.0-alpha.6",
+    "jquery": "^3.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.7",
@@ -66,4 +66,3 @@
     "karma-spec-reporter": "0.0.31"
   }
 }
-

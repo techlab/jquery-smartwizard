@@ -2,7 +2,7 @@
     "name": "techlab/smartwizard",
     "description": "The awesome jQuery step wizard plugin with Bootstrap support",
     "homepage": "http://techlaboratory.net/smartwizard",
-    "license": "MIT",      
+    "license": "MIT",
     "support": {
         "source": "https://github.com/techlab/SmartWizard",
         "issues": "https://github.com/techlab/SmartWizard/issues",
@@ -26,6 +26,6 @@
     ],
     "require": {
         "components/jquery": ">=1.9",
-        "components/bootstrap": ">=3.0.0" 
+        "twbs/bootstrap": "4.0.0-alpha.6"
     }
 }

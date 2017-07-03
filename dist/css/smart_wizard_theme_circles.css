@@ -1,4 +1,4 @@
-/*!  
+/*!
  * SmartWizard v4.x
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
@@ -42,7 +42,6 @@
 .sw-theme-circles > ul.step-anchor {
     position: relative;
     background: #fff;
-    display: block;
     border: none;
     list-style: none;
     margin-bottom: 40px;
@@ -51,7 +50,7 @@
 .sw-theme-circles > ul.step-anchor:before {
     content: " ";
     position: absolute;
-    top: 40px;
+    top: 50%;
     bottom: 0;
     width: 100%;
     height: 5px;
@@ -63,6 +62,7 @@
 .sw-theme-circles > ul.step-anchor > li {
     border: none;
     margin-left: 40px;
+    z-index: 98;
 }
 
 .sw-theme-circles > ul.step-anchor > li > a {
@@ -80,6 +80,7 @@
     z-index: 99;
     color: #bbb;
     background: #f5f5f5;
+    line-height: 1;
 }
 
 .sw-theme-circles > ul.step-anchor > li > a:hover {
@@ -89,9 +90,8 @@
 }
 
 .sw-theme-circles > ul.step-anchor > li > a > small {
-    position: absolute;
+    position: relative;
     bottom: -40px;
-    display: block;
     color: #ccc;
 }
 
