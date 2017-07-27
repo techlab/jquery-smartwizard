@@ -498,7 +498,21 @@
         },
 
 // PUBLIC FUNCTIONS
-
+        hiddenSteps: function (r) {
+            this.options.hiddenSteps = r;
+            // Hidden steps
+            if (this.options.hiddenSteps && this.options.hiddenSteps.length > 0) {
+                var mi = this;
+                $.each(mi.steps, function (i, n) {
+                    if ($.inArray(i, mi.options.hiddenSteps) > -1) {
+                        $(n).parent('li').addClass('hidden');
+                    }
+                    else {
+                        $(n).parent('li').removeClass('hidden');
+                    }
+                });
+            }
+        },
         theme: function (v) {
             if(this.options.theme === v) { return false; }
             this.main.removeClass('sw-theme-' + this.options.theme);
