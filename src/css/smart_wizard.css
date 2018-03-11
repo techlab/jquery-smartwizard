@@ -1,5 +1,5 @@
 /*!
- * SmartWizard v4.x
+ * SmartWizard v4.3.x
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
  *
@@ -16,6 +16,7 @@
     display: block;
     margin: 0;
     padding: 0;
+    border-radius: .25rem!important;
 }
 
 .sw-main .sw-container {
@@ -34,7 +35,6 @@
 .sw-main .sw-toolbar {
     margin-left: 0;
 }
-
 
 /* SmartWizard Theme: White */
 .sw-theme-default {
@@ -82,17 +82,18 @@
     outline-style: none;
     background: transparent !important;
     border: none !important;
+    cursor: not-allowed;
 }
 
 .sw-theme-default > ul.step-anchor > li.clickable > a:hover {
     color: #4285F4 !important;
     background: transparent !important;
+    cursor: pointer;
 }
 
 .sw-theme-default > ul.step-anchor > li > a::after {
     content: "";
     background: #4285F4;
- /* #5bc0de #4285F4*/
     height: 2px;
     position: absolute;
     width: 100%;
@@ -109,6 +110,7 @@
     border: none !important;
     color: #4285F4 !important;
     background: transparent !important;
+    cursor: pointer;
 }
 
 .sw-theme-default > ul.step-anchor > li.active > a::after {
@@ -121,6 +123,7 @@
     border: none !important;
     color: #000 !important;
     background: transparent !important;
+    cursor: pointer;
 }
 
 .sw-theme-default > ul.step-anchor > li.done > a::after {
@@ -133,11 +136,13 @@
 .sw-theme-default > ul.step-anchor > li.danger > a {
     border: none !important;
     color: #d9534f !important;
-    background: transparent !important;
+    /* background: #d9534f !important; */
+    cursor: pointer;
 }
 
 .sw-theme-default > ul.step-anchor > li.danger > a::after {
     background: #d9534f;
+    border-left-color: #f8d7da;
     -webkit-transform: scale(1);
     -ms-transform: scale(1);
     transform: scale(1);
@@ -145,6 +150,7 @@
 
 .sw-theme-default > ul.step-anchor > li.disabled > a, .sw-theme-default > ul.step-anchor > li.disabled > a:hover {
     color: #eee !important;
+    cursor: not-allowed;
 }
 
 /* Responsive CSS */
@@ -154,62 +160,45 @@
     }
 }
 
-/* Loader Animation
-Courtesy: http://bootsnipp.com/snippets/featured/loading-button-effect-no-js
-*/
-@-webkit-keyframes ld {
-    0% {
-        -webkit-transform: rotate(0deg) scale(1);
-        transform: rotate(0deg) scale(1);
-    }
-
-    50% {
-        -webkit-transform: rotate(180deg) scale(1.1);
-        transform: rotate(180deg) scale(1.1);
-    }
-
-    100% {
-        -webkit-transform: rotate(360deg) scale(1);
-        transform: rotate(360deg) scale(1);
-    }
+/* Common Loader */
+.sw-loading::after {
+    position: absolute;
+    display: block;
+    opacity: 1;
+    content: "";
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255,255,255,.7);
+    transition: all .2s ease;
+    z-index: 2;
 }
-
-@keyframes ld {
-    0% {
-        -webkit-transform: rotate(0deg) scale(1);
-        transform: rotate(0deg) scale(1);
-    }
-
-    50% {
-        -webkit-transform: rotate(180deg) scale(1.1);
-        transform: rotate(180deg) scale(1.1);
-    }
-
-    100% {
-        -webkit-transform: rotate(360deg) scale(1);
-        transform: rotate(360deg) scale(1);
-    }
-}
-
-.sw-theme-default > ul.step-anchor > li.loading:before {
+.sw-loading::before {
     content: '';
     display: inline-block;
     position: absolute;
-    background: transparent;
-    border-radius: 50%;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    border: 2px solid #fff;
-    border-top-color: transparent;
-    border-bottom-color: transparent;
-    border-left-color: #4285f4;
-    border-right-color: #4285f4;
     top: 50%;
     left: 50%;
-    margin-top: -16px;
-    margin-left: -16px;
-    width: 32px;
-    height: 32px;
-    -webkit-animation: ld 1s ease-in-out infinite;
-    animation: ld 1s ease-in-out infinite;
+    z-index: 10;
+    border: 10px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #3498db;
+    width: 80px;
+    height: 80px;
+    margin-top: -40px;
+    margin-left: -40px;
+    -webkit-animation: spin 1s linear infinite; /* Safari */
+    animation: spin 1s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

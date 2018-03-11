@@ -1,5 +1,5 @@
 /*!
- * SmartWizard v4.2.2
+ * SmartWizard v4.3.1
  * The awesome jQuery step wizard plugin with Bootstrap support
  * http://www.techlaboratory.net/smartwizard
  *
@@ -68,6 +68,14 @@
         this.pages = this.container.children('div');
         // Active step index
         this.current_index = null;
+
+        // Backward compatibility
+        this.options.toolbarSettings.toolbarButtonPosition = this.options.toolbarSettings.toolbarButtonPosition === 'right' ? 'end' : this.options.toolbarSettings.toolbarButtonPosition;
+        this.options.toolbarSettings.toolbarButtonPosition = this.options.toolbarSettings.toolbarButtonPosition === 'left' ? 'start' : this.options.toolbarSettings.toolbarButtonPosition;
+
+        // Default fix
+        this.options.theme = this.options.theme === null || this.options.theme === '' ? 'default' : this.options.theme;
+
         // Call initial method
         this.init();
     }
@@ -149,7 +157,6 @@
             if (this.options.toolbarSettings.toolbarPosition === 'none') {
                 return true;
             }
-            console.log(this.options.toolbarSettings.toolbarPosition);
 
             // Create the toolbar buttons
             var btnNext = this.options.toolbarSettings.showNextButton !== false ? $('<button></button>').text(this.options.lang.next).addClass('btn btn-secondary sw-btn-next').attr('type', 'button') : null;
@@ -172,49 +179,52 @@
                 case 'top':
                     toolbarTop = $('<div></div>').addClass('btn-toolbar sw-toolbar sw-toolbar-top justify-content-' + this.options.toolbarSettings.toolbarButtonPosition);
                     toolbarTop.append(btnGroup);
-                    if (this.options.toolbarSettings.toolbarButtonPosition === 'left') {
-                        toolbarTop.append(btnGroupExtra);
-                    } else {
+                    if (this.options.toolbarSettings.toolbarButtonPosition === 'start') {
                         toolbarTop.prepend(btnGroupExtra);
+                    } else {
+                        toolbarTop.append(btnGroupExtra);
                     }
                     this.container.before(toolbarTop);
                     break;
                 case 'bottom':
                     toolbarBottom = $('<div></div>').addClass('btn-toolbar sw-toolbar sw-toolbar-bottom justify-content-' + this.options.toolbarSettings.toolbarButtonPosition);
                     toolbarBottom.append(btnGroup);
-                    if (this.options.toolbarSettings.toolbarButtonPosition === 'left') {
-                        toolbarBottom.append(btnGroupExtra);
-                    } else {
+                    if (this.options.toolbarSettings.toolbarButtonPosition === 'start') {
                         toolbarBottom.prepend(btnGroupExtra);
+                    } else {
+                        toolbarBottom.append(btnGroupExtra);
                     }
                     this.container.after(toolbarBottom);
                     break;
                 case 'both':
                     toolbarTop = $('<div></div>').addClass('btn-toolbar sw-toolbar sw-toolbar-top justify-content-' + this.options.toolbarSettings.toolbarButtonPosition);
                     toolbarTop.append(btnGroup);
-                    if (this.options.toolbarSettings.toolbarButtonPosition === 'left') {
-                        toolbarTop.append(btnGroupExtra);
-                    } else {
+                    if (this.options.toolbarSettings.toolbarButtonPosition === 'start') {
                         toolbarTop.prepend(btnGroupExtra);
+                    } else {
+                        toolbarTop.append(btnGroupExtra);
                     }
                     this.container.before(toolbarTop);
 
                     toolbarBottom = $('<div></div>').addClass('btn-toolbar sw-toolbar sw-toolbar-bottom justify-content-' + this.options.toolbarSettings.toolbarButtonPosition);
                     toolbarBottom.append(btnGroup.clone(true));
-                    if (this.options.toolbarSettings.toolbarButtonPosition === 'left') {
-                        toolbarBottom.append(btnGroupExtra.clone(true));
-                    } else {
-                        toolbarBottom.prepend(btnGroupExtra.clone(true));
+
+                    if (btnGroupExtra !== null) {
+                      if (this.options.toolbarSettings.toolbarButtonPosition === 'start') {
+                          toolbarBottom.prepend(btnGroupExtra.clone(true));
+                      } else {
+                          toolbarBottom.append(btnGroupExtra.clone(true));
+                      }
                     }
                     this.container.after(toolbarBottom);
                     break;
                 default:
                     toolbarBottom = $('<div></div>').addClass('btn-toolbar sw-toolbar sw-toolbar-bottom justify-content-' + this.options.toolbarSettings.toolbarButtonPosition);
                     toolbarBottom.append(btnGroup);
-                    if (this.options.toolbarSettings.toolbarButtonPosition === 'left') {
+                    if (this.options.toolbarSettings.toolbarButtonPosition === 'start') {
                         toolbarBottom.append(btnGroupExtra);
                     } else {
-                        toolbarBottom.prepend(btnGroupExtra);
+                        toolbarBottom.append(btnGroupExtra);
                     }
                     this.container.after(toolbarBottom);
                     break;
@@ -248,17 +258,13 @@
             // Next button event
             $('.sw-btn-next', this.main).on("click", function (e) {
                 e.preventDefault();
-                if (mi.steps.index(this) !== mi.current_index) {
-                    mi._showNext();
-                }
+                mi._showNext();
             });
 
             // Previous button event
             $('.sw-btn-prev', this.main).on("click", function (e) {
                 e.preventDefault();
-                if (mi.steps.index(this) !== mi.current_index) {
-                    mi._showPrevious();
-                }
+                mi._showPrevious();
             });
 
             // Keyboard navigation event
@@ -368,10 +374,10 @@
                     data: { step_number: idx },
                     dataType: "text",
                     beforeSend: function () {
-                        elm.parent('li').addClass('loading');
+                        mi._loader('show');
                     },
                     error: function (jqXHR, status, message) {
-                        elm.parent('li').removeClass('loading');
+                        mi._loader('hide');
                         $.error(message);
                     },
                     success: function (res) {
@@ -379,7 +385,7 @@
                             elm.data('has-content', true);
                             selPage.html(res);
                         }
-                        elm.parent('li').removeClass('loading');
+                        mi._loader('hide');
                         mi._transitPage(idx);
                     }
                 }, this.options.ajaxSettings);
@@ -459,7 +465,7 @@
         },
         _setAnchor: function (idx) {
             // Current step anchor > Remove other classes and add done class
-            this.steps.eq(this.current_index).parent('li').removeClass("active danger loading");
+            this.steps.eq(this.current_index).parent('li').removeClass("active");
             if (this.options.anchorSettings.markDoneStep !== false && this.current_index !== null) {
                 this.steps.eq(this.current_index).parent('li').addClass("done");
                 if (this.options.anchorSettings.removeDoneStepOnNavigateBack !== false) {
@@ -468,7 +474,7 @@
             }
 
             // Next step anchor > Remove other classes and add active class
-            this.steps.eq(idx).parent('li').removeClass("done danger loading").addClass("active");
+            this.steps.eq(idx).parent('li').removeClass("done").addClass("active");
             return true;
         },
         _setButtons: function (idx) {
@@ -530,6 +536,18 @@
                 window.location.hash = hash;
             }
         },
+        _loader: function (action) {
+            switch (action) {
+                case 'show':
+                    this.main.addClass('sw-loading');
+                    break;
+                case 'hide':
+                    this.main.removeClass('sw-loading');
+                    break;
+                default:
+                    this.main.toggleClass('sw-loading');
+            }
+        },
 
         // PUBLIC FUNCTIONS
 
@@ -574,7 +592,7 @@
             var mi = this;
             stepArray = $.isArray(stepArray) ? stepArray : [stepArray];
             var selSteps = $.grep(this.steps, function (n, i) {
-                return $.inArray(i, stepArray) !== -1 && i !== mi.current_index;
+                return $.inArray(i, stepArray) !== -1; //  && i !== mi.current_index
             });
             if (selSteps && selSteps.length > 0) {
                 switch (state) {
@@ -589,6 +607,12 @@
                         break;
                     case 'show':
                         $(selSteps).parents('li').removeClass('hidden');
+                        break;
+                    case 'error-on':
+                        $(selSteps).parents('li').addClass('danger');
+                        break;
+                    case 'error-off':
+                        $(selSteps).parents('li').removeClass('danger');
                         break;
                 }
             }

@@ -1,5 +1,5 @@
 /*!
- * SmartWizard v4.x
+ * SmartWizard v4.3.x
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
  *
@@ -179,39 +179,4 @@
         margin-right: 10px;
         display: block;
     }
-}
-
-/* Loader Animation
- * Courtesy: https://codepen.io/emjay/pen/VjVBRq
- */
-.sw-theme-dots > ul.step-anchor > li.loading > a:before{
-    -webkit-animation: help-bubble-pulse 1.5s linear infinite;
-    -moz-animation:    help-bubble-pulse 1.5s linear infinite;
-    -o-animation:      help-bubble-pulse 1.5s linear infinite;
-    animation:         help-bubble-pulse 1.5s linear infinite;
-}
-.sw-theme-dots > ul.step-anchor > li.loading > a:after{
-    background-color: #ccc;
-    opacity: 1;
-    -webkit-animation: help-bubble-pulse 1.5s linear infinite;
-    -moz-animation:    help-bubble-pulse 1.5s linear infinite;
-    -o-animation:      help-bubble-pulse 1.5s linear infinite;
-    animation:         help-bubble-pulse 1.5s linear infinite;
-}
-
-@keyframes help-bubble-pulse {
-	0% {
-		transform: scale(1);
-		opacity: .75
-	}
-
-	25% {
-		transform: scale(1);
-		opacity: .75
-	}
-
-	100% {
-		transform: scale(2.5);
-		opacity: 0
-	}
 }

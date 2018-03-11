@@ -63,8 +63,8 @@ gulp.task('clean:css', function () {
 
 // WATCH for file changes and rerun the task
 gulp.task('watch', function() {
-    gulp.watch('./src/js/*.js', ['build:js']);
-    gulp.watch('./src/css/*.css', ['build:css']);
+    gulp.watch(SRC_JS, ['build:js']);
+    gulp.watch(SRC_CSS, ['build:css']);
 });
 
 // TEST

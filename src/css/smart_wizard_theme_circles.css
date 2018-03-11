@@ -1,5 +1,5 @@
 /*!
- * SmartWizard v4.x
+ * SmartWizard v4.3.x
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
  *
@@ -113,49 +113,4 @@
 }
 .sw-theme-circles > ul.step-anchor > li.disabled > a, .sw-theme-circles > ul.step-anchor > li.disabled > a:hover {
     color: #eee !important;
-}
-
-/* Loader Animation
-Courtesy: http://bootsnipp.com/snippets/featured/loading-button-effect-no-js
-*/
-.sw-theme-circles > ul.step-anchor > li.loading:before {
-    content: '';
-    display: inline-block;
-    position: absolute;
-    background: transparent;
-    border-radius: 50%;
-    box-sizing: border-box;
-    border: 2px solid #fff;
-    border-top-color: transparent;
-    border-bottom-color: transparent;
-    border-left-color: #4285f4;
-    border-right-color: #4285f4;
-    width: 75px;
-    height: 75px;
-    z-index: 999;
-    -webkit-animation: ld 1s ease-in-out infinite;
-    -moz-animation:    ld 1s ease-in-out infinite;
-    -o-animation:      ld 1s ease-in-out infinite;
-    animation:         ld 1s ease-in-out infinite;
-}
-
-@-webkit-keyframes ld {
-  0%   { transform: rotate(0deg) scale(1); }
-  50%  { transform: rotate(180deg) scale(1.1); }
-  100% { transform: rotate(360deg) scale(1); }
-}
-@-moz-keyframes ld {
-  0%   { transform: rotate(0deg) scale(1); }
-  50%  { transform: rotate(180deg) scale(1.1); }
-  100% { transform: rotate(360deg) scale(1); }
-}
-@-o-keyframes ld {
-  0%   { transform: rotate(0deg) scale(1); }
-  50%  { transform: rotate(180deg) scale(1.1); }
-  100% { transform: rotate(360deg) scale(1); }
-}
-@keyframes ld {
-  0%   { transform: rotate(0deg) scale(1); }
-  50%  { transform: rotate(180deg) scale(1.1); }
-  100% { transform: rotate(360deg) scale(1); }
 }

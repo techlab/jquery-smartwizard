@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
     <title>Smart Wizard - a JavaScript jQuery Step Wizard plugin</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <!-- Optional Bootstrap Theme -->
-    <link rel="stylesheet" href="../dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!-- Include SmartWizard CSS -->
     <link href="../dist/css/smart_wizard.css" rel="stylesheet" type="text/css" />
@@ -20,25 +18,26 @@
 </head>
 <body>
     <div class="container">
-
-        <form class="form-inline">
-            <label class="mr-sm-2">Choose Theme:</label>
-            <select id="theme_selector" class="custom-select mb-2 mr-sm-2 mb-sm-0">
-                  <option value="default">default</option>
-                  <option value="arrows">arrows</option>
-                  <option value="circles">circles</option>
-                  <option value="dots">dots</option>
-            </select>
-
-            <label class="mr-sm-2">External Buttons:</label>
-            <div class="btn-group" role="group">
-                <button class="btn btn-secondary" id="prev-btn" type="button">Go Previous</button>
-                <button class="btn btn-secondary" id="next-btn" type="button">Go Next</button>
-                <button class="btn btn-danger" id="reset-btn" type="button">Reset Wizard</button>
+        <!-- External toolbar sample -->
+        <div class="row d-flex align-items-center p-3 my-3 text-white-50">
+            <div class="col-12 col-lg-6 col-sm-12">
+              <label>Theme:</label>
+              <select id="theme_selector" class="custom-select col-lg-6 col-sm-12">
+                    <option value="default">default</option>
+                    <option value="arrows">arrows</option>
+                    <option value="circles">circles</option>
+                    <option value="dots">dots</option>
+              </select>
             </div>
-        </form>
-
-        <br />
+            <div class="col-12 col-lg-6 col-sm-12">
+              <label>External Buttons:</label>
+              <div class="btn-group col-lg-6 col-sm-12" role="group">
+                  <button class="btn btn-secondary" id="prev-btn" type="button">Go Previous</button>
+                  <button class="btn btn-secondary" id="next-btn" type="button">Go Next</button>
+                  <button class="btn btn-danger" id="reset-btn" type="button">Reset Wizard</button>
+              </div>
+            </div>
+        </div>
 
         <!-- SmartWizard html -->
         <div id="smartwizard">
@@ -51,11 +50,11 @@
 
             <div>
                 <div id="step-1" class="">
-                    <h2>Step 1 Content</h2>
+                    <h3 class="border-bottom border-gray pb-2">Step 1 Content</h3>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                 </div>
                 <div id="step-2" class="">
-                    <h2>Step 2 Content</h2>
+                    <h3 class="border-bottom border-gray pb-2">Step 2 Content</h3>
                     <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. </div>
                 </div>
                 <div id="step-3" class="">
@@ -67,7 +66,7 @@
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                 </div>
                 <div id="step-4" class="">
-                    <h2>Step 4 Content</h2>
+                    <h3 class="border-bottom border-gray pb-2">Step 4 Content</h3>
                     <div class="card">
                         <div class="card-header">My Details</div>
                         <div class="card-block p-0">
@@ -87,7 +86,16 @@
     </div>
 
     <!-- Include jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <!-- Include SmartWizard JavaScript source -->
     <script type="text/javascript" src="../dist/js/jquery.smartWizard.min.js"></script>
@@ -124,6 +132,7 @@
                     transitionEffect:'fade',
                     showStepURLhash: true,
                     toolbarSettings: {toolbarPosition: 'both',
+                                      toolbarButtonPosition: 'end',
                                       toolbarExtraButtons: [btnFinish, btnCancel]
                                     }
             });

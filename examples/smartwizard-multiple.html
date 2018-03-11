@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
     <title>Smart Wizard - a JavaScript jQuery Step Wizard plugin</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <!-- Optional Bootstrap Theme -->
-    <link rel="stylesheet" href="../dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!-- Include SmartWizard CSS -->
     <link href="../dist/css/smart_wizard.css" rel="stylesheet" type="text/css" />
@@ -20,25 +18,6 @@
 </head>
 <body>
     <div class="container">
-
-        <form class="form-inline">
-            <label class="mr-sm-2">Choose Theme:</label>
-            <select id="theme_selector" class="custom-select mb-2 mr-sm-2 mb-sm-0">
-                  <option value="default">default</option>
-                  <option value="arrows">arrows</option>
-                  <option value="circles">circles</option>
-                  <option value="dots">dots</option>
-            </select>
-
-            <label class="mr-sm-2">External Buttons:</label>
-            <div class="btn-group" role="group">
-                <button class="btn btn-secondary" id="prev-btn" type="button">Go Previous</button>
-                <button class="btn btn-secondary" id="next-btn" type="button">Go Next</button>
-                <button class="btn btn-danger" id="reset-btn" type="button">Reset Wizard</button>
-            </div>
-        </form>
-
-        <br />
 
         <!-- SmartWizard 1 html -->
         <div id="smartwizard">
@@ -167,7 +146,7 @@
             // Smart Wizard 1
             $('#smartwizard').smartWizard({
                     selected: 0,
-                    theme: 'default',
+                    theme: 'arrows',
                     transitionEffect:'fade',
                     showStepURLhash: false,
                     toolbarSettings: {toolbarPosition: 'both',
@@ -183,34 +162,6 @@
                     showStepURLhash: false
             });
 
-
-            // External Button Events
-            $("#reset-btn").on("click", function() {
-                // Reset wizard
-                $('#smartwizard').smartWizard("reset");
-                return true;
-            });
-
-            $("#prev-btn").on("click", function() {
-                // Navigate previous
-                $('#smartwizard').smartWizard("prev");
-                return true;
-            });
-
-            $("#next-btn").on("click", function() {
-                // Navigate next
-                $('#smartwizard').smartWizard("next");
-                return true;
-            });
-
-            $("#theme_selector").on("change", function() {
-                // Change theme
-                $('#smartwizard').smartWizard("theme", $(this).val());
-                return true;
-            });
-
-            // Set selected theme on page refresh
-            $("#theme_selector").change();
         });
     </script>
 </body>

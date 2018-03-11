@@ -1,6 +1,6 @@
 {
   "name": "smartwizard",
-  "version": "v4.2.2",
+  "version": "v4.3.1",
   "author": "Dipu Raj <hello@techlaboratory.net>",
   "description": "The awesome jQuery step wizard plugin with Bootstrap support",
   "homepage": "http://techlaboratory.net/smartwizard",
@@ -37,8 +37,8 @@
     "lint": "gulp lint"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0-alpha.6",
-    "jquery": "^3.2.1"
+    "bootstrap": "^4.0.0",
+    "jquery": "^3.3.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.7",
