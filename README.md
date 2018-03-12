@@ -1,5 +1,6 @@
 # jQuery Smart Wizard 4
 #### The awesome jQuery step wizard plugin with Bootstrap support.     
+
 > **Compatible with `Bootstrap 4` from version `v4.3.1`**   
 
 [![Build Status](https://travis-ci.org/techlab/SmartWizard.svg?branch=master)](https://travis-ci.org/techlab/SmartWizard)
@@ -14,13 +15,16 @@ Smart Wizard is a flexible and heavily customizable **jQuery step wizard plugin*
 + [Homepage](http://techlaboratory.net/smartwizard)
 + [Documentation](http://techlaboratory.net/smartwizard/documentation)
 + [Demos](http://techlaboratory.net/smartwizard/demo)
++ [StackOverflow Q&A](http://stackoverflow.com/questions/tagged/smart-wizard)
++ [GitHub Issues](https://github.com/techlab/SmartWizard/issues)
 
 Screenshots
 -----
-![Smart Wizard Screenshot1](http://techlaboratory.net/assets/media/products/SmartWizard4_1.png?v2)
-![Smart Wizard Screenshot2](http://techlaboratory.net/assets/media/products/SmartWizard4_2.png?v3)
-![Smart Wizard Screenshot3](http://techlaboratory.net/assets/media/products/SmartWizard4_3.png?v3)
-![Smart Wizard Screenshot3](http://techlaboratory.net/assets/media/products/SmartWizard4_5.png?v1)
+![Smart Wizard Screenshot1](http://techlaboratory.net/assets/media/products/SmartWizard43_1.png?v1)   
+
+![Smart Wizard Screenshot2](http://techlaboratory.net/assets/media/products/SmartWizard43_2.png?v1)   
+
+![Smart Wizard Screenshot3](http://techlaboratory.net/assets/media/products/SmartWizard43_3.png?v1)   
 
 Demos
 -----
@@ -28,6 +32,7 @@ Demos
   + [Ajax Contents](http://techlaboratory.net/smartwizard/demo/ajax)
   + [Input Validation](http://techlaboratory.net/smartwizard/demo/validation)
   + [Events](http://techlaboratory.net/smartwizard/demo/events)
+  + [With Modal Dialog](http://techlaboratory.net/smartwizard/demo/modal-dialog)
 
 Requirements
 -----
