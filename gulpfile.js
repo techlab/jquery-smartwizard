@@ -27,32 +27,6 @@ gulp.task('lint:js', function() {
             .pipe(jshint.reporter('fail'));
 });
 
-// Build JS
-gulp.task('build:js', ['clean:js', 'lint:js'], function() {
-    return gulp.src(SRC_JS)
-            .pipe(babel())
-            .pipe(gulp.dest(DEST_JS))
-            .pipe(uglify({preserveComments:'license'}))
-            .pipe(rename({suffix: '.min'}))
-            .pipe(gulp.dest(DEST_JS));
-});
-
-// CSS TASKS
-gulp.task('build:css', ['clean:css'], function () {
-    return gulp.src(SRC_CSS)
-            .pipe(postcss( [autoprefixer({browsers: ['last 10 versions']})] ))
-            .pipe(cssbeautify({ autosemicolon: true }))
-            .pipe(gulp.dest(DEST_CSS))
-            .pipe(cleanCSS({compatibility: 'ie8'}))
-            .pipe(rename({suffix: '.min'}))
-            .pipe(gulp.dest(DEST_CSS));
-});
-
-// CLEAN files
-gulp.task('clean', function () {
-    gulp.start( 'clean:js', 'clean:css');
-});
-
 gulp.task('clean:js', function () {
     return del([DEST_JS]);
 });
@@ -61,10 +35,34 @@ gulp.task('clean:css', function () {
     return del([DEST_CSS]);
 });
 
+// CLEAN files
+gulp.task('clean', gulp.series(gulp.parallel('clean:js', 'clean:css')));
+
+// Build JS
+gulp.task('build:js', gulp.series(gulp.parallel('clean:js', 'lint:js'), function() {
+    return gulp.src(SRC_JS)
+        .pipe(babel())
+        .pipe(gulp.dest(DEST_JS))
+        .pipe(uglify({preserveComments:'license'}))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest(DEST_JS));
+}));
+
+// CSS TASKS
+gulp.task('build:css', gulp.series(gulp.parallel('clean:css'), function () {
+    return gulp.src(SRC_CSS)
+        .pipe(postcss( [autoprefixer({browsers: ['last 10 versions']})] ))
+        .pipe(cssbeautify({ autosemicolon: true }))
+        .pipe(gulp.dest(DEST_CSS))
+        .pipe(cleanCSS({compatibility: 'ie8'}))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest(DEST_CSS));
+}));
+
 // WATCH for file changes and rerun the task
 gulp.task('watch', function() {
-    gulp.watch(SRC_JS, ['build:js']);
-    gulp.watch(SRC_CSS, ['build:css']);
+    gulp.watch(SRC_JS, gulp.parallel('build:js'));
+    gulp.watch(SRC_CSS, gulp.parallel('build:css'));
 });
 
 // TEST
@@ -78,6 +76,6 @@ gulp.task('test', function (done) {
 });
 
 // DEFAULT task
-gulp.task('default', function() {
-    gulp.start( 'build:js', 'build:css' );
-});
+gulp.task('default', gulp.series(gulp.parallel('build:js', 'build:css'), function(done) {
+    done();
+}));
