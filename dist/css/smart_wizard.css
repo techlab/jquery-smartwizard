@@ -38,7 +38,6 @@
 
 /* SmartWizard Theme: White */
 .sw-theme-default {
-    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
@@ -99,7 +98,6 @@
     width: 100%;
     left: 0px;
     bottom: 0px;
-    -webkit-transition: all 250ms ease 0s;
     transition: all 250ms ease 0s;
     -webkit-transform: scale(0);
     -ms-transform: scale(0);
@@ -171,7 +169,6 @@
     height: 100%;
     width: 100%;
     background: rgba(255,255,255,.7);
-    -webkit-transition: all .2s ease;
     transition: all .2s ease;
     z-index: 2;
 }

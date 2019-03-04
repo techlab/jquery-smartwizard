@@ -551,6 +551,10 @@
 
         // PUBLIC FUNCTIONS
 
+        goToStep: function (stepNum) {
+            this._transitPage(stepNum);
+        },
+
         theme: function (v) {
             if (this.options.theme === v) {
                 return false;
