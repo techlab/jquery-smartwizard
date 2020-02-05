@@ -1,5 +1,5 @@
-/*!  
- * SmartWizard v4.x
+/*!
+ * SmartWizard v4.3.x
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
  *
@@ -45,7 +45,6 @@
 .sw-theme-dots > ul.step-anchor {
     position: relative;
     background: #fff;
-    display: block;
     border: 0px solid #ccc !important;
     list-style: none;
 }
@@ -53,7 +52,7 @@
 .sw-theme-dots > ul.step-anchor:before {
     content: " ";
     position: absolute;
-    top: 65px;
+    top: 70px;
     bottom: 0;
     width: 100%;
     height: 5px;
@@ -101,6 +100,7 @@
     content: ' ';
     position: relative;
     left: 43%;
+    bottom: 2px;
     margin-top: 10px;
     display: block;
     width: 15px;
@@ -197,60 +197,5 @@
         left: -31px;
         margin-right: 10px;
         display: block;
-    }
-}
-
-/* Loader Animation
- * Courtesy: https://codepen.io/emjay/pen/VjVBRq
- */
-.sw-theme-dots > ul.step-anchor > li.loading > a:before {
-    -webkit-animation: help-bubble-pulse 1.5s linear infinite;
-    animation: help-bubble-pulse 1.5s linear infinite;
-}
-
-.sw-theme-dots > ul.step-anchor > li.loading > a:after {
-    background-color: #ccc;
-    opacity: 1;
-    -webkit-animation: help-bubble-pulse 1.5s linear infinite;
-    animation: help-bubble-pulse 1.5s linear infinite;
-}
-
-@-webkit-keyframes help-bubble-pulse {
-    0% {
-        -webkit-transform: scale(1);
-        transform: scale(1);
-        opacity: .75;
-    }
-
-    25% {
-        -webkit-transform: scale(1);
-        transform: scale(1);
-        opacity: .75;
-    }
-
-    100% {
-        -webkit-transform: scale(2.5);
-        transform: scale(2.5);
-        opacity: 0;
-    }
-}
-
-@keyframes help-bubble-pulse {
-    0% {
-        -webkit-transform: scale(1);
-        transform: scale(1);
-        opacity: .75;
-    }
-
-    25% {
-        -webkit-transform: scale(1);
-        transform: scale(1);
-        opacity: .75;
-    }
-
-    100% {
-        -webkit-transform: scale(2.5);
-        transform: scale(2.5);
-        opacity: 0;
     }
 }

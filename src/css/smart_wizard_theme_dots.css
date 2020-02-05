@@ -1,5 +1,5 @@
-/*!  
- * SmartWizard v4.x
+/*!
+ * SmartWizard v4.3.x
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
  *
@@ -39,14 +39,13 @@
 .sw-theme-dots > ul.step-anchor{
     position: relative;
     background: #fff;
-    display: block;
     border: 0px solid #ccc !important;
     list-style: none;
 }
 .sw-theme-dots > ul.step-anchor:before {
     content: " ";
     position: absolute;
-    top: 65px;
+    top: 70px;
     bottom: 0;
     width: 100%;
     height: 5px;
@@ -91,6 +90,7 @@
     content: ' ';
     position: relative;
     left: 43%;
+    bottom: 2px;
     margin-top: 10px;
     display: block;
     width: 15px;
@@ -106,7 +106,7 @@
 .sw-theme-dots > ul.step-anchor > li > a:focus{
     color: #ccc;
     border: none;
-} 
+}
 .sw-theme-dots > ul.step-anchor > li.clickable > a:hover {
     color: #999;
 }
@@ -154,19 +154,19 @@
         display: block;
         margin-right: 10px;
     }
-    
+
     .sw-theme-dots > ul.step-anchor > li{
         margin-left: 20px;
         display: block;
         clear: both;
     }
-    
+
     .sw-theme-dots > ul.step-anchor > li > a{
         text-align: left;
         margin-left: 0;
         display: block;
     }
-    
+
     .sw-theme-dots > ul.step-anchor > li > a:before {
         top: 5px;
         left: -23px;
@@ -179,39 +179,4 @@
         margin-right: 10px;
         display: block;
     }
-}
-
-/* Loader Animation
- * Courtesy: https://codepen.io/emjay/pen/VjVBRq
- */
-.sw-theme-dots > ul.step-anchor > li.loading > a:before{
-    -webkit-animation: help-bubble-pulse 1.5s linear infinite;
-    -moz-animation:    help-bubble-pulse 1.5s linear infinite;
-    -o-animation:      help-bubble-pulse 1.5s linear infinite;
-    animation:         help-bubble-pulse 1.5s linear infinite;   
-}
-.sw-theme-dots > ul.step-anchor > li.loading > a:after{
-    background-color: #ccc;
-    opacity: 1;
-    -webkit-animation: help-bubble-pulse 1.5s linear infinite;
-    -moz-animation:    help-bubble-pulse 1.5s linear infinite;
-    -o-animation:      help-bubble-pulse 1.5s linear infinite;
-    animation:         help-bubble-pulse 1.5s linear infinite;
-}
-
-@keyframes help-bubble-pulse {
-	0% {
-		transform: scale(1);
-		opacity: .75
-	}
-
-	25% {
-		transform: scale(1);
-		opacity: .75
-	}
-
-	100% {
-		transform: scale(2.5);
-		opacity: 0
-	}
 }

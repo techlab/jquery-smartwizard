@@ -1,17 +1,13 @@
-# Automatically ignored per:
-# https://www.npmjs.org/doc/developers.html#Keeping-files-out-of-your-package
-#
-# .*.swp
-# ._*
-# .DS_Store
-# .git
-# .hg
-# .lock-wscript
-# .svn
-# .wafpickle-*
-# CVS
-# npm-debug.log
-# node_modules
+.*.swp
+._*
+.DS_Store
+.git
+.hg
+.lock-wscript
+.svn
+.wafpickle-*
+CVS
+npm-debug.log
 
 *.seed
 *.log
@@ -36,10 +32,20 @@ lib-cov
 html-report
 xunit.xml
 
+# IDE Files
+#-------------------------
+/nbproject/*
+.idea/*
+.vscode/*
 .project
 .idea
 .settings
 .iml
+
+## Sublime Text cache files
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
 *.sublime-workspace
 *.sublime-project
 
@@ -50,3 +56,10 @@ Thumbs.db
 .LSOverride
 .Spotlight-V100
 .Trashes
+
+/mpp-sw.txt
+/examples/smartwizard-bs.html
+/examples/Wizard Button.html
+/node_modules/
+/bower_components/
+/vendor/

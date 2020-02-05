@@ -1,18 +1,16 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
     <title>Smart Wizard - a JavaScript jQuery Step Wizard plugin</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Include Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <!-- Optional Bootstrap theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!-- Include SmartWizard CSS -->
     <link href="../dist/css/smart_wizard.css" rel="stylesheet" type="text/css" />
-    
+
     <!-- Optional SmartWizard theme -->
     <link href="../dist/css/smart_wizard_theme_circles.css" rel="stylesheet" type="text/css" />
     <link href="../dist/css/smart_wizard_theme_arrows.css" rel="stylesheet" type="text/css" />
@@ -20,28 +18,7 @@
 </head>
 <body>
     <div class="container">
-        
-        <form class="form-inline">
-             <div class="form-group">
-              <label >Choose Theme:</label>
-              <select id="theme_selector" class="form-control">
-                    <option value="default">default</option>
-                    <option value="arrows">arrows</option>
-                    <option value="circles">circles</option>
-                    <option value="dots">dots</option>
-              </select>
-            </div>           
-            
-            <label>External Buttons:</label>
-            <div class="btn-group navbar-btn" role="group">
-                <button class="btn btn-default" id="prev-btn" type="button">Go Previous</button>
-                <button class="btn btn-default" id="next-btn" type="button">Go Next</button>
-                <button class="btn btn-danger" id="reset-btn" type="button">Reset Wizard</button>
-            </div>
-        </form>
 
-        <br />
-        
         <!-- SmartWizard 1 html -->
         <div id="smartwizard">
             <ul>
@@ -50,7 +27,7 @@
                 <li><a href="#step-3">Step 3<br /><small>This is step description</small></a></li>
                 <li><a href="#step-4">Step 4<br /><small>This is step description</small></a></li>
             </ul>
-            
+
             <div>
                 <div id="step-1" class="">
                     <h2>Step 1 Content</h2>
@@ -69,22 +46,24 @@
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                 </div>
                 <div id="step-4" class="">
-                    <h2>Step 4 Content</h2>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">My Details</div>
+                  <h2>Step 4 Content</h2>
+                  <div class="card">
+                      <div class="card-header">My Details</div>
+                      <div class="card-block p-0">
                         <table class="table">
                             <tbody>
                                 <tr> <th>Name:</th> <td>Tim Smith</td> </tr>
                                 <tr> <th>Email:</th> <td>example@example.com</td> </tr>
                             </tbody>
                         </table>
-                    </div>
+                      </div>
+                  </div>
                 </div>
             </div>
         </div>
-        
+
         <br />
-        
+
         <!-- SmartWizard 2 html -->
         <div id="smartwizard2">
             <ul>
@@ -93,7 +72,7 @@
                 <li><a href="#step-3">Step 3<br /><small>This is step description</small></a></li>
                 <li><a href="#step-4">Step 4<br /><small>This is step description</small></a></li>
             </ul>
-            
+
             <div>
                 <div id="step-1" class="">
                     <h2>Step 1 Content</h2>
@@ -112,23 +91,25 @@
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                 </div>
                 <div id="step-4" class="">
-                    <h2>Step 4 Content</h2>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">My Details</div>
+                  <h2>Step 4 Content</h2>
+                  <div class="card">
+                      <div class="card-header">My Details</div>
+                      <div class="card-block p-0">
                         <table class="table">
                             <tbody>
                                 <tr> <th>Name:</th> <td>Tim Smith</td> </tr>
                                 <tr> <th>Email:</th> <td>example@example.com</td> </tr>
                             </tbody>
                         </table>
-                    </div>
+                      </div>
+                  </div>
                 </div>
             </div>
         </div>
-        
-        
+
+
     </div>
-    
+
     <!-- Include jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
@@ -137,8 +118,8 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            
-            // Step show event 
+
+            // Step show event
             $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection, stepPosition) {
                //alert("You are on step "+stepNumber+" now");
                if(stepPosition === 'first'){
@@ -150,66 +131,38 @@
                    $("#next-btn").removeClass('disabled');
                }
             });
-            
+
             // Toolbar extra buttons
             var btnFinish = $('<button></button>').text('Finish')
                                              .addClass('btn btn-info')
                                              .on('click', function(){ alert('Finish Clicked'); });
             var btnCancel = $('<button></button>').text('Cancel')
                                              .addClass('btn btn-danger')
-                                             .on('click', function(){ $('#smartwizard').smartWizard("reset"); });                         
-            
+                                             .on('click', function(){ $('#smartwizard').smartWizard("reset"); });
+
             // Please note enabling option "showStepURLhash" will make navigation conflict for multiple wizard in a page.
             // so that option is disabling => showStepURLhash: false
-            
+
             // Smart Wizard 1
-            $('#smartwizard').smartWizard({ 
-                    selected: 0, 
-                    theme: 'default',
+            $('#smartwizard').smartWizard({
+                    selected: 0,
+                    theme: 'arrows',
                     transitionEffect:'fade',
                     showStepURLhash: false,
                     toolbarSettings: {toolbarPosition: 'both',
                                       toolbarExtraButtons: [btnFinish, btnCancel]
                                     }
             });
-            
+
             // Smart Wizard 2
-            $('#smartwizard2').smartWizard({ 
-                    selected: 0, 
+            $('#smartwizard2').smartWizard({
+                    selected: 0,
                     theme: 'default',
                     transitionEffect:'fade',
                     showStepURLhash: false
             });
-            
-            
-            // External Button Events
-            $("#reset-btn").on("click", function() {
-                // Reset wizard
-                $('#smartwizard').smartWizard("reset");
-                return true;
-            });
-            
-            $("#prev-btn").on("click", function() {
-                // Navigate previous
-                $('#smartwizard').smartWizard("prev");
-                return true;
-            });
-            
-            $("#next-btn").on("click", function() {
-                // Navigate next
-                $('#smartwizard').smartWizard("next");
-                return true;
-            });
-            
-            $("#theme_selector").on("change", function() {
-                // Change theme
-                $('#smartwizard').smartWizard("theme", $(this).val());
-                return true;
-            });
-            
-            // Set selected theme on page refresh
-            $("#theme_selector").change();
-        });   
-    </script>  
+
+        });
+    </script>
 </body>
 </html>

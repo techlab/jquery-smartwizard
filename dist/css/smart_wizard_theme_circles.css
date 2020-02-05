@@ -1,5 +1,5 @@
-/*!  
- * SmartWizard v4.x
+/*!
+ * SmartWizard v4.3.x
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
  *
@@ -42,7 +42,6 @@
 .sw-theme-circles > ul.step-anchor {
     position: relative;
     background: #fff;
-    display: block;
     border: none;
     list-style: none;
     margin-bottom: 40px;
@@ -51,7 +50,7 @@
 .sw-theme-circles > ul.step-anchor:before {
     content: " ";
     position: absolute;
-    top: 40px;
+    top: 50%;
     bottom: 0;
     width: 100%;
     height: 5px;
@@ -63,6 +62,7 @@
 .sw-theme-circles > ul.step-anchor > li {
     border: none;
     margin-left: 40px;
+    z-index: 98;
 }
 
 .sw-theme-circles > ul.step-anchor > li > a {
@@ -80,6 +80,7 @@
     z-index: 99;
     color: #bbb;
     background: #f5f5f5;
+    line-height: 1;
 }
 
 .sw-theme-circles > ul.step-anchor > li > a:hover {
@@ -89,9 +90,8 @@
 }
 
 .sw-theme-circles > ul.step-anchor > li > a > small {
-    position: absolute;
+    position: relative;
     bottom: -40px;
-    display: block;
     color: #ccc;
 }
 
@@ -131,61 +131,4 @@
 
 .sw-theme-circles > ul.step-anchor > li.disabled > a, .sw-theme-circles > ul.step-anchor > li.disabled > a:hover {
     color: #eee !important;
-}
-
-/* Loader Animation
-Courtesy: http://bootsnipp.com/snippets/featured/loading-button-effect-no-js
-*/
-.sw-theme-circles > ul.step-anchor > li.loading:before {
-    content: '';
-    display: inline-block;
-    position: absolute;
-    background: transparent;
-    border-radius: 50%;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    border: 2px solid #fff;
-    border-top-color: transparent;
-    border-bottom-color: transparent;
-    border-left-color: #4285f4;
-    border-right-color: #4285f4;
-    width: 75px;
-    height: 75px;
-    z-index: 999;
-    -webkit-animation: ld 1s ease-in-out infinite;
-    animation: ld 1s ease-in-out infinite;
-}
-
-@-webkit-keyframes ld {
-    0% {
-        -webkit-transform: rotate(0deg) scale(1);
-        transform: rotate(0deg) scale(1);
-    }
-
-    50% {
-        -webkit-transform: rotate(180deg) scale(1.1);
-        transform: rotate(180deg) scale(1.1);
-    }
-
-    100% {
-        -webkit-transform: rotate(360deg) scale(1);
-        transform: rotate(360deg) scale(1);
-    }
-}
-
-@keyframes ld {
-    0% {
-        -webkit-transform: rotate(0deg) scale(1);
-        transform: rotate(0deg) scale(1);
-    }
-
-    50% {
-        -webkit-transform: rotate(180deg) scale(1.1);
-        transform: rotate(180deg) scale(1.1);
-    }
-
-    100% {
-        -webkit-transform: rotate(360deg) scale(1);
-        transform: rotate(360deg) scale(1);
-    }
 }
