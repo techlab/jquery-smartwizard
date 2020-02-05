@@ -579,6 +579,11 @@
             // Trigger "themeChanged" event
             this._triggerEvent("themeChanged", [this.options.theme]);
         },
+        gotonext: function () {
+            var si = this.current_index + 1;
+            this._transitPage(si);
+            return true;
+        },
         next: function () {
             this._showNext();
         },
