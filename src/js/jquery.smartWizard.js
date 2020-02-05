@@ -551,6 +551,9 @@
 
         // PUBLIC FUNCTIONS
 
+        goToStep: function (stepNum) {
+            this._transitPage(stepNum);
+        },
         hiddenSteps: function (r) {
             this.options.hiddenSteps = r;
             // Hidden steps
