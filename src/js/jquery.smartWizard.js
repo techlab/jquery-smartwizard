@@ -551,6 +551,24 @@
 
         // PUBLIC FUNCTIONS
 
+        goToStep: function (stepNum) {
+            this._transitPage(stepNum);
+        },
+        hiddenSteps: function (r) {
+            this.options.hiddenSteps = r;
+            // Hidden steps
+            if (this.options.hiddenSteps && this.options.hiddenSteps.length > 0) {
+                var mi = this;
+                $.each(mi.steps, function (i, n) {
+                    if ($.inArray(i, mi.options.hiddenSteps) > -1) {
+                        $(n).parent('li').addClass('hidden');
+                    }
+                    else {
+                        $(n).parent('li').removeClass('hidden');
+                    }
+                });
+            }
+        },
         theme: function (v) {
             if (this.options.theme === v) {
                 return false;
@@ -560,6 +578,11 @@
             this.main.addClass('sw-theme-' + this.options.theme);
             // Trigger "themeChanged" event
             this._triggerEvent("themeChanged", [this.options.theme]);
+        },
+        gotonext: function () {
+            var si = this.current_index + 1;
+            this._transitPage(si);
+            return true;
         },
         next: function () {
             this._showNext();

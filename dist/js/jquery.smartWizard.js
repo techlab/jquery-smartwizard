@@ -159,8 +159,8 @@
             }
 
             // Create the toolbar buttons
-            var btnNext = this.options.toolbarSettings.showNextButton !== false ? $('<button></button>').text(this.options.lang.next).addClass('btn btn-secondary sw-btn-next').attr('type', 'button') : null;
-            var btnPrevious = this.options.toolbarSettings.showPreviousButton !== false ? $('<button></button>').text(this.options.lang.previous).addClass('btn btn-secondary sw-btn-prev').attr('type', 'button') : null;
+            var btnNext = this.options.toolbarSettings.showNextButton !== false ? $('<button></button>').html(this.options.lang.next).addClass('btn btn-secondary sw-btn-next').attr('type', 'button') : null;
+            var btnPrevious = this.options.toolbarSettings.showPreviousButton !== false ? $('<button></button>').html(this.options.lang.previous).addClass('btn btn-secondary sw-btn-prev').attr('type', 'button') : null;
             var btnGroup = $('<div></div>').addClass('btn-group mr-2 sw-btn-group').attr('role', 'group').append(btnPrevious, btnNext);
 
             // Add extra toolbar buttons
@@ -560,6 +560,11 @@
             this.main.addClass('sw-theme-' + this.options.theme);
             // Trigger "themeChanged" event
             this._triggerEvent("themeChanged", [this.options.theme]);
+        },
+        gotonext: function () {
+            var si = this.current_index + 1;
+            this._transitPage(si);
+            return true;
         },
         next: function () {
             this._showNext();
