@@ -117,7 +117,7 @@ $(document).ready(function(){
 </script>
 ```
 That's it! Now you see the wizard on the page.  
-Please see the [documentation](http://techlaboratory.net/smartwizard/documentation) for more deatils on implementation and usage.  
+Please see the [documentation](http://techlaboratory.net/smartwizard/documentation) for more details on implementation and usage.  
 
 Features
 -----
