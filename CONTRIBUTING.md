@@ -1,7 +1,7 @@
 # Contributing
 
 ## How can I contribute?
-- Fix a bug found or already reported on the [GitHub Issues Tracker](https://github.com/techlab/SmartWizard/issues/).
+- Fix a bug you found or already reported on the [GitHub Issues Tracker](https://github.com/techlab/SmartWizard/issues/).
 - Add new features to the project.
 - Create new themes  
 - Add new test cases.
@@ -13,7 +13,7 @@
 Here are the basic steps to get started contributing code:
 
 1. Fork the [repo](https://github.com/techlab/SmartWizard/) and get development running on your computer.
-2. Install the npm development dependencies by the command `npm install` on the project folder (Assumes you already have NodeJS installed).
+2. Install the npm development dependencies by the command `npm install` on the project folder (Should have NodeJS installed).
 3. Replicate the issue you're trying to fix or spec out the feature you're trying to add.
 4. Run `gulp watch` before start changing code. It will auto build and bundle the `.js` and `.css` files when you change.
 5. Change the code to fix the bug or add the feature. All changes should happen in the relevant `src/js/*.js` and `src/css/*.css` files.
