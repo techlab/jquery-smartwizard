@@ -1,7 +1,5 @@
 # jQuery Smart Wizard 4
-#### The awesome jQuery step wizard plugin with Bootstrap support.     
-
-> **Compatible with `Bootstrap 4` from version `v4.3.1`**   
+#### The awesome jQuery step wizard plugin with Bootstrap support.
 
 [![Build Status](https://travis-ci.org/techlab/SmartWizard.svg?branch=master)](https://travis-ci.org/techlab/SmartWizard)
 [![npm version](https://badge.fury.io/js/smartwizard.svg)](https://badge.fury.io/js/smartwizard)

@@ -1,5 +1,5 @@
 /*!
- * SmartWizard v4.3.1
+ * SmartWizard v4.4.1
  * The awesome jQuery step wizard plugin with Bootstrap support
  * http://www.techlaboratory.net/smartwizard
  *
@@ -578,11 +578,6 @@
             this.main.addClass('sw-theme-' + this.options.theme);
             // Trigger "themeChanged" event
             this._triggerEvent("themeChanged", [this.options.theme]);
-        },
-        gotonext: function () {
-            var si = this.current_index + 1;
-            this._transitPage(si);
-            return true;
         },
         next: function () {
             this._showNext();
