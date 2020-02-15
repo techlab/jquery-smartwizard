@@ -9,13 +9,13 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine-jquery','jasmine'],
+    frameworks: ['jasmine-jquery', 'jasmine'],
 
 
     // list of files / patterns to load in the browser
     files: [
       'test/*.js',
-      'node_modules/jquery/dist/jquery.min.js',
+      'https://code.jquery.com/jquery-3.4.1.min.js',
       'src/js/*.js',
       {
         pattern:  'test/*.html',
@@ -62,8 +62,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
-
+    browsers: ['ChromeHeadless'], // 'PhantomJS' 'Chrome', 'Chrome_without_security'
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

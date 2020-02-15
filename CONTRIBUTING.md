@@ -1,7 +1,7 @@
 # Contributing
 
 ## How can I contribute?
-- Fix a bug found or already reported on the [GitHub Issues Tracker](https://github.com/techlab/SmartWizard/issues/).
+- Fix a bug you found or already reported on the [GitHub Issues Tracker](https://github.com/techlab/SmartWizard/issues/).
 - Add new features to the project.
 - Create new themes  
 - Add new test cases.
@@ -13,15 +13,16 @@
 Here are the basic steps to get started contributing code:
 
 1. Fork the [repo](https://github.com/techlab/SmartWizard/) and get development running on your computer.
-2. Install the npm development dependencies by the command `npm install` on the project folder (Assumes you already have NodeJS installed).
-3. Replicate the issue you're trying to fix or spec out the feature you're trying to add.
-4. Run `gulp watch` before start changing code. It will auto build and bundle the `.js` and `.css` files when you change.
-5. Change the code to fix the bug or add the feature. All changes should happen in the relevant `src/js/*.js` and `src/css/*.css` files.
-6. Build the code by running `npm run build` or `gulp build`.
-7. Run the test cases by running `npm test` or `gulp test`, you can also add more test cases based on your new change.
-8. Verify that your fix or feature works.
-9. Commit your changes with an informative description.
-10. Open a pull request to the [dev](https://github.com/techlab/SmartWizard/tree/dev) branch of the [repo](https://github.com/techlab/SmartWizard/) with your new commit and a descriptive message about what the PR does.
+2. Install gulp and karma `npm install gulp-cli karma-cli -g` 
+3. Install the npm development dependencies by the command `npm install` on the project folder (Should have NodeJS installed).
+4. Replicate the issue you're trying to fix or spec out the feature you're trying to add.
+5. Run `gulp watch` before start changing code. It will auto build and bundle the `.js` and `.css` files when you change.
+6. Change the code to fix the bug or add the feature. All changes should happen in the relevant `src/js/*.js` and `src/css/*.css` files.
+7. Build the code by running `npm run build` or `gulp build`.
+8. Run the test cases by running `npm test` or `gulp test`, you can also add more test cases based on your new change.
+9. Verify that your fix or feature works.
+10. Commit your changes with an informative description.
+11. Open a pull request to the [dev](https://github.com/techlab/SmartWizard/tree/dev) branch of the [repo](https://github.com/techlab/SmartWizard/) with your new commit and a descriptive message about what the PR does.
 
 Thank you for your contribution!
 

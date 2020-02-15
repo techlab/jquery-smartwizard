@@ -116,6 +116,10 @@
                }
             });
 
+            $("#smartwizard").on("endReset", function() {
+              $("#next-btn").removeClass('disabled');
+            });
+
             // Toolbar extra buttons
             var btnFinish = $('<button></button>').text('Finish')
                                              .addClass('btn btn-info')
@@ -142,6 +146,7 @@
             $("#reset-btn").on("click", function() {
                 // Reset wizard
                 $('#smartwizard').smartWizard("reset");
+                $("#next-btn").removeClass('disabled');
                 return true;
             });
 

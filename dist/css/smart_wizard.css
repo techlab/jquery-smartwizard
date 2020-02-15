@@ -1,5 +1,5 @@
 /*!
- * SmartWizard v4.3.x
+ * SmartWizard v4.4.x
  * jQuery Wizard Plugin
  * http://www.techlaboratory.net/smartwizard
  *
@@ -38,7 +38,6 @@
 
 /* SmartWizard Theme: White */
 .sw-theme-default {
-    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
@@ -102,7 +101,6 @@
     -webkit-transition: all 250ms ease 0s;
     transition: all 250ms ease 0s;
     -webkit-transform: scale(0);
-    -ms-transform: scale(0);
     transform: scale(0);
 }
 
@@ -115,7 +113,6 @@
 
 .sw-theme-default > ul.step-anchor > li.active > a::after {
     -webkit-transform: scale(1);
-    -ms-transform: scale(1);
     transform: scale(1);
 }
 
@@ -129,7 +126,6 @@
 .sw-theme-default > ul.step-anchor > li.done > a::after {
     background: #5cb85c;
     -webkit-transform: scale(1);
-    -ms-transform: scale(1);
     transform: scale(1);
 }
 
@@ -144,7 +140,6 @@
     background: #d9534f;
     border-left-color: #f8d7da;
     -webkit-transform: scale(1);
-    -ms-transform: scale(1);
     transform: scale(1);
 }
 

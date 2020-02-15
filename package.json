@@ -1,6 +1,6 @@
 {
   "name": "smartwizard",
-  "version": "v4.3.1",
+  "version": "v4.4.1",
   "author": "Dipu Raj <hello@techlaboratory.net>",
   "description": "The awesome jQuery step wizard plugin with Bootstrap support",
   "homepage": "http://techlaboratory.net/smartwizard",
@@ -30,39 +30,35 @@
     "jquery"
   ],
   "scripts": {
-    "start": "",
-    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS",
+    "start": "gulp watch",
+    "test": "./node_modules/karma/bin/karma start --single-run",
     "build": "gulp",
     "clean": "gulp clean",
     "lint": "gulp lint"
   },
-  "dependencies": {
-    "bootstrap": "^4.0.0",
-    "jquery": "^3.3.1"
-  },
   "devDependencies": {
-    "autoprefixer": "^6.7.7",
-    "del": "^2.2.2",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-clean-css": "^3.0.4",
-    "gulp-cssbeautify": "^0.1.3",
-    "gulp-jasmine": "^2.4.2",
-    "gulp-jshint": "^2.0.4",
-    "gulp-karma": "0.0.5",
-    "gulp-postcss": "^6.4.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^2.1.1",
-    "jasmine-core": "^2.5.2",
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "autoprefixer": "^9.7.4",
+    "del": "^5.1.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-cssbeautify": "^2.0.1",
+    "gulp-jasmine": "^4.0.0",
+    "gulp-jshint": "^2.1.0",
+    "gulp-postcss": "^8.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-uglify": "^3.0.2",
+    "jasmine-core": "^3.5.0",
     "jasmine-jquery": "^2.1.1",
-    "jshint": "^2.9.4",
-    "karma": "^1.5.0",
-    "karma-chrome-launcher": "^2.0.0",
-    "karma-cli": "^1.0.1",
-    "karma-jasmine": "^1.1.0",
-    "karma-jasmine-html-reporter": "^0.2.2",
+    "jshint": "^2.11.0",
+    "karma": "^4.4.1",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-jasmine": "^3.1.0",
     "karma-jasmine-jquery": "^0.1.1",
-    "karma-phantomjs-launcher": "^1.0.4",
-    "karma-spec-reporter": "0.0.31"
-  }
+    "karma-spec-reporter": "0.0.32",
+    "uglify-save-license": "^0.4.1"
+  },
+  "dependencies": {}
 }
