@@ -11,8 +11,8 @@
 Smart Wizard is a flexible and heavily customizable **jQuery step wizard plugin** with **Bootstrap** support. It is easy to implement and gives a neat and stylish interface for your forms, checkout screen, registration steps etc. Based on the feedback from our users over the past years we have come up with the **best ever built jQuery wizard plugin of all time**, all new Smart Wizard 4. The plugin is been completely rewritten from scratch, made it more powerful, robust, scalable and customizable. We have added a lot of features not limited to Bootstrap 4 support, themes, customizable toolbars, customizable options, public methods, event support and a lot more. See the list of [features](http://techlaboratory.net/smartwizard#features), [demos](http://techlaboratory.net/smartwizard/demo) and [documentation](http://techlaboratory.net/smartwizard/documentation) for more details.
 
 + [Homepage](http://techlaboratory.net/smartwizard)
-+ [Documentation](http://techlaboratory.net/smartwizard/documentation)
-+ [Demos](http://techlaboratory.net/smartwizard/demo)
++ [Documentation](http://techlaboratory.net/smartwizard#documentation)
++ [Demos](http://techlaboratory.net/smartwizard#demo)
 + [StackOverflow Q&A](http://stackoverflow.com/questions/tagged/smart-wizard)
 + [GitHub Issues](https://github.com/techlab/SmartWizard/issues)
 
@@ -26,11 +26,10 @@ Screenshots
 
 Demos
 -----
-  + [Basic Example](http://techlaboratory.net/smartwizard/demo/basic)
-  + [Ajax Contents](http://techlaboratory.net/smartwizard/demo/ajax)
-  + [Input Validation](http://techlaboratory.net/smartwizard/demo/validation)
-  + [Events](http://techlaboratory.net/smartwizard/demo/events)
-  + [With Modal Dialog](http://techlaboratory.net/smartwizard/demo/modal-dialog)
+  + [Basic Example](http://techlaboratory.net/projects/demo/jquery-smart-wizard/v4/basic)
+  + [Input Validation](http://techlaboratory.net/projects/demo/jquery-smart-wizard/v4/validation)
+  + [Events](http://techlaboratory.net/projects/demo/jquery-smart-wizard/v4/events)
+  + [With Modal Dialog](http://techlaboratory.net/projects/demo/jquery-smart-wizard/v4/modal)
 
 Requirements
 -----
