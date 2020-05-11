@@ -1,9 +1,8 @@
 # jQuery Smart Wizard 4
 #### The awesome jQuery step wizard plugin with Bootstrap support.
 
-[![Build Status](https://travis-ci.org/techlab/SmartWizard.svg?branch=master)](https://travis-ci.org/techlab/SmartWizard)
+[![Build Status](https://travis-ci.org/techlab/jquery-smartwizard.svg?branch=master)](https://travis-ci.org/techlab/jquery-smartwizard)
 [![npm version](https://badge.fury.io/js/smartwizard.svg)](https://badge.fury.io/js/smartwizard)
-[![Bower version](https://badge.fury.io/bo/smartwizard.svg)](https://badge.fury.io/bo/smartwizard)
 [![Latest Stable Version](https://poser.pugx.org/techlab/smartwizard/v/stable)](https://packagist.org/packages/techlab/smartwizard)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/techlab/SmartWizard/master/LICENSE)
 [![Donate on Paypal](https://img.shields.io/badge/PayPal-dipuraj-blue.svg)](https://www.paypal.me/dipuraj)
@@ -52,7 +51,7 @@ Installation
     composer require techlab/smartwizard
 
 ### Download
-#### [Download from GitHub](https://github.com/techlab/SmartWizard/archive/master.zip)    
+#### [Download from GitHub](https://github.com/techlab/jquery-smartwizard/archive/master.zip)    
 
 Usage
 -----
@@ -114,7 +113,7 @@ $(document).ready(function(){
 </script>
 ```
 That's it! Now you see the wizard on the page.  
-Please see the [documentation](http://techlaboratory.net/smartwizard/documentation) for more details on implementation and usage.  
+Please see the [documentation](http://techlaboratory.net/smartwizard#documentation) for more details on implementation and usage.  
 
 Features
 -----
@@ -142,7 +141,7 @@ Features
 
 License
 ----
-[MIT License](https://github.com/techlab/SmartWizard/blob/master/LICENSE)
+[MIT License](https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE)
 
 Contribute
 ----
