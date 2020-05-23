@@ -49,9 +49,6 @@ Installation
 ### [Yarn](https://yarn.pm/smartwizard)
     yarn add smartwizard
 
-### Bower
-    bower install smartwizard
-
 ### [Composer](https://packagist.org/packages/techlab/smartwizard)
     composer require techlab/smartwizard
 
@@ -199,7 +196,6 @@ $('#smartwizard').smartWizard({
     errorSteps: [], // Highlight step with errors
     hiddenSteps: [] // Hidden steps
 });
-</script>
 ```
 
 License
