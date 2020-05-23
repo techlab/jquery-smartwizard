@@ -1,34 +1,35 @@
 /*!
- * SmartWizard v4.4.1
- * The awesome jQuery step wizard plugin with Bootstrap support
- * http://www.techlaboratory.net/smartwizard
+ * jQuery SmartWizard v5.0.0
+ * The awesome jQuery step wizard plugin
+ * http://www.techlaboratory.net/jquery-smartwizard
  *
  * Created by Dipu Raj
- * http://dipuraj.me
+ * http://dipu.me
  *
- * Licensed under the terms of the MIT License
- * https://github.com/techlab/SmartWizard/blob/master/LICENSE
+ * @license Licensed under the terms of the MIT License
+ * https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE
  */
 
 ;(function ($, window, document, undefined) {
     "use strict";
-    // Default options
 
+    // Default options
     var defaults = {
         selected: 0, // Initial selected step, 0 = first step
-        keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
+        theme: 'default', // theme for the wizard, related css need to include for other than default theme
+        justified: true, // Nav menu justification. true/false
         autoAdjustHeight: true, // Automatically adjust content height
         cycleSteps: false, // Allows to cycle the navigation of steps
         backButtonSupport: true, // Enable the back button support
-        useURLhash: true, // Enable selection of the step based on url hash
-        showStepURLhash: true, // Show url hash based on step
-        lang: { // Language variables for button
-            next: 'Next',
-            previous: 'Previous'
+        enableURLhash: true, // Enable selection of the step based on url hash
+        transition: {
+            animation: 'none', // Effect on navigation, none/fade/slide-horizontal/slide-vertical/slide-swing
+            speed: '400', // Transion animation speed
+            easing:'' // Transition animation easing. Not supported without a jQuery easing plugin
         },
         toolbarSettings: {
             toolbarPosition: 'bottom', // none, top, bottom, both
-            toolbarButtonPosition: 'end', // start, end
+            toolbarButtonPosition: 'right', // left, right, center
             showNextButton: true, // show/hide a Next button
             showPreviousButton: true, // show/hide a Previous button
             toolbarExtraButtons: [] // Extra buttons to show on toolbar, array of jQuery input/buttons elements
@@ -36,612 +37,803 @@
         anchorSettings: {
             anchorClickable: true, // Enable/Disable anchor navigation
             enableAllAnchors: false, // Activates all anchors clickable all times
-            markDoneStep: true, // Add done css
+            markDoneStep: true, // Add done state on navigation
             markAllPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
             removeDoneStepOnNavigateBack: false, // While navigate back done step after active step will be cleared
             enableAnchorOnDoneStep: true // Enable/Disable the done steps navigation
         },
-        contentURL: null, // content url, Enables Ajax content loading. Can also set as data data-content-url on anchor
-        contentCache: true, // cache step contents, if false content is fetched always from ajax url
-        ajaxSettings: {}, // Ajax extra settings
+        keyboardSettings: {
+            keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
+            keyLeft: [37], // Left key code
+            keyRight: [39] // Right key code
+        },
+        lang: { // Language variables for button
+            next: 'Next',
+            previous: 'Previous'
+        },
         disabledSteps: [], // Array Steps disabled
         errorSteps: [], // Highlight step with errors
-        hiddenSteps: [], // Hidden steps
-        theme: 'default', // theme for the wizard, related css need to include for other than default theme
-        transitionEffect: 'none', // Effect on navigation, none/slide/fade
-        transitionSpeed: '400'
+        hiddenSteps: [] // Hidden steps
     };
 
-    // The plugin constructor
-    function SmartWizard(element, options) {
-        // Merge user settings with default, recursively
-        this.options = $.extend(true, {}, defaults, options);
-        // Main container element
-        this.main = $(element);
-        // Navigation bar element
-        this.nav = this.main.children('ul');
-        // Step anchor elements
-        this.steps = $("li > a", this.nav);
-        // Content container
-        this.container = this.main.children('div');
-        // Content pages
-        this.pages = this.container.children('div');
-        // Active step index
-        this.current_index = null;
+    class SmartWizard {
 
-        // Backward compatibility
-        this.options.toolbarSettings.toolbarButtonPosition = this.options.toolbarSettings.toolbarButtonPosition === 'right' ? 'end' : this.options.toolbarSettings.toolbarButtonPosition;
-        this.options.toolbarSettings.toolbarButtonPosition = this.options.toolbarSettings.toolbarButtonPosition === 'left' ? 'start' : this.options.toolbarSettings.toolbarButtonPosition;
+      constructor(element, options) {
+          // Merge user settings with default
+          this.options        = $.extend(true, {}, defaults, options);
+          // Main container element
+          this.main           = $(element);
+          // Navigation bar element
+          this.nav            = this._getFirstDescendant('.nav');
+          // Step anchor elements
+          this.steps          = this.nav.find('.nav-link');
+          // Content container
+          this.container      = this._getFirstDescendant('.tab-content');
+          // Content pages
+          this.pages          = this.container.children('.tab-pane');
 
-        // Default fix
-        this.options.theme = this.options.theme === null || this.options.theme === '' ? 'default' : this.options.theme;
+          // Assign options
+          this._initOptions();
+          // Initial load
+          this._initLoad();
+      }
 
-        // Call initial method
-        this.init();
-    }
+      // Initial Load Method
+      _initLoad() {
+          // Clean the elements
+          this.pages.hide();
+          this.steps.removeClass('done active');
 
-    $.extend(SmartWizard.prototype, {
+          // Active step index
+          this.current_index  = null;
 
-        init: function () {
-            // Set the elements
-            this._setElements();
-            // Add toolbar
-            this._setToolbar();
-            // Assign plugin events
-            this._setEvents();
+          // Get the initial step index
+          let idx = this._getStepIndex();
+          // Mark any previous steps done
+          this._setPreviousStepsDone(idx);
+          // Show the initial step
+          this._showStep(idx);
+      }
 
-            var idx = this.options.selected;
-            // Get selected step from the url
-            if (this.options.useURLhash) {
-                // Get step number from url hash if available
-                var hash = window.location.hash;
-                if (hash && hash.length > 0) {
-                    var elm = $("a[href*='" + hash + "']", this.nav);
-                    if (elm.length > 0) {
-                        var id = this.steps.index(elm);
-                        idx = id >= 0 ? id : idx;
-                    }
+      // Initialize options
+      _initOptions() {
+          // Set the elements
+          this._setElements();
+          // Add toolbar
+          this._setToolbar();
+          // Assign plugin events
+          this._setEvents();
+      }
+
+      _getFirstDescendant(selector) {
+          // Check for first level element
+          let elm = this.main.children(selector);
+          if (elm.length > 0) {
+              return elm;
+          }
+
+          // Check for second level element
+          this.main.children().each((i, n) => {
+              let tmp = $(n).children(selector);
+              if (tmp.length > 0) {
+                  elm = tmp;
+                  return false;
+              }
+          });
+          if (elm.length > 0) {
+              return elm;
+          }
+
+          // Element not found
+          this._showError("Element not found " + selector);
+          return false;
+      }
+
+      _setElements() {
+          // Set the main element
+          this.main.addClass('sw');
+
+          this._setTheme(this.options.theme);
+          this._setJustify(this.options.justified);
+
+          // Set the anchor default style
+          if (this.options.anchorSettings.enableAllAnchors !== true || this.options.anchorSettings.anchorClickable !== true) {
+              this.steps.addClass('inactive');
+          }
+
+          // Disabled steps
+          this._setCSSClass(this.options.disabledSteps, "disabled");
+          // Error steps
+          this._setCSSClass(this.options.errorSteps, "danger");
+          // Hidden steps
+          this._setCSSClass(this.options.hiddenSteps, "hidden");
+      }
+
+      _setEvents() {
+          // Check if event handler already exists
+          if (this.main.data('click-init')) {
+              return true;
+          }
+          // Flag item to prevent attaching handler again
+          this.main.data('click-init', true);
+
+          // Anchor click event
+          $(this.steps).on("click", (e) => {
+              e.preventDefault();
+              if (this.options.anchorSettings.anchorClickable === false) {
+                  return true;
+              }
+
+              // Get the step index
+              var idx = this.steps.index(e.currentTarget);
+
+              if (idx === this.current_index) {
+                  return true;
+              }
+
+              if (this.options.anchorSettings.enableAnchorOnDoneStep === false && this._isDone(idx)) {
+                  return true;
+              }
+
+              if (this.options.anchorSettings.enableAllAnchors !== false || this._isDone(idx)) {
+                  this._showStep(idx);
+              }
+          });
+
+          // Next button event
+          this.main.find('.sw-btn-next').on("click", (e) => {
+              e.preventDefault();
+              this._showNext();
+          });
+
+          // Previous button event
+          this.main.find('.sw-btn-prev').on("click", (e) => {
+              e.preventDefault();
+              this._showPrevious();
+          });
+
+          // Keyboard navigation event
+          if (this.options.keyboardSettings.keyNavigation) {
+              $(document).keyup((e) => {
+                  this._keyNav(e);
+              });
+          }
+
+          // Back/forward browser button event
+          if (this.options.backButtonSupport) {
+              $(window).on('hashchange', (e) => {
+                  let idx = this._getURLHashIndex();
+                  if (idx !== false) {
+                      e.preventDefault();
+                      this._showStep(idx);
+                  }
+              });
+          }
+      }
+
+      _setToolbar() {
+          // Skip right away if the toolbar is not enabled
+          if (this.options.toolbarSettings.toolbarPosition === 'none') {
+              return true;
+          }
+
+          // Append toolbar based on the position
+          switch (this.options.toolbarSettings.toolbarPosition) {
+              case 'top':
+                  this.container.before(this._createToolbar('top'));
+                  break;
+              case 'bottom':
+                  this.container.after(this._createToolbar('bottom'));
+                  break;
+              case 'both':
+                  this.container.before(this._createToolbar('top'));
+                  this.container.after(this._createToolbar('bottom'));
+                  break;
+              default:
+                  this.container.after(this._createToolbar('bottom'));
+                  break;
+          }
+      }
+
+      _createToolbar(position) {
+          // Skip if the toolbar is already created
+          if (this.main.find('.toolbar-' + position).length > 0) {
+              return null;
+          }
+
+          var toolbar       = $('<div></div>').addClass('toolbar toolbar-' + position).attr('role', 'toolbar');
+          // Create the toolbar buttons
+          let btnNext       = this.options.toolbarSettings.showNextButton !== false ? $('<button></button>').text(this.options.lang.next).addClass('btn sw-btn-next').attr('type', 'button') : null;
+          let btnPrevious   = this.options.toolbarSettings.showPreviousButton !== false ? $('<button></button>').text(this.options.lang.previous).addClass('btn sw-btn-prev').attr('type', 'button') : null;
+          toolbar.append(btnPrevious, btnNext);
+
+          // Add extra toolbar buttons
+          if (this.options.toolbarSettings.toolbarExtraButtons && this.options.toolbarSettings.toolbarExtraButtons.length > 0) {
+              $.each(this.options.toolbarSettings.toolbarExtraButtons, (_i, n) => {
+                  toolbar.append(n.clone(true));
+              });
+          }
+
+          toolbar.css('text-align', this.options.toolbarSettings.toolbarButtonPosition);
+          return toolbar;
+      }
+
+      _showNext() {
+          var si = this._getNextShowable(this.current_index);
+          if (si === false) {
+              return false;
+          }
+          this._showStep(si);
+      }
+
+      _showPrevious() {
+          var si = this._getPreviousShowable(this.current_index);
+          if (si === false) {
+              return false;
+          }
+          this._showStep(si);
+      }
+
+      _showStep(idx) {
+          // If current step is requested again, skip
+          if (idx == this.current_index) {
+              return false;
+          }
+          // If step not found, skip
+          if (!this.steps.eq(idx)) {
+              return false;
+          }
+          // If it is a disabled step, skip
+          if (!this._isShowable(idx)) {
+              return false;
+          }
+
+          // Load step content
+          this._loadStep(idx);
+      }
+
+      _getNextShowable(idx) {
+          var si = false;
+          // Find the next showable step
+          for (var i = idx + 1; i < this.steps.length; i++) {
+              if (this._isShowable(i)) {
+                  si = i;
+                  break;
+              }
+          }
+
+          if (si !== false && this.steps.length <= si) {
+              if (!this.options.cycleSteps) {
+                  return false;
+              }
+              si = 0;
+          }
+
+          return si;
+      }
+
+      _getPreviousShowable(idx) {
+          var si = false;
+          // Find the previous showable step
+          for (var i = idx - 1; i >= 0; i--) {
+              if (this._isShowable(i)) {
+                  si = i;
+                  break;
+              }
+          }
+
+          if (si !== false && 0 > si) {
+              if (!this.options.cycleSteps) {
+                  return false;
+              }
+              si = this.steps.length - 1;
+          }
+
+          return si;
+      }
+
+      _isShowable(idx) {
+          let elm = this.steps.eq(idx);
+          if (elm.hasClass('disabled') || elm.hasClass('hidden')) {
+              return false;
+          }
+          return true;
+      }
+
+      _isDone(idx) {
+          let elm = this.steps.eq(idx);
+          if (elm.hasClass('done')) {
+              return true;
+          }
+          return false;
+      }
+
+      _setPreviousStepsDone(idx) {
+          if (idx > 0 && this.options.anchorSettings.markDoneStep && this.options.anchorSettings.markAllPreviousStepsAsDone) {
+            // Mark previous steps of the active step as done
+            for(var i = idx; i >= 0; i--) {
+                this._setCSSClass(i, "done");
+            }
+          }
+      }
+
+      _setCSSClass(idx, cls) {
+          if (idx === null) {
+              return false;
+          }
+          let idxs = $.isArray(idx) ? idx : [idx];
+          idxs.map((i) => {
+              this.steps.eq(i).addClass(cls);
+          });
+      }
+
+      _resetCSSClass(idx, cls) {
+          let idxs = $.isArray(idx) ? idx : [idx];
+          idxs.map((i) => {
+              this.steps.eq(i).removeClass(cls);
+          });
+      }
+
+      _getStepDirection(idx) {
+          if (this.current_index == null) {
+              return '';
+          }
+          return this.current_index < idx ? "forward" : "backward";
+      }
+
+      _getStepPosition(idx) {
+          let stepPosition = 'middle';
+          if (idx === 0) {
+              stepPosition = 'first';
+          } else if (idx === this.steps.length - 1) {
+              stepPosition = 'last';
+          }
+          return stepPosition;
+      }
+
+      _getStepAnchor(idx) {
+          if (idx == null) {
+              return null;
+          }
+          return this.steps.eq(idx);
+      }
+
+      _getStepPage(idx) {
+          if (idx == null) {
+              return null;
+          }
+          let anchor = this._getStepAnchor(idx);
+          return anchor.length > 0 ? this.main.find(anchor.attr("href")) : null;
+      }
+
+      _setStepContent(idx, html) {
+          let page = this._getStepPage(idx);
+          if (page) {
+              page.html(html);
+          }
+      }
+
+      _loadStep(idx) {
+          // Get current step element
+          let curStep          = this._getStepAnchor(this.current_index);
+          // Get step direction
+          let stepDirection   = this._getStepDirection(idx);
+          // Get the direction of step navigation
+          if (this.current_index !== null) {
+              // Trigger "leaveStep" event
+              if (this._triggerEvent("leaveStep", [curStep, this.current_index, stepDirection]) === false) {
+                  return false;
+              }
+          }
+
+          // Get next step element
+          let selStep          = this._getStepAnchor(idx);
+
+          // Get the content if used
+          let getStepContent  = this._triggerEvent("stepContent", [selStep, idx, stepDirection]);
+          if (getStepContent) {
+              if (typeof getStepContent == "object") {
+                  getStepContent.then((res) => {
+                      this._setStepContent(idx, res);
+                      this._transitStep(idx);
+                  }).catch((err) => {
+                      console.error(err);
+                      this._setStepContent(idx, err);
+                      this._transitStep(idx);
+                  });
+              } else if (typeof getStepContent == "string") {
+                  this._setStepContent(idx, getStepContent);
+                  this._transitStep(idx);
+              } else {
+                  this._transitStep(idx);
+              }
+          } else {
+              this._transitStep(idx);
+          }
+      }
+
+      _transitStep(idx) {
+          // Get step to show element
+          let selStep          = this._getStepAnchor(idx);
+          // Change the url hash to new step
+          this._setURLHash(selStep.attr("href"));
+          // Update controls
+          this._setAnchor(idx);
+          // Animate the step
+          this._doStepAnimation(idx, () => {
+              // Fix height with content
+              this._fixHeight(idx);
+              // Get the direction of step navigation
+              let stepDirection   = this._getStepDirection(idx);
+              // Get the position of step
+              let stepPosition    = this._getStepPosition(idx);
+              // Trigger "showStep" event
+              this._triggerEvent("showStep", [selStep, this.current_index, stepDirection, stepPosition]);
+          });
+
+          // Update the current index
+          this.current_index  = idx;
+          // Set the buttons based on the step
+          this._setButtons(idx);
+      }
+
+      _doStepAnimation(idx, callback) {
+          // Get current step element
+          let curPage   = this._getStepPage(this.current_index);
+          // Get next step element
+          let selPage   = this._getStepPage(idx);
+          // Get the animation
+          let animation = this.options.transition.animation.toLowerCase();
+          // Complete any ongoing animations
+          this._stopAnimations();
+
+          switch (animation) {
+            case 'slide-horizontal':
+            case 'slide-h':
+                // horizontal slide
+                var containerWidth  = this.container.width();
+                var curLastLeft     = containerWidth;
+                var nextFirstLeft   = containerWidth * -2;
+
+                // Forward direction
+                if (idx > this.current_index) {
+                  curLastLeft   = containerWidth * -1;
+                  nextFirstLeft = containerWidth;
                 }
-            }
 
-            if (idx > 0 && this.options.anchorSettings.markDoneStep && this.options.anchorSettings.markAllPreviousStepsAsDone) {
-                // Mark previous steps of the active step as done
-                this.steps.eq(idx).parent('li').prevAll().addClass("done");
-            }
-
-            // Show the initial step
-            this._showStep(idx);
-        },
-
-        // PRIVATE FUNCTIONS
-
-        _setElements: function () {
-            // Set the main element
-            this.main.addClass('sw-main sw-theme-' + this.options.theme);
-            // Set anchor elements
-            this.nav.addClass('nav nav-tabs step-anchor').children('li').addClass('nav-item').children('a').addClass('nav-link'); // nav-justified  nav-pills
-
-            // Make the anchor clickable
-            if (this.options.anchorSettings.enableAllAnchors !== false && this.options.anchorSettings.anchorClickable !== false) {
-                this.steps.parent('li').addClass('clickable');
-            }
-            // Set content container
-            this.container.addClass('sw-container tab-content');
-            // Set content pages
-            this.pages.addClass('tab-pane step-content');
-
-            // Disabled steps
-            var mi = this;
-            if (this.options.disabledSteps && this.options.disabledSteps.length > 0) {
-                $.each(this.options.disabledSteps, function (i, n) {
-                    mi.steps.eq(n).parent('li').addClass('disabled');
-                });
-            }
-            // Error steps
-            if (this.options.errorSteps && this.options.errorSteps.length > 0) {
-                $.each(this.options.errorSteps, function (i, n) {
-                    mi.steps.eq(n).parent('li').addClass('danger');
-                });
-            }
-            // Hidden steps
-            if (this.options.hiddenSteps && this.options.hiddenSteps.length > 0) {
-                $.each(this.options.hiddenSteps, function (i, n) {
-                    mi.steps.eq(n).parent('li').addClass('hidden');
-                });
-            }
-
-            return true;
-        },
-        _setToolbar: function () {
-            // Skip right away if the toolbar is not enabled
-            if (this.options.toolbarSettings.toolbarPosition === 'none') {
-                return true;
-            }
-
-            // Create the toolbar buttons
-            var btnNext = this.options.toolbarSettings.showNextButton !== false ? $('<button></button>').text(this.options.lang.next).addClass('btn btn-secondary sw-btn-next').attr('type', 'button') : null;
-            var btnPrevious = this.options.toolbarSettings.showPreviousButton !== false ? $('<button></button>').text(this.options.lang.previous).addClass('btn btn-secondary sw-btn-prev').attr('type', 'button') : null;
-            var btnGroup = $('<div></div>').addClass('btn-group mr-2 sw-btn-group').attr('role', 'group').append(btnPrevious, btnNext);
-
-            // Add extra toolbar buttons
-            var btnGroupExtra = null;
-
-            if (this.options.toolbarSettings.toolbarExtraButtons && this.options.toolbarSettings.toolbarExtraButtons.length > 0) {
-                btnGroupExtra = $('<div></div>').addClass('btn-group mr-2 sw-btn-group-extra').attr('role', 'group');
-                $.each(this.options.toolbarSettings.toolbarExtraButtons, function (i, n) {
-                    btnGroupExtra.append(n.clone(true));
-                });
-            }
-
-            var toolbarTop, toolbarBottom;
-            // Append toolbar based on the position
-            switch (this.options.toolbarSettings.toolbarPosition) {
-                case 'top':
-                    toolbarTop = $('<div></div>').addClass('btn-toolbar sw-toolbar sw-toolbar-top justify-content-' + this.options.toolbarSettings.toolbarButtonPosition);
-                    toolbarTop.append(btnGroup);
-                    if (this.options.toolbarSettings.toolbarButtonPosition === 'start') {
-                        toolbarTop.prepend(btnGroupExtra);
-                    } else {
-                        toolbarTop.append(btnGroupExtra);
-                    }
-                    this.container.before(toolbarTop);
-                    break;
-                case 'bottom':
-                    toolbarBottom = $('<div></div>').addClass('btn-toolbar sw-toolbar sw-toolbar-bottom justify-content-' + this.options.toolbarSettings.toolbarButtonPosition);
-                    toolbarBottom.append(btnGroup);
-                    if (this.options.toolbarSettings.toolbarButtonPosition === 'start') {
-                        toolbarBottom.prepend(btnGroupExtra);
-                    } else {
-                        toolbarBottom.append(btnGroupExtra);
-                    }
-                    this.container.after(toolbarBottom);
-                    break;
-                case 'both':
-                    toolbarTop = $('<div></div>').addClass('btn-toolbar sw-toolbar sw-toolbar-top justify-content-' + this.options.toolbarSettings.toolbarButtonPosition);
-                    toolbarTop.append(btnGroup);
-                    if (this.options.toolbarSettings.toolbarButtonPosition === 'start') {
-                        toolbarTop.prepend(btnGroupExtra);
-                    } else {
-                        toolbarTop.append(btnGroupExtra);
-                    }
-                    this.container.before(toolbarTop);
-
-                    toolbarBottom = $('<div></div>').addClass('btn-toolbar sw-toolbar sw-toolbar-bottom justify-content-' + this.options.toolbarSettings.toolbarButtonPosition);
-                    toolbarBottom.append(btnGroup.clone(true));
-
-                    if (btnGroupExtra !== null) {
-                      if (this.options.toolbarSettings.toolbarButtonPosition === 'start') {
-                          toolbarBottom.prepend(btnGroupExtra.clone(true));
-                      } else {
-                          toolbarBottom.append(btnGroupExtra.clone(true));
-                      }
-                    }
-                    this.container.after(toolbarBottom);
-                    break;
-                default:
-                    toolbarBottom = $('<div></div>').addClass('btn-toolbar sw-toolbar sw-toolbar-bottom justify-content-' + this.options.toolbarSettings.toolbarButtonPosition);
-                    toolbarBottom.append(btnGroup);
-                    if (this.options.toolbarSettings.toolbarButtonPosition === 'start') {
-                        toolbarBottom.append(btnGroupExtra);
-                    } else {
-                        toolbarBottom.append(btnGroupExtra);
-                    }
-                    this.container.after(toolbarBottom);
-                    break;
-            }
-            return true;
-        },
-        _setEvents: function () {
-            // Anchor click event
-            var mi = this;
-            $(this.steps).on("click", function (e) {
-                e.preventDefault();
-                if (mi.options.anchorSettings.anchorClickable === false) {
-                    return true;
-                }
-                var idx = mi.steps.index(this);
-                if (mi.options.anchorSettings.enableAnchorOnDoneStep === false && mi.steps.eq(idx).parent('li').hasClass('done')) {
-                    return true;
+                // First load set the container width
+                if (this.current_index == null) {
+                  this.container.height(selPage.outerHeight());
                 }
 
-                if (idx !== mi.current_index) {
-                    if (mi.options.anchorSettings.enableAllAnchors !== false && mi.options.anchorSettings.anchorClickable !== false) {
-                        mi._showStep(idx);
-                    } else {
-                        if (mi.steps.eq(idx).parent('li').hasClass('done')) {
-                            mi._showStep(idx);
-                        }
-                    }
+                var css_pos, css_left;
+                if (curPage) {
+                    css_pos   = curPage.css("position");
+                    css_left  = curPage.css("left");
+                    curPage.css("position", 'absolute')
+                            .css("left", 0)
+                            .animate({
+                             left: curLastLeft
+                            },
+                            this.options.transition.speed,
+                            this.options.transition.easing,
+                            function() {
+                              $(this).hide();
+                              curPage.css("position", css_pos).css("left", css_left);
+                            });
                 }
-            });
 
-            // Next button event
-            $('.sw-btn-next', this.main).on("click", function (e) {
-                e.preventDefault();
-                mi._showNext();
-            });
-
-            // Previous button event
-            $('.sw-btn-prev', this.main).on("click", function (e) {
-                e.preventDefault();
-                mi._showPrevious();
-            });
-
-            // Keyboard navigation event
-            if (this.options.keyNavigation) {
-                $(document).keyup(function (e) {
-                    mi._keyNav(e);
-                });
-            }
-
-            // Back/forward browser button event
-            if (this.options.backButtonSupport) {
-                $(window).on('hashchange', function (e) {
-                    if (!mi.options.useURLhash) {
-                        return true;
-                    }
-                    if (window.location.hash) {
-                        var elm = $("a[href*='" + window.location.hash + "']", mi.nav);
-                        if (elm && elm.length > 0) {
-                            e.preventDefault();
-                            mi._showStep(mi.steps.index(elm));
-                        }
-                    }
-                });
-            }
-
-            return true;
-        },
-        _showNext: function () {
-            var si = this.current_index + 1;
-            // Find the next not disabled step
-            for (var i = si; i < this.steps.length; i++) {
-                if (!this.steps.eq(i).parent('li').hasClass('disabled') && !this.steps.eq(i).parent('li').hasClass('hidden')) {
-                    si = i;
-                    break;
-                }
-            }
-
-            if (this.steps.length <= si) {
-                if (!this.options.cycleSteps) {
-                    return false;
-                }
-                si = 0;
-            }
-            this._showStep(si);
-            return true;
-        },
-        _showPrevious: function () {
-            var si = this.current_index - 1;
-            // Find the previous not disabled step
-            for (var i = si; i >= 0; i--) {
-                if (!this.steps.eq(i).parent('li').hasClass('disabled') && !this.steps.eq(i).parent('li').hasClass('hidden')) {
-                    si = i;
-                    break;
-                }
-            }
-            if (0 > si) {
-                if (!this.options.cycleSteps) {
-                    return false;
-                }
-                si = this.steps.length - 1;
-            }
-            this._showStep(si);
-            return true;
-        },
-        _showStep: function (idx) {
-            // If step not found, skip
-            if (!this.steps.eq(idx)) {
-                return false;
-            }
-            // If current step is requested again, skip
-            if (idx == this.current_index) {
-                return false;
-            }
-            // If it is a disabled step, skip
-            if (this.steps.eq(idx).parent('li').hasClass('disabled') || this.steps.eq(idx).parent('li').hasClass('hidden')) {
-                return false;
-            }
-            // Load step content
-            this._loadStepContent(idx);
-            return true;
-        },
-        _loadStepContent: function (idx) {
-            var mi = this;
-            // Get current step elements
-            var curTab = this.steps.eq(this.current_index);
-            // Get the direction of step navigation
-            var stepDirection = '';
-            var elm = this.steps.eq(idx);
-            var contentURL = elm.data('content-url') && elm.data('content-url').length > 0 ? elm.data('content-url') : this.options.contentURL;
-
-            if (this.current_index !== null && this.current_index !== idx) {
-                stepDirection = this.current_index < idx ? "forward" : "backward";
-            }
-
-            // Trigger "leaveStep" event
-            if (this.current_index !== null && this._triggerEvent("leaveStep", [curTab, this.current_index, stepDirection]) === false) {
-                return false;
-            }
-
-            if (contentURL && contentURL.length > 0 && (!elm.data('has-content') || !this.options.contentCache)) {
-                // Get ajax content and then show step
-                var selPage = elm.length > 0 ? $(elm.attr("href"), this.main) : null;
-
-                var ajaxSettings = $.extend(true, {}, {
-                    url: contentURL,
-                    type: "POST",
-                    data: { step_number: idx },
-                    dataType: "text",
-                    beforeSend: function () {
-                        mi._loader('show');
-                    },
-                    error: function (jqXHR, status, message) {
-                        mi._loader('hide');
-                        $.error(message);
-                    },
-                    success: function (res) {
-                        if (res && res.length > 0) {
-                            elm.data('has-content', true);
-                            selPage.html(res);
-                        }
-                        mi._loader('hide');
-                        mi._transitPage(idx);
-                    }
-                }, this.options.ajaxSettings);
-
-                $.ajax(ajaxSettings);
-            } else {
-                // Show step
-                this._transitPage(idx);
-            }
-            return true;
-        },
-        _transitPage: function (idx) {
-            var mi = this;
-            // Get current step elements
-            var curTab = this.steps.eq(this.current_index);
-            var curPage = curTab.length > 0 ? $(curTab.attr("href"), this.main) : null;
-            // Get step to show elements
-            var selTab = this.steps.eq(idx);
-            var selPage = selTab.length > 0 ? $(selTab.attr("href"), this.main) : null;
-            // Get the direction of step navigation
-            var stepDirection = '';
-            if (this.current_index !== null && this.current_index !== idx) {
-                stepDirection = this.current_index < idx ? "forward" : "backward";
-            }
-
-            var stepPosition = 'middle';
-            if (idx === 0) {
-                stepPosition = 'first';
-            } else if (idx === this.steps.length - 1) {
-                stepPosition = 'final';
-            }
-
-            this.options.transitionEffect = this.options.transitionEffect.toLowerCase();
-            this.pages.finish();
-            if (this.options.transitionEffect === 'slide') {
-                // normal slide
-                if (curPage && curPage.length > 0) {
-                    curPage.slideUp('fast', this.options.transitionEasing, function () {
-                        selPage.slideDown(mi.options.transitionSpeed, mi.options.transitionEasing);
-                    });
-                } else {
-                    selPage.slideDown(this.options.transitionSpeed, this.options.transitionEasing);
-                }
-            } else if (this.options.transitionEffect === 'fade') {
-                // normal fade
-                if (curPage && curPage.length > 0) {
-                    curPage.fadeOut('fast', this.options.transitionEasing, function () {
-                        selPage.fadeIn('fast', mi.options.transitionEasing, function () {
-                            $(this).show();
+                css_pos   = selPage.css("position");
+                css_left  = selPage.css("left");
+                selPage.css("position", 'absolute')
+                        .css("left", nextFirstLeft)
+                        .outerWidth(containerWidth)
+                        .show()
+                        .animate({
+                          left: 0
+                        },
+                        this.options.transition.speed,
+                        this.options.transition.easing,
+                        () => {
+                            selPage.css("position", css_pos).css("left", css_left);
+                            callback();
                         });
-                    });
-                } else {
-                    selPage.fadeIn(this.options.transitionSpeed, this.options.transitionEasing, function () {
-                        $(this).show();
-                    });
-                }
-            } else {
-                if (curPage && curPage.length > 0) {
-                    curPage.hide();
-                }
-                selPage.show();
-            }
-            // Change the url hash to new step
-            this._setURLHash(selTab.attr("href"));
-            // Update controls
-            this._setAnchor(idx);
-            // Set the buttons based on the step
-            this._setButtons(idx);
-            // Fix height with content
-            this._fixHeight(idx);
-            // Update the current index
-            this.current_index = idx;
+                break;
+              case 'slide-vertical':
+              case 'slide-v':
+                  // vertical slide
+                  var containerHeight = this.container.height();
+                  var curLastTop      = containerHeight;
+                  var nextFirstTop    = containerHeight * -2;
 
-            // Trigger "showStep" event
-            this._triggerEvent("showStep", [selTab, this.current_index, stepDirection, stepPosition]);
-            return true;
-        },
-        _setAnchor: function (idx) {
-            // Current step anchor > Remove other classes and add done class
-            this.steps.eq(this.current_index).parent('li').removeClass("active");
-            if (this.options.anchorSettings.markDoneStep !== false && this.current_index !== null) {
-                this.steps.eq(this.current_index).parent('li').addClass("done");
-                if (this.options.anchorSettings.removeDoneStepOnNavigateBack !== false) {
-                    this.steps.eq(idx).parent('li').nextAll().removeClass("done");
-                }
-            }
+                  // Forward direction
+                  if (idx > this.current_index) {
+                    curLastTop   = containerHeight * -1;
+                    nextFirstTop = containerHeight;
+                  }
 
-            // Next step anchor > Remove other classes and add active class
-            this.steps.eq(idx).parent('li').removeClass("done").addClass("active");
-            return true;
-        },
-        _setButtons: function (idx) {
-            // Previous/Next Button enable/disable based on step
-            if (!this.options.cycleSteps) {
-                if (0 >= idx) {
-                    $('.sw-btn-prev', this.main).addClass("disabled");
-                } else {
-                    $('.sw-btn-prev', this.main).removeClass("disabled");
-                }
-                if (this.steps.length - 1 <= idx) {
-                    $('.sw-btn-next', this.main).addClass("disabled");
-                } else {
-                    $('.sw-btn-next', this.main).removeClass("disabled");
-                }
-            }
-            return true;
-        },
+                  var css_vpos, css_vtop;
+                  if (curPage) {
+                      css_vpos = curPage.css("position");
+                      css_vtop = curPage.css("top");
+                      curPage.css("position", 'absolute')
+                              .css("top", 0)
+                              .animate({
+                               top: curLastTop
+                              },
+                              this.options.transition.speed,
+                              this.options.transition.easing,
+                              function() {
+                                $(this).hide();
+                                curPage.css("position", css_vpos).css("top", css_vtop);
+                              });
+                  }
 
-        // HELPER FUNCTIONS
+                  css_vpos = selPage.css("position");
+                  css_vtop = selPage.css("top");
+                  selPage.css("position", 'absolute')
+                          .css("top", nextFirstTop)
+                          .show()
+                          .animate({
+                            top: 0
+                          },
+                          this.options.transition.speed,
+                          this.options.transition.easing,
+                          () => {
+                              selPage.css("position", css_vpos).css("top", css_vtop);
+                              callback();
+                          });
+                  break;
+              case 'slide-swing':
+              case 'slide-s':
+                  // normal slide
+                  if (curPage) {
+                      curPage.slideUp('fast', this.options.transition.easing, () => {
+                          selPage.slideDown(this.options.transition.speed, this.options.transition.easing, () => {
+                              callback();
+                          });
+                      });
+                  } else {
+                      selPage.slideDown(this.options.transition.speed, this.options.transition.easing, () => {
+                          callback();
+                      });
+                  }
+                  break;
+              case 'fade':
+                  // normal fade
+                  if (curPage) {
+                      curPage.fadeOut('fast', this.options.transition.easing, () => {
+                          selPage.fadeIn('fast', this.options.transition.easing, () => {
+                              callback();
+                          });
+                      });
+                  } else {
+                      selPage.fadeIn(this.options.transition.speed, this.options.transition.easing, () => {
+                          callback();
+                      });
+                  }
+                  break;
+              default:
+                  if (curPage) {
+                      curPage.hide();
+                  }
+                  selPage.show();
+                  callback();
+                  break;
+          }
+      }
 
-        _keyNav: function (e) {
-            var mi = this;
-            // Keyboard navigation
-            switch (e.which) {
-                case 37:
-                    // left
-                    mi._showPrevious();
-                    e.preventDefault();
-                    break;
-                case 39:
-                    // right
-                    mi._showNext();
-                    e.preventDefault();
-                    break;
-                default:
-                    return; // exit this handler for other keys
-            }
-        },
-        _fixHeight: function (idx) {
-            // Auto adjust height of the container
-            if (this.options.autoAdjustHeight) {
-                var selPage = this.steps.eq(idx).length > 0 ? $(this.steps.eq(idx).attr("href"), this.main) : null;
-                this.container.finish().animate({ minHeight: selPage.outerHeight() }, this.options.transitionSpeed, function () {});
-            }
-            return true;
-        },
-        _triggerEvent: function (name, params) {
-            // Trigger an event
-            var e = $.Event(name);
-            this.main.trigger(e, params);
-            if (e.isDefaultPrevented()) {
-                return false;
-            }
-            return e.result;
-        },
-        _setURLHash: function (hash) {
-            if (this.options.showStepURLhash && window.location.hash !== hash) {
-                window.location.hash = hash;
-            }
-        },
-        _loader: function (action) {
-            switch (action) {
-                case 'show':
-                    this.main.addClass('sw-loading');
-                    break;
-                case 'hide':
-                    this.main.removeClass('sw-loading');
-                    break;
-                default:
-                    this.main.toggleClass('sw-loading');
-            }
-        },
+      _stopAnimations() {
+          this.pages.finish();
+          this.container.finish();
+      }
 
-        // PUBLIC FUNCTIONS
+      _setAnchor(idx) {
+          // Current step anchor > Remove other classes and add done class
+          this._resetCSSClass(this.current_index, "active");
+          if (this.options.anchorSettings.markDoneStep !== false && this.current_index !== null) {
+              this._setCSSClass(this.current_index, "done");
+              if (this.options.anchorSettings.removeDoneStepOnNavigateBack !== false && this._getStepDirection(idx) === 'backward') {
+                  this._resetCSSClass(this.current_index, "done");
+              }
+          }
 
-        goToStep: function (stepNum) {
-            this._transitPage(stepNum);
-        },
-        hiddenSteps: function (r) {
-            this.options.hiddenSteps = r;
-            // Hidden steps
-            if (this.options.hiddenSteps && this.options.hiddenSteps.length > 0) {
-                var mi = this;
-                $.each(mi.steps, function (i, n) {
-                    if ($.inArray(i, mi.options.hiddenSteps) > -1) {
-                        $(n).parent('li').addClass('hidden');
-                    }
-                    else {
-                        $(n).parent('li').removeClass('hidden');
-                    }
-                });
-            }
-        },
-        theme: function (v) {
-            if (this.options.theme === v) {
-                return false;
-            }
-            this.main.removeClass('sw-theme-' + this.options.theme);
-            this.options.theme = v;
-            this.main.addClass('sw-theme-' + this.options.theme);
-            // Trigger "themeChanged" event
-            this._triggerEvent("themeChanged", [this.options.theme]);
-        },
-        next: function () {
-            this._showNext();
-        },
-        prev: function () {
-            this._showPrevious();
-        },
-        reset: function () {
-            // Trigger "beginReset" event
-            if (this._triggerEvent("beginReset") === false) {
-                return false;
-            }
+          // Next step anchor > Remove other classes and add active class
+          this._resetCSSClass(idx, "done");
+          this._setCSSClass(idx, "active");
+      }
 
-            // Reset all elements and classes
-            this.container.stop(true);
-            this.pages.stop(true);
-            this.pages.hide();
-            this.current_index = null;
-            this._setURLHash(this.steps.eq(this.options.selected).attr("href"));
-            $(".sw-toolbar", this.main).remove();
-            this.steps.removeClass();
-            this.steps.parents('li').removeClass();
-            this.steps.data('has-content', false);
-            this.init();
+      _setButtons(idx) {
+          // Previous/Next Button enable/disable based on step
+          if (!this.options.cycleSteps) {
+              this.main.find('.sw-btn-prev').removeClass("disabled");
+              this.main.find('.sw-btn-next').removeClass("disabled");
+              switch (this._getStepPosition(idx)) {
+                  case 'first':
+                      this.main.find('.sw-btn-prev').addClass("disabled");
+                      break;
+                  case 'last':
+                      this.main.find('.sw-btn-next').addClass("disabled");
+                      break;
+                  default:
+                      if (this._getNextShowable(idx) === false) {
+                          this.main.find('.sw-btn-next').addClass("disabled");
+                      }
 
-            // Trigger "endReset" event
-            this._triggerEvent("endReset");
-        },
-        stepState: function (stepArray, state) {
-            var mi = this;
-            stepArray = $.isArray(stepArray) ? stepArray : [stepArray];
-            var selSteps = $.grep(this.steps, function (n, i) {
-                return $.inArray(i, stepArray) !== -1; //  && i !== mi.current_index
-            });
-            if (selSteps && selSteps.length > 0) {
-                switch (state) {
-                    case 'disable':
-                        $(selSteps).parents('li').addClass('disabled');
-                        break;
-                    case 'enable':
-                        $(selSteps).parents('li').removeClass('disabled');
-                        break;
-                    case 'hide':
-                        $(selSteps).parents('li').addClass('hidden');
-                        break;
-                    case 'show':
-                        $(selSteps).parents('li').removeClass('hidden');
-                        break;
-                    case 'error-on':
-                        $(selSteps).parents('li').addClass('danger');
-                        break;
-                    case 'error-off':
-                        $(selSteps).parents('li').removeClass('danger');
-                        break;
-                }
-            }
+                      if (this._getPreviousShowable(idx) === false) {
+                          this.main.find('.sw-btn-prev').addClass("disabled");
+                      }
+                      break;
+              }
+          }
+      }
+
+      _getStepIndex() {
+          // Get selected step from the url
+          let idx = this._getURLHashIndex();
+          return (idx === false) ? this.options.selected : idx;
+      }
+
+      _setTheme(theme) {
+          this.main.removeClass(function (index, className) {
+              return (className.match (/(^|\s)sw-theme-\S+/g) || []).join(' ');
+          }).addClass('sw-theme-' + theme);
+      }
+
+      _setJustify(justified) {
+        if (justified === true) {
+          this.main.addClass('sw-justified');
+        } else {
+          this.main.removeClass('sw-justified');
         }
-    });
+      }
+
+      // HELPER FUNCTIONS
+
+      _keyNav(e) {
+          // Keyboard navigation
+          if ($.inArray(e.which, this.options.keyboardSettings.keyLeft) > -1) {
+              // left
+              this._showPrevious();
+              e.preventDefault();
+          } else if ($.inArray(e.which, this.options.keyboardSettings.keyRight) > -1) {
+              // right
+              this._showNext();
+              e.preventDefault();
+          } else {
+              return; // exit this handler for other keys
+          }
+      }
+
+      _fixHeight(idx) {
+          // Auto adjust height of the container
+          if (this.options.autoAdjustHeight) {
+              let selPage = this._getStepPage(idx);
+              this.container.finish()
+                            .animate({
+                                  height: selPage.outerHeight()
+                                },
+                                this.options.transition.speed
+                            );
+          }
+      }
+
+      _triggerEvent(name, params) {
+          // Trigger an event
+          var e = $.Event(name);
+          this.main.trigger(e, params);
+          if (e.isDefaultPrevented()) {
+              return false;
+          }
+          return e.result;
+      }
+
+      _setURLHash(hash) {
+          if (this.options.enableURLhash && window.location.hash !== hash) {
+              history.pushState(null,null,hash);
+          }
+      }
+
+      _getURLHashIndex() {
+          if (this.options.enableURLhash) {
+            // Get step number from url hash if available
+            var hash = window.location.hash;
+            if (hash.length > 0) {
+                var elm = this.nav.find("a[href*='" + hash + "']");
+                if (elm.length > 0) {
+                    return this.steps.index(elm);
+                }
+            }
+          }
+          return false;
+      }
+
+      _loader(action) {
+          switch (action) {
+              case 'show':
+                  this.main.addClass('sw-loading');
+                  break;
+              case 'hide':
+                  this.main.removeClass('sw-loading');
+                  break;
+              default:
+                  this.main.toggleClass('sw-loading');
+          }
+      }
+
+      _showError(msg) {
+          console.error(msg);
+      }
+
+      // PUBLIC FUNCTIONS
+
+      goToStep(stepIndex) {
+          this._showStep(stepIndex);
+      }
+
+      next() {
+          this._showNext();
+      }
+
+      prev() {
+          this._showPrevious();
+      }
+
+      reset() {
+          // Reset all
+          this._setURLHash('#');
+          this._initOptions();
+          this._initLoad();
+      }
+
+      stepState(stepArray, state) {
+          if (!stepArray) {
+              return false;
+          }
+
+          switch (state) {
+              case 'disable':
+                  this._setCSSClass(stepArray, 'disabled');
+                  break;
+              case 'enable':
+                  this._resetCSSClass(stepArray, 'disabled');
+                  break;
+              case 'hide':
+                  this._setCSSClass(stepArray, 'hidden');
+                  break;
+              case 'show':
+                  this._resetCSSClass(stepArray, 'hidden');
+                  break;
+              case 'error-on':
+                  this._setCSSClass(stepArray, 'danger');
+                  break;
+              case 'error-off':
+                  this._resetCSSClass(stepArray, 'danger');
+                  break;
+          }
+      }
+
+      setOptions(options) {
+          this.options  = $.extend(true, {}, this.options, options);
+          this._initOptions();
+      }
+
+      getStepIndex() {
+          return this.current_index;
+      }
+
+      loader(state) {
+          if (state === "show") {
+              this.main.addClass('sw-loading');
+          } else {
+              this.main.removeClass('sw-loading');
+          }
+      }
+
+    }
 
     // Wrapper for the plugin
     $.fn.smartWizard = function (options) {
-        var args = arguments;
-        var instance;
-
         if (options === undefined || typeof options === 'object') {
             return this.each(function () {
                 if (!$.data(this, "smartWizard")) {
@@ -649,14 +841,14 @@
                 }
             });
         } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
-            instance = $.data(this[0], 'smartWizard');
+            let instance = $.data(this[0], 'smartWizard');
 
             if (options === 'destroy') {
                 $.data(this, 'smartWizard', null);
             }
 
             if (instance instanceof SmartWizard && typeof instance[options] === 'function') {
-                return instance[options].apply(instance, Array.prototype.slice.call(args, 1));
+                return instance[options].apply(instance, Array.prototype.slice.call(arguments, 1));
             } else {
                 return this;
             }

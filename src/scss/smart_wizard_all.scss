@@ -1,0 +1,28 @@
+/*!
+ * jQuery SmartWizard v5
+ * jQuery Wizard Plugin
+ * http://www.techlaboratory.net/smartwizard
+ *
+ * Created by Dipu Raj
+ * http://dipu.me
+ *
+ * Licensed under the terms of MIT License
+ * https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE
+ */
+
+@charset 'utf-8';
+
+/* SmartWizard Base Styles */
+@import 'core/_base';
+
+/* SmartWizard Theme: Default */
+@import 'themes/_default';
+
+/* SmartWizard Theme: Arrows */
+@import 'themes/_arrows';
+
+/* SmartWizard Theme: Dots */
+@import 'themes/_dots';
+
+/* SmartWizard Theme: Dark */
+@import 'themes/_dark';

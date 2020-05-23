@@ -1,0 +1,154 @@
+// Color Settings
+$container-border-color       : #eeeeee;
+
+$toolbar-bg-color             : #f9f9f9;
+$toolbar-btn-bg-color         : #17a2b8;
+
+$nav-border-color             : #eeeeee;
+
+$nav-active-primary-color     : #5bc0de;
+$nav-active-secondary-color   : #ffffff;
+
+$nav-inactive-primary-color   : #f8f8f8;
+$nav-inactive-secondary-color : #999999;
+
+$nav-done-primary-color       : #5cb85c;
+$nav-done-secondary-color     : #ffffff;
+
+$nav-disabled-primary-color   : #f9f9f9;
+$nav-disabled-secondary-color : #eeeeee;
+
+$nav-danger-primary-color     : #d9534f;
+$nav-danger-secondary-color   : #ffffff;
+
+
+.sw-theme-arrows {
+  border: 1px solid $container-border-color;
+
+  // Content style
+  & > .tab-content {
+
+    & > .tab-pane {
+      padding: 10px;
+    }
+
+  }
+
+  // Toolbar style
+  & .toolbar {
+
+    & > .btn {
+      color: #fff;
+      background-color: $toolbar-btn-bg-color;
+      border: 1px solid $toolbar-btn-bg-color;
+      padding: .375rem .75rem;
+      border-radius: .25rem;
+      font-weight: 400;
+    }
+  }
+
+  // Navigation style
+  & > .nav {
+    overflow: hidden;
+    border-bottom: 1px solid $container-border-color;
+
+    .nav-link {
+      position: relative;
+      height: 100%;
+      min-height: 100%;
+      margin-right: 30px;
+      margin-left: -30px;
+      padding-left: 40px;
+
+      @media screen and (max-width: $breakpoint-phone) {
+        overflow: hidden;
+        margin-bottom: 1px;
+        margin-right: unset;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        top: 50%;
+        left: 100%;
+        margin-top: -50px;
+        border-top: 50px solid transparent;
+        border-bottom: 50px solid transparent;
+        border-left: 30px solid $nav-inactive-primary-color;
+        z-index: 2;
+      }
+
+      &::before {
+        content: " ";
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        top: 50%;
+        left: 100%;
+        margin-top: -50px;
+        margin-left: 1px;
+        border-top: 50px solid transparent;
+        border-bottom: 50px solid transparent;
+        border-left: 30px solid $nav-border-color;
+        z-index: 1;
+      }
+
+      &.inactive {
+        color: $nav-inactive-secondary-color;
+        border-color: $nav-inactive-primary-color;
+        background: $nav-inactive-primary-color;
+        cursor: not-allowed;
+      }
+
+      &.active {
+        color: $nav-active-secondary-color !important;
+        border-color: $nav-active-primary-color !important;
+        background: $nav-active-primary-color !important;
+        cursor: pointer;
+
+        &::after {
+          border-left-color: $nav-active-primary-color !important;
+        }
+      }
+
+      &.done {
+        color: $nav-done-secondary-color;
+        border-color: $nav-done-primary-color;
+        background: $nav-done-primary-color;
+        cursor: pointer;
+
+        &::after {
+          border-left-color: $nav-done-primary-color;
+        }
+      }
+
+      &.disabled {
+        color: $nav-disabled-secondary-color;
+        border-color: $nav-disabled-primary-color;
+        background: $nav-disabled-primary-color;
+        cursor: not-allowed;
+
+        &::after {
+          border-left-color: $nav-disabled-primary-color;
+        }
+      }
+
+      &.danger {
+        color: $nav-danger-secondary-color;
+        border-color: $nav-danger-primary-color;
+        background: $nav-danger-primary-color;
+        cursor: pointer;
+
+        &::after {
+          border-left-color: $nav-danger-primary-color;
+        }
+      }
+
+    }
+  }
+
+}

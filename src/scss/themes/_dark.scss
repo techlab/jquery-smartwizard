@@ -1,0 +1,118 @@
+// Colors
+$container-border-color        : #eeeeee;
+
+$toolbar-bg-color              : rgba(130, 130, 134, .1);
+$toolbar-btn-bg-color          : #17a2b8;
+
+$nav-active-primary-color      : #17a2b8; // #17a2b8 #5bc0de
+$nav-active-secondary-color    : #ffffff;
+
+$nav-inactive-primary-color    : #f8f8f8;
+$nav-inactive-secondary-color  : #999999;
+
+$nav-done-primary-color        : #5cb85c;
+$nav-done-secondary-color      : #ffffff;
+
+$nav-disabled-primary-color    : #f9f9f9;
+$nav-disabled-secondary-color  : #eeeeee;
+
+$nav-danger-primary-color      : #d9534f;
+$nav-danger-secondary-color    : #ffffff;
+
+
+.sw-theme-dark {
+  border: 1px solid $container-border-color;
+  box-shadow: 0 1px 10px rgba(130, 130, 134, .1);
+
+  color: rgba(255, 255, 255, 0.95);
+  background: #181c20;
+
+  // Content style
+  & > .tab-content {
+    & > .tab-pane {
+      padding: 10px;
+    }
+
+  }
+
+  // Toolbar style
+  & .toolbar {
+
+    & > .btn {
+      color: #fff;
+      background-color: $toolbar-btn-bg-color;
+      border: 1px solid $toolbar-btn-bg-color;
+      padding: .375rem .75rem;
+      border-radius: .25rem;
+      font-weight: 400;
+    }
+  }
+
+  // Navigation style
+  & > .nav {
+    background: #0D0F12;
+
+    .nav-link {
+      position: relative;
+      height: 100%;
+      min-height: 100%;
+
+      &::after {
+        content: "";
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        left: 0px;
+        bottom: -1px;
+        background: $nav-inactive-secondary-color;
+        transition: all 250ms ease 0s;
+        transform: scale(0);
+      }
+
+      &.inactive {
+        color: $nav-inactive-secondary-color;
+        cursor: not-allowed;
+      }
+
+      &.active {
+        color: $nav-active-primary-color !important;
+        cursor: pointer;
+
+        &::after {
+          background: $nav-active-primary-color !important;
+          transform: scale(1);
+        }
+      }
+
+      &.done {
+        color: $nav-done-primary-color !important;
+        cursor: pointer;
+
+        &::after {
+          background: $nav-done-primary-color;
+          transform: scale(1);
+        }
+      }
+
+      &.disabled {
+        color: $nav-disabled-primary-color !important;
+        cursor: not-allowed;
+
+        &::after {
+          background: $nav-disabled-primary-color;
+        }
+      }
+
+      &.danger {
+        color: $nav-danger-primary-color !important;
+        cursor: pointer;
+
+        &::after {
+          background: $nav-danger-primary-color;
+        }
+      }
+    }
+
+  }
+
+}
