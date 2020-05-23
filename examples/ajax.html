@@ -23,8 +23,8 @@
     <p>
       <label>Theme:</label>
       <select id="theme_selector">
-        <option value="default">Default</option>
-        <option value="arrows" selected>Arrows</option>
+        <option value="default" selected>Default</option>
+        <option value="arrows">Arrows</option>
         <option value="dots">Dots</option>
         <option value="dark">Dark</option>
       </select>
@@ -49,7 +49,6 @@
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="4">4</option>
       </select>
 
       &nbsp;&nbsp;&nbsp;&nbsp;
@@ -66,43 +65,30 @@
 
         <ul class="nav">
             <li class="nav-item">
-              <a class="nav-link" href="#step-1">
-                <strong>Step 1</strong> <br>This is step description
+              <a class="nav-link" href="#step-1" data-repo="jquery-smarttab">
+                <strong>SmartTab</strong><br />repository details from GitHub
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#step-2">
-                <strong>Step 2</strong> <br>This is step description
+              <a class="nav-link" href="#step-2" data-repo="smartwizard">
+                <strong>SmartWizard</strong><br />repository details from GitHub
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#step-3">
-                <strong>Step 3</strong> <br>This is step description
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#step-4">
-                <strong>Step 4</strong> <br>This is step description
+              <a class="nav-link" href="#step-3" data-repo="jquery-smartcart">
+                <strong>SmartCart</strong><br />repository details from GitHub
               </a>
             </li>
         </ul>
 
         <div class="tab-content">
             <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
-                <h3>Step 1 Content</h3>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
             </div>
             <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
-                <h3>Step 2 Content</h3>
-                <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. </div>
             </div>
             <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
             </div>
             <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
-                <h3>Step 4 Content</h3>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
             </div>
         </div>
     </div>
@@ -140,10 +126,61 @@
                 }
             });
 
+            $("#smartwizard").on("stepContent", function(e, anchorObject, stepIndex, stepDirection) {
+
+                var repo    = anchorObject.data('repo');
+                var ajaxURL = "https://api.npms.io/v2/package/" + repo;
+                // Return a promise object
+                return new Promise((resolve, reject) => {
+
+                  // Ajax call to fetch your content
+                  $.ajax({
+                      method  : "GET",
+                      url     : ajaxURL,
+                      beforeSend: function( xhr ) {
+                          // Show the loader
+                          $('#smartwizard').smartWizard("loader", "show");
+                      }
+                  }).done(function( res ) {
+                      // console.log(res);
+
+                      var html = '<h2>Ajax data about ' + repo + ' loaded from GitHub</h2>';
+                      html += '<br>URL: <strong>' + ajaxURL + '</strong>';
+                      html += '<br>Name: <strong>' + res.collected.metadata.name + '</strong>';
+                      html += '<br>Description: ' + res.collected.metadata.description;
+                      html += '<br>Homepage: <a href="' + res.collected.github.homepage + '" >'+ res.collected.github.homepage +'</a>';
+                      html += '<br>Keywords: ' + res.collected.metadata.keywords.join(', ');
+
+                      // html += '<br>Clone URL: ' + res.clone_url;
+                      html += '<br>Stars: ' + res.collected.github.starsCount;
+                      html += '<br>Forks: ' + res.collected.github.forksCount;
+                      html += '<br>Watchers: ' + res.collected.github.subscribersCount;
+                      html += '<br>Open Issues: ' + res.collected.github.issues.openCount + '/' + res.collected.github.issues.count;
+
+                      html += '<br><br>Popularity: ' + parseInt(res.score.detail.popularity * 100);
+                      html += '<br>Quality: ' + parseInt(res.score.detail.quality * 100);
+                      html += '<br>Maintenance: ' + parseInt(res.score.detail.maintenance * 100);
+
+                      // Resolve the Promise with the tab content
+                      resolve(html);
+
+                      // Hide the loader
+                      $('#smartwizard').smartWizard("loader", "hide");
+                  }).fail(function(err) {
+
+                      // Reject the Promise with error message to show as tab content
+                      reject( "An error loading the resource" );
+
+                      // Hide the loader
+                      $('#smartwizard').smartWizard("loader", "hide");
+                  });
+
+                });
+            });
+
             // Smart Wizard
             $('#smartwizard').smartWizard({
                 selected: 0,
-                theme: 'arrows',
                 transition: {
                     animation: 'slide-horizontal', // Effect on navigation, none/fade/slide-horizontal/slide-vertical/slide-swing
                 },

@@ -1,0 +1,132 @@
+$breakpoint-phone: 640px;
+
+.sw {
+    position: relative;
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box; // 1
+    }
+
+    & > .tab-content {
+      position: relative;
+      overflow: hidden;
+    }
+
+    // Toolbar style
+    & .toolbar {
+      padding: .8rem;
+
+      & > .btn {
+        display: inline-block;
+        text-decoration: none;
+        text-align: center;
+        text-transform: none;
+        vertical-align: middle;
+        user-select: none;
+        margin-left: .2rem;
+        margin-right: .2rem;
+        cursor: pointer;
+
+        &.disabled, &:disabled {
+          opacity: .65;
+        }
+      }
+
+    }
+
+    & > .nav {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      padding-left: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+
+      @media screen and (max-width: $breakpoint-phone) {
+        flex-direction: column!important;
+        flex: 1 auto;
+      }
+
+      .nav-link {
+        display: block;
+        padding: .5rem 1rem;
+        text-decoration: none;
+        outline: 0!important;;
+
+        &:hover,
+        &:active,
+        &:focus {
+          text-decoration: none;
+          outline:0 !important;
+        }
+
+        &::-moz-focus-inner {
+          border: 0!important;;
+        }
+
+        &.disabled {
+          color: #ccc !important;
+          pointer-events: none;
+          cursor: default;
+        }
+        &.hidden {
+          display: none !important;
+        }
+
+      }
+    }
+
+    // Justified navigation style
+    &.sw-justified {
+
+      & > .nav {
+
+        & > li, .nav-link {
+          flex-basis: 0;
+          flex-grow: 1;
+          text-align: center;
+        }
+      }
+    }
+
+    // Loading animation
+    &.sw-loading {
+      user-select: none;
+
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        opacity: 1;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(255,255,255,.7);
+        z-index: 2;
+        transition: all .2s ease;
+      }
+
+      &::before {
+        content: '';
+        display: inline-block;
+        position: absolute;
+        top: 45%;
+        left: 45%;
+        width: 2rem;
+        height: 2rem;
+        border: 10px solid #f3f3f3;
+        border-top: 10px solid #3498db;
+        border-radius: 50%;
+        z-index: 10;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    }
+ }

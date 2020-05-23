@@ -1,12 +1,12 @@
 {
     "name": "techlab/smartwizard",
-    "description": "The awesome jQuery step wizard plugin with Bootstrap support",
-    "homepage": "http://techlaboratory.net/smartwizard",
+    "description": "The awesome jQuery step wizard plugin",
+    "homepage": "http://techlaboratory.net/jquery-smartwizard",
     "license": "MIT",
     "support": {
-        "source": "https://github.com/techlab/SmartWizard",
-        "issues": "https://github.com/techlab/SmartWizard/issues",
-        "docs": "http://techlaboratory.net/smartwizard/documentation"
+        "source": "https://github.com/techlab/jquery-smartwizard",
+        "issues": "https://github.com/techlab/jquery-smartwizard/issues",
+        "docs": "http://techlaboratory.net/jquery-smartwizard#documentation"
         },
     "keywords": [
         "bootstrap",
@@ -20,8 +20,8 @@
     "authors": [
         {
             "name": "Dipu Raj",
-            "email": "hello@techlaboratory.net",
-            "homepage": "http://dipuraj.me"
+            "email": "hello.techlab@gmail.com",
+            "homepage": "http://dipu.me"
         }
     ],
     "require": {

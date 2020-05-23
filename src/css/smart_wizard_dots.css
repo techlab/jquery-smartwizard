@@ -135,16 +135,12 @@
   }
 }
 
-/* SmartWizard Theme: Default */
-.sw-theme-default {
-  border: 1px solid #eeeeee;
-}
-
-.sw-theme-default > .tab-content > .tab-pane {
+/* SmartWizard Theme: Dots */
+.sw-theme-dots > .tab-content > .tab-pane {
   padding: 10px;
 }
 
-.sw-theme-default .toolbar > .btn {
+.sw-theme-dots .toolbar > .btn {
   color: #fff;
   background-color: #17a2b8;
   border: 1px solid #17a2b8;
@@ -153,67 +149,103 @@
   font-weight: 400;
 }
 
-.sw-theme-default > .nav {
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1) !important;
-}
-
-.sw-theme-default > .nav .nav-link {
+.sw-theme-dots > .nav {
   position: relative;
-  height: 100%;
-  min-height: 100%;
+  margin-bottom: 10px;
 }
 
-.sw-theme-default > .nav .nav-link::after {
-  content: "";
+.sw-theme-dots > .nav::before {
+  content: " ";
   position: absolute;
-  height: 2px;
+  top: 18px;
+  left: 0;
   width: 100%;
-  left: 0px;
-  bottom: -1px;
-  background: #999999;
-  transition: all 250ms ease 0s;
-  transform: scale(0);
+  height: 5px;
+  background-color: #eee;
+  border-radius: 3px;
+  z-index: 1;
 }
 
-.sw-theme-default > .nav .nav-link.inactive {
+.sw-theme-dots > .nav .nav-link {
+  position: relative;
+  margin-top: 40px;
+}
+
+.sw-theme-dots > .nav .nav-link::before {
+  content: " ";
+  position: absolute;
+  display: block;
+  top: -36px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #f5f5f5;
+  color: #428bca;
+  text-decoration: none;
+  z-index: 98;
+}
+
+.sw-theme-dots > .nav .nav-link::after {
+  content: " ";
+  position: absolute;
+  display: block;
+  top: -28px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  z-index: 99;
+}
+
+.sw-theme-dots > .nav .nav-link.inactive {
   color: #999999;
   cursor: not-allowed;
 }
 
-.sw-theme-default > .nav .nav-link.active {
-  color: #17a2b8 !important;
+.sw-theme-dots > .nav .nav-link.inactive::after {
+  background-color: #999999;
+}
+
+.sw-theme-dots > .nav .nav-link.active {
+  color: #5bc0de !important;
   cursor: pointer;
 }
 
-.sw-theme-default > .nav .nav-link.active::after {
-  background: #17a2b8 !important;
-  transform: scale(1);
+.sw-theme-dots > .nav .nav-link.active::after {
+  background-color: #5bc0de !important;
 }
 
-.sw-theme-default > .nav .nav-link.done {
-  color: #5cb85c !important;
+.sw-theme-dots > .nav .nav-link.done {
+  color: #5cb85c;
   cursor: pointer;
 }
 
-.sw-theme-default > .nav .nav-link.done::after {
-  background: #5cb85c;
-  transform: scale(1);
+.sw-theme-dots > .nav .nav-link.done::after {
+  background-color: #5cb85c;
 }
 
-.sw-theme-default > .nav .nav-link.disabled {
-  color: #f9f9f9 !important;
+.sw-theme-dots > .nav .nav-link.disabled {
+  color: #f9f9f9;
   cursor: not-allowed;
 }
 
-.sw-theme-default > .nav .nav-link.disabled::after {
-  background: #f9f9f9;
+.sw-theme-dots > .nav .nav-link.disabled::after {
+  background-color: #f9f9f9;
 }
 
-.sw-theme-default > .nav .nav-link.danger {
-  color: #d9534f !important;
+.sw-theme-dots > .nav .nav-link.danger {
+  color: #d9534f;
   cursor: pointer;
 }
 
-.sw-theme-default > .nav .nav-link.danger::after {
-  background: #d9534f;
+.sw-theme-dots > .nav .nav-link.danger::after {
+  background-color: #d9534f;
 }

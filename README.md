@@ -1,39 +1,44 @@
-# jQuery Smart Wizard 4
-#### The awesome jQuery step wizard plugin with Bootstrap support.
+# jQuery Smart Wizard v5
+#### The awesome jQuery step wizard plugin.
 
 [![Build Status](https://travis-ci.org/techlab/jquery-smartwizard.svg?branch=master)](https://travis-ci.org/techlab/jquery-smartwizard)
 [![npm version](https://badge.fury.io/js/smartwizard.svg)](https://badge.fury.io/js/smartwizard)
 [![Latest Stable Version](https://poser.pugx.org/techlab/smartwizard/v/stable)](https://packagist.org/packages/techlab/smartwizard)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/techlab/SmartWizard/master/LICENSE)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/techlab/jquery-smartwizard/master/LICENSE)
 [![Donate on Paypal](https://img.shields.io/badge/PayPal-dipuraj-blue.svg)](https://www.paypal.me/dipuraj)
 
-Smart Wizard is a flexible and heavily customizable **jQuery step wizard plugin** with **Bootstrap** support. It is easy to implement and gives a neat and stylish interface for your forms, checkout screen, registration steps etc. Based on the feedback from our users over the past years we have come up with the **best ever built jQuery wizard plugin of all time**, all new Smart Wizard 4. The plugin is been completely rewritten from scratch, made it more powerful, robust, scalable and customizable. We have added a lot of features not limited to Bootstrap 4 support, themes, customizable toolbars, customizable options, public methods, event support and a lot more.
 
-+ [Homepage](http://techlaboratory.net/smartwizard)
-+ [Documentation](http://techlaboratory.net/smartwizard#documentation)
-+ [Demos](http://techlaboratory.net/smartwizard#demo)
+**jQuery Smart Wizard** is a step wizard plugin for jQuery.
+Provides a neat and stylish interface for your forms, checkout screen, registration steps, etc.
+Easy implementation,  Bootstrap compatiblity, customizable toolbars, themes, events and Ajax support are few of the features.
+
+
++ [Homepage](http://techlaboratory.net/jquery-smartwizard)
++ [Documentation](http://techlaboratory.net/jquery-smartwizard#documentation)
++ [Demos](http://techlaboratory.net/jquery-smartwizard#demo)
 + [StackOverflow Q&A](http://stackoverflow.com/questions/tagged/smart-wizard)
-+ [GitHub Issues](https://github.com/techlab/SmartWizard/issues)
-
-Screenshots
------
-![Smart Wizard Screenshot1](http://techlaboratory.net/assets/media/products/SmartWizard43_1.png?v1)   
-
-![Smart Wizard Screenshot2](http://techlaboratory.net/assets/media/products/SmartWizard43_2.png?v1)   
-
-![Smart Wizard Screenshot3](http://techlaboratory.net/assets/media/products/SmartWizard43_3.png?v1)   
++ [GitHub Issues](https://github.com/techlab/jquery-smartwizard/issues)
 
 Demos
 -----
-  + [Basic Example](http://techlaboratory.net/projects/demo/jquery-smart-wizard/v4/basic)
-  + [Input Validation](http://techlaboratory.net/projects/demo/jquery-smart-wizard/v4/validation)
-  + [Events](http://techlaboratory.net/projects/demo/jquery-smart-wizard/v4/events)
-  + [With Modal Dialog](http://techlaboratory.net/projects/demo/jquery-smart-wizard/v4/modal)
++ [Basic Example](http://techlaboratory.net/projects/demo/jquery-smart-wizard/v5)
++ [Ajax Example](http://techlaboratory.net/projects/demo/jquery-smart-wizard/v5/ajax)
++ [Multiple Wizard Example](http://techlaboratory.net/projects/demo/jquery-smart-wizard/v5/multiple)
+
+Screenshots
+-----
+![Smart Wizard Default](http://techlaboratory.net/assets/media/jquery-smart-wizard/jquery-smartwizard-v5-default.png)   
+
+![Smart Wizard Arrows](http://techlaboratory.net/assets/media/jquery-smart-wizard/jquery-smartwizard-v5-arrows.png)   
+
+![Smart Wizard Black](http://techlaboratory.net/assets/media/jquery-smart-wizard/jquery-smartwizard-v5-dark.png)   
+
+![Smart Wizard Dots](http://techlaboratory.net/assets/media/jquery-smart-wizard/jquery-smartwizard-v5-dots.png)  
+
 
 Requirements
 -----
-  + [Bootstrap 4.0.0](http://getbootstrap.com/getting-started/#download)
-  + [jQuery](http://jquery.com/) (supports jQuery 1.9+, jQuery 2+ and jQuery 3+)
+  + [jQuery](http://jquery.com/) (supports from jQuery-1.11.1+ to the latest jQuery-3.5)
 
 Installation
 -----
@@ -51,93 +56,151 @@ Installation
     composer require techlab/smartwizard
 
 ### Download
-#### [Download from GitHub](https://github.com/techlab/jquery-smartwizard/archive/master.zip)    
+#### [Download from GitHub](https://github.com/techlab/jquery-smartwizard/archive/master.zip)
+
+Features
+-----
+
+- Standalone CSS
+- Bootstrap compatible
+- Various themes included
+- Customizable CSS
+- URL navigation and selection
+- Event support
+- Ajax content loading support
+- Keyboard navigation
+- Auto content height adjustment
+- Cool transition animations (fade/slide-horizontal/slide-vertical/slide-swing)
+- External anchor support
+- Easy to implement and minimal HTML required
+- Customizable toolbar, option to add extra buttons
+- Compatible with all jQuery versions (jQuery 1.11.1+, jQuery 2+, jQuery 3.5+)
+- Supports all modern browsers
+- Responsive design
+- In-built reset method
+- Easy navigation with step anchors and navigation buttons
 
 Usage
 -----
 
-Include Bootstrap CSS (*ignore this if you have already included on the page*).
-```html
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" >
-```
 Include SmartWizard CSS
 ```html
-<link href="../dist/css/smart_wizard.css" rel="stylesheet" type="text/css" />
+<link href="../dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
 ```
-Optionally, if you want to use the theme include the corresponding theme css
-```html
-<link href="../dist/css/smart_wizard_theme_arrows.css" rel="stylesheet" type="text/css" />
-```
-Include HTML (*This is the basic HTML markup for the Smart Wizard. You can customize it by adding your on steps contents*).
+
+Include HTML (*This is the basic HTML markup for the Smart Wizard. You can customize it by adding your on steps content*).
 ```html
 <div id="smartwizard">
-    <ul>
-        <li><a href="#step-1">Step Title<br /><small>Step description</small></a></li>
-        <li><a href="#step-2">Step Title<br /><small>Step description</small></a></li>
-        <li><a href="#step-3">Step Title<br /><small>Step description</small></a></li>
-        <li><a href="#step-4">Step Title<br /><small>Step description</small></a></li>
+
+    <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#step-1">
+            Step 1
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#step-2">
+            Step 2
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#step-3">
+            Step 3
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#step-4">
+            Step 4
+          </a>
+        </li>
     </ul>
 
-    <div>
-        <div id="step-1" class="">
-            Step Content
+    <div class="tab-content">
+        <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+            Step 1 Content
         </div>
-        <div id="step-2" class="">
-            Step Content
+        <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+            Step 2 Content
         </div>
-        <div id="step-3" class="">
-            Step Content
+        <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+            Step 3 Content
         </div>
-        <div id="step-4" class="">
-            Step Content
+        <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+            Step 4 Content
         </div>
     </div>
 </div>
 ```
-Include jQuery (*ignore this if you have already included on the page*).
+
+Include jQuery (*ignore this if you have already included on the page*).  
 ```html
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 ```
+
 Include SmartWizard plugin
 ```html
-<script type="text/javascript" src="../dist/js/jquery.smartWizard.min.js"></script>
+<script src="../dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
 ```
 Initialize the SmartWizard
-```javascript
+```html
 <script type="text/javascript">
-$(document).ready(function(){
+$(document).ready(function() {
 
     $('#smartwizard').smartWizard();
 
 });
 </script>
 ```
-That's it! Now you see the wizard on the page.  
-Please see the [documentation](http://techlaboratory.net/smartwizard#documentation) for more details on implementation and usage.  
+That's it!   
 
-Features
------
-  + Bootstrap 3 & 4 support
-  + Responsive themes
-  + Heavily customizable toolbar, option to add extra buttons
-  + Theme support with various themes included
-  + Customizable css styles
-  + Url navigation and step selection
-  + Public methods for external function call
-  + Enhanced event support
-  + In-built wizard reset method
-  + Ajax content loading with option to specify individual url for steps
-  + Keyboard navigation
-  + Easy navigation with step anchors and navigation buttons
-  + Multiple wizard instance on same page
-  + Integratable to model window  
-  + Dynamically hide or disable steps
-  + Auto content height adjustment
-  + Compatible with latest jQuery versions (jQuery 1.9+, jQuery 2+, jQuery 3+)
-  + Easy to implement, Minimal HTML required
-  + and a lot more...  
+Please see the [documentation](http://techlaboratory.net/jquery-smartwizard#documentation) for more details on implementation and usage.  
 
-> Please use jQuery full version (`jquery-3.3.x.min.js`) as the jQuery slim version (`jquery-3.3.x.slim.min.js`) is not yet supported.
+##### All options
+
+```JavaScript
+$('#smartwizard').smartWizard({
+    selected: 0, // Initial selected step, 0 = first step
+    theme: 'default', // theme for the wizard, related css need to include for other than default theme
+    justified: true, // Nav menu justification. true/false
+    autoAdjustHeight: true, // Automatically adjust content height
+    cycleSteps: false, // Allows to cycle the navigation of steps
+    backButtonSupport: true, // Enable the back button support
+    enableURLhash: true, // Enable selection of the step based on url hash
+    transition: {
+        animation: 'none', // Effect on navigation, none/fade/slide-horizontal/slide-vertical/slide-swing
+        speed: '400', // Transion animation speed
+        easing:'' // Transition animation easing. Not supported without a jQuery easing plugin
+    },
+    toolbarSettings: {
+        toolbarPosition: 'bottom', // none, top, bottom, both
+        toolbarButtonPosition: 'right', // left, right, center
+        showNextButton: true, // show/hide a Next button
+        showPreviousButton: true, // show/hide a Previous button
+        toolbarExtraButtons: [] // Extra buttons to show on toolbar, array of jQuery input/buttons elements
+    },
+    anchorSettings: {
+        anchorClickable: true, // Enable/Disable anchor navigation
+        enableAllAnchors: false, // Activates all anchors clickable all times
+        markDoneStep: true, // Add done state on navigation
+        markAllPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
+        removeDoneStepOnNavigateBack: false, // While navigate back done step after active step will be cleared
+        enableAnchorOnDoneStep: true // Enable/Disable the done steps navigation
+    },
+    keyboardSettings: {
+        keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
+        keyLeft: [37], // Left key code
+        keyRight: [39] // Right key code
+    },
+    lang: { // Language variables for button
+        next: 'Next',
+        previous: 'Previous'
+    },
+    disabledSteps: [], // Array Steps disabled
+    errorSteps: [], // Highlight step with errors
+    hiddenSteps: [] // Hidden steps
+});
+</script>
+```
 
 License
 ----

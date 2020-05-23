@@ -1,33 +1,41 @@
 {
   "name": "smartwizard",
-  "version": "v4.4.1",
-  "author": "Dipu Raj <hello@techlaboratory.net>",
-  "description": "The awesome jQuery step wizard plugin with Bootstrap support",
-  "homepage": "http://techlaboratory.net/smartwizard",
+  "title": "jQuery Smart Wizard",
+  "version": "v5.0.0",
+  "author": {
+    "name": "Dipu Raj",
+    "email": "hello.techlab@gmail.com",
+    "url": "http://dipu.me"
+  },
+  "description": "The awesome jQuery step wizard plugin",
+  "homepage": "http://techlaboratory.net/jquery-smartwizard",
   "license": "MIT",
   "contributors": [
     {
       "name": "Dipu Raj",
-      "email": "hello@techlaboratory.net"
+      "email": "hello.techlab@gmail.com"
     }
   ],
   "main": "./dist/js/jquery.smartWizard.js",
   "style": "./dist/css/smart_wizard.css",
   "repository": {
     "type": "git",
-    "url": "https://github.com/techlab/SmartWizard.git"
+    "url": "https://github.com/techlab/jquery-smartwizard.git"
   },
   "bugs": {
-    "url": "https://github.com/techlab/SmartWizard/issues"
+    "url": "https://github.com/techlab/jquery-smartwizard/issues"
   },
   "keywords": [
-    "bootstrap",
-    "wizard",
-    "step",
+    "jQuery",
+    "Wizard",
+    "Tabs",
+    "Steps",
+    "Bootstrap",
+    "Plugin",
+    "Step",
     "ui",
     "jquery-plugin",
-    "tabs",
-    "jquery"
+    "Tabs"
   ],
   "scripts": {
     "start": "gulp watch",
@@ -49,6 +57,7 @@
     "gulp-jshint": "^2.1.0",
     "gulp-postcss": "^8.0.0",
     "gulp-rename": "^2.0.0",
+    "gulp-sass": "^4.0.2",
     "gulp-uglify": "^3.0.2",
     "jasmine-core": "^3.5.0",
     "jasmine-jquery": "^2.1.1",
@@ -58,6 +67,7 @@
     "karma-jasmine": "^3.1.0",
     "karma-jasmine-jquery": "^0.1.1",
     "karma-spec-reporter": "0.0.32",
+    "node-sass": "^4.13.1",
     "uglify-save-license": "^0.4.1"
   },
   "dependencies": {}
