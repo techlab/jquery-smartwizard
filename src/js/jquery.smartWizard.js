@@ -32,6 +32,8 @@
             toolbarButtonPosition: 'right', // left, right, center
             showNextButton: true, // show/hide a Next button
             showPreviousButton: true, // show/hide a Previous button
+            showSubmitButton: true, // show/hide a Submit
+            stateWhenUnsuitable: 'hide', // Decide to hide or disable the unused button           
             toolbarExtraButtons: [] // Extra buttons to show on toolbar, array of jQuery input/buttons elements
         },
         anchorSettings: {
@@ -49,7 +51,8 @@
         },
         lang: { // Language variables for button
             next: 'Next',
-            previous: 'Previous'
+            previous: 'Previous',
+            submit: 'Submit'
         },
         disabledSteps: [], // Array Steps disabled
         errorSteps: [], // Highlight step with errors
@@ -245,7 +248,9 @@
           // Create the toolbar buttons
           let btnNext       = this.options.toolbarSettings.showNextButton !== false ? $('<button></button>').text(this.options.lang.next).addClass('btn sw-btn-next').attr('type', 'button') : null;
           let btnPrevious   = this.options.toolbarSettings.showPreviousButton !== false ? $('<button></button>').text(this.options.lang.previous).addClass('btn sw-btn-prev').attr('type', 'button') : null;
-          toolbar.append(btnPrevious, btnNext);
+          let btnSubmit     = this.options.toolbarSettings.showSubmitButton !== false ? $('<button></button>').text(this.options.lang.submit).addClass('btn sw-btn-submit') : null;
+
+          toolbar.append(btnPrevious, btnNext, btnSubmit);
 
           // Add extra toolbar buttons
           if (this.options.toolbarSettings.toolbarExtraButtons && this.options.toolbarSettings.toolbarExtraButtons.length > 0) {
@@ -644,28 +649,110 @@
       }
 
       _setButtons(idx) {
-          // Previous/Next Button enable/disable based on step
-          if (!this.options.cycleSteps) {
-              this.main.find('.sw-btn-prev').removeClass("disabled");
-              this.main.find('.sw-btn-next').removeClass("disabled");
-              switch (this._getStepPosition(idx)) {
-                  case 'first':
-                      this.main.find('.sw-btn-prev').addClass("disabled");
-                      break;
-                  case 'last':
-                      this.main.find('.sw-btn-next').addClass("disabled");
-                      break;
-                  default:
-                      if (this._getNextShowable(idx) === false) {
-                          this.main.find('.sw-btn-next').addClass("disabled");
-                      }
-
-                      if (this._getPreviousShowable(idx) === false) {
-                          this.main.find('.sw-btn-prev').addClass("disabled");
-                      }
-                      break;
-              }
+        // Previous/Next Button enable/disable based on step
+        if (!this.options.cycleSteps) {
+          switch (this.options.toolbarSettings.stateWhenUnsuitable) {
+            case 'hide': // this should be by default imo
+              this.main.find('.sw-btn-prev').show();
+              this.main.find('.sw-btn-next').show();
+              this.main.find('.sw-btn-submit').hide();
+              break;
+            case 'disabled':
+              this.main.find('.sw-btn-prev').removeClass('disabled');
+              this.main.find('.sw-btn-next').removeClass('disabled');
+              this.main.find('.sw-btn-submit').addClass('disabled');
+              break;
+            default :
+              this.main.find('.sw-btn-prev').show();
+              this.main.find('.sw-btn-next').show();
+              this.main.find('.sw-btn-submit').hide();
+              break;
           }
+
+          switch (this._getStepPosition(idx)) {
+            case 'first':
+              switch (this.options.toolbarSettings.stateWhenUnsuitable) {
+                case 'hide':
+                  this.main.find('.sw-btn-prev').hide();
+                  this.main.find('.sw-btn-submit').hide();
+                  break;
+                case 'disabled':
+                  this.main.find('.sw-btn-prev').addClass('disabled');
+                  this.main.find('.sw-btn-submit').addClass('disabled');
+                  break;
+                default :
+                  this.main.find('.sw-btn-prev').hide();
+                  this.main.find('.sw-btn-submit').hide();
+                  break;
+              }
+              break;
+
+            case 'last':
+              switch (this.options.toolbarSettings.stateWhenUnsuitable) {
+                case 'hide':
+                  /// Todo move into a function
+                  this.main.find('.sw-btn-next').hide();
+                  this.main.find('.sw-btn-submit').show();
+                  break;
+                case 'disabled':
+                  this.main.find('.sw-btn-next').addClass('disabled');
+                  this.main.find('.sw-btn-submit').removeClass('disabled');
+                  break;
+                default:
+                  this.main.find('.sw-btn-next').hide();
+                  this.main.find('.sw-btn-submit').show();
+                  break;
+              }
+              break;
+
+            default:
+              switch (this.options.toolbarSettings.stateWhenUnsuitable) {
+                 case 'hide':
+                   this.main.find('.sw-btn-submit').hide();
+                   break;
+                 case 'disabled':
+                   this.main.find('.sw-btn-submit').addClass('disabled');
+                   break;
+                 default:
+                   this.main.find('.sw-btn-submit').hide();
+                   break;
+               }
+
+              if (this._getNextShowable(idx) === false) {
+                switch (this.options.toolbarSettings.stateWhenUnsuitable) {
+                   case 'hide':
+                     this.main.find('.sw-btn-next').hide();
+                     this.main.find('.sw-btn-submit').show();
+                     break;
+                   case 'disabled':
+                     this.main.find('.sw-btn-next').addClass('disabled');
+                     this.main.find('.sw-btn-submit').removeClass('disabled');
+                     break;
+                   default:
+                     this.main.find('.sw-btn-next').hide();
+                     this.main.find('.sw-btn-submit').show();
+                     break;
+                 }
+              }
+
+              if (this._getPreviousShowable(idx) === false) {
+                switch (this.options.toolbarSettings.stateWhenUnsuitable) {
+                  case 'hide':
+                    this.main.find('.sw-btn-prev').hide();
+                    break;
+                  case 'disabled':
+                    this.main.find('.sw-btn-prev').addClass('disabled');
+                    break;
+                  default:
+                    this.main.find('.sw-btn-prev').addClass('disabled');
+                    break;
+                }
+              }
+
+              break;
+          }
+        }
+      }
       }
 
       _getStepIndex() {
