@@ -53,13 +53,11 @@ $breakpoint-phone: 640px;
         display: block;
         padding: .5rem 1rem;
         text-decoration: none;
-        outline: 0!important;;
 
         &:hover,
         &:active,
         &:focus {
           text-decoration: none;
-          outline:0 !important;
         }
 
         &::-moz-focus-inner {
@@ -89,6 +87,12 @@ $breakpoint-phone: 640px;
           text-align: center;
         }
       }
+    }
+
+    // Dark mode style
+    &.sw-dark {
+      color: rgba(255, 255, 255, 0.95);
+      background: #000;
     }
 
     // Loading animation

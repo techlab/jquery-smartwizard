@@ -49,7 +49,6 @@
 }
 
 .sw > .nav {
-    display: -webkit-box;
     display: flex;
     flex-wrap: wrap;
     list-style: none;
@@ -60,10 +59,7 @@
 
 @media screen and (max-width: 640px) {
     .sw > .nav {
-        -webkit-box-orient: vertical !important;
-        -webkit-box-direction: normal !important;
         flex-direction: column !important;
-        -webkit-box-flex: 1;
         flex: 1 auto;
     }
 }
@@ -72,12 +68,10 @@
     display: block;
     padding: .5rem 1rem;
     text-decoration: none;
-    outline: 0 !important;
 }
 
 .sw > .nav .nav-link:hover, .sw > .nav .nav-link:active, .sw > .nav .nav-link:focus {
     text-decoration: none;
-    outline: 0 !important;
 }
 
 .sw > .nav .nav-link::-moz-focus-inner {
@@ -96,9 +90,13 @@
 
 .sw.sw-justified > .nav > li, .sw.sw-justified > .nav .nav-link {
     flex-basis: 0;
-    -webkit-box-flex: 1;
     flex-grow: 1;
     text-align: center;
+}
+
+.sw.sw-dark {
+    color: rgba(255, 255, 255, 0.95);
+    background: #000;
 }
 
 .sw.sw-loading {
@@ -119,7 +117,6 @@
     width: 100%;
     background: rgba(255, 255, 255, 0.7);
     z-index: 2;
-    -webkit-transition: all .2s ease;
     transition: all .2s ease;
 }
 
@@ -141,24 +138,20 @@
 
 @-webkit-keyframes spin {
     0% {
-        -webkit-transform: rotate(0deg);
         transform: rotate(0deg);
     }
 
     100% {
-        -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
 }
 
 @keyframes spin {
     0% {
-        -webkit-transform: rotate(0deg);
         transform: rotate(0deg);
     }
 
     100% {
-        -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
 }
@@ -195,14 +188,11 @@
     content: "";
     position: absolute;
     height: 2px;
-    width: 100%;
+    width: 0;
     left: 0px;
     bottom: -1px;
     background: #999999;
-    -webkit-transition: all 250ms ease 0s;
-    transition: all 250ms ease 0s;
-    -webkit-transform: scale(0);
-    transform: scale(0);
+    transition: all .35s ease .15s;
 }
 
 .sw-theme-default > .nav .nav-link.inactive {
@@ -217,8 +207,7 @@
 
 .sw-theme-default > .nav .nav-link.active::after {
     background: #17a2b8 !important;
-    -webkit-transform: scale(1);
-    transform: scale(1);
+    width: 100%;
 }
 
 .sw-theme-default > .nav .nav-link.done {
@@ -228,17 +217,17 @@
 
 .sw-theme-default > .nav .nav-link.done::after {
     background: #5cb85c;
-    -webkit-transform: scale(1);
-    transform: scale(1);
+    width: 100%;
 }
 
 .sw-theme-default > .nav .nav-link.disabled {
-    color: #f9f9f9 !important;
+    color: #dddddd !important;
     cursor: not-allowed;
 }
 
 .sw-theme-default > .nav .nav-link.disabled::after {
-    background: #f9f9f9;
+    background: #dddddd;
+    width: 100%;
 }
 
 .sw-theme-default > .nav .nav-link.danger {
@@ -248,4 +237,5 @@
 
 .sw-theme-default > .nav .nav-link.danger::after {
     background: #d9534f;
+    width: 100%;
 }

@@ -12,23 +12,22 @@
 ## How to contribute code?
 Here are the basic steps to get started contributing code:
 
-1. Fork the [repo](https://github.com/techlab/jquery-smartwizard/) and get development running on your computer.
-2. Install gulp and karma `npm install gulp-cli karma-cli -g` 
-3. Install the npm development dependencies by the command `npm install` on the project folder (Should have NodeJS installed).
+1. Fork the [repo](https://github.com/techlab/jquery-smartwizard/).
+2. Install the dependencies, run `npm install`.
+3. Start the project, run `npm start`.
 4. Replicate the issue you're trying to fix or spec out the feature you're trying to add.
-5. Run `gulp watch` before start changing code. It will auto build and bundle the `.js` and `.css` files when you change.
-6. Change the code to fix the bug or add the feature. All changes should happen in the relevant `src/js/*.js` and `src/css/*.css` files.
-7. Build the code by running `npm run build` or `gulp build`.
-8. Run the test cases by running `npm test` or `gulp test`, you can also add more test cases based on your new change.
-9. Verify that your fix or feature works.
-10. Commit your changes with an informative description.
-11. Open a pull request to the [dev](https://github.com/techlab/jquery-smartwizard/tree/dev) branch of the [repo](https://github.com/techlab/jquery-smartwizard/) with your new commit and a descriptive message about what the PR does.
+5. Modify the code to fix the bug or to add the feature. All changes should happen in the relevant `src/js/*.js` and `src/scss/*.scss` files.
+6. Verify that your fix or feature works.
+7. Run the test cases by running `npm test`, you can also add more test cases based on your new change.
+8. Build the code by running `npm run build`.
+9. Commit your changes with an informative description.
+10. Open a pull request to the [dev](https://github.com/techlab/jquery-smartwizard/tree/dev) branch of the [repo](https://github.com/techlab/jquery-smartwizard/) with your new commit and a descriptive message about what the PR does.
 
 Thank you for your contribution!
 
 ##### Notes for pull request
 - Follow the same code style as the library.
-- Run the test suites in the `test` directory first by running `npm test` or `gulp test`.
+- Run the test suites in the `test` directory first by running `npm test`.
 - Don't modify any files in the `dist` directory.
 - Don't alter the licence headers.  
 

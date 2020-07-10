@@ -1,15 +1,15 @@
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 /*!
- * jQuery SmartWizard v5.0.0
+ * jQuery SmartWizard v5.1.1
  * The awesome jQuery step wizard plugin
  * http://www.techlaboratory.net/jquery-smartwizard
  *
@@ -19,9 +19,33 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * @license Licensed under the terms of the MIT License
  * https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE
  */
-;
+(function (factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['jquery'], factory);
+  } else if ((typeof module === "undefined" ? "undefined" : _typeof(module)) === 'object' && module.exports) {
+    // Node/CommonJS
+    module.exports = function (root, jQuery) {
+      if (jQuery === undefined) {
+        // require('jQuery') returns a factory that requires window to
+        // build a jQuery instance, we normalize how we use modules
+        // that require this pattern but the window provided is a noop
+        // if it's defined (how jquery works)
+        if (typeof window !== 'undefined') {
+          jQuery = require('jquery');
+        } else {
+          jQuery = require('jquery')(root);
+        }
+      }
 
-(function ($, window, document, undefined) {
+      factory(jQuery);
+      return jQuery;
+    };
+  } else {
+    // Browser globals
+    factory(jQuery);
+  }
+})(function ($) {
   "use strict"; // Default options
 
   var defaults = {
@@ -31,6 +55,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     // theme for the wizard, related css need to include for other than default theme
     justified: true,
     // Nav menu justification. true/false
+    darkMode: false,
+    // Enable/disable Dark Mode if the theme supports. true/false
     autoAdjustHeight: true,
     // Automatically adjust content height
     cycleSteps: false,
@@ -94,9 +120,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
   };
 
-  var SmartWizard =
-  /*#__PURE__*/
-  function () {
+  var SmartWizard = /*#__PURE__*/function () {
     function SmartWizard(element, options) {
       _classCallCheck(this, SmartWizard);
 
@@ -187,7 +211,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
         this._setTheme(this.options.theme);
 
-        this._setJustify(this.options.justified); // Set the anchor default style
+        this._setJustify(this.options.justified);
+
+        this._setDarkMode(this.options.darkMode); // Set the anchor default style
 
 
         if (this.options.anchorSettings.enableAllAnchors !== true || this.options.anchorSettings.anchorClickable !== true) {
@@ -529,7 +555,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
         if (this.current_index !== null) {
           // Trigger "leaveStep" event
-          if (this._triggerEvent("leaveStep", [curStep, this.current_index, stepDirection]) === false) {
+          if (this._triggerEvent("leaveStep", [curStep, this.current_index, idx, stepDirection]) === false) {
             return false;
           }
         } // Get next step element
@@ -576,18 +602,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this._setURLHash(selStep.attr("href")); // Update controls
 
 
-        this._setAnchor(idx); // Animate the step
+        this._setAnchor(idx); // Get the direction of step navigation
+
+
+        var stepDirection = this._getStepDirection(idx); // Get the position of step
+
+
+        var stepPosition = this._getStepPosition(idx); // Animate the step
 
 
         this._doStepAnimation(idx, function () {
           // Fix height with content
-          _this5._fixHeight(idx); // Get the direction of step navigation
-
-
-          var stepDirection = _this5._getStepDirection(idx); // Get the position of step
-
-
-          var stepPosition = _this5._getStepPosition(idx); // Trigger "showStep" event
+          _this5._fixHeight(idx); // Trigger "showStep" event
 
 
           _this5._triggerEvent("showStep", [selStep, _this5.current_index, stepDirection, stepPosition]);
@@ -811,6 +837,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         } else {
           this.main.removeClass('sw-justified');
         }
+      }
+    }, {
+      key: "_setDarkMode",
+      value: function _setDarkMode(darkMode) {
+        if (darkMode === true) {
+          this.main.addClass('sw-dark');
+        } else {
+          this.main.removeClass('sw-dark');
+        }
       } // HELPER FUNCTIONS
 
     }, {
@@ -1015,4 +1050,4 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }
     }
   };
-})(jQuery, window, document);
+});

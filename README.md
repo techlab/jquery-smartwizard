@@ -2,16 +2,18 @@
 #### The awesome jQuery step wizard plugin.
 
 [![Build Status](https://travis-ci.org/techlab/jquery-smartwizard.svg?branch=master)](https://travis-ci.org/techlab/jquery-smartwizard)
-[![npm version](https://badge.fury.io/js/smartwizard.svg)](https://badge.fury.io/js/smartwizard)
-[![Latest Stable Version](https://poser.pugx.org/techlab/smartwizard/v/stable)](https://packagist.org/packages/techlab/smartwizard)
+[![npm version](https://badge.fury.io/js/smartwizard.svg)](https://www.npmjs.com/package/smartwizard)
+[![Packagist Version](https://badgen.net/packagist/v/techlab/smartwizard)](https://packagist.org/packages/techlab/smartwizard)
+[![Npm Downloadsl](https://badgen.net/npm/dm/smartwizard?icon=npm)](https://www.npmjs.com/package/smartwizard)
+[![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/smartwizard/badge?style=rounded)](https://www.jsdelivr.com/package/npm/smartwizard)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/techlab/jquery-smartwizard/master/LICENSE)
+[![GitHub Repo](https://badgen.net/badge/icon/jquery-smartwizard?icon=github&label=&color=0da4d3)](https://github.com/techlab/jquery-smartwizard)
 [![Donate on Paypal](https://img.shields.io/badge/PayPal-dipuraj-blue.svg)](https://www.paypal.me/dipuraj)
 
 
-**jQuery Smart Wizard** is a step wizard plugin for jQuery.
+**jQuery Smart Wizard** is an accessible step wizard plugin for jQuery.
 Provides a neat and stylish interface for your forms, checkout screen, registration steps, etc.
 Easy implementation,  Bootstrap compatiblity, customizable toolbars, themes, events and Ajax support are few of the features.
-
 
 + [Homepage](http://techlaboratory.net/jquery-smartwizard)
 + [Documentation](http://techlaboratory.net/jquery-smartwizard#documentation)
@@ -52,6 +54,23 @@ Installation
 ### [Composer](https://packagist.org/packages/techlab/smartwizard)
     composer require techlab/smartwizard
 
+### [CDN - jsDelivr](https://www.jsdelivr.com/package/npm/smartwizard)
+```html
+<!-- CSS -->
+<link href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
+
+<!-- JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+```    
+### [CDN - UNPKG](https://unpkg.com/browse/smartwizard/)
+```html
+<!-- CSS -->
+<link href="https://unpkg.com/smartwizard@5/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
+
+<!-- JavaScript -->
+<script src="https://unpkg.com/smartwizard@5/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+```
+
 ### Download
 #### [Download from GitHub](https://github.com/techlab/jquery-smartwizard/archive/master.zip)
 
@@ -59,30 +78,32 @@ Features
 -----
 
 - Standalone CSS
+- Accessible controls
 - Bootstrap compatible
-- Various themes included
-- Customizable CSS
+- Cool themes included
+- Dark mode
 - URL navigation and selection
 - Event support
-- Ajax content loading support
+- Ajax content support
 - Keyboard navigation
-- Auto content height adjustment
+- Auto height adjustment
 - Cool transition animations (fade/slide-horizontal/slide-vertical/slide-swing)
 - External anchor support
 - Easy to implement and minimal HTML required
 - Customizable toolbar, option to add extra buttons
-- Compatible with all jQuery versions (jQuery 1.11.1+, jQuery 2+, jQuery 3.5+)
-- Supports all modern browsers
 - Responsive design
-- In-built reset method
+- reset option
 - Easy navigation with step anchors and navigation buttons
+- Easy to implement and minimal HTML required
+- Supports all modern browsers
+- Compatible with all jQuery versions (jQuery 1.11.1+, jQuery 2+, jQuery 3.5+)
 
 Usage
 -----
 
 Include SmartWizard CSS
 ```html
-<link href="../dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
 ```
 
 Include HTML (*This is the basic HTML markup for the Smart Wizard. You can customize it by adding your on steps content*).
@@ -136,7 +157,7 @@ Include jQuery (*ignore this if you have already included on the page*).
 
 Include SmartWizard plugin
 ```html
-<script src="../dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
 ```
 Initialize the SmartWizard
 ```html
@@ -156,45 +177,46 @@ Please see the [documentation](http://techlaboratory.net/jquery-smartwizard#docu
 
 ```JavaScript
 $('#smartwizard').smartWizard({
-    selected: 0, // Initial selected step, 0 = first step
-    theme: 'default', // theme for the wizard, related css need to include for other than default theme
-    justified: true, // Nav menu justification. true/false
-    autoAdjustHeight: true, // Automatically adjust content height
-    cycleSteps: false, // Allows to cycle the navigation of steps
-    backButtonSupport: true, // Enable the back button support
-    enableURLhash: true, // Enable selection of the step based on url hash
-    transition: {
-        animation: 'none', // Effect on navigation, none/fade/slide-horizontal/slide-vertical/slide-swing
-        speed: '400', // Transion animation speed
-        easing:'' // Transition animation easing. Not supported without a jQuery easing plugin
-    },
-    toolbarSettings: {
-        toolbarPosition: 'bottom', // none, top, bottom, both
-        toolbarButtonPosition: 'right', // left, right, center
-        showNextButton: true, // show/hide a Next button
-        showPreviousButton: true, // show/hide a Previous button
-        toolbarExtraButtons: [] // Extra buttons to show on toolbar, array of jQuery input/buttons elements
-    },
-    anchorSettings: {
-        anchorClickable: true, // Enable/Disable anchor navigation
-        enableAllAnchors: false, // Activates all anchors clickable all times
-        markDoneStep: true, // Add done state on navigation
-        markAllPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
-        removeDoneStepOnNavigateBack: false, // While navigate back done step after active step will be cleared
-        enableAnchorOnDoneStep: true // Enable/Disable the done steps navigation
-    },
-    keyboardSettings: {
-        keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
-        keyLeft: [37], // Left key code
-        keyRight: [39] // Right key code
-    },
-    lang: { // Language variables for button
-        next: 'Next',
-        previous: 'Previous'
-    },
-    disabledSteps: [], // Array Steps disabled
-    errorSteps: [], // Highlight step with errors
-    hiddenSteps: [] // Hidden steps
+  selected: 0, // Initial selected step, 0 = first step
+  theme: 'default', // theme for the wizard, related css need to include for other than default theme
+  justified: true, // Nav menu justification. true/false
+  darkMode:false, // Enable/disable Dark Mode if the theme supports. true/false
+  autoAdjustHeight: true, // Automatically adjust content height
+  cycleSteps: false, // Allows to cycle the navigation of steps
+  backButtonSupport: true, // Enable the back button support
+  enableURLhash: true, // Enable selection of the step based on url hash
+  transition: {
+      animation: 'none', // Effect on navigation, none/fade/slide-horizontal/slide-vertical/slide-swing
+      speed: '400', // Transion animation speed
+      easing:'' // Transition animation easing. Not supported without a jQuery easing plugin
+  },
+  toolbarSettings: {
+      toolbarPosition: 'bottom', // none, top, bottom, both
+      toolbarButtonPosition: 'right', // left, right, center
+      showNextButton: true, // show/hide a Next button
+      showPreviousButton: true, // show/hide a Previous button
+      toolbarExtraButtons: [] // Extra buttons to show on toolbar, array of jQuery input/buttons elements
+  },
+  anchorSettings: {
+      anchorClickable: true, // Enable/Disable anchor navigation
+      enableAllAnchors: false, // Activates all anchors clickable all times
+      markDoneStep: true, // Add done state on navigation
+      markAllPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
+      removeDoneStepOnNavigateBack: false, // While navigate back done step after active step will be cleared
+      enableAnchorOnDoneStep: true // Enable/Disable the done steps navigation
+  },
+  keyboardSettings: {
+      keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
+      keyLeft: [37], // Left key code
+      keyRight: [39] // Right key code
+  },
+  lang: { // Language variables for button
+      next: 'Next',
+      previous: 'Previous'
+  },
+  disabledSteps: [], // Array Steps disabled
+  errorSteps: [], // Highlight step with errors
+  hiddenSteps: [] // Hidden steps
 });
 ```
 

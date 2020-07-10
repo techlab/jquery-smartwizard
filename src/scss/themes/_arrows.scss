@@ -1,6 +1,7 @@
 // Color Settings
 $container-border-color       : #eeeeee;
 
+$toolbar-text-color           : #ffffff;
 $toolbar-bg-color             : #f9f9f9;
 $toolbar-btn-bg-color         : #17a2b8;
 
@@ -38,7 +39,7 @@ $nav-danger-secondary-color   : #ffffff;
   & .toolbar {
 
     & > .btn {
-      color: #fff;
+      color: $toolbar-text-color;
       background-color: $toolbar-btn-bg-color;
       border: 1px solid $toolbar-btn-bg-color;
       padding: .375rem .75rem;
@@ -105,13 +106,13 @@ $nav-danger-secondary-color   : #ffffff;
       }
 
       &.active {
-        color: $nav-active-secondary-color !important;
-        border-color: $nav-active-primary-color !important;
-        background: $nav-active-primary-color !important;
+        color: $nav-active-secondary-color ;
+        border-color: $nav-active-primary-color ;
+        background: $nav-active-primary-color;
         cursor: pointer;
 
         &::after {
-          border-left-color: $nav-active-primary-color !important;
+          border-left-color: $nav-active-primary-color;
         }
       }
 
@@ -149,6 +150,78 @@ $nav-danger-secondary-color   : #ffffff;
       }
 
     }
+  }
+
+  // Dark mode style
+  &.sw-dark {
+    color: rgba(255, 255, 255, 0.95);
+    background: #000;
+
+    & > .nav {
+      border-bottom: 1px solid darken($container-border-color, 60%);
+
+      .nav-link {
+
+        &::after {
+          border-left: 30px solid darken($nav-inactive-primary-color, 60%);
+        }
+        &::before {
+          border-left: 30px solid darken($nav-border-color, 60%);
+        }
+
+        &.inactive {
+          color: lighten($nav-inactive-secondary-color, 50%);
+          border-color: darken($nav-inactive-primary-color, 60%);
+          background: darken($nav-inactive-primary-color, 60%);
+
+          &::after {
+            border-left-color: darken($nav-inactive-primary-color, 60%);
+          }
+        }
+
+        &.active {
+          color: lighten($nav-active-secondary-color, 50%);
+          border-color: darken($nav-active-primary-color, 60%);
+          background: darken($nav-active-primary-color, 50%);
+
+          &::after {
+            border-left-color: darken($nav-active-primary-color, 50%);
+          }
+        }
+
+        &.done {
+          color: lighten($nav-done-secondary-color, 50%);
+          border-color: darken($nav-done-primary-color, 60%);
+          background: darken($nav-done-primary-color, 60%);
+
+          &::after {
+            border-left-color: darken($nav-done-primary-color, 60%);
+          }
+        }
+
+        &.disabled {
+          color: darken($nav-disabled-secondary-color, 60%) !important;
+          border-color: $nav-disabled-primary-color;
+          background: darken($nav-disabled-primary-color, 70%);
+
+          &::after {
+            border-left-color: darken($nav-disabled-primary-color, 70%);
+          }
+        }
+
+        &.danger {
+          color: $nav-danger-secondary-color;
+          border-color: $nav-danger-primary-color;
+          background: $nav-danger-primary-color;
+
+          &::after {
+            border-left-color: $nav-danger-primary-color;
+          }
+        }
+
+      }
+    }
+
   }
 
 }

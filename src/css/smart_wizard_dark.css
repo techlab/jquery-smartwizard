@@ -65,12 +65,10 @@
   display: block;
   padding: .5rem 1rem;
   text-decoration: none;
-  outline: 0 !important;
 }
 
 .sw > .nav .nav-link:hover, .sw > .nav .nav-link:active, .sw > .nav .nav-link:focus {
   text-decoration: none;
-  outline: 0 !important;
 }
 
 .sw > .nav .nav-link::-moz-focus-inner {
@@ -91,6 +89,11 @@
   flex-basis: 0;
   flex-grow: 1;
   text-align: center;
+}
+
+.sw.sw-dark {
+  color: rgba(255, 255, 255, 0.95);
+  background: #000;
 }
 
 .sw.sw-loading {

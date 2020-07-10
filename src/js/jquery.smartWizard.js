@@ -1,5 +1,5 @@
 /*!
- * jQuery SmartWizard v5.0.0
+ * jQuery SmartWizard v5.1.1
  * The awesome jQuery step wizard plugin
  * http://www.techlaboratory.net/jquery-smartwizard
  *
@@ -10,7 +10,33 @@
  * https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE
  */
 
-;(function ($, window, document, undefined) {
+ (function (factory) {
+     if (typeof define === 'function' && define.amd) {
+         // AMD. Register as an anonymous module.
+         define(['jquery'], factory);
+     } else if (typeof module === 'object' && module.exports) {
+         // Node/CommonJS
+         module.exports = function( root, jQuery ) {
+             if ( jQuery === undefined ) {
+                 // require('jQuery') returns a factory that requires window to
+                 // build a jQuery instance, we normalize how we use modules
+                 // that require this pattern but the window provided is a noop
+                 // if it's defined (how jquery works)
+                 if ( typeof window !== 'undefined' ) {
+                     jQuery = require('jquery');
+                 }
+                 else {
+                     jQuery = require('jquery')(root);
+                 }
+             }
+             factory(jQuery);
+             return jQuery;
+         };
+     } else {
+         // Browser globals
+         factory(jQuery);
+     }
+ }(function ($) {
     "use strict";
 
     // Default options
@@ -18,6 +44,7 @@
         selected: 0, // Initial selected step, 0 = first step
         theme: 'default', // theme for the wizard, related css need to include for other than default theme
         justified: true, // Nav menu justification. true/false
+        darkMode:false, // Enable/disable Dark Mode if the theme supports. true/false
         autoAdjustHeight: true, // Automatically adjust content height
         cycleSteps: false, // Allows to cycle the navigation of steps
         backButtonSupport: true, // Enable the back button support
@@ -135,6 +162,7 @@
 
           this._setTheme(this.options.theme);
           this._setJustify(this.options.justified);
+          this._setDarkMode(this.options.darkMode);
 
           // Set the anchor default style
           if (this.options.anchorSettings.enableAllAnchors !== true || this.options.anchorSettings.anchorClickable !== true) {
@@ -421,7 +449,7 @@
           // Get the direction of step navigation
           if (this.current_index !== null) {
               // Trigger "leaveStep" event
-              if (this._triggerEvent("leaveStep", [curStep, this.current_index, stepDirection]) === false) {
+              if (this._triggerEvent("leaveStep", [curStep, this.current_index, idx, stepDirection]) === false) {
                   return false;
               }
           }
@@ -459,14 +487,14 @@
           this._setURLHash(selStep.attr("href"));
           // Update controls
           this._setAnchor(idx);
+          // Get the direction of step navigation
+          let stepDirection   = this._getStepDirection(idx);
+          // Get the position of step
+          let stepPosition    = this._getStepPosition(idx);
           // Animate the step
           this._doStepAnimation(idx, () => {
               // Fix height with content
               this._fixHeight(idx);
-              // Get the direction of step navigation
-              let stepDirection   = this._getStepDirection(idx);
-              // Get the position of step
-              let stepPosition    = this._getStepPosition(idx);
               // Trigger "showStep" event
               this._triggerEvent("showStep", [selStep, this.current_index, stepDirection, stepPosition]);
           });
@@ -688,6 +716,14 @@
         }
       }
 
+      _setDarkMode(darkMode) {
+        if (darkMode === true) {
+          this.main.addClass('sw-dark');
+        } else {
+          this.main.removeClass('sw-dark');
+        }
+      }
+
       // HELPER FUNCTIONS
 
       _keyNav(e) {
@@ -854,4 +890,4 @@
             }
         }
     };
-})(jQuery, window, document);
+}));

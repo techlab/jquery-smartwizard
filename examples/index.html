@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Include SmartWizard CSS -->
-    <link href="../dist/css/smart_wizard_all.css" rel="stylesheet" type="text/css" />
+    <link href="./css/smart_wizard_all.css" rel="stylesheet" type="text/css" />
 
     <!-- Demo Page Style - You don't need -->
     <style>
@@ -26,8 +26,12 @@
         <option value="default">Default</option>
         <option value="arrows" selected>Arrows</option>
         <option value="dots">Dots</option>
-        <option value="dark">Dark</option>
+        <option value="progress">Progress</option>
       </select>
+
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="checkbox" id="dark_mode" value="1" />
+      <label for="dark_mode">Dark Mode</label>
 
       &nbsp;&nbsp;&nbsp;&nbsp;
       <input type="checkbox" id="is_justified" value="1" checked />
@@ -81,7 +85,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#step-4">
+              <a class="nav-link " href="#step-4">
                 <strong>Step 4</strong> <br>This is step description
               </a>
             </li>
@@ -94,7 +98,7 @@
             </div>
             <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
                 <h3>Step 2 Content</h3>
-                <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. </div>
+                <div>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. </div>
             </div>
             <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
@@ -113,7 +117,7 @@
     <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
 
     <!-- Include SmartWizard JavaScript source -->
-    <script type="text/javascript" src="../dist/js/jquery.smartWizard.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.smartWizard.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){
@@ -143,7 +147,8 @@
             // Smart Wizard
             $('#smartwizard').smartWizard({
                 selected: 0,
-                theme: 'arrows',
+                theme: 'arrows', // default, arrows, dots, progress
+                // darkMode: true,
                 transition: {
                     animation: 'slide-horizontal', // Effect on navigation, none/fade/slide-horizontal/slide-vertical/slide-swing
                 },
@@ -178,6 +183,17 @@
                 // Go to step
                 var step_index = $(this).val() - 1;
                 $('#smartwizard').smartWizard("goToStep", step_index);
+                return true;
+            });
+
+
+            $("#dark_mode").on("click", function() {
+                // Change dark mode
+                var options = {
+                  darkMode: $(this).prop("checked")
+                };
+
+                $('#smartwizard').smartWizard("setOptions", options);
                 return true;
             });
 
