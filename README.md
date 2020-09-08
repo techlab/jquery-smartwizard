@@ -94,7 +94,6 @@ Features
 - Responsive design
 - reset option
 - Easy navigation with step anchors and navigation buttons
-- Easy to implement and minimal HTML required
 - Supports all modern browsers
 - Compatible with all jQuery versions (jQuery 1.11.1+, jQuery 2+, jQuery 3.5+)
 
