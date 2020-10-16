@@ -29,7 +29,7 @@
   padding: .8rem;
 }
 
-.sw .toolbar > .btn {
+.sw .toolbar > .toolbar-btn {
   display: inline-block;
   text-decoration: none;
   text-align: center;
@@ -41,7 +41,7 @@
   cursor: pointer;
 }
 
-.sw .toolbar > .btn.disabled, .sw .toolbar > .btn:disabled {
+.sw .toolbar > .toolbar-btn.disabled, .sw .toolbar > .toolbar-btn:disabled {
   opacity: .65;
 }
 
@@ -150,7 +150,7 @@
   padding: 10px;
 }
 
-.sw-theme-dark .toolbar > .btn {
+.sw-theme-dark .toolbar > .toolbar-btn {
   color: #fff;
   background-color: #17a2b8;
   border: 1px solid #17a2b8;
