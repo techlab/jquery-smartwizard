@@ -555,7 +555,7 @@
                 css_left  = selPage.css("left");
                 selPage.css("position", 'absolute')
                         .css("left", nextFirstLeft)
-                        .outerWidth(containerWidth)
+                        .outerWidth("auto")
                         .show()
                         .animate({
                           left: 0
