@@ -144,6 +144,10 @@
                 }
             });
 
+            $("#smartwizard").on("loaded", function(e) {
+                console.log("loaded");
+            });
+
             // Smart Wizard
             $('#smartwizard').smartWizard({
                 selected: 0,

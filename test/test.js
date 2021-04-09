@@ -55,3 +55,21 @@ describe('SmartWizard Navigation', function() {
     });
 
 });
+
+describe('SmartWizard widget', () => {
+    it('should trigger "loaded" event', () => {
+        jasmine.getFixtures().fixturesPath = 'base/test';
+        loadFixtures('test-template.html');
+
+        var loadedEventSpy = jasmine.createSpy("loaded");
+        var el = $('#smartwizard');
+
+        $(el).bind("loaded", loadedEventSpy);
+
+        expect(loadedEventSpy).not.toHaveBeenCalled();
+
+        el.smartWizard();
+
+        expect(loadedEventSpy).toHaveBeenCalled();
+	});
+});
