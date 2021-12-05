@@ -120,6 +120,7 @@
           this._setPreviousStepsDone(idx);
           // Show the initial step
           this._showStep(idx);
+          this._triggerEvent("loaded");
       }
 
       // Initialize options
