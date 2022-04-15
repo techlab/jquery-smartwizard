@@ -727,18 +727,22 @@
       // HELPER FUNCTIONS
 
       _keyNav(e) {
-          // Keyboard navigation
-          if ($.inArray(e.which, this.options.keyboardSettings.keyLeft) > -1) {
-              // left
-              this._showPrevious();
-              e.preventDefault();
-          } else if ($.inArray(e.which, this.options.keyboardSettings.keyRight) > -1) {
-              // right
-              this._showNext();
-              e.preventDefault();
-          } else {
-              return; // exit this handler for other keys
-          }
+         if (this.options.keyboardSettings.keyNavigation) {
+           // Keyboard navigation
+           if ($.inArray(e.which, this.options.keyboardSettings.keyLeft) > -1) {
+             // left
+             this._showPrevious();
+
+            e.preventDefault();
+           } else if ($.inArray(e.which, this.options.keyboardSettings.keyRight) > -1) {
+             // right
+             this._showNext();
+
+             e.preventDefault();
+           } else {
+             return; // exit this handler for other keys
+           }
+         }
       }
 
       _fixHeight(idx) {
