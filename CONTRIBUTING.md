@@ -7,7 +7,8 @@
 - Add new test cases.
 - Add documentation.
 - Add a demo page.
-- [Donate](https://www.paypal.me/dipuraj) money for the project on [![Paypal](https://img.shields.io/badge/PayPal-dipuraj-blue.svg)](https://www.paypal.me/dipuraj)
+- [GitHub Sponsor](https://github.com/sponsors/techlab) - Sponsor on GitHub.
+- [Donate on Paypal](https://www.paypal.me/dipuraj)
 
 ## How to contribute code?
 Here are the basic steps to get started contributing code:

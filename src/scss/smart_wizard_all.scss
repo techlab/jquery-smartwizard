@@ -1,28 +1,36 @@
 /*!
- * jQuery SmartWizard v5
- * jQuery Wizard Plugin
- * http://www.techlaboratory.net/smartwizard
- *
- * Created by Dipu Raj
- * http://dipu.me
- *
- * Licensed under the terms of MIT License
- * https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE
- */
+* jQuery SmartWizard v6.x
+* The awesome step wizard plugin for jQuery
+* http://www.techlaboratory.net/jquery-smartwizard
+*
+* Created by Dipu Raj (http://dipu.me)
+*
+* Licensed under the terms of the MIT License
+* https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE
+*/
 
 @charset 'utf-8';
 
-/* SmartWizard Base Styles */
+/* Variables */
+@import 'core/variables';
+
+/* Root */
+@import 'core/_root';
+
+/* Base Styles */
 @import 'core/_base';
 
-/* SmartWizard Theme: Default */
-@import 'themes/_default';
+/* Theme: Basic */
+@import 'themes/_basic';
 
-/* SmartWizard Theme: Arrows */
+/* Theme: Arrows */
 @import 'themes/_arrows';
 
-/* SmartWizard Theme: Dots */
+/* Theme: Dots */
 @import 'themes/_dots';
 
-/* SmartWizard Theme: Progress */
-@import 'themes/_progress';
+/* Theme: Round */
+@import 'themes/_round';
+
+/* Theme: Verical */
+@import 'themes/_square';

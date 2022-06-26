@@ -1,0 +1,32 @@
+// Prefix for :root CSS variables
+$var-prefix:                        sw- !default;
+// Basic settings
+$breakpoint-phone:                  640px;
+
+$colors: (
+  // Wizard border color
+  "border-color":                   #eeeeee,
+  // Toolbar button color
+  "toolbar-btn-color":              #ffffff,
+  "toolbar-btn-background-color":   #009EF7,
+  // Anchor colors
+  "anchor-default-primary-color":   #f8f9fa,
+  "anchor-default-secondary-color": #b0b0b1,
+  "anchor-active-primary-color":    #009EF7,
+  "anchor-active-secondary-color":  #ffffff,
+  "anchor-done-primary-color":      #90d4fa,
+  "anchor-done-secondary-color":    #fefefe,
+  "anchor-disabled-primary-color":  #f8f9fa,
+  "anchor-disabled-secondary-color":#dbe0e5,
+  "anchor-error-primary-color":     #dc3545,
+  "anchor-error-secondary-color":   #ffffff,
+  "anchor-warning-primary-color":   #ffc107,
+  "anchor-warning-secondary-color": #ffffff,
+  // Progressbar color
+  "progress-color":                 #009EF7,
+  "progress-background-color":      #f8f9fa,
+  // Loading animation color
+  "loader-color":                   #009EF7,
+  "loader-background-color":        #f8f9fa,
+  "loader-background-wrapper-color":rgba(255,255,255,.7),
+) !default;

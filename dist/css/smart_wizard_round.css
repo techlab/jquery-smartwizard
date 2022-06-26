@@ -33,7 +33,7 @@
     --sw-loader-background-wrapper-color: rgba(255, 255, 255, 0.7);
 }
 
-/* SmartWizard Base Styles */
+/* Base Styles */
 .sw {
     position: relative;
 }
@@ -226,83 +226,59 @@
     }
 }
 
-/* SmartWizard Theme: Basic */
-.sw-theme-basic {
-    border: 1px solid var(--sw-border-color);
-}
-
-.sw-theme-basic > .nav {
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1) !important;
-}
-
-.sw-theme-basic > .nav .nav-link {
+/* Theme: Round */
+.sw-theme-round > .nav .nav-link {
     position: relative;
     height: 100%;
     min-height: 100%;
-    margin-right: 5px;
+    border-radius: 10em;
+    margin-right: 4px;
+    transition: all 0.5s ease-in-out;
 }
 
-.sw-theme-basic > .nav .nav-link::after {
-    content: "";
-    position: absolute;
-    pointer-events: none;
-    height: 2px;
-    width: 0;
-    left: 0px;
-    bottom: -1px;
-    transition: all 0.35s ease 0.15s;
-    width: 100%;
+@media screen and (max-width: 640px) {
+    .sw-theme-round > .nav .nav-link {
+        margin-right: unset;
+        text-align: left !important;
+    }
 }
 
-.sw-theme-basic > .nav .nav-link.default {
+.sw-theme-round > .nav .nav-link.default {
+    background-color: var(--sw-anchor-default-primary-color);
     color: var(--sw-anchor-default-secondary-color);
     cursor: not-allowed;
 }
 
-.sw-theme-basic > .nav .nav-link.default::after {
-    background-color: var(--sw-anchor-default-secondary-color);
-}
-
-.sw-theme-basic > .nav .nav-link.active {
-    color: var(--sw-anchor-active-primary-color) !important;
+.sw-theme-round > .nav .nav-link.active {
+    background-color: var(--sw-anchor-active-primary-color);
+    color: var(--sw-anchor-active-secondary-color) !important;
+    box-shadow: 0px 1px 7px 1px rgba(0, 0, 0, 0.3);
     cursor: pointer;
 }
 
-.sw-theme-basic > .nav .nav-link.active::after {
-    background: var(--sw-anchor-active-primary-color) !important;
-}
-
-.sw-theme-basic > .nav .nav-link.done {
-    color: var(--sw-anchor-done-primary-color);
+.sw-theme-round > .nav .nav-link.done {
+    background-color: var(--sw-anchor-done-primary-color);
+    color: var(--sw-anchor-done-secondary-color);
     cursor: pointer;
 }
 
-.sw-theme-basic > .nav .nav-link.done::after {
-    background: var(--sw-anchor-done-primary-color);
+.sw-theme-round > .nav .nav-link.disabled {
+    background-color: var(--sw-anchor-disabled-primary-color);
+    color: var(--sw-anchor-disabled-secondary-color) !important;
 }
 
-.sw-theme-basic > .nav .nav-link.disabled {
-    color: var(--sw-anchor-disabled-primary-color) !important;
-}
-
-.sw-theme-basic > .nav .nav-link.disabled::after {
-    background: var(--sw-anchor-disabled-primary-color);
-}
-
-.sw-theme-basic > .nav .nav-link.error {
-    color: var(--sw-anchor-error-primary-color) !important;
+.sw-theme-round > .nav .nav-link.error {
+    background-color: var(--sw-anchor-error-primary-color);
+    color: var(--sw-anchor-error-secondary-color) !important;
     cursor: pointer;
 }
 
-.sw-theme-basic > .nav .nav-link.error::after {
-    background: var(--sw-anchor-error-primary-color) !important;
-}
-
-.sw-theme-basic > .nav .nav-link.warning {
-    color: var(--sw-anchor-warning-primary-color) !important;
+.sw-theme-round > .nav .nav-link.warning {
+    background-color: var(--sw-anchor-warning-primary-color);
+    color: var(--sw-anchor-warning-secondary-color) !important;
     cursor: pointer;
 }
 
-.sw-theme-basic > .nav .nav-link.warning::after {
-    background: var(--sw-anchor-warning-primary-color) !important;
+.sw-theme-round[dir=rtl] > .nav .nav-link > .num {
+    float: right;
 }

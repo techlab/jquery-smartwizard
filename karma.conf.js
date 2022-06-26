@@ -15,7 +15,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'test/*.js',
-      'https://code.jquery.com/jquery-3.4.1.min.js',
+      'https://code.jquery.com/jquery-3.6.0.min.js',
       'src/js/*.js',
       {
         pattern:  'test/*.html',
