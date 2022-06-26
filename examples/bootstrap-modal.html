@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>jQuery Smart Wizard Demo - The awesome jQuery step wizard plugin</title>
+    <title>jQuery Smart Wizard Bootstrap Modal Demo - The awesome jQuery step wizard plugin</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -31,12 +31,12 @@
         Settings
       </button>
       
-      <div class="float-end text-muted me-3 mt-2">
+      <!-- <div class="float-end text-muted me-3 mt-2">
         Step number: <span id="sw-current-step"></span> of <span id="sw-total-step"></span>
-      </div>
+      </div> -->
       
-      <h1>jQuery Smart Wizard Demo</h1>
-      <div class="mb-2 text-muted">Click on the settings buttons for trying out different options</div>
+      <h1>jQuery Smart Wizard Bootstrap Modal Demo</h1>
+      <div class="mb-2 text-muted">Demo shows jQuery Smart Wizard inside a Bootstrap Modal</div>
 
       <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
         <div class="offcanvas-header border-bottom">
@@ -230,60 +230,91 @@
       </div>
     </div>
 
-    <!-- SmartWizard html -->
-    <div id="smartwizard">
-        <ul class="nav nav-progress">
-            <li class="nav-item">
-              <a class="nav-link" href="#step-1">
-                <div class="num">1</div>
-                Customer Details
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#step-2">
-                <span class="num">2</span>
-                Products Details
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#step-3">
-                <span class="num">3</span>
-                Shipping Details
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link " href="#step-4">
-                <span class="num">4</span>
-                Confirm Order
-              </a>
-            </li>
-        </ul>
-
-        <div class="tab-content">
-          <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
-              <h3>Step 1 Content</h3>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          </div>
-          <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
-            <h3>Step 2 Content</h3>
-            <div>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. </div>
-          </div>
-            <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            </div>
-            <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
-                <h3>Step 4 Content</h3>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            </div>
-        </div>
-
-        <div class="progress">
-          <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
+    <!-- Button trigger modal -->
+    <div class="text-center">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#swModal">
+        Click here to launch jQuery Smart Wizard on Bootstrap Modal
+      </button>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="swModal" tabindex="-1" aria-labelledby="swModalLabel" aria-hidden="true">
+      <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="swModalLabel">Smart Wizard on Bootstrap Modal</h5>
 
+            <div class="float-end text-muted ms-5">
+              Step number: <span id="sw-current-step"></span> of <span id="sw-total-step"></span>
+            </div>
+
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+            <!-- SmartWizard html -->
+            <div id="smartwizard">
+                <ul class="nav nav-progress">
+                    <li class="nav-item">
+                      <a class="nav-link" href="#step-1">
+                        <div class="num">1</div>
+                        Customer Details
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#step-2">
+                        <span class="num">2</span>
+                        Products Details
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#step-3">
+                        <span class="num">3</span>
+                        Shipping Details
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link " href="#step-4">
+                        <span class="num">4</span>
+                        Confirm Order
+                      </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                  <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                      <h3>Step 1 Content</h3>
+                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                  </div>
+                  <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+                    <h3>Step 2 Content</h3>
+                    <div>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. </div>
+                  </div>
+                    <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    </div>
+                    <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+                        <h3>Step 4 Content</h3>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    </div>
+                </div>
+
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" id="prev-btn-modal">Previous</button>
+            <button class="btn btn-primary" id="next-btn-modal">Next</button>
+            <button class="btn btn-success" onclick="onFinish()">Finish</button>
+            <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <br /> &nbsp;
     </div>
@@ -327,28 +358,18 @@
                 $("#sw-total-step").text(stepInfo.totalSteps);
             });
 
-            $("#smartwizard").on("initialized", function(e) {
-                console.log("initialized");
-            });
-
-            $("#smartwizard").on("loaded", function(e) {
-                console.log("loaded");
-            });
-
             // Smart Wizard
             $('#smartwizard').smartWizard({
                 selected: 0,
                 // autoAdjustHeight: false,
                 theme: 'arrows', // basic, arrows, square, round, dots
                 transition: {
-                  animation:'myFade' // none|fade|slideHorizontal|slideVertical|slideSwing|css
+                  animation:'none'
                 },
                 toolbar: {
                   showNextButton: true, // show/hide a Next button
                   showPreviousButton: true, // show/hide a Previous button
-                  position: 'both', // none/ top/ both bottom
-                  extraHtml: `<button class="btn btn-success" onclick="onFinish()">Finish</button>
-                              <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`
+                  position: 'none' // none/ top/ both bottom
                 },
                 anchor: {
                     enableNavigation: true, // Enable/Disable anchor navigation 
@@ -360,29 +381,20 @@
                 },
                 disabledSteps: [], // Array Steps disabled
                 errorSteps: [], // Highlight step with errors
-                hiddenSteps: [], // Hidden steps
-                // getContent: (idx, stepDirection, selStep, callback) => {
-                //   console.log('getContent',selStep, idx, stepDirection);
-                //   callback('<h1>'+idx+'</h1>');
-                // }
+                hiddenSteps: []
             });
 
-            $.fn.smartWizard.transitions.myFade = (elmToShow, elmToHide, stepDirection, wizardObj, callback) => {
-                if (!$.isFunction(elmToShow.fadeOut)) { callback(false); return; }
+            $("#prev-btn-modal").on("click", function() {
+                // Navigate previous
+                $('#smartwizard').smartWizard("prev");
+                return true;
+            });
 
-                if (elmToHide) {
-                    elmToHide.fadeOut(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
-                        elmToShow.fadeIn(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
-                            callback();
-                        });
-                    });
-                } else {
-                    elmToShow.fadeIn(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
-                        callback();
-                    });
-                }
-            }
-            
+            $("#next-btn-modal").on("click", function() {
+                // Navigate next
+                $('#smartwizard').smartWizard("next");
+                return true;
+            });
 
             $("#state_selector").on("change", function() {
                 $('#smartwizard').smartWizard("setState", [$('#step_to_style').val()], $(this).val(), !$('#is_reset').prop("checked"));

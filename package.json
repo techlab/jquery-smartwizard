@@ -1,13 +1,13 @@
 {
   "name": "smartwizard",
   "title": "jQuery Smart Wizard",
-  "version": "v5.1.1",
+  "version": "v6.0.1",
   "author": {
     "name": "Dipu Raj",
     "email": "hello.techlab@gmail.com",
     "url": "http://dipu.me"
   },
-  "description": "The awesome jQuery step wizard plugin",
+  "description": "The awesome step wizard plugin for jQuery",
   "homepage": "http://techlaboratory.net/jquery-smartwizard",
   "license": "MIT",
   "contributors": [
@@ -38,7 +38,7 @@
     "Tabs"
   ],
   "scripts": {
-    "start": "gulp serve",
+    "start": "gulp build && gulp serve",
     "watch": "gulp watch",
     "test": "./node_modules/karma/bin/karma start --single-run",
     "build": "gulp build",
@@ -46,31 +46,31 @@
     "lint": "gulp lint"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
-    "autoprefixer": "^9.7.4",
-    "browser-sync": "^2.26.7",
-    "del": "^5.1.0",
+    "@babel/core": "^7.18.5",
+    "@babel/preset-env": "^7.18.2",
+    "autoprefixer": "^10.4.7",
+    "browser-sync": "^2.27.10",
+    "del": "^6.1.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
-    "gulp-clean-css": "^4.2.0",
-    "gulp-cssbeautify": "^2.0.1",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-cssbeautify": "^3.0.1",
+    "gulp-dart-sass": "^1.0.2",
     "gulp-jasmine": "^4.0.0",
     "gulp-jshint": "^2.1.0",
-    "gulp-postcss": "^8.0.0",
+    "gulp-postcss": "^9.0.1",
     "gulp-rename": "^2.0.0",
-    "gulp-sass": "^4.0.2",
+    "gulp-sass": "^5.1.0",
     "gulp-uglify": "^3.0.2",
-    "jasmine-core": "^3.5.0",
+    "jasmine-core": "^4.2.0",
     "jasmine-jquery": "^2.1.1",
-    "jshint": "^2.11.0",
-    "karma": "^4.4.1",
-    "karma-chrome-launcher": "^3.1.0",
-    "karma-jasmine": "^3.1.0",
+    "jshint": "^2.13.4",
+    "karma": "^6.4.0",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-jasmine": "^5.1.0",
     "karma-jasmine-jquery": "^0.1.1",
-    "karma-spec-reporter": "0.0.32",
-    "node-sass": "^4.13.1",
+    "karma-spec-reporter": "0.0.34",
+    "sass": "^1.53.0",
     "uglify-save-license": "^0.4.1"
-  },
-  "dependencies": {}
+  }
 }

@@ -9,23 +9,22 @@ var gulp          = require('gulp'),
     cleanCSS      = require('gulp-clean-css'),
     cssbeautify   = require('gulp-cssbeautify'),
     autoprefixer  = require('autoprefixer'),
-    sass          = require('gulp-sass'),
+    sass          = require('gulp-dart-sass'),
     del           = require('del');
 
-sass.compiler     = require('node-sass');
 var Server        = require('karma').Server;
 var browserSync   = require('browser-sync').create();
-var reload        = browserSync.reload;
 
 // Specify the Source files
 var SRC_JS        = 'src/js/*.js';
-var SRC_CSS       = 'src/css/*.css';
 var SRC_SCSS      = 'src/scss/*.scss';
 
 // Specify the Destination folders
 var DEST_JS       = 'dist/js';
-var DEST_CSS      = 'dist/css';
-var DEST_SCSS     = 'src/css';
+var DEST_SCSS     = 'dist/css';
+
+// Example pages
+var EXAMPLE_HTML  = 'examples/*.html';
 
 // BUILD JS
 function build_js(cb) {
@@ -47,23 +46,15 @@ function build_js(cb) {
   cb();
 }
 
-// BUILD CSS
-function build_css(cb) {
-  gulp.src(SRC_CSS)
-        .pipe(postcss( [autoprefixer()] ))
-        .pipe(cssbeautify({ autosemicolon: true }))
-        .pipe(gulp.dest(DEST_CSS))
-        .pipe(cleanCSS({compatibility: 'ie8'}))
-        .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest(DEST_CSS));
-
-  cb();
-}
-
 // BUILD SCSS
 function build_scss(cb) {
   gulp.src(SRC_SCSS)
         .pipe(sass({outputStyle:'expanded'}).on('error', sass.logError))
+        .pipe(postcss( [autoprefixer()] ))
+        .pipe(cssbeautify({ autosemicolon: true }))
+        .pipe(gulp.dest(DEST_SCSS))
+        .pipe(cleanCSS({compatibility: 'ie8'}))
+        .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(DEST_SCSS));
 
   cb();
@@ -86,7 +77,7 @@ function clean_js(cb) {
 }
 
 function clean_css(cb) {
-  del.sync([DEST_CSS]);
+  del.sync([DEST_SCSS]);
 
   cb();
 }
@@ -94,7 +85,6 @@ function clean_css(cb) {
 // WATCH
 function watch(cb) {
   gulp.watch(SRC_JS, build_js);
-  gulp.watch(SRC_CSS, build_css);
   gulp.watch(SRC_SCSS, build_scss);
 
   cb();
@@ -110,9 +100,10 @@ function serve(cb) {
       }
   });
 
-  gulp.watch(SRC_JS, build_js).on("change", reload);
-  gulp.watch(SRC_CSS, build_css).on("change", reload);
-  gulp.watch(SRC_SCSS, build_scss).on("change", reload);
+  gulp.watch(SRC_JS, build_js);
+  gulp.watch(SRC_SCSS, build_scss);
+
+  gulp.watch([DEST_JS, DEST_SCSS, EXAMPLE_HTML]).on("change", browserSync.reload);
 
   cb();
 }
@@ -129,7 +120,7 @@ function test(cb) {
 
 // EXPORT methods
 exports.clean   = gulp.parallel(clean_js, clean_css);
-exports.build   = gulp.parallel(gulp.series(clean_js, lint_js, build_js), gulp.series(build_scss, build_css, clean_css));
+exports.build   = gulp.parallel(gulp.series(clean_js, lint_js, build_js), gulp.series(clean_css, build_scss));
 exports.lint    = lint_js;
 exports.watch   = watch;
 exports.test    = test;

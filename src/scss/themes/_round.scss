@@ -1,0 +1,67 @@
+.sw-theme-round {
+
+  // Navigation style
+  & > .nav {
+
+    .nav-link {
+      position: relative;
+      height: 100%;
+      min-height: 100%;
+      border-radius: 10em;
+      margin-right: 4px;
+      transition: all 0.5s ease-in-out;
+
+      @media screen and (max-width: $breakpoint-phone) {
+        margin-right: unset;
+        text-align: left !important;
+      }
+
+      &.default {
+        background-color: var(--#{$var-prefix}anchor-default-primary-color);
+        color: var(--#{$var-prefix}anchor-default-secondary-color);
+        cursor: not-allowed;
+      }
+
+      &.active {
+        background-color: var(--#{$var-prefix}anchor-active-primary-color);
+        color: var(--#{$var-prefix}anchor-active-secondary-color) !important;
+        box-shadow: 0px 1px 7px 1px rgb(0 0 0 / 30%);
+        cursor: pointer;
+      }
+
+      &.done {
+        background-color: var(--#{$var-prefix}anchor-done-primary-color);
+        color: var(--#{$var-prefix}anchor-done-secondary-color);
+        cursor: pointer;
+      }
+
+      &.disabled {
+        background-color: var(--#{$var-prefix}anchor-disabled-primary-color);
+        color: var(--#{$var-prefix}anchor-disabled-secondary-color) !important;
+      }
+
+      &.error {
+        background-color: var(--#{$var-prefix}anchor-error-primary-color);
+        color: var(--#{$var-prefix}anchor-error-secondary-color) !important;
+        cursor: pointer;
+      }
+
+      &.warning {
+        background-color: var(--#{$var-prefix}anchor-warning-primary-color);
+        color: var(--#{$var-prefix}anchor-warning-secondary-color) !important;
+        cursor: pointer;
+      }
+
+    }
+
+  }
+
+  &[dir="rtl"] > .nav {
+    .nav-link {
+      & > .num { 
+        float: right;
+      }
+    }
+  }
+
+}

@@ -3,6 +3,7 @@
 .DS_Store
 .git
 .github
+.gitignore
 .hg
 .lock-wscript
 .svn
@@ -24,6 +25,7 @@ work
 build
 src
 test
+examples
 spec
 pids
 logs
@@ -58,7 +60,14 @@ Thumbs.db
 .Spotlight-V100
 .Trashes
 
-/ref.txt
 /node_modules/
 /bower_components/
 /vendor/
+
+/ref.txt
+/CODE_OF_CONDUCT.md
+/CONTRIBUTING.md
+/composer.json
+/gulpfile.js
+/karma.conf.js
+/.travis.yml

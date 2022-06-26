@@ -1,4 +1,4 @@
-.sw-theme-dots {
+.sw-theme-square {
 
   // Navigation style
   & > .nav {
@@ -11,22 +11,15 @@
       top: 18px;
       left: 0;
       width: 100%;
-      height: 5px;
-      background-color: var(--#{$var-prefix}border-color);
-      border-radius: 3px;
+      border-radius: 8px;
       z-index: 1;
+      border: 3px dashed var(--#{$var-prefix}border-color);
 
       @media screen and (max-width: $breakpoint-phone) {
         top: 0;
-        left: 20.5px;
-        width: 5px;
+        left: 17px;
+        width: 6px;
         height: 100%;
-      }
-    }
-
-    .nav-item:last-child .nav-link {
-      @media screen and (max-width: $breakpoint-phone) {
-        margin-bottom: 0;
       }
     }
 
@@ -41,7 +34,7 @@
         text-align: left !important;
       }
 
-      &::after {
+      &::before {
         content: " ";
         position: absolute;
         display: block;
@@ -49,12 +42,14 @@
         right: 0;
         margin-left: auto;
         margin-right: auto;
-        border-radius: 50%;
-        top: -42px;
-        width: 46px;
-        height: 46px;
-        z-index: 99;
-        border: 8px solid var(--#{$var-prefix}border-color);
+        border-radius: 0.475rem;
+        top: -40px;
+        width: 40px;
+        height: 40px;
+        border: none;
+        background: var(--#{$var-prefix}border-color);
+        text-decoration: none;
+        z-index: 98;
         transition: all 0.5s ease-in-out;
 
         @media screen and (max-width: $breakpoint-phone) {
@@ -64,32 +59,27 @@
       }
 
       & > .num {
-        font-size: 1.5em;
         position: absolute;
         display: block;
         left: 0;
         right: 0;
-        top: -31px;
+        top: -38px;
         margin-left: auto;
         margin-right: auto;
         z-index: 100;
         transition: all 0.5s ease-in-out;
-        
+
         @media screen and (max-width: $breakpoint-phone) {
           top: 0;
           right: unset;
-          width: 46px;
-          padding-top: 10px;
+          width: 40px;
+          padding-top: 3px;
         }
-      }
+      }      
 
       &.default {
         color: var(--#{$var-prefix}anchor-default-secondary-color);
         cursor: not-allowed;
-
-        & > .num {
-          color: var(--#{$var-prefix}anchor-default-primary-color) !important;
-        }
 
         &::after {
           background-color: var(--#{$var-prefix}anchor-default-secondary-color);
@@ -103,7 +93,7 @@
         & > .num {
           color: var(--#{$var-prefix}anchor-active-secondary-color) !important;
         }
-        &::after {
+        &::before {
           background-color: var(--#{$var-prefix}anchor-active-primary-color) !important;
           box-shadow: 0px 1px 7px 1px rgb(0 0 0 / 30%);
         }
@@ -116,18 +106,13 @@
         & > .num {
           color: var(--#{$var-prefix}anchor-done-secondary-color) !important;
         }
-
-        &::after {
-          background-color: var(--#{$var-prefix}anchor-done-primary-color);
+        &::before {
+          background-color: var(--#{$var-prefix}anchor-done-primary-color) !important;
         }
       }
 
       &.disabled {
         color: var(--#{$var-prefix}anchor-disabled-primary-color);
-
-        & > .num {
-          color: var(--#{$var-prefix}anchor-disabled-secondary-color) !important;
-        }
 
         &::after {
           background-color: var(--#{$var-prefix}anchor-disabled-primary-color);
@@ -138,10 +123,6 @@
         color: var(--#{$var-prefix}anchor-error-primary-color) !important;
         cursor: pointer;
 
-        & > .num {
-          color: var(--#{$var-prefix}anchor-error-secondary-color) !important;
-        }
-
         &::after {
           background-color: var(--#{$var-prefix}anchor-error-primary-color) !important;
         }
@@ -150,10 +131,6 @@
       &.warning {
         color: var(--#{$var-prefix}anchor-warning-primary-color) !important;
         cursor: pointer;
-        
-        & > .num {
-          color: var(--#{$var-prefix}anchor-warning-secondary-color) !important;
-        }
 
         &::after {
           background-color: var(--#{$var-prefix}anchor-warning-primary-color) !important;
@@ -171,16 +148,17 @@
       top: 18px;
       left: 0;
       width: var(--#{$var-prefix}progress-width);
-      height: 5px;
+      border-radius: 8px;
+      z-index: 1;
+      height: 6px;
       background-color: var(--#{$var-prefix}progress-color);
-      border-radius: 3px;
       z-index: 2;
       transition: width 0.5s ease-in-out;
 
       @media screen and (max-width: $breakpoint-phone) {
         top: 0;
-        left: 20.5px;
-        width: 5px;
+        left: 17px;
+        width: 6px;
         height: var(--#{$var-prefix}progress-width);
       }
     }

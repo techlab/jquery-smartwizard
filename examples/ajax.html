@@ -1,250 +1,436 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>jQuery Smart Wizard - The awesome jQuery step wizard plugin</title>
+    <title>jQuery Smart Wizard Ajax Content Demo - The awesome jQuery step wizard plugin</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- Bootrap for the demo page -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    
+    <!-- Animate CSS for the css animation support if needed -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+
     <!-- Include SmartWizard CSS -->
+    <link href="./css/demo.css" rel="stylesheet" type="text/css" />
     <link href="./css/smart_wizard_all.css" rel="stylesheet" type="text/css" />
-
-    <!-- Demo Page Style - You don't need -->
-    <style>
-    body {
-      padding-right: 5%;
-      padding-left: 5%;
-    }
-    </style>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 </head>
 <body>
+  <br>
+  <div class="container">
 
-    <br />
-    <p>
-      <label>Theme:</label>
-      <select id="theme_selector">
-        <option value="default" selected>Default</option>
-        <option value="arrows">Arrows</option>
-        <option value="dots">Dots</option>
-        <option value="progress">Progress</option>
-      </select>
+    <div class="fixed-plugin">
+        <button class="btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+          <i class="bi-gear-fill"></i>
+        </button>
+    </div>
 
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <input type="checkbox" id="is_justified" value="1" checked />
-      <label for="is_justified">Justified</label>
+    <div class="mb-5 border-bottom">
+      <button class="btn btn-outline-primary btn-sm float-end mt-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+        Settings
+      </button>
+      
+      <div class="float-end text-muted me-3 mt-2">
+        Step number: <span id="sw-current-step"></span> of <span id="sw-total-step"></span>
+      </div>
+      
+      <h1>jQuery Smart Wizard Ajax Content Demo</h1>
+      <div class="mb-2 text-muted">Shows the wizard content loaded via ajax call for each step</div>
 
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <label>Animation:</label>
-      <select id="animation">
-            <option value="none">None</option>
-            <option value="fade">Fade</option>
-            <option value="slide-horizontal" selected>Slide Horizontal</option>
-            <option value="slide-vertical">Slide Vertical</option>
-            <option value="slide-swing">Slide Swing</option>
-      </select>
+      <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+        <div class="offcanvas-header border-bottom">
+          <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Smart Wizard Settings</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+              
+                <div class="mb-2">
+                  <label for="theme_selector" class="form-label">Theme</label>
+                  <select id="theme_selector" class="form-select form-select-sm" aria-label="">
+                    <option value="basic">Basic (Default)</option>
+                    <option value="arrows" selected>Arrows</option>
+                    <option value="square">Square</option>
+                    <option value="round">Round</option>
+                    <option value="dots">Dots</option>
+                  </select>
+                  <div class="form-check form-check-inline ">
+                    <input class="form-check-input align-middle option-setting-checkbox" type="checkbox" id="is_justified" value="1" checked>
+                    <label class="form-check-label align-middle" for="is_justified">Justified</label>
+                  </div>
+                </div>
+      
+                <div class="mb-2">
+                  <label for="animation" class="form-label">Transition</label>
+                    <select id="animation" class="form-select form-select-sm" aria-label="">
+                      <optgroup label="Buit-in Animations">
+                        <option value="none">None</option>
+                        <option value="fade">Fade</option>
+                        <option value="slideHorizontal" selected>Slide Horizontal</option>
+                        <option value="slideVertical">Slide Vertical</option>
+                        <option value="slideSwing">Slide Swing</option>
+                      </optgroup>
+                      <optgroup label="CSS Animations (External Plugin)">
+                        <option value="cssSlideH">Slide Horizontal</option>
+                        <option value="cssSlideV">Slide Vertical</option>
+                        <option value="cssFade">Fade</option>
+                        <option value="cssFadeSlideH">Fade + Slide Horizontal</option>
+                        <option value="cssFadeSlideV">Fade + Slide Vertical</option>
+                        <option value="cssFadeSlideCorner1">Fade + Slide Corner 1</option>
+                        <option value="cssFadeSlideCorner2">Fade + Slide Corner 2</option>
+                        <option value="cssBounce">Bounce</option>
+                        <option value="cssBounceSlideH">Bounce + Slide Horizontal</option>
+                        <option value="cssBounceSlideV">Bounce + Slide Vertical</option>
+                        <option value="cssBackSlideH">Back + Slide Horizontal</option>
+                        <option value="cssBackSlideV">Back + Slide Vertical</option>
+                        <option value="cssFlipH">Flip Horizontal</option>
+                        <option value="cssFlipV">Flip Vertical</option>
+                        <option value="cssLightspeed">Lightspeed</option>
+                        <option value="cssRotate">Rotate</option>
+                        <option value="cssRotateClock">Rotate Clockwise</option>
+                        <option value="cssRotateAntiClock">Rotate Anti Clockwise</option>
+                        <option value="cssZoom">Zoom</option>
+                      </optgroup>
+                    </select>
+                </div>
 
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <label>Go To:</label>
-      <select id="got_to_step">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-      </select>
+                <div class="mb-2">
+                  <label for="theme_colors" class="form-label">Colors</label>
+                  <select id="theme_colors" class="form-select form-select-sm" aria-label="">
+                    <!-- <option value="custom" selected>Custom</option> -->
+                  </select>
+                </div>
+                <fieldset class="mb-2" style="display: none;" id="color-list">
+                  <!-- <legend class="col-form-label col-sm-2 col-form-label">Colors</legend> -->
+                  
+                </fieldset>
+            <!-- </div>
+            
+            <div class="col"> -->
+              <div class="mb-2">
+                <h6 for="Anchor" class="form-label border-bottom">Anchor Settings</h6>
+                <div class="form-check">
+                  <input class="form-check-input align-middle option-setting-checkbox" type="checkbox" id="anchor_navigation" value="1" checked>
+                  <label class="form-check-label align-middle" for="anchor_navigation">Enable Navigation</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input align-middle option-setting-checkbox" type="checkbox" id="enableNavigationAlways" value="1">
+                  <label class="form-check-label align-middle" for="enableNavigationAlways">Enable Navigation Always</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input align-middle option-setting-checkbox" type="checkbox" id="enableDoneState" value="1" checked>
+                  <label class="form-check-label align-middle" for="enableDoneState">Enable Done State</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input align-middle option-setting-checkbox" type="checkbox" id="unDoneOnBackNavigation" value="1">
+                  <label class="form-check-label align-middle" for="unDoneOnBackNavigation">Undone On Back Navigation</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input align-middle option-setting-checkbox" type="checkbox" id="enableDoneStateNavigation" value="1" checked>
+                  <label class="form-check-label align-middle" for="enableDoneStateNavigation">Enable Done State Navigation</label>
+                </div>
+              </div>
 
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <label>External Buttons:</label>
-      <button class="btn btn-secondary" id="prev-btn" type="button">Go Previous</button>
-      <button class="btn btn-secondary" id="next-btn" type="button">Go Next</button>
-      <button class="btn btn-danger" id="reset-btn" type="button">Reset Wizard</button>
-    </p>
-    <br />
+              <div class="mb-2">
+                <h6 for="Toolbar" class="form-label border-bottom">Toolbar Settings</h6>
+                <label class="form-check-label align-middle-">Position: </label>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="toolbar-position" id="toolbar-position-none" value="none">
+                  <label class="form-check-label" for="toolbar-position-none">none</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="toolbar-position" id="toolbar-position-top" value="top">
+                  <label class="form-check-label" for="toolbar-position-top">top</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="toolbar-position" id="toolbar-position-bottom" value="bottom">
+                  <label class="form-check-label" for="toolbar-position-bottom">bottom</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="toolbar-position" id="toolbar-position-both" value="both" checked>
+                  <label class="form-check-label" for="toolbar-position-both">both</label>
+                </div>
+                
+                <div class="form-check">
+                  <input class="form-check-input align-middle option-setting-checkbox" type="checkbox" id="toolbar-showNextButton" value="1" checked>
+                  <label class="form-check-label align-middle" for="toolbar-showNextButton">Show Next Button</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input align-middle option-setting-checkbox" type="checkbox" id="toolbar-showPreviousButton" value="1" checked>
+                  <label class="form-check-label align-middle" for="toolbar-showPreviousButton">Show Previous Button</label>
+                </div>
+              </div>
 
+              <div class="mb-2">
+                <h6 for="Other" class="form-label border-bottom">Other Settings</h6>
+                <div class="form-check">
+                  <input class="form-check-input align-middle option-setting-checkbox" type="checkbox" id="key_navigation" value="1" checked>
+                  <label class="form-check-label align-middle" for="key_navigation">Keyboard Navigation</label>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input align-middle option-setting-checkbox" type="checkbox" id="back_button_support" value="1" checked>
+                  <label class="form-check-label align-middle" for="back_button_support">Back Button Support</label>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input align-middle option-setting-checkbox" type="checkbox" id="autoAdjustHeight" value="1" checked>
+                  <label class="form-check-label align-middle" for="autoAdjustHeight">Auto Adjust Height</label>
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <h6 for="theme_selector" class="form-label border-bottom">External Controls</h6>
+                <button class="btn btn-secondary btn-sm" id="prev-btn" type="button">Previous</button>
+                <button class="btn btn-secondary btn-sm" id="next-btn" type="button">Next</button>
+                <button class="btn btn-danger btn-sm" id="reset-btn" type="button">Reset</button>
+              
+                <div class="input-group input-group-sm mt-2">
+                  <select class="form-select" id="got_to_step" aria-label="Select step number">
+                    <option selected>Choose step...</option>
+                    <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                  </select>
+                  
+                  <button class="btn btn-primary" id="btn-go-to" type="button">Go</button>
+                  <button class="btn btn-warning" id="btn-go-to-forced" type="button">Force Go</button>
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <h6 for="theme_selector" class="form-label border-bottom">State</h6>
+                <div class="input-group input-group-sm mt-2">
+                  <select class="form-select" id="state_step_selection" aria-label="Select step number">
+                    <option selected>Choose step...</option>
+                    <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                  </select>
+
+                  <select class="form-select" id="state_selection" aria-label="Select state">
+                    <option selected>Choose state...</option>
+                    <option value="default">default</option>
+                      <option value="active">active</option>
+                      <option value="done">done</option>
+                      <option value="disable">disable</option>
+                      <option value="hidden">hidden</option>
+                      <option value="error">error</option>
+                      <option value="warning">warning</option>
+                  </select>
+
+                  <button class="btn btn-success" id="btn-state-set" type="button">Set</button>
+                  <button class="btn btn-danger" id="btn-state-unset" type="button">Unset</button>
+                </div>
+              </div>
+      
+        </div>
+      </div>
+    </div>
 
     <!-- SmartWizard html -->
     <div id="smartwizard">
-
-        <ul class="nav">
+        <ul class="nav nav-progress">
             <li class="nav-item">
-              <a class="nav-link" href="#step-1" data-repo="jquery-smarttab">
-                <strong>SmartTab</strong><br />repository details from GitHub
+              <a class="nav-link" href="#step-1">
+                <div class="num">1</div>
+                Welcome
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#step-2" data-repo="smartwizard">
-                <strong>SmartWizard</strong><br />repository details from GitHub
+              <a class="nav-link" href="#step-2" data-repo="jquery-smartwizard">
+                <span class="num">2</span>
+                jQuery Smart Wizard
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#step-3" data-repo="jquery-smartcart">
-                <strong>SmartCart</strong><br />repository details from GitHub
+                <span class="num">3</span>
+                jQuery Smart Cart
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="#step-4" data-repo="jquery-smarttab">
+                <span class="num">4</span>
+                jQuery Smart Tab
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#step-1">
+                <div class="num">5</div>
+                Thank you
               </a>
             </li>
         </ul>
 
         <div class="tab-content">
             <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+              <h3>Welcome</h3>
+              This content is static and not loaded via Ajax, but the upcoming pages will have data loaded with Ajax calls.
             </div>
             <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+              Fallback content
             </div>
             <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+              Fallback content
             </div>
             <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+              Fallback content
             </div>
+            <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
+              <h3>Thank you!</h3>
+
+              Thank you for checking the jQuery plugins.
+
+              <br>
+              <br>
+              <br>
+              <br>
+              <small class="text-muted">This content is static</small>
+            </div>
+        </div>
+
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
     </div>
 
+
+
     <br /> &nbsp;
+    </div>
+
+    <!-- Bootrap for the demo page -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <!-- Include SmartWizard JavaScript source -->
     <script type="text/javascript" src="./js/jquery.smartWizard.min.js"></script>
 
+    <script type="text/javascript" src="./js/demo.js"></script>
+
     <script type="text/javascript">
-        $(document).ready(function(){
 
-            // Toolbar extra buttons
-            var btnFinish = $('<button></button>').text('Finish')
-                                             .addClass('btn btn-info')
-                                             .on('click', function(){ alert('Finish Clicked'); });
-            var btnCancel = $('<button></button>').text('Cancel')
-                                             .addClass('btn btn-danger')
-                                             .on('click', function(){ $('#smartwizard').smartWizard("reset"); });
+        function onCancel(){ $('#smartwizard').smartWizard("reset"); }
 
-            // Step show event
-            $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection, stepPosition) {
-                $("#prev-btn").removeClass('disabled');
-                $("#next-btn").removeClass('disabled');
-                if(stepPosition === 'first') {
-                    $("#prev-btn").addClass('disabled');
-                } else if(stepPosition === 'last') {
-                    $("#next-btn").addClass('disabled');
-                } else {
-                    $("#prev-btn").removeClass('disabled');
-                    $("#next-btn").removeClass('disabled');
+        function provideContent(idx, stepDirection, stepPosition, selStep, callback) {
+
+          // Only get ajax content on the forward movement
+          if (stepDirection == 'forward' && stepPosition == 'middle') {
+            let repo    = selStep.data('repo');
+            // let repo = "jquery-smartwizard";
+            let ajaxURL = "https://api.npms.io/v2/search?q=" + repo;
+            // Ajax call to fetch your content
+            $.ajax({
+                method  : "GET",
+                url     : ajaxURL,
+                beforeSend: function( xhr ) {
+                    // Show the loader
+                    $('#smartwizard').smartWizard("loader", "show");
                 }
+            }).done(function( res ) {
+                let data = res.results[0];
+                console.log(data);
+                
+                let keywordsHtml = '';
+                data.package.keywords.forEach(keyword =>  keywordsHtml += `<span class="badge bg-secondary me-1">${keyword}</span>`);
+
+                let popularity = parseInt(data.score.detail.popularity * 100);
+                let quality = parseInt(data.score.detail.quality * 100);
+                let maintenance = parseInt(data.score.detail.maintenance * 100);
+
+                var html = `<div class="card  w-100" >
+                            <div class="card-body">
+                              <h5 class="card-title"><a href="${data.package.links.repository}">${data.package.name}</a>  <span class="badge bg-secondary">${data.package.version}</span></h5>
+                              <p class="card-text">${data.package.description}</p>
+                              <p class="card-text"><small class="text-muted">Created by ${data.package.author.name}</small></p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item"><a class="card-link" href="${data.package.links.homepage}">Homepage</a> <a class="card-link" href="${data.package.links.npm}">Npm</a> <a class="card-link" href="${data.package.links.bugs}">Bug</a> </li>
+                              <li class="list-group-item">${keywordsHtml}</li>
+                              <li class="list-group-item">
+                                Popularity: <span class="badge bg-secondary me-1">${popularity}</span> 
+                                Quality: <span class="badge bg-secondary me-1">${quality}</span>
+                                Maintenance: <span class="badge bg-secondary me-1">${maintenance}</span>
+                              </li>
+                            </ul>
+                          </div>`;
+
+                // Resolve the Promise with the tab content
+                callback(html);
+
+                // Hide the loader
+                $('#smartwizard').smartWizard("loader", "hide");
+            }).fail(function(err) {
+                // Reject the Promise with error message to show as tab content
+                callback( "An error loading the resource" );
+
+                // Hide the loader
+                $('#smartwizard').smartWizard("loader", "hide");
             });
+          }
 
-            $("#smartwizard").on("stepContent", function(e, anchorObject, stepIndex, stepDirection) {
+          callback();
+        }
 
-                var repo    = anchorObject.data('repo');
-                var ajaxURL = "https://api.npms.io/v2/package/" + repo;
-                // Return a promise object
-                return new Promise((resolve, reject) => {
+        $(function() {
+            // Step show event
+            $("#smartwizard").on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
+                $("#prev-btn").removeClass('disabled').prop('disabled', false);
+                $("#next-btn").removeClass('disabled').prop('disabled', false);
+                if(stepPosition === 'first') {
+                    $("#prev-btn").addClass('disabled').prop('disabled', true);
+                } else if(stepPosition === 'last') {
+                    $("#next-btn").addClass('disabled').prop('disabled', true);
+                } else {
+                    $("#prev-btn").removeClass('disabled').prop('disabled', false);
+                    $("#next-btn").removeClass('disabled').prop('disabled', false);
+                }
 
-                  // Ajax call to fetch your content
-                  $.ajax({
-                      method  : "GET",
-                      url     : ajaxURL,
-                      beforeSend: function( xhr ) {
-                          // Show the loader
-                          $('#smartwizard').smartWizard("loader", "show");
-                      }
-                  }).done(function( res ) {
-                      // console.log(res);
-
-                      var html = '<h2>Ajax data about ' + repo + ' loaded from GitHub</h2>';
-                      html += '<br>URL: <strong>' + ajaxURL + '</strong>';
-                      html += '<br>Name: <strong>' + res.collected.metadata.name + '</strong>';
-                      html += '<br>Description: ' + res.collected.metadata.description;
-                      html += '<br>Homepage: <a href="' + res.collected.github.homepage + '" >'+ res.collected.github.homepage +'</a>';
-                      html += '<br>Keywords: ' + res.collected.metadata.keywords.join(', ');
-
-                      // html += '<br>Clone URL: ' + res.clone_url;
-                      html += '<br>Stars: ' + res.collected.github.starsCount;
-                      html += '<br>Forks: ' + res.collected.github.forksCount;
-                      html += '<br>Watchers: ' + res.collected.github.subscribersCount;
-                      html += '<br>Open Issues: ' + res.collected.github.issues.openCount + '/' + res.collected.github.issues.count;
-
-                      html += '<br><br>Popularity: ' + parseInt(res.score.detail.popularity * 100);
-                      html += '<br>Quality: ' + parseInt(res.score.detail.quality * 100);
-                      html += '<br>Maintenance: ' + parseInt(res.score.detail.maintenance * 100);
-
-                      // Resolve the Promise with the tab content
-                      resolve(html);
-
-                      // Hide the loader
-                      $('#smartwizard').smartWizard("loader", "hide");
-                  }).fail(function(err) {
-
-                      // Reject the Promise with error message to show as tab content
-                      reject( "An error loading the resource" );
-
-                      // Hide the loader
-                      $('#smartwizard').smartWizard("loader", "hide");
-                  });
-
-                });
+                // Get step info from Smart Wizard
+                let stepInfo = $('#smartwizard').smartWizard("getStepInfo");
+                $("#sw-current-step").text(stepInfo.currentStep + 1);
+                $("#sw-total-step").text(stepInfo.totalSteps);
             });
 
             // Smart Wizard
             $('#smartwizard').smartWizard({
                 selected: 0,
+                theme: 'square', // basic, arrows, square, round, dots
                 transition: {
-                    animation: 'slide-horizontal', // Effect on navigation, none/fade/slide-horizontal/slide-vertical/slide-swing
+                  animation:'fade' // none|fade|slideHorizontal|slideVertical|slideSwing|css
                 },
-                toolbarSettings: {
-                    toolbarPosition: 'both', // both bottom
-                    toolbarExtraButtons: [btnFinish, btnCancel]
-                }
+                toolbar: {
+                  showNextButton: true, // show/hide a Next button
+                  showPreviousButton: true, // show/hide a Previous button
+                  position: 'bottom', // none/ top/ both / bottom
+                  extraHtml: `<button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`
+                },
+                anchor: {
+                    enableNavigation: true, // Enable/Disable anchor navigation 
+                    enableNavigationAlways: false, // Activates all anchors clickable always
+                    enableDoneState: true, // Add done state on visited steps
+                    markPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
+                    unDoneOnBackNavigation: false, // While navigate back, done state will be cleared
+                    enableDoneStateNavigation: true // Enable/Disable the done state navigation
+                },
+                disabledSteps: [], // Array Steps disabled
+                errorSteps: [], // Highlight step with errors
+                hiddenSteps: [], // Hidden steps
+                getContent: provideContent
             });
 
-            // External Button Events
-            $("#reset-btn").on("click", function() {
-                // Reset wizard
-                $('#smartwizard').smartWizard("reset");
+            $("#state_selector").on("change", function() {
+                $('#smartwizard').smartWizard("setState", [$('#step_to_style').val()], $(this).val(), !$('#is_reset').prop("checked"));
                 return true;
             });
 
-            $("#prev-btn").on("click", function() {
-                // Navigate previous
-                $('#smartwizard').smartWizard("prev");
-                return true;
-            });
-
-            $("#next-btn").on("click", function() {
-                // Navigate next
-                $('#smartwizard').smartWizard("next");
-                return true;
-            });
-
-
-            // Demo Button Events
-            $("#got_to_step").on("change", function() {
-                // Go to step
-                var step_index = $(this).val() - 1;
-                $('#smartwizard').smartWizard("goToStep", step_index);
-                return true;
-            });
-
-            $("#is_justified").on("click", function() {
-                // Change Justify
-                var options = {
-                  justified: $(this).prop("checked")
-                };
-
-                $('#smartwizard').smartWizard("setOptions", options);
-                return true;
-            });
-
-            $("#animation").on("change", function() {
-                // Change theme
-                var options = {
-                  transition: {
-                      animation: $(this).val()
-                  },
-                };
-                $('#smartwizard').smartWizard("setOptions", options);
-                return true;
-            });
-
-            $("#theme_selector").on("change", function() {
-                // Change theme
-                var options = {
-                  theme: $(this).val()
-                };
-                $('#smartwizard').smartWizard("setOptions", options);
+            $("#style_selector").on("change", function() {
+                $('#smartwizard').smartWizard("setStyle", [$('#step_to_style').val()], $(this).val(), !$('#is_reset').prop("checked"));
                 return true;
             });
 

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>jQuery Smart Wizard Demo - The awesome jQuery step wizard plugin</title>
+    <title>jQuery Smart Wizard Form Validation Demo - The awesome jQuery step wizard plugin</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -35,8 +35,8 @@
         Step number: <span id="sw-current-step"></span> of <span id="sw-total-step"></span>
       </div>
       
-      <h1>jQuery Smart Wizard Demo</h1>
-      <div class="mb-2 text-muted">Click on the settings buttons for trying out different options</div>
+      <h1>jQuery Smart Wizard Form Validation Demo</h1>
+      <div class="mb-2 text-muted">Example of Bootstrap Form Validation on Smart Wizard v6</div>
 
       <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
         <div class="offcanvas-header border-bottom">
@@ -231,7 +231,7 @@
     </div>
 
     <!-- SmartWizard html -->
-    <div id="smartwizard">
+    <div id="smartwizard" dir="rtl-">
         <ul class="nav nav-progress">
             <li class="nav-item">
               <a class="nav-link" href="#step-1">
@@ -261,20 +261,139 @@
 
         <div class="tab-content">
           <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
-              <h3>Step 1 Content</h3>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+              <form id="form-1" class="row row-cols-1 ms-5 me-5 needs-validation" novalidate>
+                <div class="col">
+                  <label for="first-name" class="form-label">First name</label>
+                  <input type="text" class="form-control" id="first-name" value="" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please provide first name.
+                  </div>
+                </div>
+                <div class="col">
+                  <label for="validationCustom02" class="form-label">Last name</label>
+                  <input type="text" class="form-control" id="last-name" value="" required>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please provide last name.
+                  </div>
+                </div>
+              </form>
           </div>
           <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
-            <h3>Step 2 Content</h3>
-            <div>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. </div>
+            <form id="form-2" class="row row-cols-1 ms-5 me-5 needs-validation" novalidate>
+              <div class="col-md-6">
+                <label for="validationCustom04" class="form-label">Product</label>
+                <select class="form-select" id="sel-products" multiple required>
+                  <option value="Apple iPhone 13">Apple iPhone 13</option>
+                  <option value="Apple iPhone 12">Apple iPhone 12</option>
+                  <option value="Samsung Galaxy S10">Samsung Galaxy S10</option>
+                  <option value="Motorola G5">Motorola G5</option>
+                </select>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+                <div class="invalid-feedback">
+                  Please select product.
+                </div>
+              </div>
+            </form>
           </div>
             <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+              <form id="form-3" class="row row-cols-1 ms-5 me-5 needs-validation" novalidate>
+                <div class="col">
+                  <label for="address" class="form-label">Address</label>
+                  <input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
+                  <div class="invalid-feedback">
+                    Please enter your shipping address.
+                  </div>
+                </div>
+                <div class="col">
+                  <label for="validationCustom04" class="form-label">State</label>
+                  <select class="form-select" id="state" required>
+                    <option selected disabled value="">Choose...</option>
+                    <option>State 1</option>
+                    <option>State 2</option>
+                    <option>State 3</option>
+                  </select>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please select a valid state.
+                  </div>
+                </div>
+                <div class="col">
+                  <label for="validationCustom05" class="form-label">Zip</label>
+                  <input type="text" class="form-control" id="zip" required>
+                  <div class="invalid-feedback">
+                    Please provide a valid zip.
+                  </div>
+                </div>
+              </form>  
             </div>
             <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
-                <h3>Step 4 Content</h3>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+
+              <form id="form-4" class="row row-cols-1 ms-5 me-5 needs-validation" novalidate>
+              <div class="col">
+                  <div class="mb-3 text-muted">Please confirm your order details</div>
+
+                  <div id="order-details"></div>
+        
+                  <h4 class="mt-3">Payment</h4>
+                  <hr class="my-2">
+        
+                  <div class="row gy-3">
+                    <div class="col-md-3">
+                      <label for="cc-name" class="form-label">Name on card</label>
+                      <input type="text" class="form-control" id="cc-name" value="My Name" placeholder="" required="">
+                      <small class="text-muted">Full name as displayed on card</small>
+                      <div class="invalid-feedback">
+                        Name on card is required
+                      </div>
+                    </div>
+        
+                    <div class="col-md-3">
+                      <label for="cc-number" class="form-label">Credit card number</label>
+                      <input type="text" class="form-control" id="cc-number" value="54545454545454" placeholder="" required="">
+                      <div class="invalid-feedback">
+                        Credit card number is required
+                      </div>
+                    </div>
+        
+                    <div class="col-md-3">
+                      <label for="cc-expiration" class="form-label">Expiration</label>
+                      <input type="text" class="form-control" id="cc-expiration" value="1/28" placeholder="" required="">
+                      <div class="invalid-feedback">
+                        Expiration date required
+                      </div>
+                    </div>
+        
+                    <div class="col-md-3">
+                      <label for="cc-cvv" class="form-label">CVV</label>
+                      <input type="text" class="form-control" id="cc-cvv" value="123" placeholder="" required="">
+                      <div class="invalid-feedback">
+                        Security code required
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <input type="checkbox" class="form-check-input" id="save-info" required>
+                      <label class="form-check-label" for="save-info">I agree to the terms and conditions</label>
+                    </div>
+
+                    <small class="text-muted">This is an example page, do not enter any real data, even tho we don't submit this information!</small>
+
+                  </div>
+                </div>
+              </form>
+
+
+
             </div>
         </div>
 
@@ -284,8 +403,25 @@
     </div>
 
 
-
     <br /> &nbsp;
+    </div>
+
+    <!-- Confirm Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmModalLabel">Order Placed</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Congratulations! Your order is placed.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="closeModal()">Ok, close and reset</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Bootrap for the demo page -->
@@ -304,10 +440,109 @@
 
     <script type="text/javascript">
 
-        function onFinish(){ alert('Finish Clicked'); }
-        function onCancel(){ $('#smartwizard').smartWizard("reset"); }
+        const myModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+
+
+        function onCancel() { 
+          // Reset wizard
+          $('#smartwizard').smartWizard("reset");
+
+          // Reset form
+          document.getElementById("form-1").reset();
+          document.getElementById("form-2").reset();
+          document.getElementById("form-3").reset();
+          document.getElementById("form-4").reset();
+        }
+
+        function onConfirm() {
+          let form = document.getElementById('form-4');
+          if (form) {
+            if (!form.checkValidity()) {
+              form.classList.add('was-validated');
+              $('#smartwizard').smartWizard("setState", [3], 'error');
+              $("#smartwizard").smartWizard('fixHeight');
+              return false;
+            }
+            
+            $('#smartwizard').smartWizard("unsetState", [3], 'error');
+            myModal.show();
+          }
+        }
+
+        function closeModal() {
+          // Reset wizard
+          $('#smartwizard').smartWizard("reset");
+
+          // Reset form
+          document.getElementById("form-1").reset();
+          document.getElementById("form-2").reset();
+          document.getElementById("form-3").reset();
+          document.getElementById("form-4").reset();
+
+          myModal.hide();
+        }
+
+        function showConfirm() {
+          const name = $('#first-name').val() + ' ' + $('#last-name').val();
+          const products = $('#sel-products').val();
+          const shipping = $('#address').val() + ' ' + $('#state').val() + ' ' + $('#zip').val();
+          let html = `
+                  <div class="row">
+                    <div class="col">
+                      <h4 class="mb-3-">Customer Details</h4>
+                      <hr class="my-2">
+                      <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label class="col-form-label">Name</label>
+                        </div>
+                        <div class="col-auto">
+                          <span class="form-text-">${name}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <h4 class="mt-3-">Shipping</h4>
+                      <hr class="my-2">
+                      <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <span class="form-text-">${shipping}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+        
+                  <h4 class="mt-3">Products</h4>
+                  <hr class="my-2">
+                  <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                      <span class="form-text-">${products}</span>
+                    </div>
+                  </div>
+
+                  `;
+          $("#order-details").html(html);
+          $('#smartwizard').smartWizard("fixHeight"); 
+        }
 
         $(function() {
+            // Leave step event is used for validating the forms
+            $("#smartwizard").on("leaveStep", function(e, anchorObject, currentStepIdx, nextStepIdx, stepDirection) {
+                // Validate only on forward movement  
+                if (stepDirection == 'forward') {
+                  let form = document.getElementById('form-' + (currentStepIdx + 1));
+                  if (form) {
+                    if (!form.checkValidity()) {
+                      form.classList.add('was-validated');
+                      $('#smartwizard').smartWizard("setState", [currentStepIdx], 'error');
+                      $("#smartwizard").smartWizard('fixHeight');
+                      return false;
+                    }
+                    $('#smartwizard').smartWizard("unsetState", [currentStepIdx], 'error');
+                  }
+                }
+            });
+
             // Step show event
             $("#smartwizard").on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
                 $("#prev-btn").removeClass('disabled').prop('disabled', false);
@@ -325,14 +560,20 @@
                 let stepInfo = $('#smartwizard').smartWizard("getStepInfo");
                 $("#sw-current-step").text(stepInfo.currentStep + 1);
                 $("#sw-total-step").text(stepInfo.totalSteps);
-            });
 
-            $("#smartwizard").on("initialized", function(e) {
-                console.log("initialized");
-            });
+                if (stepPosition == 'last') {
+                  showConfirm();
+                  $("#btnFinish").prop('disabled', false);
+                } else {
+                  $("#btnFinish").prop('disabled', true);
+                }
 
-            $("#smartwizard").on("loaded", function(e) {
-                console.log("loaded");
+                // Focus first name
+                if (stepIndex == 1) {
+                  setTimeout(() => {
+                    $('#first-name').focus();
+                  }, 0);
+                }
             });
 
             // Smart Wizard
@@ -341,48 +582,24 @@
                 // autoAdjustHeight: false,
                 theme: 'arrows', // basic, arrows, square, round, dots
                 transition: {
-                  animation:'myFade' // none|fade|slideHorizontal|slideVertical|slideSwing|css
+                  animation:'none'
                 },
                 toolbar: {
                   showNextButton: true, // show/hide a Next button
                   showPreviousButton: true, // show/hide a Previous button
-                  position: 'both', // none/ top/ both bottom
-                  extraHtml: `<button class="btn btn-success" onclick="onFinish()">Finish</button>
-                              <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`
+                  position: 'bottom', // none/ top/ both bottom
+                  extraHtml: `<button class="btn btn-success" id="btnFinish" disabled onclick="onConfirm()">Complete Order</button>
+                              <button class="btn btn-danger" id="btnCancel" onclick="onCancel()">Cancel</button>`
                 },
                 anchor: {
                     enableNavigation: true, // Enable/Disable anchor navigation 
                     enableNavigationAlways: false, // Activates all anchors clickable always
                     enableDoneState: true, // Add done state on visited steps
                     markPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
-                    unDoneOnBackNavigation: false, // While navigate back, done state will be cleared
+                    unDoneOnBackNavigation: true, // While navigate back, done state will be cleared
                     enableDoneStateNavigation: true // Enable/Disable the done state navigation
                 },
-                disabledSteps: [], // Array Steps disabled
-                errorSteps: [], // Highlight step with errors
-                hiddenSteps: [], // Hidden steps
-                // getContent: (idx, stepDirection, selStep, callback) => {
-                //   console.log('getContent',selStep, idx, stepDirection);
-                //   callback('<h1>'+idx+'</h1>');
-                // }
             });
-
-            $.fn.smartWizard.transitions.myFade = (elmToShow, elmToHide, stepDirection, wizardObj, callback) => {
-                if (!$.isFunction(elmToShow.fadeOut)) { callback(false); return; }
-
-                if (elmToHide) {
-                    elmToHide.fadeOut(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
-                        elmToShow.fadeIn(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
-                            callback();
-                        });
-                    });
-                } else {
-                    elmToShow.fadeIn(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
-                        callback();
-                    });
-                }
-            }
-            
 
             $("#state_selector").on("change", function() {
                 $('#smartwizard').smartWizard("setState", [$('#step_to_style').val()], $(this).val(), !$('#is_reset').prop("checked"));

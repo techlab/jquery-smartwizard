@@ -19,7 +19,7 @@ describe('SmartWizard Default Options', function() {
     });
 
     it('should add default theme to the element', function() {
-        expect(el).toHaveClass("sw-theme-default");
+        expect(el).toHaveClass("sw-theme-basic");
     });
 
     it('should add toolbar elements', function() {
@@ -30,28 +30,20 @@ describe('SmartWizard Default Options', function() {
 
 });
 
-describe('SmartWizard Navigation', function() {
-    var el;
-
-    beforeEach(function(){
+describe('SmartWizard widget', () => {
+    it('should trigger "initialized" event', () => {
         jasmine.getFixtures().fixturesPath = 'base/test';
         loadFixtures('test-template.html');
 
-        el = $('#smartwizard');
+        var loadedEventSpy = jasmine.createSpy("initialized");
+        var el = $('#smartwizard');
+
+        $(el).on("initialized", loadedEventSpy);
+
+        expect(loadedEventSpy).not.toHaveBeenCalled();
+
         el.smartWizard();
-    });
 
-    afterEach(function(){
-        el.remove();
-        el = null;
-    });
-
-    it('should show the first step', function() {
-        expect(el.find('.nav').find('.nav-link').first()).toHaveClass("active");
-    });
-
-    it('should not show other steps', function() {
-        expect(el.find('.nav').find('.nav-link:not(:first)')).not.toHaveClass("active");
-    });
-
+        expect(loadedEventSpy).toHaveBeenCalled();
+	});
 });

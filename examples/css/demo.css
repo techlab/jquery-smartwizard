@@ -1,0 +1,15 @@
+.fixed-plugin {
+    position: fixed;
+    top: 81px;
+    right: 0;
+    background: rgba(0,0,0,.3);
+    z-index: 1031;
+    border-radius: 8px 0 0 8px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.fixed-plugin i {
+    color:#fff;
+    font-size: 1.5em;
+}

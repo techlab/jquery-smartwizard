@@ -1,0 +1,82 @@
+.sw-theme-basic {
+  border: 1px solid var(--#{$var-prefix}border-color);
+
+  // Navigation style
+  & > .nav {
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.1)!important;
+
+    .nav-link {
+      position: relative;
+      height: 100%;
+      min-height: 100%;
+      margin-right: 5px;
+
+      &::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+        height: 2px;
+        width: 0;
+        left: 0px;
+        bottom: -1px;
+        transition: all .35s ease .15s;
+        width: 100%;
+      }
+
+      &.default {
+        color: var(--#{$var-prefix}anchor-default-secondary-color);
+        cursor: not-allowed;
+
+        &::after {
+          background-color: var(--#{$var-prefix}anchor-default-secondary-color);
+        }
+      }
+
+      &.active {
+        color: var(--#{$var-prefix}anchor-active-primary-color) !important;
+        cursor: pointer;
+
+        &::after {
+          background: var(--#{$var-prefix}anchor-active-primary-color) !important;
+        }
+      }
+
+      &.done {
+        color: var(--#{$var-prefix}anchor-done-primary-color);
+        cursor: pointer;
+
+        &::after {
+          background: var(--#{$var-prefix}anchor-done-primary-color);
+        }
+      }
+
+      &.disabled {
+        color: var(--#{$var-prefix}anchor-disabled-primary-color) !important;
+
+        &::after {
+          background: var(--#{$var-prefix}anchor-disabled-primary-color);
+        }
+      }
+
+      &.error {
+        color: var(--#{$var-prefix}anchor-error-primary-color) !important;
+        cursor: pointer;
+
+        &::after {
+          background: var(--#{$var-prefix}anchor-error-primary-color) !important;
+        }
+      }
+
+      &.warning {
+        color: var(--#{$var-prefix}anchor-warning-primary-color) !important;
+        cursor: pointer;
+
+        &::after {
+          background: var(--#{$var-prefix}anchor-warning-primary-color) !important;
+        }
+      }
+    }
+
+  }
+
+}

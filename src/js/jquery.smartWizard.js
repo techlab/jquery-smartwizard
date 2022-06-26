@@ -1,75 +1,76 @@
 /*!
- * jQuery SmartWizard v5.1.1
- * The awesome jQuery step wizard plugin
- * http://www.techlaboratory.net/jquery-smartwizard
- *
- * Created by Dipu Raj
- * http://dipu.me
- *
- * @license Licensed under the terms of the MIT License
- * https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE
- */
+* jQuery SmartWizard v6.0.1
+* The awesome step wizard plugin for jQuery
+* http://www.techlaboratory.net/jquery-smartwizard
+*
+* Created by Dipu Raj (http://dipu.me)
+*
+* Licensed under the terms of the MIT License
+* https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE
+*/
 
- (function (factory) {
-     if (typeof define === 'function' && define.amd) {
-         // AMD. Register as an anonymous module.
-         define(['jquery'], factory);
-     } else if (typeof module === 'object' && module.exports) {
-         // Node/CommonJS
-         module.exports = function( root, jQuery ) {
-             if ( jQuery === undefined ) {
-                 // require('jQuery') returns a factory that requires window to
-                 // build a jQuery instance, we normalize how we use modules
-                 // that require this pattern but the window provided is a noop
-                 // if it's defined (how jquery works)
-                 if ( typeof window !== 'undefined' ) {
-                     jQuery = require('jquery');
-                 }
-                 else {
-                     jQuery = require('jquery')(root);
-                 }
-             }
-             factory(jQuery);
-             return jQuery;
-         };
-     } else {
-         // Browser globals
-         factory(jQuery);
-     }
- }(function ($) {
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        // Node/CommonJS
+        module.exports = function( root, jQuery ) {
+            if ( jQuery === undefined ) {
+                // require('jQuery') returns a factory that requires window to
+                // build a jQuery instance, we normalize how we use modules
+                // that require this pattern but the window provided is a noop
+                // if it's defined (how jquery works)
+                if ( typeof window !== 'undefined' ) {
+                    jQuery = require('jquery');
+                }
+                else {
+                    jQuery = require('jquery')(root);
+                }
+            }
+            factory(jQuery);
+            return jQuery;
+        };
+    } else {
+        // Browser globals
+        factory(jQuery);
+    }
+}(function ($) {
     "use strict";
 
     // Default options
-    var defaults = {
+    const defaults = {
         selected: 0, // Initial selected step, 0 = first step
-        theme: 'default', // theme for the wizard, related css need to include for other than default theme
+        theme: 'basic', // theme for the wizard, related css need to include for other than default theme
         justified: true, // Nav menu justification. true/false
-        darkMode:false, // Enable/disable Dark Mode if the theme supports. true/false
         autoAdjustHeight: true, // Automatically adjust content height
-        cycleSteps: false, // Allows to cycle the navigation of steps
         backButtonSupport: true, // Enable the back button support
-        enableURLhash: true, // Enable selection of the step based on url hash
+        enableUrlHash: true, // Enable selection of the step based on url hash
         transition: {
-            animation: 'none', // Effect on navigation, none/fade/slide-horizontal/slide-vertical/slide-swing
-            speed: '400', // Transion animation speed
-            easing:'' // Transition animation easing. Not supported without a jQuery easing plugin
+            animation: 'none', // Animation effect on navigation, none|fade|slideHorizontal|slideVertical|slideSwing|css(Animation CSS class also need to specify)
+            speed: '400', // Animation speed. Not used if animation is 'css'
+            easing: '', // Animation easing. Not supported without a jQuery easing plugin. Not used if animation is 'css'
+            prefixCss: '', // Only used if animation is 'css'. Animation CSS prefix
+            fwdShowCss: '', // Only used if animation is 'css'. Step show Animation CSS on forward direction
+            fwdHideCss: '', // Only used if animation is 'css'. Step hide Animation CSS on forward direction
+            bckShowCss: '', // Only used if animation is 'css'. Step show Animation CSS on backward direction
+            bckHideCss: '', // Only used if animation is 'css'. Step hide Animation CSS on backward direction
         },
-        toolbarSettings: {
-            toolbarPosition: 'bottom', // none, top, bottom, both
-            toolbarButtonPosition: 'right', // left, right, center
+        toolbar: {
+            position: 'bottom', // none|top|bottom|both
             showNextButton: true, // show/hide a Next button
             showPreviousButton: true, // show/hide a Previous button
-            toolbarExtraButtons: [] // Extra buttons to show on toolbar, array of jQuery input/buttons elements
+            extraHtml: '' // Extra html to show on toolbar
         },
-        anchorSettings: {
-            anchorClickable: true, // Enable/Disable anchor navigation
-            enableAllAnchors: false, // Activates all anchors clickable all times
-            markDoneStep: true, // Add done state on navigation
-            markAllPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
-            removeDoneStepOnNavigateBack: false, // While navigate back done step after active step will be cleared
-            enableAnchorOnDoneStep: true // Enable/Disable the done steps navigation
+        anchor: {
+            enableNavigation: true, // Enable/Disable anchor navigation 
+            enableNavigationAlways: false, // Activates all anchors clickable always
+            enableDoneState: true, // Add done state on visited steps
+            markPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
+            unDoneOnBackNavigation: false, // While navigate back, done state will be cleared
+            enableDoneStateNavigation: true // Enable/Disable the done state navigation
         },
-        keyboardSettings: {
+        keyboard: {
             keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
             keyLeft: [37], // Left key code
             keyRight: [39] // Right key code
@@ -78,794 +79,616 @@
             next: 'Next',
             previous: 'Previous'
         },
+        style: { // CSS Class settings
+            mainCss: 'sw',
+            navCss: 'nav',
+            navLinkCss: 'nav-link',
+            contentCss: 'tab-content',
+            contentPanelCss: 'tab-pane',
+            themePrefixCss: 'sw-theme-',
+            anchorDefaultCss: 'default',
+            anchorDoneCss: 'done',
+            anchorActiveCss: 'active',
+            anchorDisabledCss: 'disabled',
+            anchorHiddenCss: 'hidden',
+            anchorErrorCss: 'error',
+            anchorWarningCss: 'warning',
+            justifiedCss: 'sw-justified',
+            btnCss: 'sw-btn',
+            btnNextCss: 'sw-btn-next',
+            btnPrevCss: 'sw-btn-prev',
+            loaderCss: 'sw-loading',
+            progressCss: 'progress',
+            progressBarCss: 'progress-bar',
+            toolbarCss: 'toolbar',
+            toolbarPrefixCss: 'toolbar-',
+        },
         disabledSteps: [], // Array Steps disabled
-        errorSteps: [], // Highlight step with errors
-        hiddenSteps: [] // Hidden steps
+        errorSteps: [], // Array Steps error
+        warningSteps: [], // Array Steps warning
+        hiddenSteps: [], // Hidden steps
+        getContent: null, // Callback function for content loading
     };
 
     class SmartWizard {
 
-      constructor(element, options) {
-          // Merge user settings with default
-          this.options        = $.extend(true, {}, defaults, options);
-          // Main container element
-          this.main           = $(element);
-          // Navigation bar element
-          this.nav            = this._getFirstDescendant('.nav');
-          // Step anchor elements
-          this.steps          = this.nav.find('.nav-link');
-          // Content container
-          this.container      = this._getFirstDescendant('.tab-content');
-          // Content pages
-          this.pages          = this.container.children('.tab-pane');
+        constructor(element, options) {
+            // Merge user settings with default
+            this.options        = $.extend(true, {}, defaults, options);
+            // Main container element
+            this.main           = $(element);
+            // Navigation bar element
+            this.nav            = this._getFirstDescendant('.' + this.options.style.navCss);
+            // Content container
+            this.container      = this._getFirstDescendant('.' + this.options.style.contentCss);
+            // Step anchor elements
+            this.steps          = this.nav.find('.' + this.options.style.navLinkCss);
+            // Content pages
+            this.pages          = this.container.children('.' + this.options.style.contentPanelCss);
+            // Progressbar
+            this.progressbar    = this.main.find('.' + this.options.style.progressCss);
+            // Direction, RTL/LTR
+            this.dir            = this._getDir();
+            // Initial wizard index
+            this.current_index  = -1;
+            // Is initialiazed
+            this.is_init        = false;    
 
-          // Assign options
-          this._initOptions();
-          // Initial load
-          this._initLoad();
-      }
+            // Initialize options
+            this._init();
 
-      // Initial Load Method
-      _initLoad() {
-          // Clean the elements
-          this.pages.hide();
-          this.steps.removeClass('done active');
+            // Load wizard asynchronously
+            setTimeout(() => {
+                this._load();
+            }, 0);
+        }
 
-          // Active step index
-          this.current_index  = null;
+        // Initialize options
+        _init() {
+            // Set the elements
+            this._setElements();
+            // Add toolbar
+            this._setToolbar();
 
-          // Get the initial step index
-          let idx = this._getStepIndex();
-          // Mark any previous steps done
-          this._setPreviousStepsDone(idx);
-          // Show the initial step
-          this._showStep(idx);
-      }
+            // Skip if already init
+            if (this.is_init === true) return true;
 
-      // Initialize options
-      _initOptions() {
-          // Set the elements
-          this._setElements();
-          // Add toolbar
-          this._setToolbar();
-          // Assign plugin events
-          this._setEvents();
-      }
+            // Assign plugin events
+            this._setEvents();
 
-      _getFirstDescendant(selector) {
-          // Check for first level element
-          let elm = this.main.children(selector);
-          if (elm.length > 0) {
-              return elm;
-          }
+            this.is_init = true;
+            // Trigger the initialized event
+            this._triggerEvent("initialized");
+        }
 
-          // Check for second level element
-          this.main.children().each((i, n) => {
-              let tmp = $(n).children(selector);
-              if (tmp.length > 0) {
-                  elm = tmp;
-                  return false;
-              }
-          });
-          if (elm.length > 0) {
-              return elm;
-          }
+        // Initial Load Method
+        _load() {
+            // Clean the elements
+            this.pages.hide();
 
-          // Element not found
-          this._showError("Element not found " + selector);
-          return false;
-      }
+            // Clear other states from the steps
+            this.steps.removeClass([
+                this.options.style.anchorDoneCss,
+                this.options.style.anchorActiveCss
+            ]);
 
-      _setElements() {
-          // Set the main element
-          this.main.addClass('sw');
+            // Initial step index
+            this.current_index  = -1;
 
-          this._setTheme(this.options.theme);
-          this._setJustify(this.options.justified);
-          this._setDarkMode(this.options.darkMode);
+            // Get the initial step index
+            let idx = this._getURLHashIndex();
+            idx = idx ? idx : this.options.selected;
+            const idxShowable = this._getShowable(idx - 1, 'forward');
+            idx = (idxShowable === null && idx > 0) ? this._getShowable(-1, 'forward') : idxShowable;
 
-          // Set the anchor default style
-          if (this.options.anchorSettings.enableAllAnchors !== true || this.options.anchorSettings.anchorClickable !== true) {
-              this.steps.addClass('inactive');
-          }
-
-          // Disabled steps
-          this._setCSSClass(this.options.disabledSteps, "disabled");
-          // Error steps
-          this._setCSSClass(this.options.errorSteps, "danger");
-          // Hidden steps
-          this._setCSSClass(this.options.hiddenSteps, "hidden");
-      }
-
-      _setEvents() {
-          // Check if event handler already exists
-          if (this.main.data('click-init')) {
-              return true;
-          }
-          // Flag item to prevent attaching handler again
-          this.main.data('click-init', true);
-
-          // Anchor click event
-          $(this.steps).on("click", (e) => {
-              e.preventDefault();
-              if (this.options.anchorSettings.anchorClickable === false) {
-                  return true;
-              }
-
-              // Get the step index
-              var idx = this.steps.index(e.currentTarget);
-
-              if (idx === this.current_index) {
-                  return true;
-              }
-
-              if (this.options.anchorSettings.enableAnchorOnDoneStep === false && this._isDone(idx)) {
-                  return true;
-              }
-
-              if (this.options.anchorSettings.enableAllAnchors !== false || this._isDone(idx)) {
-                  this._showStep(idx);
-              }
-          });
-
-          // Next button event
-          this.main.find('.sw-btn-next').on("click", (e) => {
-              e.preventDefault();
-              this._showNext();
-          });
-
-          // Previous button event
-          this.main.find('.sw-btn-prev').on("click", (e) => {
-              e.preventDefault();
-              this._showPrevious();
-          });
-
-          // Keyboard navigation event
-          if (this.options.keyboardSettings.keyNavigation) {
-              $(document).keyup((e) => {
-                  this._keyNav(e);
-              });
-          }
-
-          // Back/forward browser button event
-          if (this.options.backButtonSupport) {
-              $(window).on('hashchange', (e) => {
-                  let idx = this._getURLHashIndex();
-                  if (idx !== false) {
-                      e.preventDefault();
-                      this._showStep(idx);
-                  }
-              });
-          }
-      }
-
-      _setToolbar() {
-          // Skip right away if the toolbar is not enabled
-          if (this.options.toolbarSettings.toolbarPosition === 'none') {
-              return true;
-          }
-
-          // Append toolbar based on the position
-          switch (this.options.toolbarSettings.toolbarPosition) {
-              case 'top':
-                  this.container.before(this._createToolbar('top'));
-                  break;
-              case 'bottom':
-                  this.container.after(this._createToolbar('bottom'));
-                  break;
-              case 'both':
-                  this.container.before(this._createToolbar('top'));
-                  this.container.after(this._createToolbar('bottom'));
-                  break;
-              default:
-                  this.container.after(this._createToolbar('bottom'));
-                  break;
-          }
-      }
-
-      _createToolbar(position) {
-          // Skip if the toolbar is already created
-          if (this.main.find('.toolbar-' + position).length > 0) {
-              return null;
-          }
-
-          var toolbar       = $('<div></div>').addClass('toolbar toolbar-' + position).attr('role', 'toolbar');
-          // Create the toolbar buttons
-          let btnNext       = this.options.toolbarSettings.showNextButton !== false ? $('<button></button>').text(this.options.lang.next).addClass('btn sw-btn-next').attr('type', 'button') : null;
-          let btnPrevious   = this.options.toolbarSettings.showPreviousButton !== false ? $('<button></button>').text(this.options.lang.previous).addClass('btn sw-btn-prev').attr('type', 'button') : null;
-          toolbar.append(btnPrevious, btnNext);
-
-          // Add extra toolbar buttons
-          if (this.options.toolbarSettings.toolbarExtraButtons && this.options.toolbarSettings.toolbarExtraButtons.length > 0) {
-              $.each(this.options.toolbarSettings.toolbarExtraButtons, (_i, n) => {
-                  toolbar.append(n.clone(true));
-              });
-          }
-
-          toolbar.css('text-align', this.options.toolbarSettings.toolbarButtonPosition);
-          return toolbar;
-      }
-
-      _showNext() {
-          var si = this._getNextShowable(this.current_index);
-          if (si === false) {
-              return false;
-          }
-          this._showStep(si);
-      }
-
-      _showPrevious() {
-          var si = this._getPreviousShowable(this.current_index);
-          if (si === false) {
-              return false;
-          }
-          this._showStep(si);
-      }
-
-      _showStep(idx) {
-          // If current step is requested again, skip
-          if (idx == this.current_index) {
-              return false;
-          }
-          // If step not found, skip
-          if (!this.steps.eq(idx)) {
-              return false;
-          }
-          // If it is a disabled step, skip
-          if (!this._isShowable(idx)) {
-              return false;
-          }
-
-          // Load step content
-          this._loadStep(idx);
-      }
-
-      _getNextShowable(idx) {
-          var si = false;
-          // Find the next showable step
-          for (var i = idx + 1; i < this.steps.length; i++) {
-              if (this._isShowable(i)) {
-                  si = i;
-                  break;
-              }
-          }
-
-          if (si !== false && this.steps.length <= si) {
-              if (!this.options.cycleSteps) {
-                  return false;
-              }
-              si = 0;
-          }
-
-          return si;
-      }
-
-      _getPreviousShowable(idx) {
-          var si = false;
-          // Find the previous showable step
-          for (var i = idx - 1; i >= 0; i--) {
-              if (this._isShowable(i)) {
-                  si = i;
-                  break;
-              }
-          }
-
-          if (si !== false && 0 > si) {
-              if (!this.options.cycleSteps) {
-                  return false;
-              }
-              si = this.steps.length - 1;
-          }
-
-          return si;
-      }
-
-      _isShowable(idx) {
-          let elm = this.steps.eq(idx);
-          if (elm.hasClass('disabled') || elm.hasClass('hidden')) {
-              return false;
-          }
-          return true;
-      }
-
-      _isDone(idx) {
-          let elm = this.steps.eq(idx);
-          if (elm.hasClass('done')) {
-              return true;
-          }
-          return false;
-      }
-
-      _setPreviousStepsDone(idx) {
-          if (idx > 0 && this.options.anchorSettings.markDoneStep && this.options.anchorSettings.markAllPreviousStepsAsDone) {
-            // Mark previous steps of the active step as done
-            for(var i = idx; i >= 0; i--) {
-                this._setCSSClass(i, "done");
+            // Mark any previous steps done
+            if (idx > 0 && this.options.anchor.enableDoneState && this.options.anchor.markPreviousStepsAsDone) {
+                this.steps.slice(0, idx).addClass(this.options.style.anchorDoneCss);
             }
-          }
-      }
 
-      _setCSSClass(idx, cls) {
-          if (idx === null) {
-              return false;
-          }
-          let idxs = $.isArray(idx) ? idx : [idx];
-          idxs.map((i) => {
-              this.steps.eq(i).addClass(cls);
-          });
-      }
-
-      _resetCSSClass(idx, cls) {
-          let idxs = $.isArray(idx) ? idx : [idx];
-          idxs.map((i) => {
-              this.steps.eq(i).removeClass(cls);
-          });
-      }
-
-      _getStepDirection(idx) {
-          if (this.current_index == null) {
-              return '';
-          }
-          return this.current_index < idx ? "forward" : "backward";
-      }
-
-      _getStepPosition(idx) {
-          let stepPosition = 'middle';
-          if (idx === 0) {
-              stepPosition = 'first';
-          } else if (idx === this.steps.length - 1) {
-              stepPosition = 'last';
-          }
-          return stepPosition;
-      }
-
-      _getStepAnchor(idx) {
-          if (idx == null) {
-              return null;
-          }
-          return this.steps.eq(idx);
-      }
-
-      _getStepPage(idx) {
-          if (idx == null) {
-              return null;
-          }
-          let anchor = this._getStepAnchor(idx);
-          return anchor.length > 0 ? this.main.find(anchor.attr("href")) : null;
-      }
-
-      _setStepContent(idx, html) {
-          let page = this._getStepPage(idx);
-          if (page) {
-              page.html(html);
-          }
-      }
-
-      _loadStep(idx) {
-          // Get current step element
-          let curStep          = this._getStepAnchor(this.current_index);
-          // Get step direction
-          let stepDirection   = this._getStepDirection(idx);
-          // Get the direction of step navigation
-          if (this.current_index !== null) {
-              // Trigger "leaveStep" event
-              if (this._triggerEvent("leaveStep", [curStep, this.current_index, idx, stepDirection]) === false) {
-                  return false;
-              }
-          }
-
-          // Get next step element
-          let selStep          = this._getStepAnchor(idx);
-
-          // Get the content if used
-          let getStepContent  = this._triggerEvent("stepContent", [selStep, idx, stepDirection]);
-          if (getStepContent) {
-              if (typeof getStepContent == "object") {
-                  getStepContent.then((res) => {
-                      this._setStepContent(idx, res);
-                      this._transitStep(idx);
-                  }).catch((err) => {
-                      console.error(err);
-                      this._setStepContent(idx, err);
-                      this._transitStep(idx);
-                  });
-              } else if (typeof getStepContent == "string") {
-                  this._setStepContent(idx, getStepContent);
-                  this._transitStep(idx);
-              } else {
-                  this._transitStep(idx);
-              }
-          } else {
-              this._transitStep(idx);
-          }
-      }
-
-      _transitStep(idx) {
-          // Get step to show element
-          let selStep          = this._getStepAnchor(idx);
-          // Change the url hash to new step
-          this._setURLHash(selStep.attr("href"));
-          // Update controls
-          this._setAnchor(idx);
-          // Get the direction of step navigation
-          let stepDirection   = this._getStepDirection(idx);
-          // Get the position of step
-          let stepPosition    = this._getStepPosition(idx);
-          // Animate the step
-          this._doStepAnimation(idx, () => {
-              // Fix height with content
-              this._fixHeight(idx);
-              // Trigger "showStep" event
-              this._triggerEvent("showStep", [selStep, this.current_index, stepDirection, stepPosition]);
-          });
-
-          // Update the current index
-          this.current_index  = idx;
-          // Set the buttons based on the step
-          this._setButtons(idx);
-      }
-
-      _doStepAnimation(idx, callback) {
-          // Get current step element
-          let curPage   = this._getStepPage(this.current_index);
-          // Get next step element
-          let selPage   = this._getStepPage(idx);
-          // Get the animation
-          let animation = this.options.transition.animation.toLowerCase();
-          // Complete any ongoing animations
-          this._stopAnimations();
-
-          switch (animation) {
-            case 'slide-horizontal':
-            case 'slide-h':
-                // horizontal slide
-                var containerWidth  = this.container.width();
-                var curLastLeft     = containerWidth;
-                var nextFirstLeft   = containerWidth * -2;
-
-                // Forward direction
-                if (idx > this.current_index) {
-                  curLastLeft   = containerWidth * -1;
-                  nextFirstLeft = containerWidth;
-                }
-
-                // First load set the container width
-                if (this.current_index == null) {
-                  this.container.height(selPage.outerHeight());
-                }
-
-                var css_pos, css_left;
-                if (curPage) {
-                    css_pos   = curPage.css("position");
-                    css_left  = curPage.css("left");
-                    curPage.css("position", 'absolute')
-                            .css("left", 0)
-                            .animate({
-                             left: curLastLeft
-                            },
-                            this.options.transition.speed,
-                            this.options.transition.easing,
-                            function() {
-                              $(this).hide();
-                              curPage.css("position", css_pos).css("left", css_left);
-                            });
-                }
-
-                css_pos   = selPage.css("position");
-                css_left  = selPage.css("left");
-                selPage.css("position", 'absolute')
-                        .css("left", nextFirstLeft)
-                        .outerWidth(containerWidth)
-                        .show()
-                        .animate({
-                          left: 0
-                        },
-                        this.options.transition.speed,
-                        this.options.transition.easing,
-                        () => {
-                            selPage.css("position", css_pos).css("left", css_left);
-                            callback();
-                        });
-                break;
-              case 'slide-vertical':
-              case 'slide-v':
-                  // vertical slide
-                  var containerHeight = this.container.height();
-                  var curLastTop      = containerHeight;
-                  var nextFirstTop    = containerHeight * -2;
-
-                  // Forward direction
-                  if (idx > this.current_index) {
-                    curLastTop   = containerHeight * -1;
-                    nextFirstTop = containerHeight;
-                  }
-
-                  var css_vpos, css_vtop;
-                  if (curPage) {
-                      css_vpos = curPage.css("position");
-                      css_vtop = curPage.css("top");
-                      curPage.css("position", 'absolute')
-                              .css("top", 0)
-                              .animate({
-                               top: curLastTop
-                              },
-                              this.options.transition.speed,
-                              this.options.transition.easing,
-                              function() {
-                                $(this).hide();
-                                curPage.css("position", css_vpos).css("top", css_vtop);
-                              });
-                  }
-
-                  css_vpos = selPage.css("position");
-                  css_vtop = selPage.css("top");
-                  selPage.css("position", 'absolute')
-                          .css("top", nextFirstTop)
-                          .show()
-                          .animate({
-                            top: 0
-                          },
-                          this.options.transition.speed,
-                          this.options.transition.easing,
-                          () => {
-                              selPage.css("position", css_vpos).css("top", css_vtop);
-                              callback();
-                          });
-                  break;
-              case 'slide-swing':
-              case 'slide-s':
-                  // normal slide
-                  if (curPage) {
-                      curPage.slideUp('fast', this.options.transition.easing, () => {
-                          selPage.slideDown(this.options.transition.speed, this.options.transition.easing, () => {
-                              callback();
-                          });
-                      });
-                  } else {
-                      selPage.slideDown(this.options.transition.speed, this.options.transition.easing, () => {
-                          callback();
-                      });
-                  }
-                  break;
-              case 'fade':
-                  // normal fade
-                  if (curPage) {
-                      curPage.fadeOut('fast', this.options.transition.easing, () => {
-                          selPage.fadeIn('fast', this.options.transition.easing, () => {
-                              callback();
-                          });
-                      });
-                  } else {
-                      selPage.fadeIn(this.options.transition.speed, this.options.transition.easing, () => {
-                          callback();
-                      });
-                  }
-                  break;
-              default:
-                  if (curPage) {
-                      curPage.hide();
-                  }
-                  selPage.show();
-                  callback();
-                  break;
-          }
-      }
-
-      _stopAnimations() {
-          this.pages.finish();
-          this.container.finish();
-      }
-
-      _setAnchor(idx) {
-          // Current step anchor > Remove other classes and add done class
-          this._resetCSSClass(this.current_index, "active");
-          if (this.options.anchorSettings.markDoneStep !== false && this.current_index !== null) {
-              this._setCSSClass(this.current_index, "done");
-              if (this.options.anchorSettings.removeDoneStepOnNavigateBack !== false && this._getStepDirection(idx) === 'backward') {
-                  this._resetCSSClass(this.current_index, "done");
-              }
-          }
-
-          // Next step anchor > Remove other classes and add active class
-          this._resetCSSClass(idx, "done");
-          this._setCSSClass(idx, "active");
-      }
-
-      _setButtons(idx) {
-          // Previous/Next Button enable/disable based on step
-          if (!this.options.cycleSteps) {
-              this.main.find('.sw-btn-prev').removeClass("disabled");
-              this.main.find('.sw-btn-next').removeClass("disabled");
-              switch (this._getStepPosition(idx)) {
-                  case 'first':
-                      this.main.find('.sw-btn-prev').addClass("disabled");
-                      break;
-                  case 'last':
-                      this.main.find('.sw-btn-next').addClass("disabled");
-                      break;
-                  default:
-                      if (this._getNextShowable(idx) === false) {
-                          this.main.find('.sw-btn-next').addClass("disabled");
-                      }
-
-                      if (this._getPreviousShowable(idx) === false) {
-                          this.main.find('.sw-btn-prev').addClass("disabled");
-                      }
-                      break;
-              }
-          }
-      }
-
-      _getStepIndex() {
-          // Get selected step from the url
-          let idx = this._getURLHashIndex();
-          return (idx === false) ? this.options.selected : idx;
-      }
-
-      _setTheme(theme) {
-          this.main.removeClass(function (index, className) {
-              return (className.match (/(^|\s)sw-theme-\S+/g) || []).join(' ');
-          }).addClass('sw-theme-' + theme);
-      }
-
-      _setJustify(justified) {
-        if (justified === true) {
-          this.main.addClass('sw-justified');
-        } else {
-          this.main.removeClass('sw-justified');
+            // Show the initial step
+            this._showStep(idx);
+            // Trigger the loaded event
+            this._triggerEvent("loaded");
         }
-      }
 
-      _setDarkMode(darkMode) {
-        if (darkMode === true) {
-          this.main.addClass('sw-dark');
-        } else {
-          this.main.removeClass('sw-dark');
+        _getFirstDescendant(selector) {
+            // Check for first level element
+            let elm = this.main.children(selector);
+            if (elm.length > 0) {
+                return elm;
+            }
+
+            // Check for second level element
+            this.main.children().each((i, n) => {
+                let tmp = $(n).children(selector);
+                if (tmp.length > 0) {
+                    elm = tmp;
+                    return false;
+                }
+            });
+            if (elm.length > 0) {
+                return elm;
+            }
+
+            // Element not found
+            this._showError("Element not found " + selector);
+            return false;
         }
-      }
 
-      // HELPER FUNCTIONS
+        _getDir() {
+            let dir = this.main.prop('dir');
+            if (dir.length === 0) {
+                dir = document.documentElement.dir;
+                // Helps to isolate related css classes
+                this.main.prop('dir', dir);
+            }
+            return dir;
+        }
 
-      _keyNav(e) {
-          // Keyboard navigation
-          if ($.inArray(e.which, this.options.keyboardSettings.keyLeft) > -1) {
-              // left
-              this._showPrevious();
-              e.preventDefault();
-          } else if ($.inArray(e.which, this.options.keyboardSettings.keyRight) > -1) {
-              // right
-              this._showNext();
-              e.preventDefault();
-          } else {
-              return; // exit this handler for other keys
-          }
-      }
+        _setElements() {
+            // Set the main element
+            this.main.addClass(this.options.style.mainCss);
+            
+            // Set theme option
+            this.main.removeClass(function (i, className) {
+                return (className.match (/(^|\s)sw-theme-\S+/g) || []).join(' ');
+            }).addClass(this.options.style.themePrefixCss + this.options.theme);
+            
+            // Set justify option
+            this.main.toggleClass(this.options.style.justifiedCss, this.options.justified);
+            
+            // Set the anchor default style
+            if (this.options.anchor.enableNavigationAlways !== true || this.options.anchor.enableNavigation !== true) {
+                this.steps.addClass(this.options.style.anchorDefaultCss);
+            }
 
-      _fixHeight(idx) {
-          // Auto adjust height of the container
-          if (this.options.autoAdjustHeight) {
-              let selPage = this._getStepPage(idx);
-              this.container.finish()
-                            .animate({
-                                  height: selPage.outerHeight()
-                                },
-                                this.options.transition.speed
-                            );
-          }
-      }
+            // Disabled steps
+            $.each(this.options.disabledSteps, (i, n) => {
+                this.steps.eq(n).addClass(this.options.style.anchorDisabledCss);
+            });
+            // Error steps
+            $.each(this.options.errorSteps, (i, n) => {
+                this.steps.eq(n).addClass(this.options.style.anchorErrorCss);
+            });
+            // Warning steps
+            $.each(this.options.warningSteps, (i, n) => {
+                this.steps.eq(n).addClass(this.options.style.anchorWarningCss);
+            });
+            // Hidden steps
+            $.each(this.options.hiddenSteps, (i, n) => {
+                this.steps.eq(n).addClass(this.options.style.anchorHiddenCss);
+            });
+        }
 
-      _triggerEvent(name, params) {
-          // Trigger an event
-          var e = $.Event(name);
-          this.main.trigger(e, params);
-          if (e.isDefaultPrevented()) {
-              return false;
-          }
-          return e.result;
-      }
+        _setEvents() {
+            // Anchor click event
+            this.steps.on("click", (e) => {
+                e.preventDefault();
+                if (this.options.anchor.enableNavigation !== true) {
+                    return;
+                }
 
-      _setURLHash(hash) {
-          if (this.options.enableURLhash && window.location.hash !== hash) {
-              history.pushState(null,null,hash);
-          }
-      }
+                const elm = $(e.currentTarget);
+                if (this._isShowable(elm)) {
+                    // Get the step index
+                    this._showStep(this.steps.index(elm));
+                }
+            });
 
-      _getURLHashIndex() {
-          if (this.options.enableURLhash) {
-            // Get step number from url hash if available
-            var hash = window.location.hash;
-            if (hash.length > 0) {
-                var elm = this.nav.find("a[href*='" + hash + "']");
-                if (elm.length > 0) {
-                    return this.steps.index(elm);
+            // Next/Previous button event
+            this.main.on("click", (e) => {
+                if ($(e.target).hasClass(this.options.style.btnNextCss)) {
+                    e.preventDefault();
+                    this._navigate('next');
+                } else if ($(e.target).hasClass(this.options.style.btnPrevCss)) {
+                    e.preventDefault();
+                    this._navigate('prev');
+                }
+                return;
+            });
+            
+            // Keyboard navigation event            
+            $(document).keyup((e) => {
+                this._keyNav(e);
+            });        
+
+            // Back/forward browser button event
+            $(window).on('hashchange', (e) => {
+                if (this.options.backButtonSupport !== true) {
+                    return;
+                }
+                const idx = this._getURLHashIndex();
+                if (idx && this._isShowable(this.steps.eq(idx))) {
+                    e.preventDefault();
+                    this._showStep(idx);
+                }
+            });
+
+            // Fix content height on window resize
+            $(window).on('resize', (e) => {
+               this._fixHeight(this.current_index);
+            });
+        }
+
+        _setToolbar() {
+            // Remove already existing toolbar if any
+            this.main.find(".sw-toolbar-elm").remove();
+
+            const toolbarPosition = this.options.toolbar.position;
+            if (toolbarPosition === 'none') {
+                // Skip right away if the toolbar is not enabled
+                return;
+            } else if (toolbarPosition == 'both') {
+                this.container.before(this._createToolbar('top'));
+                this.container.after(this._createToolbar('bottom'));
+            } else if (toolbarPosition == 'top') {
+                this.container.before(this._createToolbar('top'));
+            } else {
+                this.container.after(this._createToolbar('bottom'));
+            }
+        }
+
+        _createToolbar(position) {
+            const toolbar       = $('<div></div>').addClass('sw-toolbar-elm ' + this.options.style.toolbarCss + ' ' + this.options.style.toolbarPrefixCss + position).attr('role', 'toolbar');
+            // Create the toolbar buttons
+            const btnNext       = this.options.toolbar.showNextButton !== false ? $('<button></button>').text(this.options.lang.next).addClass('btn ' + this.options.style.btnNextCss + ' ' + this.options.style.btnCss).attr('type', 'button') : null;
+            const btnPrevious   = this.options.toolbar.showPreviousButton !== false ? $('<button></button>').text(this.options.lang.previous).addClass('btn ' + this.options.style.btnPrevCss + ' ' + this.options.style.btnCss).attr('type', 'button') : null;
+            return toolbar.append(btnPrevious, btnNext, this.options.toolbar.extraHtml);
+        }
+
+        _navigate(dir) {
+            this._showStep(this._getShowable(this.current_index, dir));
+        }
+
+        _showStep(idx) {
+            if (idx === -1 || idx === null) return false;
+
+            // If current step is requested again, skip
+            if (idx == this.current_index) return false;
+
+            // If step not found, skip
+            if (!this.steps.eq(idx)) return false;
+
+            // If it is a disabled step, skip
+            if (!this._isEnabled(this.steps.eq(idx))) return false;
+
+            // Get the direction of navigation
+            const stepDirection = this._getStepDirection(idx);
+
+            if (this.current_index !== -1) {
+                // Trigger "leaveStep" event
+                if (this._triggerEvent("leaveStep", [this._getStepAnchor(this.current_index), this.current_index, idx, stepDirection]) === false) {
+                    return false;
                 }
             }
-          }
-          return false;
-      }
 
-      _loader(action) {
-          switch (action) {
-              case 'show':
-                  this.main.addClass('sw-loading');
-                  break;
-              case 'hide':
-                  this.main.removeClass('sw-loading');
-                  break;
-              default:
-                  this.main.toggleClass('sw-loading');
-          }
-      }
+            this._loadContent(idx, () => {
+                // Get step to show element
+                const selStep = this._getStepAnchor(idx);
+                // Change the url hash to new step
+                this._setURLHash(selStep.attr("href"));
+                // Update controls
+                this._setAnchor(idx);
 
-      _showError(msg) {
-          console.error(msg);
-      }
+                // Get current step element
+                const curPage   = this._getStepPage(this.current_index);
+                // Get next step element
+                const selPage   = this._getStepPage(idx);
+                // transit the step
+                this._transit(selPage, curPage, stepDirection, () => {
+                    // Update the current index
+                    this.current_index  = idx;
+                    // Fix height with content
+                    this._fixHeight(idx);
+                    // Set the buttons based on the step
+                    this._setButtons(idx);
+                    // Set the progressbar based on the step
+                    this._setProgressbar(idx);
+                    // Trigger "showStep" event
+                    this._triggerEvent("showStep", [selStep, idx, stepDirection, this._getStepPosition(idx)]);
+                });
+            });
+        }
 
-      // PUBLIC FUNCTIONS
+        _getShowable(idx, dir) {
+            let si = null;
+            const elmList = (dir == 'prev') ? $(this.steps.slice(0, idx).get().reverse()) : this.steps.slice(idx + 1);
+            // Find the next showable step in the direction
+            elmList.each((i, elm) => {
+                if (this._isEnabled($(elm))) {
+                    si = (dir == 'prev') ? idx - (i + 1) : i + idx + 1;
+                    return false;
+                }
+            });
+            return si;
+        }
 
-      goToStep(stepIndex) {
-          this._showStep(stepIndex);
-      }
+        _isShowable(elm) {
+            if (!this._isEnabled(elm)) {
+                return false;
+            }
 
-      next() {
-          this._showNext();
-      }
+            const isDone = elm.hasClass(this.options.style.anchorDoneCss);
+            if (this.options.anchor.enableDoneStateNavigation === false && isDone) {
+                return false;
+            }
+    
+            if (this.options.anchor.enableNavigationAlways === false && !isDone) {
+                return false;
+            }
+    
+            return true;
+        }
 
-      prev() {
-          this._showPrevious();
-      }
+        _isEnabled(elm) {
+            return (elm.hasClass(this.options.style.anchorDisabledCss) || elm.hasClass(this.options.style.anchorHiddenCss)) ? false : true;
+        }
 
-      reset() {
-          // Reset all
-          this._setURLHash('#');
-          this._initOptions();
-          this._initLoad();
-      }
+        _getStepDirection(idx) {
+            return this.current_index < idx ? "forward" : "backward";
+        }
 
-      stepState(stepArray, state) {
-          if (!stepArray) {
-              return false;
-          }
+        _getStepPosition(idx) {
+            if (idx === 0) {
+                return 'first';
+            } else if (idx === this.steps.length - 1) {
+                return 'last';
+            }
+            return 'middle';
+        }
 
-          switch (state) {
-              case 'disable':
-                  this._setCSSClass(stepArray, 'disabled');
-                  break;
-              case 'enable':
-                  this._resetCSSClass(stepArray, 'disabled');
-                  break;
-              case 'hide':
-                  this._setCSSClass(stepArray, 'hidden');
-                  break;
-              case 'show':
-                  this._resetCSSClass(stepArray, 'hidden');
-                  break;
-              case 'error-on':
-                  this._setCSSClass(stepArray, 'danger');
-                  break;
-              case 'error-off':
-                  this._resetCSSClass(stepArray, 'danger');
-                  break;
-          }
-      }
+        _getStepAnchor(idx) {
+            if (idx == null || idx == -1) return null;
+            return this.steps.eq(idx);
+        }
 
-      setOptions(options) {
-          this.options  = $.extend(true, {}, this.options, options);
-          this._initOptions();
-      }
+        _getStepPage(idx) {
+            if (idx == null || idx == -1) return null;
+            return this.pages.eq(idx);
+        }
 
-      getStepIndex() {
-          return this.current_index;
-      }
+        _loadContent(idx, callback) {
+            if (!$.isFunction(this.options.getContent)) { callback(); return; }
 
-      loader(state) {
-          if (state === "show") {
-              this.main.addClass('sw-loading');
-          } else {
-              this.main.removeClass('sw-loading');
-          }
-      }
+            const selPage       = this._getStepPage(idx);
+            if (!selPage) { callback(); return; }
+            // Get step direction
+            const stepDirection = this._getStepDirection(idx);
+            // Get step position
+            const stepPosition  = this._getStepPosition(idx);
+            // Get next step element
+            const selStep       = this._getStepAnchor(idx);
 
+            this.options.getContent(idx, stepDirection, stepPosition, selStep, (content) => {
+                if (content) selPage.html(content);
+                callback();
+            });
+        }
+
+        _transit(elmToShow, elmToHide, stepDirection, callback) {
+            const transitFn = $.fn.smartWizard.transitions[this.options.transition.animation];
+            if ($.isFunction(transitFn)) {
+                transitFn(elmToShow, elmToHide, stepDirection, this, (res) => {
+                    if (res === false) {
+                        if (elmToHide !== null) elmToHide.hide();
+                        elmToShow.show();
+                    }
+                    callback();
+                });
+            } else {
+                if (elmToHide !== null) elmToHide.hide();
+                elmToShow.show();
+                callback();
+            }
+        }
+
+        _fixHeight(idx) {
+            if (this.options.autoAdjustHeight === false) return;
+            // Auto adjust height of the container
+            const contentHeight = this._getStepPage(idx).outerHeight();
+            if ($.isFunction(this.container.finish) && $.isFunction(this.container.animate) && contentHeight > 0) {
+                this.container.finish().animate({ height: contentHeight }, this.options.transition.speed);
+            } else {
+                this.container.css({ height: contentHeight > 0 ? contentHeight : 'auto' });
+            }
+        }
+
+        _setAnchor(idx) {
+            // Current step anchor > Remove other classes and add done class
+            this.steps.eq(this.current_index).removeClass(this.options.style.anchorActiveCss);
+            if (this.options.anchor.enableDoneState !== false && this.current_index !== null && this.current_index >= 0) {
+                this.steps.eq(this.current_index).addClass(this.options.style.anchorDoneCss);
+                if (this.options.anchor.unDoneOnBackNavigation !== false && this._getStepDirection(idx) === 'backward') {
+                    this.steps.eq(this.current_index).removeClass(this.options.style.anchorDoneCss);
+                }
+            }
+
+            // Next step anchor > Remove other classes and add active class
+            this.steps.eq(idx).removeClass(this.options.style.anchorDoneCss);
+            this.steps.eq(idx).addClass(this.options.style.anchorActiveCss);
+        }
+
+        _setButtons(idx) {
+            // Previous/Next Button enable/disable based on step
+            this.main.find('.' + this.options.style.btnNextCss + ', .' + this.options.style.btnPrevCss).removeClass(this.options.style.anchorDisabledCss);
+
+            const p = this._getStepPosition(idx);
+            if (p === 'first' || p === 'last') {
+                const c = (p === 'first') ? '.' + this.options.style.btnPrevCss : '.' + this.options.style.btnNextCss;
+                this.main.find(c).addClass(this.options.style.anchorDisabledCss);
+            } else {
+                if (this._getShowable(idx, 'next') === null) {
+                    this.main.find('.' + this.options.style.btnNextCss).addClass(this.options.style.anchorDisabledCss);
+                }
+
+                if (this._getShowable(idx, 'prev') === null) {
+                    this.main.find('.' + this.options.style.btnPrevCss).addClass(this.options.style.anchorDisabledCss);
+                }
+            }
+        }
+
+        _setProgressbar(idx) {
+            const width = this.nav.width();
+            const widthPercentage = ((width / this.steps.length) * (idx + 1) / width) * 100;
+            // Set css variable for supported themes
+            document.documentElement.style.setProperty('--sw-progress-width', widthPercentage + '%');
+            if (this.progressbar.length > 0) {
+                this.progressbar.find('.' + this.options.style.progressBarCss).css('width', widthPercentage + '%');
+            }
+        }
+
+        // HELPER FUNCTIONS
+
+        _keyNav(e) {
+            if (!this.options.keyboard.keyNavigation) {
+                return;
+            }
+
+            // Keyboard navigation
+            if ($.inArray(e.which, this.options.keyboard.keyLeft) > -1) {
+                // left
+                this._navigate('prev');
+                e.preventDefault();
+            } else if ($.inArray(e.which, this.options.keyboard.keyRight) > -1) {
+                // right
+                this._navigate('next');
+                e.preventDefault();
+            } else {
+                return; // exit this handler for other keys
+            }
+        }
+
+        _triggerEvent(name, params) {
+            // Trigger an event
+            var e = $.Event(name);
+            this.main.trigger(e, params);
+            if (e.isDefaultPrevented()) {
+                return false;
+            }
+            return e.result;
+        }
+
+        _setURLHash(hash) {
+            if (this.options.enableUrlHash && window.location.hash !== hash) {
+                history.pushState(null,null,hash);
+            }
+        }
+
+        _getURLHashIndex() {
+            if (this.options.enableUrlHash) {
+                // Get step number from url hash if available
+                var hash = window.location.hash;
+                if (hash.length > 0) {
+                    var elm = this.nav.find("a[href*='" + hash + "']");
+                    if (elm.length > 0) {
+                        return this.steps.index(elm);
+                    }
+                }
+            }
+            return false;
+        }
+
+        _showError(msg) {
+            console.error(msg);
+        }
+
+        _changeState(stepArray, state, addOrRemove) {
+            // addOrRemove: true => Add, otherwise remove 
+            addOrRemove = (addOrRemove !== false) ? true : false;
+
+            let css = '';
+            if (state == 'default') {
+                css = this.options.style.anchorDefaultCss;
+            } else if (state == 'active') {
+                css = this.options.style.anchorActiveCss;
+            } else if (state == 'done') {
+                css = this.options.style.anchorDoneCss;
+            } else if (state == 'disable') {
+                css = this.options.style.anchorDisabledCss;
+            } else if (state == 'hidden') {
+                css = this.options.style.anchorHiddenCss;
+            } else if (state == 'error') {
+                css = this.options.style.anchorErrorCss;
+            } else if (state == 'warning') {
+                css = this.options.style.anchorWarningCss;
+            }
+
+            $.each(stepArray, (i, n) => {
+                this.steps.eq(n).toggleClass(css, addOrRemove);
+            });
+        }
+
+        // PUBLIC FUNCTIONS
+
+        goToStep(stepIndex, force) {
+            force = force !== false ? true : false;
+            if (force !== true && !this._isShowable(this.steps.eq(stepIndex))) {
+                return;
+            }
+
+            // Mark any previous steps done
+            if (force === true && stepIndex > 0 && this.options.anchor.enableDoneState && this.options.anchor.markPreviousStepsAsDone) {
+                this.steps.slice(0, stepIndex).addClass(this.options.style.anchorDoneCss);
+            }
+
+            this._showStep(stepIndex);
+        }
+
+        next() {
+            this._navigate('next');
+        }
+
+        prev() {
+            this._navigate('prev');
+        }
+
+        reset() {
+            // Clear css from steps except default, hidden and disabled
+            this.steps.removeClass([
+                this.options.style.anchorDoneCss,
+                this.options.style.anchorActiveCss,
+                this.options.style.anchorErrorCss,
+                this.options.style.anchorWarningCss
+            ]);
+
+            // Reset all
+            this._setURLHash('#');
+            this._init();
+            this._load();
+        }
+
+        setState(stepArray, state) {
+            this._changeState(stepArray, state, true);
+        }
+
+        unsetState(stepArray, state) {
+            this._changeState(stepArray, state, false);
+        }
+
+        setOptions(options) {
+            this.options  = $.extend(true, {}, this.options, options);
+            this._init();
+        }
+
+        getOptions() {
+            return this.options;
+        }
+
+        getStepInfo() {
+            return {
+                currentStep: this.current_index ? this.current_index : 0,
+                totalSteps: this.steps ? this.steps.length : 0
+            };
+        }
+
+        loader(state) {
+            this.main.toggleClass(this.options.style.loaderCss, (state === "show"));
+        }
+
+        fixHeight() {
+            this._fixHeight(this.current_index);
+        }
     }
 
     // Wrapper for the plugin
@@ -890,4 +713,140 @@
             }
         }
     };
+
+    // Transition effects
+    $.fn.smartWizard.transitions = {
+        fade: (elmToShow, elmToHide, stepDirection, wizardObj, callback) => {
+            if (!$.isFunction(elmToShow.fadeOut)) { callback(false); return; }
+
+            if (elmToHide) {
+                elmToHide.fadeOut(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
+                    elmToShow.fadeIn(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
+                        callback();
+                    });
+                });
+            } else {
+                elmToShow.fadeIn(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
+                    callback();
+                });
+            }
+        },
+        slideSwing: (elmToShow, elmToHide, stepDirection, wizardObj, callback) => {
+            if (!$.isFunction(elmToShow.slideDown)) { callback(false); return; }
+
+            if (elmToHide) {
+                elmToHide.slideUp(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
+                    elmToShow.slideDown(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
+                        callback();
+                    });
+                });
+            } else {
+                elmToShow.slideDown(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
+                    callback();
+                });
+            }
+        },
+        slideHorizontal: (elmToShow, elmToHide, stepDirection, wizardObj, callback) => {
+            if (!$.isFunction(elmToShow.animate)) { callback(false); return; }
+
+            // Horizontal slide
+            const animFn = (elm, iniLeft, finLeft, cb) => {
+                elm.css({position:'absolute', left: iniLeft })
+                    .show()
+                    .animate({ left: finLeft }, 
+                        wizardObj.options.transition.speed, 
+                        wizardObj.options.transition.easing,
+                        cb);
+            };
+
+            if (wizardObj.current_index == -1) {
+                // Set container height at page load 
+                wizardObj.container.height(elmToShow.outerHeight());
+            }
+            const containerWidth  = wizardObj.container.width();
+            if (elmToHide) {
+                const initCss1  = elmToHide.css(["position", "left"]);
+                const finLeft   = containerWidth * (stepDirection == 'backward' ? 1 : -1);
+                animFn(elmToHide, 0, finLeft, () => {
+                    elmToHide.hide().css(initCss1);
+                });
+            }
+
+            const initCss2  = elmToShow.css(["position"]);
+            const iniLeft   = containerWidth * (stepDirection == 'backward' ? -2 : 1);
+            animFn(elmToShow, iniLeft, 0, () => {
+                elmToShow.css(initCss2);
+                callback();
+            });
+        },
+        slideVertical: (elmToShow, elmToHide, stepDirection, wizardObj, callback) => {
+            if (!$.isFunction(elmToShow.animate)) { callback(false); return; }
+
+            // Vertical slide
+            const animFn = (elm, iniTop, finTop, cb) => {
+                elm.css({ position:'absolute', top: iniTop })
+                    .show()
+                    .animate({ top: finTop }, 
+                        wizardObj.options.transition.speed, 
+                        wizardObj.options.transition.easing,
+                        cb);
+            };
+
+            if (wizardObj.current_index == -1) {
+                // Set container height at page load 
+                wizardObj.container.height(elmToShow.outerHeight());
+            }
+            const containerHeight = wizardObj.container.height();
+            if (elmToHide) {
+                const initCss1  = elmToHide.css(["position", "top"]);
+                const finTop    = containerHeight * (stepDirection == 'backward' ? -1 : 1);
+                animFn(elmToHide, 0, finTop, () => {
+                    elmToHide.hide().css(initCss1);
+                });
+            }
+
+            const initCss2  = elmToShow.css(["position"]);
+            const iniTop    = containerHeight * (stepDirection == 'backward' ? 1 : -2);
+            animFn(elmToShow, iniTop, 0, () => {
+                elmToShow.css(initCss2);
+                callback();
+            });            
+        }, 
+        css: (elmToShow, elmToHide, stepDirection, wizardObj, callback) => {
+            if (wizardObj.options.transition.fwdHideCss.length == 0 || wizardObj.options.transition.bckHideCss.length == 0 ) { callback(false); return; }
+            
+            // CSS Animation
+            const animFn = (elm, animation, cb) => {
+                if (!animation || animation.length == 0) cb();
+
+                elm.addClass(animation).one("animationend", (e) => {
+                    $(e.currentTarget).removeClass(animation);
+                    cb();
+                });
+                elm.addClass(animation).one("animationcancel", (e) => {
+                    $(e.currentTarget).removeClass(animation);
+                    cb('cancel');
+                });
+            };
+
+            const showCss = wizardObj.options.transition.prefixCss + ' ' + (stepDirection == 'backward' ? wizardObj.options.transition.bckShowCss : wizardObj.options.transition.fwdShowCss);
+            if (elmToHide) {
+                const hideCss = wizardObj.options.transition.prefixCss + ' ' + (stepDirection == 'backward' ? wizardObj.options.transition.bckHideCss : wizardObj.options.transition.fwdHideCss);
+                animFn(elmToHide, hideCss, () => {
+                    elmToHide.hide();
+
+                    animFn(elmToShow, showCss, () => {
+                        callback();
+                    });
+                    elmToShow.show();
+                });
+            } else {
+                animFn(elmToShow, showCss, () => {
+                    callback();
+                });
+                elmToShow.show();
+            }
+        }
+    };
+
 }));

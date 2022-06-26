@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>jQuery Smart Wizard Demo - The awesome jQuery step wizard plugin</title>
+    <title>jQuery Smart Wizard RTL Demo - The awesome jQuery step wizard plugin</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -35,8 +35,8 @@
         Step number: <span id="sw-current-step"></span> of <span id="sw-total-step"></span>
       </div>
       
-      <h1>jQuery Smart Wizard Demo</h1>
-      <div class="mb-2 text-muted">Click on the settings buttons for trying out different options</div>
+      <h1>jQuery Smart Wizard RTL Demo</h1>
+      <div class="mb-2 text-muted">Right-to-left language support on Smart Wizard</div>
 
       <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
         <div class="offcanvas-header border-bottom">
@@ -231,57 +231,56 @@
     </div>
 
     <!-- SmartWizard html -->
-    <div id="smartwizard">
-        <ul class="nav nav-progress">
-            <li class="nav-item">
-              <a class="nav-link" href="#step-1">
-                <div class="num">1</div>
-                Customer Details
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#step-2">
-                <span class="num">2</span>
-                Products Details
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#step-3">
-                <span class="num">3</span>
-                Shipping Details
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link " href="#step-4">
-                <span class="num">4</span>
-                Confirm Order
-              </a>
-            </li>
-        </ul>
+    <div id="smartwizard" dir="rtl">
+      <ul class="nav nav-progress">
+          <li class="nav-item">
+            <a class="nav-link" href="#step-1">
+              <div class="num">١</div>
+              واحد أكثر لقياس جيد
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#step-2">
+              <span class="num">٢</span>
+              عنوان مثال آخر
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#step-3">
+              <span class="num">٣</span>
+              عنوان المثال
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="#step-4">
+              <span class="num">٤</span>
+              عنوان ثالث لتأكيد المعلومة
+            </a>
+          </li>
+      </ul>
 
-        <div class="tab-content">
-          <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
-              <h3>Step 1 Content</h3>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-          </div>
-          <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
-            <h3>Step 2 Content</h3>
-            <div>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. </div>
-          </div>
-            <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            </div>
-            <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
-                <h3>Step 4 Content</h3>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            </div>
+      <div class="tab-content">
+        <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+          <h3>واحد أكثر لقياس جيد.</h3>
+          الإحصاءات لحجم الاستثمار اللغوي خارج بريطانيا تتفاوت من سنة لأخرى إلا أن المدير التنفيذي للمجلس الثقافي البريطاني إدي بايرز يرى أن استثمار تعليم الإنجليزية في الخارج لا يحسب على المستوى المالي فحسب بل على المستوى السياسي أيضاً.
         </div>
+        <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+          <h3>عنوان مثال آخر.</h3>
+          حسب المجلس الثقافي البريطاني فإن تعليم الإنجليزية داخل بريطانيا يسهم في تعزيز اقتصادها بما يتجاوز ملياري جنيه سنوياً، كما أنه وفر أكثر من 26 ألف وظيفة.            
+        </div>
+          <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+            تشير الدراسات الإحصائية حسب الجمعية الأمريكية للغات بأن الإقبال على العربية زاد %126 في الولايات المتحدة الأمريكية وحدها بين عامي 2002 و2009م            </div>
+          <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+            بفضل بحوث الذكاء الاصطناعي وتقنياته استطعنا الانتقال من مرحلة التعامل مع الفيزيائي إلى مرحلة التعامل مع المنطقي، وقد انعكس هذا الانتقال بصورة إيجابية على الكيفية التي تتعامل بها الشعوب مع لغاتها الحيَّة، وهذا يعني أنه يجب أن ينعكس بصورة إيجابية على كيفية تعاملنا مع لغتنا العربية.
+            إذا أردنا استخدام الحاسوب الذكي في معالجة اللغة العربية فإننا نجد أنفسنا أمام تحدٍّ كبير، خاصة وأن لغتنا تمتاز بتماسك منظوماتها وتداخلها، ومع ذلك فإن الذكاء الاصطناعي يمكّننا من الحصول على أربعة أنواع من المعالجة، هي: المعالجة الصوتية، والمعالجة الصرفية، والمعالجة النحوية، والمعالجة الدلالية.
+            تذكر دائماً أن الحاسوب لا يمتلك ذكاءً، ولكنه يكتسب الذكاء الاصطناعي من خلال ثلاثة عناصر وظيفية رئيسة، هي: القدرة على التحليل، والقدرة على التأليف، والاستدلال المنطقي.
+          </div>
+      </div>
 
-        <div class="progress">
-          <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-    </div>
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+  </div>
 
 
 
@@ -341,14 +340,14 @@
                 // autoAdjustHeight: false,
                 theme: 'arrows', // basic, arrows, square, round, dots
                 transition: {
-                  animation:'myFade' // none|fade|slideHorizontal|slideVertical|slideSwing|css
+                  animation:'none'
                 },
                 toolbar: {
                   showNextButton: true, // show/hide a Next button
                   showPreviousButton: true, // show/hide a Previous button
                   position: 'both', // none/ top/ both bottom
-                  extraHtml: `<button class="btn btn-success" onclick="onFinish()">Finish</button>
-                              <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`
+                  extraHtml: `<button class="btn btn-success" onclick="onFinish()">إنهاء</button>
+                              <button class="btn btn-secondary" onclick="onCancel()">إلغاء</button>`
                 },
                 anchor: {
                     enableNavigation: true, // Enable/Disable anchor navigation 
@@ -361,28 +360,11 @@
                 disabledSteps: [], // Array Steps disabled
                 errorSteps: [], // Highlight step with errors
                 hiddenSteps: [], // Hidden steps
-                // getContent: (idx, stepDirection, selStep, callback) => {
-                //   console.log('getContent',selStep, idx, stepDirection);
-                //   callback('<h1>'+idx+'</h1>');
-                // }
+                lang: { // Language variables for button
+                    next: 'التالي',
+                    previous: 'السابق'
+                },
             });
-
-            $.fn.smartWizard.transitions.myFade = (elmToShow, elmToHide, stepDirection, wizardObj, callback) => {
-                if (!$.isFunction(elmToShow.fadeOut)) { callback(false); return; }
-
-                if (elmToHide) {
-                    elmToHide.fadeOut(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
-                        elmToShow.fadeIn(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
-                            callback();
-                        });
-                    });
-                } else {
-                    elmToShow.fadeIn(wizardObj.options.transition.speed, wizardObj.options.transition.easing, () => {
-                        callback();
-                    });
-                }
-            }
-            
 
             $("#state_selector").on("change", function() {
                 $('#smartwizard').smartWizard("setState", [$('#step_to_style').val()], $(this).val(), !$('#is_reset').prop("checked"));
