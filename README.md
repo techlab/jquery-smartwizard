@@ -70,6 +70,36 @@ Installation
 <script src="https://unpkg.com/smartwizard@6/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
 ```
 
+### Common JS/Webpack
+```js
+var $ = require( "jquery" );
+require( "smartwizard/dist/css/smart_wizard_all.css");
+const smartWizard = require("smartwizard");
+
+$(function() {
+    $('#smartwizard').smartWizard();
+});
+```
+### ES6/Babel
+```js
+import $ from "jquery";
+import "smartwizard/dist/css/smart_wizard_all.css";
+import smartWizard from 'smartwizard';
+
+$(function() {
+    $('#smartwizard').smartWizard();
+});
+```
+
+#### Note: you may have to install the required dependencies 
+```bash
+npm i jquery
+npm i smartwizard
+
+// If you are using Webpack, install
+npm i webpack webpack-cli style-loader css-loader --save-dev
+```
+
 ### Download
 #### [Download from GitHub](https://github.com/techlab/jquery-smartwizard/archive/master.zip)
 
@@ -169,14 +199,10 @@ Include SmartWizard plugin JavaScript
 <script src="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
 ```
 Initialize the SmartWizard
-```html
-<script type="text/javascript">
-$(document).ready(function() {
-
+```js
+$(function() {
     $('#smartwizard').smartWizard();
-
 });
-</script>
 ```
 That's it!   
 
