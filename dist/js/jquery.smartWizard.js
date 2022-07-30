@@ -282,12 +282,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       value: function _setElements() {
         var _this2 = this;
 
-        // Set theme option
+        // Set the main element classes including theme css
         this.main.removeClass(function (i, className) {
           return (className.match(new RegExp('(^|\\s)' + _this2.options.style.themePrefixCss + '\\S+', 'g')) || []).join(' ');
-        }).addClass(this.options.style.themePrefixCss + this.options.theme); // Set the main element
-
-        this.main.addClass(this.options.style.mainCss).addClass(this.options.style.themePrefixCss + this.options.theme); // Set justify option
+        }).addClass(this.options.style.mainCss + ' ' + this.options.style.themePrefixCss + this.options.theme); // Set justify option
 
         this.main.toggleClass(this.options.style.justifiedCss, this.options.justified); // Set the anchor default style
 

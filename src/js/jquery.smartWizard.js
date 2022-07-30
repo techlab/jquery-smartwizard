@@ -227,13 +227,10 @@
         }
 
         _setElements() {
-            // Set theme option
+            // Set the main element classes including theme css
             this.main.removeClass((i, className) => {
                 return (className.match(new RegExp('(^|\\s)' + this.options.style.themePrefixCss + '\\S+','g')) || []).join(' ');
-            }).addClass(this.options.style.themePrefixCss + this.options.theme);
-            
-            // Set the main element
-            this.main.addClass(this.options.style.mainCss).addClass(this.options.style.themePrefixCss + this.options.theme);
+            }).addClass(this.options.style.mainCss + ' ' + this.options.style.themePrefixCss + this.options.theme);
 
             // Set justify option
             this.main.toggleClass(this.options.style.justifiedCss, this.options.justified);
