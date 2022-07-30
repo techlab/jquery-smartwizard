@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+v6.0.3
+-----
+- **Fixed:** Navigation not properly maintained when navigate fast
+- **Changed:** Code optimizations
+
 v6.0.1
 -----
 - **Added:** Support for jQuery Slim version

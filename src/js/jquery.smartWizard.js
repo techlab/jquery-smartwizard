@@ -1,5 +1,5 @@
 /*!
-* jQuery SmartWizard v6.0.1
+* jQuery SmartWizard v6.0.3
 * The awesome step wizard plugin for jQuery
 * http://www.techlaboratory.net/jquery-smartwizard
 *
@@ -41,7 +41,7 @@
     // Default options
     const defaults = {
         selected: 0, // Initial selected step, 0 = first step
-        theme: 'basic', // theme for the wizard, related css need to include for other than default theme
+        theme: 'basic', // Theme for the wizard, related css need to include for other than default theme
         justified: true, // Nav menu justification. true/false
         autoAdjustHeight: true, // Automatically adjust content height
         backButtonSupport: true, // Enable the back button support
@@ -227,14 +227,14 @@
         }
 
         _setElements() {
-            // Set the main element
-            this.main.addClass(this.options.style.mainCss);
-            
             // Set theme option
-            this.main.removeClass(function (i, className) {
-                return (className.match (/(^|\s)sw-theme-\S+/g) || []).join(' ');
+            this.main.removeClass((i, className) => {
+                return (className.match(new RegExp('(^|\\s)' + this.options.style.themePrefixCss + '\\S+','g')) || []).join(' ');
             }).addClass(this.options.style.themePrefixCss + this.options.theme);
             
+            // Set the main element
+            this.main.addClass(this.options.style.mainCss).addClass(this.options.style.themePrefixCss + this.options.theme);
+
             // Set justify option
             this.main.toggleClass(this.options.style.justifiedCss, this.options.justified);
             
@@ -377,17 +377,18 @@
                 const selPage   = this._getStepPage(idx);
                 // transit the step
                 this._transit(selPage, curPage, stepDirection, () => {
-                    // Update the current index
-                    this.current_index  = idx;
                     // Fix height with content
                     this._fixHeight(idx);
-                    // Set the buttons based on the step
-                    this._setButtons(idx);
-                    // Set the progressbar based on the step
-                    this._setProgressbar(idx);
                     // Trigger "showStep" event
                     this._triggerEvent("showStep", [selStep, idx, stepDirection, this._getStepPosition(idx)]);
                 });
+
+                // Update the current index
+                this.current_index  = idx;
+                // Set the buttons based on the step
+                this._setButtons(idx);
+                // Set the progressbar based on the step
+                this._setProgressbar(idx);
             });
         }
 
@@ -468,6 +469,7 @@
 
         _transit(elmToShow, elmToHide, stepDirection, callback) {
             const transitFn = $.fn.smartWizard.transitions[this.options.transition.animation];
+            this._stopAnimations();
             if ($.isFunction(transitFn)) {
                 transitFn(elmToShow, elmToHide, stepDirection, this, (res) => {
                     if (res === false) {
@@ -480,6 +482,13 @@
                 if (elmToHide !== null) elmToHide.hide();
                 elmToShow.show();
                 callback();
+            }
+        }
+
+        _stopAnimations() {
+            if ($.isFunction(this.container.finish)) {
+                this.pages.finish();
+                this.container.finish();
             }
         }
 
@@ -496,17 +505,22 @@
 
         _setAnchor(idx) {
             // Current step anchor > Remove other classes and add done class
-            this.steps.eq(this.current_index).removeClass(this.options.style.anchorActiveCss);
-            if (this.options.anchor.enableDoneState !== false && this.current_index !== null && this.current_index >= 0) {
-                this.steps.eq(this.current_index).addClass(this.options.style.anchorDoneCss);
-                if (this.options.anchor.unDoneOnBackNavigation !== false && this._getStepDirection(idx) === 'backward') {
-                    this.steps.eq(this.current_index).removeClass(this.options.style.anchorDoneCss);
+            if (this.current_index !== null && this.current_index >= 0) {
+                let removeCss   = this.options.style.anchorActiveCss;
+                let addCss      = '';
+
+                if (this.options.anchor.enableDoneState !== false) {
+                    addCss += this.options.style.anchorDoneCss;
+                    if (this.options.anchor.unDoneOnBackNavigation !== false && this._getStepDirection(idx) === 'backward') {
+                        removeCss += ' ' + this.options.style.anchorDoneCss;
+                    }
                 }
+
+                this.steps.eq(this.current_index).removeClass(removeCss).addClass(addCss);
             }
 
             // Next step anchor > Remove other classes and add active class
-            this.steps.eq(idx).removeClass(this.options.style.anchorDoneCss);
-            this.steps.eq(idx).addClass(this.options.style.anchorActiveCss);
+            this.steps.eq(idx).removeClass(this.options.style.anchorDoneCss).addClass(this.options.style.anchorActiveCss);
         }
 
         _setButtons(idx) {
@@ -811,7 +825,7 @@
                 elmToShow.css(initCss2);
                 callback();
             });            
-        }, 
+        },
         css: (elmToShow, elmToHide, stepDirection, wizardObj, callback) => {
             if (wizardObj.options.transition.fwdHideCss.length == 0 || wizardObj.options.transition.bckHideCss.length == 0 ) { callback(false); return; }
             
