@@ -1,5 +1,5 @@
 /*!
-* jQuery SmartWizard v6.0.3
+* jQuery SmartWizard v6.0.4
 * The awesome step wizard plugin for jQuery
 * http://www.techlaboratory.net/jquery-smartwizard
 *

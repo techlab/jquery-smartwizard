@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+v6.0.4
+-----
+- **Changed:** Code optimizations
+
 v6.0.3
 -----
 - **Fixed:** Navigation not properly maintained when navigate fast
