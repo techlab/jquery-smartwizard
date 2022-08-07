@@ -9,7 +9,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 /*!
-* jQuery SmartWizard v6.0.4
+* jQuery SmartWizard v6.0.5
 * The awesome step wizard plugin for jQuery
 * http://www.techlaboratory.net/jquery-smartwizard
 *
@@ -616,7 +616,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
             }
           }
 
-          this.steps.eq(this.current_index).removeClass(removeCss).addClass(addCss);
+          this.steps.eq(this.current_index).addClass(addCss).removeClass(removeCss);
         } // Next step anchor > Remove other classes and add active class
 
 

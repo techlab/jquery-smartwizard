@@ -1,5 +1,5 @@
 /*!
-* jQuery SmartWizard v6.0.4
+* jQuery SmartWizard v6.0.5
 * The awesome step wizard plugin for jQuery
 * http://www.techlaboratory.net/jquery-smartwizard
 *
@@ -513,7 +513,7 @@
                     }
                 }
 
-                this.steps.eq(this.current_index).removeClass(removeCss).addClass(addCss);
+                this.steps.eq(this.current_index).addClass(addCss).removeClass(removeCss);
             }
 
             // Next step anchor > Remove other classes and add active class

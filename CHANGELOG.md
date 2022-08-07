@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+
+v6.0.5
+-----
+- **Fixed:** unDoneOnBackNavigation not working https://github.com/techlab/jquery-smartwizard/issues/146
+
 v6.0.4
 -----
 - **Changed:** Code optimizations
