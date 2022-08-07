@@ -9,7 +9,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 /*!
-* jQuery SmartWizard v6.0.1
+* jQuery SmartWizard v6.0.5
 * The awesome step wizard plugin for jQuery
 * http://www.techlaboratory.net/jquery-smartwizard
 *
@@ -51,7 +51,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
     selected: 0,
     // Initial selected step, 0 = first step
     theme: 'basic',
-    // theme for the wizard, related css need to include for other than default theme
+    // Theme for the wizard, related css need to include for other than default theme
     justified: true,
     // Nav menu justification. true/false
     autoAdjustHeight: true,
@@ -282,12 +282,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       value: function _setElements() {
         var _this2 = this;
 
-        // Set the main element
-        this.main.addClass(this.options.style.mainCss); // Set theme option
-
+        // Set the main element classes including theme css
         this.main.removeClass(function (i, className) {
-          return (className.match(/(^|\s)sw-theme-\S+/g) || []).join(' ');
-        }).addClass(this.options.style.themePrefixCss + this.options.theme); // Set justify option
+          return (className.match(new RegExp('(^|\\s)' + _this2.options.style.themePrefixCss + '\\S+', 'g')) || []).join(' ');
+        }).addClass(this.options.style.mainCss + ' ' + this.options.style.themePrefixCss + this.options.theme); // Set justify option
 
         this.main.toggleClass(this.options.style.justifiedCss, this.options.justified); // Set the anchor default style
 
@@ -442,20 +440,20 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 
 
           _this4._transit(selPage, curPage, stepDirection, function () {
-            // Update the current index
-            _this4.current_index = idx; // Fix height with content
-
-            _this4._fixHeight(idx); // Set the buttons based on the step
-
-
-            _this4._setButtons(idx); // Set the progressbar based on the step
-
-
-            _this4._setProgressbar(idx); // Trigger "showStep" event
+            // Fix height with content
+            _this4._fixHeight(idx); // Trigger "showStep" event
 
 
             _this4._triggerEvent("showStep", [selStep, idx, stepDirection, _this4._getStepPosition(idx)]);
-          });
+          }); // Update the current index
+
+
+          _this4.current_index = idx; // Set the buttons based on the step
+
+          _this4._setButtons(idx); // Set the progressbar based on the step
+
+
+          _this4._setProgressbar(idx);
         });
       }
     }, {
@@ -560,6 +558,8 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       value: function _transit(elmToShow, elmToHide, stepDirection, callback) {
         var transitFn = $.fn.smartWizard.transitions[this.options.transition.animation];
 
+        this._stopAnimations();
+
         if ($.isFunction(transitFn)) {
           transitFn(elmToShow, elmToHide, stepDirection, this, function (res) {
             if (res === false) {
@@ -573,6 +573,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
           if (elmToHide !== null) elmToHide.hide();
           elmToShow.show();
           callback();
+        }
+      }
+    }, {
+      key: "_stopAnimations",
+      value: function _stopAnimations() {
+        if ($.isFunction(this.container.finish)) {
+          this.pages.finish();
+          this.container.finish();
         }
       }
     }, {
@@ -596,19 +604,23 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
       key: "_setAnchor",
       value: function _setAnchor(idx) {
         // Current step anchor > Remove other classes and add done class
-        this.steps.eq(this.current_index).removeClass(this.options.style.anchorActiveCss);
+        if (this.current_index !== null && this.current_index >= 0) {
+          var removeCss = this.options.style.anchorActiveCss;
+          var addCss = '';
 
-        if (this.options.anchor.enableDoneState !== false && this.current_index !== null && this.current_index >= 0) {
-          this.steps.eq(this.current_index).addClass(this.options.style.anchorDoneCss);
+          if (this.options.anchor.enableDoneState !== false) {
+            addCss += this.options.style.anchorDoneCss;
 
-          if (this.options.anchor.unDoneOnBackNavigation !== false && this._getStepDirection(idx) === 'backward') {
-            this.steps.eq(this.current_index).removeClass(this.options.style.anchorDoneCss);
+            if (this.options.anchor.unDoneOnBackNavigation !== false && this._getStepDirection(idx) === 'backward') {
+              removeCss += ' ' + this.options.style.anchorDoneCss;
+            }
           }
+
+          this.steps.eq(this.current_index).addClass(addCss).removeClass(removeCss);
         } // Next step anchor > Remove other classes and add active class
 
 
-        this.steps.eq(idx).removeClass(this.options.style.anchorDoneCss);
-        this.steps.eq(idx).addClass(this.options.style.anchorActiveCss);
+        this.steps.eq(idx).removeClass(this.options.style.anchorDoneCss).addClass(this.options.style.anchorActiveCss);
       }
     }, {
       key: "_setButtons",

@@ -1,6 +1,20 @@
 CHANGELOG
 =========
 
+
+v6.0.5
+-----
+- **Fixed:** unDoneOnBackNavigation not working https://github.com/techlab/jquery-smartwizard/issues/146
+
+v6.0.4
+-----
+- **Changed:** Code optimizations
+
+v6.0.3
+-----
+- **Fixed:** Navigation not properly maintained when navigate fast
+- **Changed:** Code optimizations
+
 v6.0.1
 -----
 - **Added:** Support for jQuery Slim version
