@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+v6.0.6
+-----
+- **Fixed:** History back on step1 not working https://github.com/techlab/jquery-smartwizard/issues/152
 
 v6.0.5
 -----
