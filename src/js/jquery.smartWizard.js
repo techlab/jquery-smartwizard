@@ -177,7 +177,7 @@
 
             // Get the initial step index
             let idx = this._getURLHashIndex();
-            idx = idx ? idx : this.options.selected;
+            idx = idx !== false ? idx : this.options.selected;
             const idxShowable = this._getShowable(idx - 1, 'forward');
             idx = (idxShowable === null && idx > 0) ? this._getShowable(-1, 'forward') : idxShowable;
 
@@ -296,7 +296,7 @@
                     return;
                 }
                 const idx = this._getURLHashIndex();
-                if (idx && this._isShowable(this.steps.eq(idx))) {
+                if (idx !== false && this._isShowable(this.steps.eq(idx))) {
                     e.preventDefault();
                     this._showStep(idx);
                 }
