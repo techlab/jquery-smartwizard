@@ -219,7 +219,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 
         var idx = this._getURLHashIndex();
 
-        idx = idx ? idx : this.options.selected;
+        idx = idx !== false ? idx : this.options.selected;
 
         var idxShowable = this._getShowable(idx - 1, 'forward');
 
@@ -356,7 +356,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 
           var idx = _this3._getURLHashIndex();
 
-          if (idx && _this3._isShowable(_this3.steps.eq(idx))) {
+          if (idx !== false && _this3._isShowable(_this3.steps.eq(idx))) {
             e.preventDefault();
 
             _this3._showStep(idx);
