@@ -49,7 +49,7 @@
     "@babel/core": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
     "autoprefixer": "^10.4.7",
-    "browser-sync": "^2.27.10",
+    "browser-sync": "^3.0.2",
     "del": "^6.1.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
