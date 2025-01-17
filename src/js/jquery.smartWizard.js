@@ -110,6 +110,44 @@
         getContent: null, // Callback function for content loading
     };
 
+    // var Selector = {
+    //     TITLE: '.popover-header',
+    //     CONTENT: '.confirmation-content',
+    //     BUTTONS: '.confirmation-buttons .btn-group'
+    //   };
+    //   var Keymap = {
+    //     13: 'Enter',
+    //     27: 'Escape',
+    //     39: 'ArrowRight',
+    //     40: 'ArrowDown'
+    //   };
+    //   var Event = {
+    //     HIDE: "hide" + EVENT_KEY,
+    //     HIDDEN: "hidden" + EVENT_KEY,
+    //     SHOW: "show" + EVENT_KEY,
+    //     SHOWN: "shown" + EVENT_KEY,
+    //     INSERTED: "inserted" + EVENT_KEY,
+    //     CLICK: "click" + EVENT_KEY,
+    //     FOCUSIN: "focusin" + EVENT_KEY,
+    //     FOCUSOUT: "focusout" + EVENT_KEY,
+    //     MOUSEENTER: "mouseenter" + EVENT_KEY,
+    //     MOUSELEAVE: "mouseleave" + EVENT_KEY,
+    //     CONFIRMED: "confirmed" + EVENT_KEY,
+    //     CANCELED: "canceled" + EVENT_KEY,
+    //     KEYUP: "keyup" + EVENT_KEY
+    //   };
+
+    // const Keymap = {
+    //     13: 'Enter',
+    //     27: 'Escape',
+    //     39: 'ArrowRight',
+    //     40: 'ArrowDown',
+    // };
+    
+    // if ((this.config.popout || this.config.singleton) && !this.config.rootSelector) {
+    //     throw new Error('The rootSelector option is required to use popout and singleton features since jQuery 3.');
+    //   }
+
     class SmartWizard {
 
         constructor(element, options) {
@@ -200,7 +238,7 @@
             }
 
             // Check for second level element
-            this.main.children().each((i, n) => {
+            this.main.children().each((_i, n) => {
                 let tmp = $(n).children(selector);
                 if (tmp.length > 0) {
                     elm = tmp;
@@ -228,7 +266,7 @@
 
         _setElements() {
             // Set the main element classes including theme css
-            this.main.removeClass((i, className) => {
+            this.main.removeClass((_i, className) => {
                 return (className.match(new RegExp('(^|\\s)' + this.options.style.themePrefixCss + '\\S+','g')) || []).join(' ');
             }).addClass(this.options.style.mainCss + ' ' + this.options.style.themePrefixCss + this.options.theme);
 
@@ -367,6 +405,8 @@
                 this._setURLHash(selStep.attr("href"));
                 // Update controls
                 this._setAnchor(idx);
+
+                selStep.get(0).scrollIntoView({ behavior: "smooth" });
 
                 // Get current step element
                 const curPage   = this._getStepPage(this.current_index);

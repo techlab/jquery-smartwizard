@@ -59,15 +59,30 @@
       margin-top: 0;
       margin-bottom: 0;
 
+      overflow-x: hidden;
+      overflow-y: hidden;
+      // white-space: nowrap;
+      flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
       @media screen and (max-width: $breakpoint-phone) {
         flex-direction: column!important;
         flex: 1 auto;
+      }
+
+      .nav-item {
+        // display: inline-block;
+        flex: 0 0 auto;
       }
 
       .nav-link {
         display: block;
         padding: .5rem 1rem;
         text-decoration: none;
+        width: 200px;
 
         &:hover,
         &:active,
