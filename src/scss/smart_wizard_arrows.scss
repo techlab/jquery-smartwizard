@@ -11,14 +11,11 @@
 
 @charset 'utf-8';
 
-/* SmartWizard Variables */
-@import 'core/variables';
-
 /* SmartWizard Root */
-@import 'core/_root';
+@use 'core/_root';
 
 /* SmartWizard Base Styles */
-@import 'core/_base';
+@use 'core/_base';
 
 /* SmartWizard Theme: Arrows */
-@import 'themes/_arrows';
+@use 'themes/_arrows';

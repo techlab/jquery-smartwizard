@@ -9,30 +9,30 @@ var gulp          = require('gulp'),
     cleanCSS      = require('gulp-clean-css'),
     cssbeautify   = require('gulp-cssbeautify'),
     autoprefixer  = require('autoprefixer'),
-    sass          = require('gulp-dart-sass'),
+    sass          = require('gulp-sass')(require('sass')),
     del           = require('del');
 
 var Server        = require('karma').Server;
 var browserSync   = require('browser-sync').create();
 
 // Specify the Source files
-var SRC_JS        = 'src/js/*.js';
-var SRC_SCSS      = 'src/scss/*.scss';
+var SRC_SCRIPT  = 'src/js/*.js';
+var SRC_STYLE   = 'src/scss/*.scss';
 
 // Specify the Destination folders
-var DEST_JS       = 'dist/js';
-var DEST_SCSS     = 'dist/css';
+var DEST_SCRIPT = 'dist/js';
+var DEST_STYLE   = 'dist/css';
 
 // Example pages
 var EXAMPLE_HTML  = 'examples/*.html';
 
 // BUILD JS
 function build_js(cb) {
-  gulp.src(SRC_JS)
+  gulp.src(SRC_SCRIPT)
         .pipe(babel({
             presets: ['@babel/env']
         }))
-        .pipe(gulp.dest(DEST_JS))
+        .pipe(gulp.dest(DEST_SCRIPT))
         .pipe(uglify({
             output: {
                 comments: saveLicense
@@ -41,28 +41,28 @@ function build_js(cb) {
         .pipe(rename({
             suffix: '.min'
         }))
-        .pipe(gulp.dest(DEST_JS));
+        .pipe(gulp.dest(DEST_SCRIPT));
 
   cb();
 }
 
 // BUILD SCSS
 function build_scss(cb) {
-  gulp.src(SRC_SCSS)
-        .pipe(sass({outputStyle:'expanded'}).on('error', sass.logError))
+  gulp.src(SRC_STYLE)
+        .pipe(sass({style:'expanded'}).on('error', sass.logError))
         .pipe(postcss( [autoprefixer()] ))
         .pipe(cssbeautify({ autosemicolon: true }))
-        .pipe(gulp.dest(DEST_SCSS))
+        .pipe(gulp.dest(DEST_STYLE))
         .pipe(cleanCSS({compatibility: 'ie8'}))
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest(DEST_SCSS));
+        .pipe(gulp.dest(DEST_STYLE));
 
   cb();
 }
 
 // LINT
 function lint_js(cb) {
-  gulp.src(SRC_JS)
+  gulp.src(SRC_SCRIPT)
       .pipe(jshint({ "esversion": 8 }))
       .pipe(jshint.reporter('default'));
 
@@ -71,21 +71,21 @@ function lint_js(cb) {
 
 // CLEAN
 function clean_js(cb) {
-  del.sync([DEST_JS]);
+  del.sync([DEST_SCRIPT]);
 
   cb();
 }
 
 function clean_css(cb) {
-  del.sync([DEST_SCSS]);
+  del.sync([DEST_STYLE]);
 
   cb();
 }
 
 // WATCH
 function watch(cb) {
-  gulp.watch(SRC_JS, build_js);
-  gulp.watch(SRC_SCSS, build_scss);
+  gulp.watch(SRC_SCRIPT, build_js);
+  gulp.watch(SRC_STYLE, build_scss);
 
   cb();
 }
@@ -100,10 +100,10 @@ function serve(cb) {
       }
   });
 
-  gulp.watch(SRC_JS, build_js);
-  gulp.watch(SRC_SCSS, build_scss);
+  gulp.watch(SRC_SCRIPT, build_js);
+  gulp.watch(SRC_STYLE, build_scss);
 
-  gulp.watch([DEST_JS, DEST_SCSS, EXAMPLE_HTML]).on("change", browserSync.reload);
+  gulp.watch([DEST_SCRIPT, DEST_STYLE, EXAMPLE_HTML]).on("change", browserSync.reload);
 
   cb();
 }

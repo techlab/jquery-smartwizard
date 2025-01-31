@@ -1,10 +1,15 @@
+/* Variables */
+@use 'core/variables' as *;
+
 .sw-theme-arrows {
   border: 1px solid var(--#{$var-prefix}border-color);
 
   // Navigation style
   & > .nav {
     overflow: hidden;
-
+    scroll-margin-left: 50px;
+    scroll-margin-right: 50px;
+    
     .nav-item:first-child .nav-link {
       @media screen and (min-width: $breakpoint-phone) {
         padding-left: 10px;
@@ -23,6 +28,8 @@
       margin-left: -30px;
       padding-left: 50px;
       transition: all 0.5s ease-in-out;
+      scroll-margin-left: 50px;
+      scroll-margin-right: 50px;
 
       @media screen and (max-width: $breakpoint-phone) {
         overflow: hidden;

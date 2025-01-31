@@ -1,3 +1,6 @@
+/* Variables */
+@use 'core/variables' as *;
+
 // Core classes
 .sw {
     position: relative;
@@ -71,6 +74,25 @@
       @media screen and (max-width: $breakpoint-phone) {
         flex-direction: column!important;
         flex: 1 auto;
+      }
+
+      .nav-scroll-btn {
+        position: absolute;
+        top: 0;
+        margin-left: 0;
+        margin-top: 0;
+        border: 0;
+        text-decoration: none;
+        background-color: transparent;
+        opacity:0;
+        transition: opacity 0.5s ease-out;
+        z-index: 10;
+      }
+      .nav-scroll-btn-right {
+        right: 0;
+      }
+      .nav-scroll-btn-left {
+        left: 0;
       }
 
       .nav-item {

@@ -1,3 +1,6 @@
+/* Variables */
+@use 'core/variables' as *;
+
 .sw-theme-basic {
   border: 1px solid var(--#{$var-prefix}border-color);
 

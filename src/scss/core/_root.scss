@@ -1,3 +1,6 @@
+/* Variables */
+@use 'core/variables' as *;
+
 :root {
     // Set root colors
     @each $color, $value in $colors {

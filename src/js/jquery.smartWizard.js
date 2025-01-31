@@ -187,6 +187,8 @@
             this._setElements();
             // Add toolbar
             this._setToolbar();
+            // Set anchor
+            this._setNav();
 
             // Skip if already init
             if (this.is_init === true) return true;
@@ -250,8 +252,8 @@
             }
 
             // Element not found
-            this._showError("Element not found " + selector);
-            return false;
+            // this._showError("Element not found " + selector);
+            throw new Error(`Element not found ${selector}`);
         }
 
         _getDir() {
@@ -262,36 +264,6 @@
                 this.main.prop('dir', dir);
             }
             return dir;
-        }
-
-        _setElements() {
-            // Set the main element classes including theme css
-            this.main.removeClass((_i, className) => {
-                return (className.match(new RegExp('(^|\\s)' + this.options.style.themePrefixCss + '\\S+','g')) || []).join(' ');
-            }).addClass(this.options.style.mainCss + ' ' + this.options.style.themePrefixCss + this.options.theme);
-
-            // Set justify option
-            this.main.toggleClass(this.options.style.justifiedCss, this.options.justified);
-            
-            // Set the anchor default style
-            if (this.options.anchor.enableNavigationAlways !== true || this.options.anchor.enableNavigation !== true) {
-                this.steps.addClass(this.options.style.anchorDefaultCss);
-            }
-
-            // Disabled steps
-            this._setStepStyle(this.options.disabledSteps, this.options.style.anchorDisabledCss);
-            // Error steps
-            this._setStepStyle(this.options.errorSteps, this.options.style.anchorErrorCss);
-            // Warning steps
-            this._setStepStyle(this.options.warningSteps, this.options.style.anchorWarningCss);
-            // Hidden steps
-            this._setStepStyle(this.options.hiddenSteps, this.options.style.anchorHiddenCss);
-        }
-
-        _setStepStyle(stepIndexes, cssClass) {
-            $.each(stepIndexes, (_i, n) => {
-                this.steps.eq(n).addClass(cssClass);
-            });
         }
 
         _setEvents() {
@@ -311,16 +283,17 @@
 
             // Next/Previous button event
             this.main.on("click", (e) => {
-                if ($(e.target).hasClass(this.options.style.btnNextCss)) {
+                const targetElm = $(e.target);
+                if (targetElm.hasClass(this.options.style.btnNextCss)) {
                     e.preventDefault();
                     this._navigate('next');
-                } else if ($(e.target).hasClass(this.options.style.btnPrevCss)) {
+                } else if (targetElm.hasClass(this.options.style.btnPrevCss)) {
                     e.preventDefault();
                     this._navigate('prev');
-                } else if ($(e.target).hasClass('sw-nav-next')) {
+                } else if (targetElm.hasClass('nav-scroll-right')) {
                     e.preventDefault();
                     this._scrollAnchor('right');
-                } else if ($(e.target).hasClass('sw-nav-prev')) {
+                } else if (targetElm.hasClass('nav-scroll-left')) {
                     e.preventDefault();
                     this._scrollAnchor('left');
                 }
@@ -350,6 +323,48 @@
                this._fixHeight(this.current_index);
             });
         }
+        
+        _setElements() {
+            // Set the main element classes including theme css
+            this.main.removeClass((_i, className) => {
+                return (className.match(new RegExp('(^|\\s)' + this.options.style.themePrefixCss + '\\S+','g')) || []).join(' ');
+            }).addClass(this.options.style.mainCss + ' ' + this.options.style.themePrefixCss + this.options.theme);
+
+            // Set justify option
+            this.main.toggleClass(this.options.style.justifiedCss, this.options.justified);
+        }
+
+        _setNav() {
+            // Set the anchor default style
+            if (this.options.anchor.enableNavigationAlways !== true || this.options.anchor.enableNavigation !== true) {
+                this.steps.addClass(this.options.style.anchorDefaultCss);
+            }
+
+            // Disabled steps
+            this._setStepStyle(this.options.disabledSteps, this.options.style.anchorDisabledCss);
+            // Error steps
+            this._setStepStyle(this.options.errorSteps, this.options.style.anchorErrorCss);
+            // Warning steps
+            this._setStepStyle(this.options.warningSteps, this.options.style.anchorWarningCss);
+            // Hidden steps
+            this._setStepStyle(this.options.hiddenSteps, this.options.style.anchorHiddenCss);
+            // Add scroll buttons for nav bar
+            this._createAnchorScroll();
+        }
+
+        _setStepStyle(stepIndexes, cssClass) {
+            $.each(stepIndexes, (_i, n) => {
+                this.steps.eq(n).addClass(cssClass);
+            });
+        }
+
+        _createAnchorScroll() {
+            // Create the scroll buttons
+            // Only add if the nav bar is scrollable
+            const btnNext       = $('<button></button>').addClass('nav-scroll-btn nav-scroll-btn-right nav-scroll-right').html("&#11166;").attr('type', 'button');
+            const btnPrevious   = $('<button></button>').addClass('nav-scroll-btn nav-scroll-btn-left nav-scroll-left').html("&#11164;").attr('type', 'button');
+            return this.nav.append(btnPrevious, btnNext);
+        }
 
         _setToolbar() {
             // Remove already existing toolbar if any
@@ -359,7 +374,9 @@
             if (toolbarPosition === 'none') {
                 // Skip right away if the toolbar is not enabled
                 return;
-            } else if (toolbarPosition == 'both') {
+            }
+            
+            if (toolbarPosition == 'both') {
                 this.container.before(this._createToolbar('top'));
                 this.container.after(this._createToolbar('bottom'));
             } else if (toolbarPosition == 'top') {
@@ -367,8 +384,6 @@
             } else {
                 this.container.after(this._createToolbar('bottom'));
             }
-
-            this._createAnchorPager();
         }
 
         _createToolbar(position) {
@@ -379,45 +394,32 @@
             return toolbar.append(btnPrevious, btnNext, this.options.toolbar.extraHtml);
         }
 
-        _createAnchorPager() {
-            // Create the toolbar buttons
-            const btnNext       = $('<button></button>').addClass('sw-nav-next').html("&#11166;").attr('type', 'button').css({ 
-                position: "absolute",
-                marginLeft: 0, marginTop: 0,
-                top: 0, right: 0
-            });
-            const btnPrevious   = $('<button></button>').addClass('sw-nav-prev').html("&#11164;").attr('type', 'button').css({ 
-                position: "absolute",
-                marginLeft: 0, marginTop: 0,
-                top: 0, left: 0
-            });
-            return this.nav.append(btnPrevious, btnNext);
-        }
-
         _scrollAnchor(dir) {
-            if (dir == 'left' && this.nav.scrollLeft() == 0) return;
-            if (dir == 'right' && this.nav.scrollLeft() + this.nav.width() >= this.nav.get(0).scrollWidth) return;
             // element.scrollWidth - element.clientWidth
-            console.log(this.nav.scrollLeft() + this.nav.width(), this.nav.get(0).scrollWidth);
+            // console.log(this.nav.scrollLeft() + this.nav.width(), this.nav.get(0).scrollWidth);
 
             let scrollLeft = this.nav.scrollLeft();
             if (dir == 'left') {
                 if (scrollLeft == 0) return;
                 scrollLeft = scrollLeft - 200;
-            } else {       
+            } else {
+                // const maxScrollLeft = this.nav.get(0).scrollWidth - this.nav.width();
+                if (this.nav.scrollLeft() + this.nav.width() >= this.nav.get(0).scrollWidth) return;
                 scrollLeft = scrollLeft + 200;
             }
-            const maxScrollLeft = this.nav.get(0).scrollWidth - this.nav.width();
 
-
-            this.nav.animate({
-                scrollLeft: this.nav.scrollLeft() + (dir == 'right' ? 200 : -200)
-            }, 
-            this.options.transition.speed, 
-            this.options.transition.easing);
+            if ($.isFunction(this.nav.animate)) {
+                this.nav.animate({
+                    scrollLeft: scrollLeft
+                }, 
+                this.options.transition.speed, 
+                this.options.transition.easing);
+            } else {
+                this.nav.scrollLeft(scrollLeft);
+            }
         }
 
-        _scrollAnchorToView(elm) {
+        _scrollToView(elm) {
             elm.get(0).scrollIntoView({ behavior: "smooth" });
         }
 
@@ -454,8 +456,8 @@
                 this._setURLHash(selStep.attr("href"));
                 // Update controls
                 this._setAnchor(idx);
-
-                this._scrollAnchorToView(selStep);
+                // Scroll the element into view
+                this._scrollToView(selStep);
 
                 // Get current step element
                 const curPage   = this._getStepPage(this.current_index);
