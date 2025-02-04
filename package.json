@@ -40,7 +40,7 @@
   "scripts": {
     "start": "gulp build && gulp serve",
     "watch": "gulp watch",
-    "test": "./node_modules/karma/bin/karma start --single-run",
+    "test": "jasmine-browser-runner runSpecs",
     "build": "gulp build",
     "clean": "gulp clean",
     "lint": "gulp lint"
@@ -61,6 +61,8 @@
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^6.0.0",
     "gulp-uglify": "^3.0.2",
+    "jasmine": "^5.5.0",
+    "jasmine-browser-runner": "^2.5.0",
     "jasmine-core": "^5.5.0",
     "jasmine-jquery": "^2.1.1",
     "jshint": "^2.13.6",
@@ -69,6 +71,7 @@
     "karma-jasmine": "^5.1.0",
     "karma-jasmine-jquery": "^0.1.1",
     "karma-spec-reporter": "^0.0.36",
+    "puppeteer": "^24.1.1",
     "sass": "^1.83.4",
     "uglify-save-license": "^0.4.1"
   }

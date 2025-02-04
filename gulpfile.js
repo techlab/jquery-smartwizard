@@ -12,7 +12,6 @@ var gulp          = require('gulp'),
     sass          = require('gulp-sass')(require('sass')),
     del           = require('del');
 
-var Server        = require('karma').Server;
 var browserSync   = require('browser-sync').create();
 
 // Specify the Source files
@@ -108,21 +107,10 @@ function serve(cb) {
   cb();
 }
 
-// TEST
-function test(cb) {
-  new Server({
-    configFile: __dirname + '/karma.conf.js',
-    singleRun: true
-  }, done).start();
-
-  cb();
-}
-
 // EXPORT methods
 exports.clean   = gulp.parallel(clean_js, clean_css);
 exports.build   = gulp.parallel(gulp.series(clean_js, lint_js, build_js), gulp.series(clean_css, build_scss));
 exports.lint    = lint_js;
 exports.watch   = watch;
-exports.test    = test;
 exports.serve   = serve;
 exports.default = serve;

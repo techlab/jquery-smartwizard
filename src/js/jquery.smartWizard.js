@@ -151,6 +151,19 @@
     class SmartWizard {
 
         constructor(element, options) {
+            // Setup elements
+            this._setup(element, options);
+
+            // Initialize options
+            this._init();
+
+            // Load wizard asynchronously
+            setTimeout(() => {
+                this._load();
+            }, 0);
+        }
+
+        _setup(element, options) {
             // Merge user settings with default
             this.options        = $.extend(true, {}, defaults, options);
             // Main container element
@@ -170,15 +183,7 @@
             // Initial wizard index
             this.current_index  = -1;
             // Is initialiazed
-            this.is_init        = false;    
-
-            // Initialize options
-            this._init();
-
-            // Load wizard asynchronously
-            setTimeout(() => {
-                this._load();
-            }, 0);
+            this.is_init        = false; 
         }
 
         // Initialize options
@@ -318,8 +323,14 @@
                 }
             });
 
+            // Scroll event
+            $(this.nav).on("scrollend", () => {
+                console.log("scroll ended");
+                this._scrollCheck(this.nav);
+            });
+
             // Fix content height on window resize
-            $(window).on('resize', (e) => {
+            $(window).on('resize', () => {
                this._fixHeight(this.current_index);
             });
         }
@@ -417,6 +428,29 @@
             } else {
                 this.nav.scrollLeft(scrollLeft);
             }
+        }
+
+        _scrollCheck(elem) {
+            let hasScroll = false;
+            let canScrollLeft = false;
+            let canScrollRight = false;
+            
+            const scrollLeft = this.nav.scrollLeft();
+            const scrollWidth = this.nav.get(0).scrollWidth;
+            const width = this.nav.outerWidth();
+            if (width < scrollWidth) {
+                hasScroll = true;
+            }
+
+            if (scrollLeft > 0) {
+                canScrollLeft = true;
+            }
+            if (Math.ceil(width + scrollLeft) < scrollWidth) {
+                canScrollRight = true;
+            }
+
+            // console.log(this.nav.outerWidth(), scrollLeft, this.nav.get(0).scrollWidth);
+            // console.log(hasScroll, canScrollLeft, canScrollRight);
         }
 
         _scrollToView(elm) {
