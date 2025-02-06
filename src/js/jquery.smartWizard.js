@@ -110,32 +110,22 @@
         getContent: null, // Callback function for content loading
     };
 
-    // var Selector = {
-    //     TITLE: '.popover-header',
-    //     CONTENT: '.confirmation-content',
-    //     BUTTONS: '.confirmation-buttons .btn-group'
-    //   };
-    //   var Keymap = {
-    //     13: 'Enter',
-    //     27: 'Escape',
-    //     39: 'ArrowRight',
-    //     40: 'ArrowDown'
-    //   };
-    //   var Event = {
-    //     HIDE: "hide" + EVENT_KEY,
-    //     HIDDEN: "hidden" + EVENT_KEY,
-    //     SHOW: "show" + EVENT_KEY,
-    //     SHOWN: "shown" + EVENT_KEY,
-    //     INSERTED: "inserted" + EVENT_KEY,
-    //     CLICK: "click" + EVENT_KEY,
-    //     FOCUSIN: "focusin" + EVENT_KEY,
-    //     FOCUSOUT: "focusout" + EVENT_KEY,
-    //     MOUSEENTER: "mouseenter" + EVENT_KEY,
-    //     MOUSELEAVE: "mouseleave" + EVENT_KEY,
-    //     CONFIRMED: "confirmed" + EVENT_KEY,
-    //     CANCELED: "canceled" + EVENT_KEY,
-    //     KEYUP: "keyup" + EVENT_KEY
-    //   };
+    const EVENT_NAMESPACE = '.smartWizard';
+    const EVENTS = {
+        // Common Events
+        CLICK: 'click' + EVENT_NAMESPACE,
+        KEYUP: 'keyup' + EVENT_NAMESPACE,
+        HASHCHANGE: 'hashchange' + EVENT_NAMESPACE,
+        SCROLLEND: 'scrollend' + EVENT_NAMESPACE,
+        RESIZE: 'resize' + EVENT_NAMESPACE,
+        ANIMATIONEND: "animationend" + EVENT_KEY,
+        ANIMATIONCANCEL: "animationcancel" + EVENT_KEY,
+        // Custom Events
+        INITIALIZED: "initialized" + EVENT_KEY,
+        LOADED: "loaded" + EVENT_KEY,
+        LEAVESTEP: "leaveStep" + EVENT_KEY,
+        SHOWSTEP: "showStep" + EVENT_KEY,
+    };
 
     // const Keymap = {
     //     13: 'Enter',
@@ -153,10 +143,8 @@
         constructor(element, options) {
             // Setup elements
             this._setup(element, options);
-
             // Initialize options
             this._init();
-
             // Load wizard asynchronously
             setTimeout(() => {
                 this._load();
@@ -203,7 +191,7 @@
 
             this.is_init = true;
             // Trigger the initialized event
-            this._triggerEvent("initialized");
+            this._triggerEvent(EVENTS.INITIALIZED);
         }
 
         // Initial Load Method
@@ -234,7 +222,7 @@
             // Show the initial step
             this._showStep(idx);
             // Trigger the loaded event
-            this._triggerEvent("loaded");
+            this._triggerEvent(EVENTS.LOADED);
         }
 
         _getFirstDescendant(selector) {
@@ -273,7 +261,7 @@
 
         _setEvents() {
             // Anchor click event
-            this.steps.on("click", (e) => {
+            this.steps.on(EVENTS.CLICK, (e) => {
                 e.preventDefault();
                 if (this.options.anchor.enableNavigation !== true) {
                     return;
@@ -287,7 +275,7 @@
             });
 
             // Next/Previous button event
-            this.main.on("click", (e) => {
+            this.main.on(EVENTS.CLICK, (e) => {
                 const targetElm = $(e.target);
                 if (targetElm.hasClass(this.options.style.btnNextCss)) {
                     e.preventDefault();
@@ -305,14 +293,19 @@
                 
                 return;
             });
-            
+
+            // Scroll event
+            $(this.nav).on(EVENTS.SCROLLEND, () => {
+                this._scrollCheck(this.nav);
+            });
+
             // Keyboard navigation event            
-            $(document).keyup((e) => {
+            $(document).on(EVENTS.KEYUP, (e) => {
                 this._keyNav(e);
-            });        
+            });
 
             // Back/forward browser button event
-            $(window).on('hashchange', (e) => {
+            $(window).on(EVENTS.HASHCHANGE, (e) => {
                 if (this.options.backButtonSupport !== true) {
                     return;
                 }
@@ -323,14 +316,8 @@
                 }
             });
 
-            // Scroll event
-            $(this.nav).on("scrollend", () => {
-                console.log("scroll ended");
-                this._scrollCheck(this.nav);
-            });
-
             // Fix content height on window resize
-            $(window).on('resize', () => {
+            $(window).on(EVENTS.RESIZE, () => {
                this._fixHeight(this.current_index);
             });
         }
@@ -430,7 +417,7 @@
             }
         }
 
-        _scrollCheck(elem) {
+        _scrollCheck() {
             let hasScroll = false;
             let canScrollLeft = false;
             let canScrollRight = false;
@@ -442,12 +429,18 @@
                 hasScroll = true;
             }
 
+            $('.nav-scroll-btn').toggle(hasScroll);
+            if (!hasScroll) return;
+
             if (scrollLeft > 0) {
                 canScrollLeft = true;
             }
             if (Math.ceil(width + scrollLeft) < scrollWidth) {
                 canScrollRight = true;
             }
+            
+            $('.nav-scroll-btn-left').toggle(canScrollLeft);
+            $('.nav-scroll-btn-right').toggle(canScrollRight);
 
             // console.log(this.nav.outerWidth(), scrollLeft, this.nav.get(0).scrollWidth);
             // console.log(hasScroll, canScrollLeft, canScrollRight);
@@ -478,7 +471,7 @@
 
             if (this.current_index !== -1) {
                 // Trigger "leaveStep" event
-                if (this._triggerEvent("leaveStep", [this._getStepAnchor(this.current_index), this.current_index, idx, stepDirection]) === false) {
+                if (this._triggerEvent(EVENTS.LEAVESTEP, [this._getStepAnchor(this.current_index), this.current_index, idx, stepDirection]) === false) {
                     return false;
                 }
             }
@@ -502,7 +495,7 @@
                     // Fix height with content
                     this._fixHeight(idx);
                     // Trigger "showStep" event
-                    this._triggerEvent("showStep", [selStep, idx, stepDirection, this._getStepPosition(idx)]);
+                    this._triggerEvent(EVENTS.SHOWSTEP, [selStep, idx, stepDirection, this._getStepPosition(idx)]);
                 });
 
                 // Update the current index
@@ -955,11 +948,11 @@
             const animFn = (elm, animation, cb) => {
                 if (!animation || animation.length == 0) cb();
 
-                elm.addClass(animation).one("animationend", (e) => {
+                elm.addClass(animation).one(EVENTS.ANIMATIONEND, (e) => {
                     $(e.currentTarget).removeClass(animation);
                     cb();
                 });
-                elm.addClass(animation).one("animationcancel", (e) => {
+                elm.addClass(animation).one(EVENTS.ANIMATIONCANCEL, (e) => {
                     $(e.currentTarget).removeClass(animation);
                     cb('cancel');
                 });
