@@ -15,13 +15,13 @@
         define(['jquery'], factory);
     } else if (typeof module === 'object' && module.exports) {
         // Node/CommonJS
-        module.exports = function( root, jQuery ) {
-            if ( jQuery === undefined ) {
+        module.exports = function (root, jQuery) {
+            if (jQuery === undefined) {
                 // require('jQuery') returns a factory that requires window to
                 // build a jQuery instance, we normalize how we use modules
                 // that require this pattern but the window provided is a noop
                 // if it's defined (how jquery works)
-                if ( typeof window !== 'undefined' ) {
+                if (typeof window !== 'undefined') {
                     jQuery = require('jquery');
                 }
                 else {
@@ -50,11 +50,24 @@
             animation: 'none', // Animation effect on navigation, none|fade|slideHorizontal|slideVertical|slideSwing|css(Animation CSS class also need to specify)
             speed: '400', // Animation speed. Not used if animation is 'css'
             easing: '', // Animation easing. Not supported without a jQuery easing plugin. Not used if animation is 'css'
+            
             prefixCss: '', // Only used if animation is 'css'. Animation CSS prefix
             fwdShowCss: '', // Only used if animation is 'css'. Step show Animation CSS on forward direction
             fwdHideCss: '', // Only used if animation is 'css'. Step hide Animation CSS on forward direction
             bckShowCss: '', // Only used if animation is 'css'. Step show Animation CSS on backward direction
             bckHideCss: '', // Only used if animation is 'css'. Step hide Animation CSS on backward direction
+
+            cssAnimation: { // CSS animation settings
+                prefix: '',
+                forward: {
+                    show: '',
+                    hide: ''
+                },
+                backward: {
+                    show: '',
+                    hide: ''
+                },
+            }
         },
         toolbar: {
             position: 'bottom', // none|top|bottom|both
@@ -86,13 +99,13 @@
             contentCss: 'tab-content',
             contentPanelCss: 'tab-pane',
             themePrefixCss: 'sw-theme-',
-            anchorDefaultCss: 'default',
-            anchorDoneCss: 'done',
-            anchorActiveCss: 'active',
-            anchorDisabledCss: 'disabled',
-            anchorHiddenCss: 'hidden',
-            anchorErrorCss: 'error',
-            anchorWarningCss: 'warning',
+                anchorDefaultCss: 'default',
+                anchorDoneCss: 'done',
+                anchorActiveCss: 'active',
+                anchorDisabledCss: 'disabled',
+                anchorHiddenCss: 'hidden',
+                anchorErrorCss: 'error',
+                anchorWarningCss: 'warning',
             justifiedCss: 'sw-justified',
             btnCss: 'sw-btn',
             btnNextCss: 'sw-btn-next',
@@ -102,6 +115,17 @@
             progressBarCss: 'progress-bar',
             toolbarCss: 'toolbar',
             toolbarPrefixCss: 'toolbar-',
+        },
+        cssSettings: {
+            nav: {
+                default: 'default', // Default CSS class for navigation
+                active: 'active', // active step
+                error: 'error', // error state
+                done: 'done', // done state
+                disabled: 'disabled', // disabled state
+                hidden: 'hidden', // hidden state
+                warning: 'warning' // warning state
+            }
         },
         disabledSteps: [], // Array Steps disabled
         errorSteps: [], // Array Steps error
@@ -133,10 +157,6 @@
     //     39: 'ArrowRight',
     //     40: 'ArrowDown',
     // };
-    
-    // if ((this.config.popout || this.config.singleton) && !this.config.rootSelector) {
-    //     throw new Error('The rootSelector option is required to use popout and singleton features since jQuery 3.');
-    //   }
 
     class SmartWizard {
 
@@ -153,25 +173,25 @@
 
         _setup(element, options) {
             // Merge user settings with default
-            this.options        = $.extend(true, {}, defaults, options);
+            this.options = $.extend(true, {}, defaults, options);
             // Main container element
-            this.main           = $(element);
+            this.main = $(element);
             // Navigation bar element
-            this.nav            = this._getFirstDescendant('.' + this.options.style.navCss);
+            this.nav = this._getFirstDescendant('.' + this.options.style.navCss);
             // Content container
-            this.container      = this._getFirstDescendant('.' + this.options.style.contentCss);
+            this.container = this._getFirstDescendant('.' + this.options.style.contentCss);
             // Step anchor elements
-            this.steps          = this.nav.find('.' + this.options.style.navLinkCss);
+            this.steps = this.nav.find('.' + this.options.style.navLinkCss);
             // Content pages
-            this.pages          = this.container.children('.' + this.options.style.contentPanelCss);
+            this.pages = this.container.children('.' + this.options.style.contentPanelCss);
             // Progressbar
-            this.progressbar    = this.main.find('.' + this.options.style.progressCss);
+            this.progressbar = this.main.find('.' + this.options.style.progressCss);
             // Direction, RTL/LTR
-            this.dir            = this._getDir();
+            this.dir = this._getDir();
             // Initial wizard index
-            this.current_index  = -1;
+            this.current_index = -1;
             // Is initialiazed
-            this.is_init        = false; 
+            this.is_init = false;
         }
 
         // Initialize options
@@ -206,7 +226,7 @@
             ]);
 
             // Initial step index
-            this.current_index  = -1;
+            this.current_index = -1;
 
             // Get the initial step index
             let idx = this._getURLHashIndex();
@@ -245,7 +265,6 @@
             }
 
             // Element not found
-            // this._showError("Element not found " + selector);
             throw new Error(`Element not found ${selector}`);
         }
 
@@ -290,7 +309,7 @@
                     e.preventDefault();
                     this._scrollAnchor('left');
                 }
-                
+
                 return;
             });
 
@@ -318,14 +337,14 @@
 
             // Fix content height on window resize
             $(window).on(EVENTS.RESIZE, () => {
-               this._fixHeight(this.current_index);
+                this._fixHeight(this.current_index);
             });
         }
-        
+
         _setElements() {
             // Set the main element classes including theme css
             this.main.removeClass((_i, className) => {
-                return (className.match(new RegExp('(^|\\s)' + this.options.style.themePrefixCss + '\\S+','g')) || []).join(' ');
+                return (className.match(new RegExp('(^|\\s)' + this.options.style.themePrefixCss + '\\S+', 'g')) || []).join(' ');
             }).addClass(this.options.style.mainCss + ' ' + this.options.style.themePrefixCss + this.options.theme);
 
             // Set justify option
@@ -359,8 +378,8 @@
         _createAnchorScroll() {
             // Create the scroll buttons
             // Only add if the nav bar is scrollable
-            const btnNext       = $('<button></button>').addClass('nav-scroll-btn nav-scroll-btn-right nav-scroll-right').html("&#11166;").attr('type', 'button');
-            const btnPrevious   = $('<button></button>').addClass('nav-scroll-btn nav-scroll-btn-left nav-scroll-left').html("&#11164;").attr('type', 'button');
+            const btnNext = $('<button></button>').addClass('nav-scroll-btn nav-scroll-btn-right nav-scroll-right').html("&#11166;").attr('type', 'button');
+            const btnPrevious = $('<button></button>').addClass('nav-scroll-btn nav-scroll-btn-left nav-scroll-left').html("&#11164;").attr('type', 'button');
             return this.nav.append(btnPrevious, btnNext);
         }
 
@@ -373,7 +392,7 @@
                 // Skip right away if the toolbar is not enabled
                 return;
             }
-            
+
             if (toolbarPosition == 'both') {
                 this.container.before(this._createToolbar('top'));
                 this.container.after(this._createToolbar('bottom'));
@@ -385,10 +404,10 @@
         }
 
         _createToolbar(position) {
-            const toolbar       = $('<div></div>').addClass('sw-toolbar-elm ' + this.options.style.toolbarCss + ' ' + this.options.style.toolbarPrefixCss + position).attr('role', 'toolbar');
+            const toolbar = $('<div></div>').addClass('sw-toolbar-elm ' + this.options.style.toolbarCss + ' ' + this.options.style.toolbarPrefixCss + position).attr('role', 'toolbar');
             // Create the toolbar buttons
-            const btnNext       = this.options.toolbar.showNextButton !== false ? $('<button></button>').text(this.options.lang.next).addClass('btn ' + this.options.style.btnNextCss + ' ' + this.options.style.btnCss).attr('type', 'button') : null;
-            const btnPrevious   = this.options.toolbar.showPreviousButton !== false ? $('<button></button>').text(this.options.lang.previous).addClass('btn ' + this.options.style.btnPrevCss + ' ' + this.options.style.btnCss).attr('type', 'button') : null;
+            const btnNext = this.options.toolbar.showNextButton !== false ? $('<button></button>').text(this.options.lang.next).addClass('btn ' + this.options.style.btnNextCss + ' ' + this.options.style.btnCss).attr('type', 'button') : null;
+            const btnPrevious = this.options.toolbar.showPreviousButton !== false ? $('<button></button>').text(this.options.lang.previous).addClass('btn ' + this.options.style.btnPrevCss + ' ' + this.options.style.btnCss).attr('type', 'button') : null;
             return toolbar.append(btnPrevious, btnNext, this.options.toolbar.extraHtml);
         }
 
@@ -409,9 +428,9 @@
             if ($.isFunction(this.nav.animate)) {
                 this.nav.animate({
                     scrollLeft: scrollLeft
-                }, 
-                this.options.transition.speed, 
-                this.options.transition.easing);
+                },
+                    this.options.transition.speed,
+                    this.options.transition.easing);
             } else {
                 this.nav.scrollLeft(scrollLeft);
             }
@@ -421,7 +440,7 @@
             let hasScroll = false;
             let canScrollLeft = false;
             let canScrollRight = false;
-            
+
             const scrollLeft = this.nav.scrollLeft();
             const scrollWidth = this.nav.get(0).scrollWidth;
             const width = this.nav.outerWidth();
@@ -438,7 +457,7 @@
             if (Math.ceil(width + scrollLeft) < scrollWidth) {
                 canScrollRight = true;
             }
-            
+
             $('.nav-scroll-btn-left').toggle(canScrollLeft);
             $('.nav-scroll-btn-right').toggle(canScrollRight);
 
@@ -487,9 +506,9 @@
                 this._scrollToView(selStep);
 
                 // Get current step element
-                const curPage   = this._getStepPage(this.current_index);
+                const curPage = this._getStepPage(this.current_index);
                 // Get next step element
-                const selPage   = this._getStepPage(idx);
+                const selPage = this._getStepPage(idx);
                 // transit the step
                 this._transit(selPage, curPage, stepDirection, () => {
                     // Fix height with content
@@ -499,7 +518,7 @@
                 });
 
                 // Update the current index
-                this.current_index  = idx;
+                this.current_index = idx;
                 // Set the buttons based on the step
                 this._setButtons(idx);
                 // Set the progressbar based on the step
@@ -529,11 +548,11 @@
             if (this.options.anchor.enableDoneStateNavigation === false && isDone) {
                 return false;
             }
-    
+
             if (this.options.anchor.enableNavigationAlways === false && !isDone) {
                 return false;
             }
-    
+
             return true;
         }
 
@@ -567,14 +586,14 @@
         _loadContent(idx, callback) {
             if (!$.isFunction(this.options.getContent)) { callback(); return; }
 
-            const selPage       = this._getStepPage(idx);
+            const selPage = this._getStepPage(idx);
             if (!selPage) { callback(); return; }
             // Get step direction
             const stepDirection = this._getStepDirection(idx);
             // Get step position
-            const stepPosition  = this._getStepPosition(idx);
+            const stepPosition = this._getStepPosition(idx);
             // Get next step element
-            const selStep       = this._getStepAnchor(idx);
+            const selStep = this._getStepAnchor(idx);
 
             this.options.getContent(idx, stepDirection, stepPosition, selStep, (content) => {
                 if (content) selPage.html(content);
@@ -621,8 +640,8 @@
         _setAnchor(idx) {
             // Current step anchor > Remove other classes and add done class
             if (this.current_index !== null && this.current_index >= 0) {
-                let removeCss   = this.options.style.anchorActiveCss;
-                let addCss      = '';
+                let removeCss = this.options.style.anchorActiveCss;
+                let addCss = '';
 
                 if (this.options.anchor.enableDoneState !== false) {
                     addCss += this.options.style.anchorDoneCss;
@@ -690,17 +709,14 @@
 
         _triggerEvent(name, params) {
             // Trigger an event
-            var e = $.Event(name);
+            const e = $.Event(name);
             this.main.trigger(e, params);
-            if (e.isDefaultPrevented()) {
-                return false;
-            }
-            return e.result;
+            return e.isDefaultPrevented() ? false : e.result;
         }
 
         _setURLHash(hash) {
             if (this.options.enableUrlHash && window.location.hash !== hash) {
-                history.pushState(null,null,hash);
+                history.pushState(null, null, hash);
             }
         }
 
@@ -716,10 +732,6 @@
                 }
             }
             return false;
-        }
-
-        _showError(msg) {
-            console.error(msg);
         }
 
         _changeState(stepArray, state, addOrRemove) {
@@ -796,7 +808,7 @@
         }
 
         setOptions(options) {
-            this.options  = $.extend(true, {}, this.options, options);
+            this.options = $.extend(true, {}, this.options, options);
             this._init();
         }
 
@@ -880,10 +892,10 @@
 
             // Horizontal slide
             const animFn = (elm, iniLeft, finLeft, cb) => {
-                elm.css({position:'absolute', left: iniLeft })
+                elm.css({ position: 'absolute', left: iniLeft })
                     .show()
-                    .animate({ left: finLeft }, 
-                        wizardObj.options.transition.speed, 
+                    .animate({ left: finLeft },
+                        wizardObj.options.transition.speed,
                         wizardObj.options.transition.easing,
                         cb);
             };
@@ -892,17 +904,17 @@
                 // Set container height at page load 
                 wizardObj.container.height(elmToShow.outerHeight());
             }
-            const containerWidth  = wizardObj.container.width();
+            const containerWidth = wizardObj.container.width();
             if (elmToHide) {
-                const initCss1  = elmToHide.css(["position", "left"]);
-                const finLeft   = containerWidth * (stepDirection == 'backward' ? 1 : -1);
+                const initCss1 = elmToHide.css(["position", "left"]);
+                const finLeft = containerWidth * (stepDirection == 'backward' ? 1 : -1);
                 animFn(elmToHide, 0, finLeft, () => {
                     elmToHide.hide().css(initCss1);
                 });
             }
 
-            const initCss2  = elmToShow.css(["position"]);
-            const iniLeft   = containerWidth * (stepDirection == 'backward' ? -2 : 1);
+            const initCss2 = elmToShow.css(["position"]);
+            const iniLeft = containerWidth * (stepDirection == 'backward' ? -2 : 1);
             animFn(elmToShow, iniLeft, 0, () => {
                 elmToShow.css(initCss2);
                 callback();
@@ -913,10 +925,10 @@
 
             // Vertical slide
             const animFn = (elm, iniTop, finTop, cb) => {
-                elm.css({ position:'absolute', top: iniTop })
+                elm.css({ position: 'absolute', top: iniTop })
                     .show()
-                    .animate({ top: finTop }, 
-                        wizardObj.options.transition.speed, 
+                    .animate({ top: finTop },
+                        wizardObj.options.transition.speed,
                         wizardObj.options.transition.easing,
                         cb);
             };
@@ -927,23 +939,23 @@
             }
             const containerHeight = wizardObj.container.height();
             if (elmToHide) {
-                const initCss1  = elmToHide.css(["position", "top"]);
-                const finTop    = containerHeight * (stepDirection == 'backward' ? -1 : 1);
+                const initCss1 = elmToHide.css(["position", "top"]);
+                const finTop = containerHeight * (stepDirection == 'backward' ? -1 : 1);
                 animFn(elmToHide, 0, finTop, () => {
                     elmToHide.hide().css(initCss1);
                 });
             }
 
-            const initCss2  = elmToShow.css(["position"]);
-            const iniTop    = containerHeight * (stepDirection == 'backward' ? 1 : -2);
+            const initCss2 = elmToShow.css(["position"]);
+            const iniTop = containerHeight * (stepDirection == 'backward' ? 1 : -2);
             animFn(elmToShow, iniTop, 0, () => {
                 elmToShow.css(initCss2);
                 callback();
-            });            
+            });
         },
         css: (elmToShow, elmToHide, stepDirection, wizardObj, callback) => {
-            if (wizardObj.options.transition.fwdHideCss.length == 0 || wizardObj.options.transition.bckHideCss.length == 0 ) { callback(false); return; }
-            
+            if (wizardObj.options.transition.fwdHideCss.length == 0 || wizardObj.options.transition.bckHideCss.length == 0) { callback(false); return; }
+
             // CSS Animation
             const animFn = (elm, animation, cb) => {
                 if (!animation || animation.length == 0) cb();
