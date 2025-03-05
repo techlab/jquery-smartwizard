@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es2015",
+    "lib": ["dom", "es2015"],
+    "declaration": true,
+    "declarationDir": "./dist/types",
+    "outDir": "./dist/js",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "rootDir": "src/ts",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*"]
+    }
+  },
+  "include": ["src/ts/**/*"],
+  "exclude": ["node_modules", "dist", "test"]
+}

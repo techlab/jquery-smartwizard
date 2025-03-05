@@ -1,0 +1,60 @@
+// Breakpoint mixins
+@mixin breakpoint-up($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+}
+
+@mixin breakpoint-down($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (max-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+}
+
+// Theme generator mixin
+@mixin generate-theme($theme-name, $theme-colors) {
+  .#{$prefix}-theme-#{$theme-name} {
+    @content;
+  }
+}
+
+// RTL support mixin
+@mixin rtl {
+  [dir="rtl"] & {
+    @content;
+  }
+}
+
+// Flexbox mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Typography mixins
+@mixin font-size($size, $line-height: null) {
+  font-size: $size;
+  @if $line-height {
+    line-height: $line-height;
+  }
+}
+
+// Transitions
+@mixin transition($transition...) {
+  @if length($transition) == 0 {
+    transition: $transition-base;
+  } @else {
+    transition: $transition;
+  }
+}

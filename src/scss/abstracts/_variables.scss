@@ -1,0 +1,99 @@
+// SmartWizard Variables
+// Prefix for :root CSS variables
+$prefix: 'sw' !default;
+
+// Breakpoints
+$breakpoints: (
+  'small': 576px,
+  'medium': 768px,
+  'large': 992px,
+  'xlarge': 1200px
+) !default;
+
+// Colors
+$colors: (
+  'primary': (
+    'base': #009EF7,
+    'light': #90d4fa,
+    'dark': #0077c2
+  ),
+  'secondary': (
+    'base': #6c757d,
+    'light': #868e96,
+    'dark': #495057
+  ),
+  'success': #28a745,
+  'danger': #dc3545,
+  'warning': #ffc107,
+  'info': #17a2b8,
+  'light': #f8f9fa,
+  'dark': #343a40,
+  'border': #eeeeee
+) !default;
+
+// Component Specific Colors
+$wizard-colors: (
+  'toolbar': (
+    'btn-text': map-get($colors, 'light'),
+    'btn-bg': map-get($colors, 'primary', 'base')
+  ),
+  'anchor': (
+    'default': (
+      'primary': map-get($colors, 'light'),
+      'secondary': #b0b0b1
+    ),
+    'active': (
+      'primary': map-get($colors, 'primary', 'base'),
+      'secondary': map-get($colors, 'light')
+    ),
+    'done': (
+      'primary': map-get($colors, 'primary', 'light'),
+      'secondary': map-get($colors, 'light')
+    ),
+    'disabled': (
+      'primary': map-get($colors, 'light'),
+      'secondary': #dbe0e5
+    ),
+    'error': (
+      'primary': map-get($colors, 'danger'),
+      'secondary': map-get($colors, 'light')
+    ),
+    'warning': (
+      'primary': map-get($colors, 'warning'),
+      'secondary': map-get($colors, 'light')
+    )
+  ),
+  'progress': (
+    'bar': map-get($colors, 'primary', 'base'),
+    'bg': map-get($colors, 'light')
+  ),
+  'loader': (
+    'color': map-get($colors, 'primary', 'base'),
+    'bg': map-get($colors, 'light'),
+    'wrapper-bg': rgba(255, 255, 255, 0.7)
+  )
+) !default;
+
+// Spacing
+$spacers: (
+  0: 0,
+  1: 0.25rem,
+  2: 0.5rem,
+  3: 1rem,
+  4: 1.5rem,
+  5: 3rem
+) !default;
+
+// Typography
+$font-family-base: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+$font-size-base: 1rem !default;
+$line-height-base: 1.5 !default;
+
+// Transitions
+$transition-base: all .2s ease-in-out !default;
+$transition-fade: opacity .15s linear !default;
+
+// Border
+$border-width: 1px !default;
+$border-color: map-get($colors, 'border') !default;
+$border-radius: .25rem !default;

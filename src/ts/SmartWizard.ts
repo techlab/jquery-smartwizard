@@ -1,44 +1,30 @@
-import { SmartWizardOptions } from './types';
+import { SmartWizardOptions, TransitionEffect, StepEventArgs } from './types';
+import { transitions } from './transitions';
 import { defaults } from './defaults';
 
-declare global {
-    interface JQuery {
-        smartWizard(options?: Partial<SmartWizardOptions>): JQuery;
-    }
-}
-
-// Define the plugin
-$.fn.smartWizard = function(options?: Partial<SmartWizardOptions>): JQuery {
-    const mergedOptions = { ...defaults, ...options };
-    return this.each(function(this: HTMLElement) {
-        const $this = $(this);
-        let instance = $this.data('smartWizard');
-
-        if (!instance) {
-            instance = new SmartWizard($this, mergedOptions);
-            $this.data('smartWizard', instance);
-        }
-    });
-};
-
-// Define plugin defaults
-($.fn.smartWizard as any).defaults = defaults;
-
-class SmartWizard {
+export class SmartWizard {
     private readonly options: SmartWizardOptions;
     private readonly container: JQuery;
     private readonly steps: JQuery;
     private readonly nav: JQuery;
     private currentStepIdx: number;
     private isInitialized: boolean;
+    private main: JQuery;
+    private progressbar: JQuery;
+    private pages: JQuery;
+    private dir: string;
 
-    constructor(element: JQuery, options: SmartWizardOptions) {
-        this.options = options;
+    constructor(element: JQuery, options?: Partial<SmartWizardOptions>) {
+        this.options = { ...defaults, ...options };
         this.container = element;
         this.nav = this.container.find('.nav');
         this.steps = this.nav.find('.nav-link');
-        this.currentStepIdx = options.selected;
+        this.currentStepIdx = this.options.selected;
         this.isInitialized = false;
+        this.main = this.container;
+        this.progressbar = this.container.find('.progress-bar');
+        this.pages = this.container.find('.tab-pane');
+        this.dir = this.container.css('direction');
 
         this.init();
     }
@@ -166,7 +152,7 @@ class SmartWizard {
             window.location.hash = href.substring(1);
         }
 
-        const stepInfo = {
+        const stepInfo: StepEventArgs = {
             direction: stepDirection,
             fromStep: this.currentStepIdx + 1,
             toStep: stepIdx + 1
@@ -205,15 +191,13 @@ class SmartWizard {
     private _loadStepContent(
         selPanel: JQuery,
         curPanel: JQuery,
-        transition: string,
+        transition: TransitionEffect,
         stepDirection: string,
         callback: () => void
     ): void {
-        // Hide current panel
-        curPanel.hide();
-        // Show selected panel
-        selPanel.show();
-        callback();
+        // Get transition function
+        const fn = transitions[transition] || transitions['none'];
+        fn(selPanel, curPanel, stepDirection, this, callback);
     }
 
     private _markPreviousSteps(): void {
