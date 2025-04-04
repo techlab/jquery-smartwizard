@@ -9,7 +9,7 @@ export const transitions: Record<string, TransitionFunction> = {
         wizard: SmartWizard,
         callback: () => void
     ): void {
-        curPage.hide();
+        curPage && curPage.hide();
         selPage.show();
         callback();
     },

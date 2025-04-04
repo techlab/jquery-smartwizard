@@ -1,45 +1,98 @@
-import { SmartWizardOptions } from './types';
+import { WizardOptions } from './types';
 
-export const defaults: SmartWizardOptions = {
-    selected: 0,
-    theme: 'basic',
-    justified: true,
-    darkMode: false,
-    autoAdjustHeight: true,
-    cycleSteps: false,
-    backButtonSupport: true,
-    enableUrlHash: true,
+export const defaults: WizardOptions = {
+    initialStep: 0, // Initial selected step (0 = first step)
+    theme: {
+        name: 'basic' // Theme name, ensure related CSS is included
+    },
+    behavior: {
+        autoAdjustHeight: true, // Auto-adjust content height
+        backButtonSupport: true, // Enable browser back button support
+        enableUrlHashNavigation: true // Enable step selection via URL hash
+    },
     transition: {
-        animation: 'none',
-        speed: 200
+        type: 'none', // Transition type: none|fade|slideHorizontal|slideVertical|slideSwing|css
+        speed: 400, // Animation speed (ignored if type is 'css')
+        easing: '', // Animation easing (requires a jQuery easing plugin, ignored for 'css')
+        css: {
+            prefix: '', // CSS animation prefix
+            forward: { show: '', hide: '' }, // Forward animation classes
+            backward: { show: '', hide: '' } // Backward animation classes
+        }
     },
     toolbar: {
-        position: 'bottom',
-        showNextButton: true,
-        showPreviousButton: true,
-        extraHtml: ''
+        position: 'bottom', // Toolbar position: none|top|bottom|both
+        buttons: {
+            showNext: true, // Show/hide Next button
+            showPrevious: true // Show/hide Previous button
+        },
+        extraHtml: '' // Additional HTML for toolbar
     },
-    anchor: {
-        enableNavigation: true,
-        enableNavigationAlways: false,
-        markDoneStep: true,
-        unDoneOnBackNavigation: false,
-        enableDoneState: true,
-        markAllPreviousStepsAsDone: true
+    navigation: {
+        enableAnchors: true, // Enable/Disable anchor navigation
+        alwaysClickable: false, // Allow clicking on any anchor at any time
+        justified: true, // Navigation menu justification (true/false)
+        completedState: {
+            enabled: true, // Mark visited steps as completed
+            markPreviousAsCompleted: true, // Mark all previous steps as completed when using URL hash
+            clearOnBack: false, // Clear completed state when navigating back
+            allowCompletedStateNavigation: true // Allow navigation via completed state steps
+        }
     },
-    keyboard: {
-        keyNavigation: true,
-        keyLeft: 37,
-        keyRight: 39
+    keyboardShortcuts: {
+        enabled: true, // Enable/Disable keyboard navigation (left/right keys)
+        keys: {
+            left: [37], // Left key codes
+            right: [39] // Right key codes
+        }
     },
-    lang: {
-        next: 'Next',
-        previous: 'Previous'
+    localization: {
+        buttons: {
+            next: 'Next',
+            previous: 'Previous'
+        }
     },
-    style: {
-        mainCss: 'sw',
-        navCss: 'nav nav-tabs step-anchor',
-        pageCss: 'tab-pane step-content',
-        toolbarCss: 'toolbar toolbar-bottom'
-    }
+    styles: {
+        baseClass: 'sw',
+        navigation: {
+            container: 'nav',
+            link: 'nav-link',
+            justified: 'sw-justified'
+        },
+        content: {
+            container: 'tab-content',
+            panel: 'tab-pane'
+        },
+        themePrefix: 'sw-theme-',
+        anchorStates: {
+            default: 'default',
+            completed: 'completed',
+            active: 'active',
+            disabled: 'disabled',
+            hidden: 'hidden',
+            error: 'error',
+            warning: 'warning'
+        },
+        buttons: {
+            base: 'sw-btn',
+            next: 'sw-btn-next',
+            previous: 'sw-btn-prev'
+        },
+        loader: 'sw-loading',
+        progressBar: {
+            container: 'progress',
+            bar: 'progress-bar'
+        },
+        toolbar: {
+            base: 'toolbar',
+            prefix: 'toolbar-'
+        }
+    },
+    stepStates: {
+        disabled: [], // Disabled steps
+        error: [], // Steps with errors
+        warning: [], // Warning steps
+        hidden: [] // Hidden steps
+    },
+    contentLoader: null // Callback function for dynamically loading content
 };

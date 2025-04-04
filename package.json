@@ -41,8 +41,9 @@
     "src"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "start": "rollup -c -w",
     "dev": "rollup -c -w",
+    "build": "rollup -c",
     "test": "jasmine-browser-runner runSpecs",
     "test:watch": "jasmine-browser-runner serve",
     "lint": "eslint src/ts/**/*.ts",

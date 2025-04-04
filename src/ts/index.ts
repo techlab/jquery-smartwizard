@@ -1,37 +1,45 @@
+import { WizardOptions } from './types';
 import { SmartWizard } from './SmartWizard';
-import { SmartWizardOptions } from './types';
-import { defaults } from './defaults';
 import { transitions } from './transitions';
 
 // Augment jQuery interface
 declare global {
     interface JQuery {
-        smartWizard(options?: Partial<SmartWizardOptions>): JQuery;
+        smartWizard(options?: Partial<WizardOptions>): JQuery;
     }
 
-    interface JQueryStatic {
-        fn: JQuery & {
-            smartWizard: {
-                (options?: Partial<SmartWizardOptions>): JQuery;
-                defaults: SmartWizardOptions;
-                transitions: typeof transitions;
-            };
-        };
-    }
+    // interface JQueryStatic {
+    //     fn: JQuery & {
+    //         smartWizard: {
+    //             (options?: Partial<WizardOptions>): JQuery;
+    //             defaults: WizardOptions;
+    //             transitions: typeof transitions;
+    //         };
+    //     };
+    // }
 }
 
 // Define the plugin
-function smartWizard(this: JQuery, options?: Partial<SmartWizardOptions>): JQuery {
-    const mergedOptions = { ...defaults, ...options };
-    return this.each(function(this: HTMLElement) {
-        const $this = $(this);
-        let instance = $this.data('smartWizard');
+function smartWizard(this: JQuery, options?: Partial<WizardOptions>): JQuery | undefined {
+    if (options === undefined || typeof options === 'object') {
+        return this.each(function() {
+            if (!$.data(this, "smartWizard")) {
+                $.data(this, "smartWizard", new SmartWizard($(this), options));
+            }
+        });
+    } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
+        let instance = $.data(this[0], 'smartWizard');
 
-        if (!instance) {
-            instance = new SmartWizard($this, mergedOptions);
-            $this.data('smartWizard', instance);
+        if (options === 'destroy') {
+            $.data(this, 'smartWizard', null);
         }
-    });
+
+        if (instance instanceof SmartWizard && typeof instance[options] === 'function') {
+            return (instance[options] as Function).apply(instance, Array.prototype.slice.call(arguments, 1));
+        } else {
+            return this;
+        }
+    }
 }
 
 // Extend jQuery
@@ -40,7 +48,6 @@ $.fn.extend({
 });
 
 // Define plugin defaults and transitions
-($.fn.smartWizard as any).defaults = defaults;
 ($.fn.smartWizard as any).transitions = transitions;
 
-export { SmartWizard, SmartWizardOptions };
+export { SmartWizard };

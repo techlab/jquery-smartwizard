@@ -365,7 +365,7 @@
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script> -->
 
     <!-- Include SmartWizard JavaScript source -->
-    <script type="text/javascript" src="./js/jquery.smartWizard.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.smartWizard.js"></script>
 
     <script type="text/javascript" src="./js/demo.js"></script>
 
@@ -376,7 +376,7 @@
 
         $(function() {
             // Step show event
-            $("#smartwizard").on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
+            $("#smartwizard").on("shown", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
                 $("#prev-btn").removeClass('disabled').prop('disabled', false);
                 $("#next-btn").removeClass('disabled').prop('disabled', false);
                 if(stepPosition === 'first') {
@@ -395,20 +395,25 @@
             });
 
             $("#smartwizard").on("initialized", function(e) {
-                console.log("initialized");
+              console.log("initialized");
+            });
+
+            $("#smartwizard").on("initialized.sw", function(e) {
+                console.log("initialized.sw");
             });
 
             $("#smartwizard").on("loaded", function(e) {
                 console.log("loaded");
             });
 
+            $('#smartwizard').smartWizard();
             // Smart Wizard
-            $('#smartwizard').smartWizard({
+            /** $('#smartwizard').smartWizard({
                 selected: 0,
                 // autoAdjustHeight: false,
-                theme: 'arrows', // basic, arrows, square, round, dots
+                theme: 'basic', // basic, arrows, square, round, dots
                 transition: {
-                  animation:'myFade' // none|fade|slideHorizontal|slideVertical|slideSwing|css
+                  animation:'none' // none|fade|slideHorizontal|slideVertical|slideSwing|css
                 },
                 toolbar: {
                   showNextButton: true, // show/hide a Next button
@@ -432,7 +437,7 @@
                 //   console.log('getContent',selStep, idx, stepDirection);
                 //   callback('<h1>'+idx+'</h1>');
                 // }
-            });
+            }); **/
 
             $.fn.smartWizard.transitions.myFade = (elmToShow, elmToHide, stepDirection, wizardObj, callback) => {
                 if (!$.isFunction(elmToShow.fadeOut)) { callback(false); return; }

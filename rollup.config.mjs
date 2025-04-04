@@ -13,9 +13,9 @@ import sass from 'sass';
 
 const packageJson = JSON.parse(readFileSync('./package.json', 'utf8'));
 const banner = `/*!
- * jQuery SmartWizard v${packageJson.version}
- * The awesome jQuery step wizard plugin
- * http://www.techlaboratory.net/jquery-smartwizard
+ * ${packageJson.title} v${packageJson.version}
+ * ${packageJson.description}
+ * ${packageJson.homepage}
  *
  * Created by Dipu Raj
  * http://dipu.me
@@ -88,7 +88,7 @@ const config = defineConfig([
       }),
       !production && serve({
         open: true,
-        contentBase: ['dist', 'examples'],
+        contentBase: ['dist', 'examples', 'src'],
         host: 'localhost',
         port: 3001
       }),
