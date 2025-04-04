@@ -5,7 +5,7 @@ import * as Util from './util';
 import * as Constants from './constants';
 
 export class SmartWizard {
-    private readonly options: WizardOptions;
+    private options: WizardOptions;
     private readonly container: JQuery;
     private readonly steps: JQuery;
     private readonly nav: JQuery;
@@ -50,7 +50,26 @@ export class SmartWizard {
     }
 
     // private setup(element: JQuery, options?: Partial<WizardOptions>): void {
-
+        // // Merge user settings with default
+        // this.options = $.extend(true, {}, defaults, options);
+        // // Main container element
+        // this.main = $(element);
+        // // Navigation bar element
+        // this.nav = this._getFirstDescendant('.' + this.options.style.navCss);
+        // // Content container
+        // this.container = this._getFirstDescendant('.' + this.options.style.contentCss);
+        // // Step anchor elements
+        // this.steps = this.nav.find('.' + this.options.style.navLinkCss);
+        // // Content pages
+        // this.pages = this.container.children('.' + this.options.style.contentPanelCss);
+        // // Progressbar
+        // this.progressbar = this.main.find('.' + this.options.style.progressCss);
+        // // Direction, RTL/LTR
+        // this.dir = this._getDir();
+        // // Initial wizard index
+        // this.current_index = -1;
+        // // Is initialiazed
+        // this.is_init = false;
     // }
 
     private init(): void {
@@ -264,7 +283,7 @@ export class SmartWizard {
             if (this.options.behavior.backButtonSupport !== true) {
                 return;
             }
-            const idx = Util.getURLHashIndex();
+            const idx = this.getURLHashIndex();
             if (idx !== false && this.isShowable(this.steps.eq(idx))) {
                 e.preventDefault();
                 this.showStep(idx);
@@ -275,6 +294,20 @@ export class SmartWizard {
         $(window).on(Constants.EVENTS.RESIZE, () => {
             this.fixHeight(this.currentStepIdx);
         });
+    }
+
+    private getURLHashIndex() {
+        if (this.options.behavior.enableUrlHashNavigation) {
+            // Get step number from url hash if available
+            var hash = Util.getURLHashIndex();
+            if (hash.length > 0) {
+                var elm = this.nav.find("a[href*='" + hash + "']");
+                if (elm.length > 0) {
+                    return this.steps.index(elm);
+                }
+            }
+        }
+        return false;
     }
 
     private navigate(dir: string) {
@@ -383,8 +416,6 @@ export class SmartWizard {
         this.steps.eq(stepIdx).removeClass(this.options.styles.anchorStates.completed).addClass(this.options.styles.anchorStates.active);
     }
 
-    
-
     private getStepPage(idx: number) {
         if (idx == null || idx == -1) return null;
         return this.pages.eq(idx);
@@ -392,13 +423,15 @@ export class SmartWizard {
 
     private transit(elmToShow: JQuery, elmToHide: JQuery, stepDirection: string, callback: any) {
         const transitFn = transitions[this.options.transition.type];
+        // const transitFn = $.fn.smartWizard.transitions[this.options.transition.animation];
+
         this.stopAnimations();
         if (typeof transitFn === "function") {
-            transitFn(elmToShow, elmToHide, stepDirection, this, () => {
-                // if (res === false) {
-                //     if (elmToHide !== null) elmToHide.hide();
-                //     elmToShow.show();
-                // }
+            transitFn(elmToShow, elmToHide, stepDirection, this, (res: boolean) => {
+                if (res === false) {
+                    if (elmToHide !== null) elmToHide.hide();
+                    elmToShow.show();
+                }
                 callback();
             });
         } else {
@@ -561,29 +594,100 @@ export class SmartWizard {
     //     }
     // }
 
-    // Public Methods
+    private changeState(stepArray: number[], state: string, addOrRemove: boolean) {
+        // addOrRemove: true => Add, otherwise remove 
+        addOrRemove = (addOrRemove !== false) ? true : false;
+
+        let css = '';
+        if (state == 'default') {
+            css = this.options.style.anchorDefaultCss;
+        } else if (state == 'active') {
+            css = this.options.style.anchorActiveCss;
+        } else if (state == 'done') {
+            css = this.options.style.anchorDoneCss;
+        } else if (state == 'disable') {
+            css = this.options.style.anchorDisabledCss;
+        } else if (state == 'hidden') {
+            css = this.options.style.anchorHiddenCss;
+        } else if (state == 'error') {
+            css = this.options.style.anchorErrorCss;
+        } else if (state == 'warning') {
+            css = this.options.style.anchorWarningCss;
+        }
+
+        $.each(stepArray, (i, n) => {
+            this.steps.eq(n).toggleClass(css, addOrRemove);
+        });
+    }
+
+    // PUBLIC FUNCTIONS
+
+    goToStep(stepIndex: number, force:boolean) { // TODO: Rename to show
+        force = force !== false ? true : false;
+        if (force !== true && !this.isShowable(this.steps.eq(stepIndex))) {
+            return;
+        }
+
+        // Mark any previous steps done
+        if (force === true && stepIndex > 0 && this.options.navigation.completedState.enabled && this.options.navigation.completedState.markPreviousAsCompleted) {
+            this.steps.slice(0, stepIndex).addClass(this.options.styles.anchorStates.completed);
+        }
+
+        this.showStep(stepIndex);
+    }
+
     public next(): void {
-        console.log('SW Next Called');
-        this.showStep(this.currentStepIdx + 1);
+        this.navigate('next');
     }
 
     public prev(): void {
-        console.log('SW Prev Called');
-        this.showStep(this.currentStepIdx - 1);
+        this.navigate('prev');
     }
 
     public reset(): void {
+        // Clear css from steps except default, hidden and disabled
+        this.steps.removeClass([
+            this.options.styles.anchorStates.completed,
+            this.options.styles.anchorStates.active,
+            this.options.styles.anchorStates.error,
+            this.options.styles.anchorStates.warning
+        ]);
+
         // Reset all
-        this.currentStepIdx = 0;
-        this.container.find('.nav-link').removeClass('done active');
-        this.showStep(this.currentStepIdx);
+        Util.setURLHash('#');
+        this.init();
+        this.load();
+    }
+
+    public setState(stepArray: number[], state: string) {
+        this.changeState(stepArray, state, true);
+    }
+
+    public unsetState(stepArray: number[], state: string) {
+        this.changeState(stepArray, state, false);
+    }
+
+    public setOptions(options: Partial<WizardOptions>) {
+        this.options = { ...this.options, ...options };
+        this.init();
     }
 
     public getOptions(): WizardOptions {
         return this.options;
     }
 
-    public getDirection(): string {
-        return this.dir;
+    public getStepInfo() {
+        return {
+            currentStep: this.currentStepIdx ? this.currentStepIdx : 0,
+            totalSteps: this.steps ? this.steps.length : 0
+        };
+    }
+
+    public loader(state: string) {
+        this.main.toggleClass(this.options.styles.loader, (state === "show"));
+    }
+
+    public adjustHeight() {
+        this.fixHeight(this.currentStepIdx);
     }
 }

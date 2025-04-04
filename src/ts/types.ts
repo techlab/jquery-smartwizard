@@ -137,6 +137,6 @@ export interface TransitionFunction {
         curPage: JQuery,
         stepDirection: string,
         wizard: any,
-        callback: () => void
+        callback: (res: boolean) => void
     ): void;
 }
