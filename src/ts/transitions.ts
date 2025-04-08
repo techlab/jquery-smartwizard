@@ -1,102 +1,202 @@
-import { TransitionFunction } from './types';
+import { TransitionHandler, TransitionCallback, StepDirection } from './types';
 import { SmartWizard } from './SmartWizard';
+import { isFunction } from './util';
+import * as Constants from './constants';
 
-export const transitions: Record<string, TransitionFunction> = {
-    none: function(
-        selPage: JQuery,
-        curPage: JQuery,
-        stepDirection: string,
-        wizard: SmartWizard,
-        callback: () => void
+export const transitions: Record<string, TransitionHandler> = {
+    default: function(
+        next: JQuery,
+        current: JQuery | null,
+        _stepDirection: StepDirection,
+        _wizard: SmartWizard,
+        callback: TransitionCallback
     ): void {
-        curPage && curPage.hide();
-        selPage.show();
+        current && current.hide();
+        next.show();
         callback();
     },
 
     fade: function(
-        selPage: JQuery,
-        curPage: JQuery,
-        stepDirection: string,
+        next: JQuery,
+        current: JQuery | null,
+        stepDirection: StepDirection,
         wizard: SmartWizard,
-        callback: () => void
+        callback: TransitionCallback
     ): void {
-        const options = wizard.getOptions();
-        curPage.fadeOut(options.transition.speed, () => {
-            selPage.fadeIn(options.transition.speed, () => callback());
-        });
+        // Fallback to default transition if fadeOut is not available
+        if (!isFunction(next.fadeOut)) { this.default(next, current, stepDirection, wizard, callback); return;  }
+        
+        const { speed, easing } = wizard.getOptions().transition;
+        const show = () => next.fadeIn(speed, easing, callback);
+        current ? current.fadeOut(speed, easing, show) : show();
     },
 
     slideHorizontal: function(
-        selPage: JQuery,
-        curPage: JQuery,
-        stepDirection: string,
+        next: JQuery,
+        current: JQuery | null,
+        stepDirection: StepDirection,
         wizard: SmartWizard,
-        callback: () => void
+        callback: TransitionCallback
     ): void {
-        const options = wizard.getOptions();
-        const direction = wizard.getDirection();
-        const dir = direction === 'rtl' ? 
-            (stepDirection === 'forward' ? 'right' : 'left') : 
-            (stepDirection === 'forward' ? 'left' : 'right');
-        const animIn = dir === 'left' ? 'show' : 'show';
-        const animOut = dir === 'left' ? 'hide' : 'hide';
+        if (!isFunction(next.animate)) { this.default(next, current, stepDirection, wizard, callback); return;  }
+        
+        const { speed, easing } = wizard.getOptions().transition;
+        const contentDirection = wizard.getContentDirection();
+        const containerWidth = wizard.getWidth();
 
-        curPage.stop(true).animate({
-            left: animOut
-        }, options.transition.speed, () => {
-            curPage.hide();
-        });
+        // TODO: Apply fix
+        // if (wizardObj.current_index == -1) {
+        //     // Set container height at page load 
+        //     wizardObj.container.height(elmToShow.outerHeight());
+        // }
 
-        selPage.stop(true).css('left', animIn).show().animate({
-            left: 0
-        }, options.transition.speed, () => {
+        // Horizontal slide
+        const show = (element: JQuery<HTMLElement>, initial: number, final: number, complete: any) => {
+            element.css({ position: 'absolute', left: initial })
+                .show()
+                .stop(true)
+                .animate({ left: final },
+                    speed,
+                    easing,
+                    complete);
+        };
+
+        if (current) {
+            const initialCss = current.css(["position", "left"]);
+            const final = containerWidth * (stepDirection == 'backward' ? 1 : -1);
+            show(current, 0, final, () => {
+                current.hide().css(initialCss);
+            });
+        }
+
+        const initialCss = next.css(["position"]);
+        const initial = containerWidth * (stepDirection == 'backward' ? -2 : 1);
+        show(next, initial, 0, () => {
+            next.css(initialCss);
             callback();
         });
+
+        // -----
+        // const dir = contentDirection === 'rtl' ? 
+        //     (stepDirection === 'forward' ? 'right' : 'left') : 
+        //     (stepDirection === 'forward' ? 'left' : 'right');
+        // const animIn = dir === 'left' ? 'show' : 'show';
+        // const animOut = dir === 'left' ? 'hide' : 'hide';
+
+        // current.stop(true).animate({
+        //     left: animOut
+        // }, speed, () => {
+        //     current.hide();
+        // });
+
+        // next.stop(true).css('left', animIn).show().animate({
+        //     left: 0
+        // }, speed, () => {
+        //     callback();
+        // });
     },
 
     slideVertical: function(
-        selPage: JQuery,
-        curPage: JQuery,
-        stepDirection: string,
+        next: JQuery,
+        current: JQuery | null,
+        stepDirection: StepDirection,
         wizard: SmartWizard,
-        callback: () => void
+        callback: TransitionCallback
     ): void {
-        const options = wizard.getOptions();
-        const animIn = stepDirection === 'forward' ? 'show' : 'show';
-        const animOut = stepDirection === 'forward' ? 'hide' : 'hide';
+        if (!isFunction(next.animate)) { this.default(next, current, stepDirection, wizard, callback); return;  }
+        
+        const { speed, easing } = wizard.getOptions().transition;
+        const contentDirection = wizard.getContentDirection();
+        const containerWidth = wizard.getWidth();
 
-        curPage.stop(true).animate({
-            top: animOut
-        }, options.transition.speed, () => {
-            curPage.hide();
-        });
+        // TODO: Apply fix
+        // if (wizardObj.current_index == -1) {
+        //     // Set container height at page load 
+        //     wizardObj.container.height(elmToShow.outerHeight());
+        // }
 
-        selPage.stop(true).css('top', animIn).show().animate({
-            top: 0
-        }, options.transition.speed, () => {
+        // Horizontal slide
+        const show = (element: JQuery<HTMLElement>, initial: number, final: number, complete: any) => {
+            element.css({ position: 'absolute', left: initial })
+                .show()
+                .stop(true)
+                .animate({ left: final },
+                    speed,
+                    easing,
+                    complete);
+        };
+
+        if (current) {
+            const initialCss = current.css(["position", "top"]);
+            const final = containerWidth * (stepDirection == 'backward' ? 1 : -1);
+            show(current, 0, final, () => {
+                current.hide().css(initialCss);
+            });
+        }
+
+        const initialCss = next.css(["position"]);
+        const initial = containerWidth * (stepDirection == 'backward' ? -2 : 1);
+        show(next, initial, 0, () => {
+            next.css(initialCss);
             callback();
         });
     },
 
     slideSwing: function(
-        selPage: JQuery,
-        curPage: JQuery,
-        stepDirection: string,
+        next: JQuery,
+        current: JQuery | null,
+        stepDirection: StepDirection,
         wizard: SmartWizard,
-        callback: () => void
+        callback: TransitionCallback
     ): void {
-        const options = wizard.getOptions();
-        curPage.stop(true).animate({
-            opacity: 0
-        }, options.transition.speed, () => {
-            curPage.hide();
-        });
+        // Fallback to default transition if fadeOut is not available
+        if (!isFunction(next.slideDown)) { this.default(next, current, stepDirection, wizard, callback); return;  }
+        
+        const { speed, easing } = wizard.getOptions().transition;
+        const show = () => next.slideDown(speed, easing, callback);
+        current ? current.slideUp(speed, easing, show) : show();
+    },
 
-        selPage.stop(true).css('opacity', 0).show().animate({
-            opacity: 1
-        }, options.transition.speed, () => {
-            callback();
-        });
+    css: function(
+        next: JQuery,
+        current: JQuery | null,
+        stepDirection: StepDirection,
+        wizard: SmartWizard,
+        callback: TransitionCallback
+    ): void {
+        const { prefix, forward, backward } = wizard.getOptions().transition.css;
+        if (forward.show.length == 0 || backward.show.length == 0) { this.default(next, current, stepDirection, wizard, callback); return; }
+
+        // CSS Animation
+        const animateCss = (element: JQuery<HTMLElement>, animation: string, complete: any) => {
+            if (!animation || animation.length == 0) complete();
+
+            element.addClass(animation).one(Constants.EVENTS.ANIMATIONEND, (e) => {
+                $(e.currentTarget).removeClass(animation);
+                complete();
+            });
+            element.addClass(animation).one(Constants.EVENTS.ANIMATIONCANCEL, (e) => {
+                $(e.currentTarget).removeClass(animation);
+                complete('cancel');
+            });
+        };
+
+        const show = () => {
+            const showCss = prefix + ' ' + (stepDirection == 'backward' ? backward.show : forward.show);
+            animateCss(next, showCss, () => {
+                callback();
+            });
+            next.show();
+        };
+
+        if (current) {
+            const hideCss = prefix + ' ' + (stepDirection == 'backward' ? backward.hide : forward.hide);
+            animateCss(current, hideCss, () => {
+                current.hide();
+                show();
+            });
+        } else {
+            show();
+        }
     }
 };

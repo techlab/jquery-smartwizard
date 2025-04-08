@@ -376,7 +376,9 @@
 
         $(function() {
             // Step show event
-            $("#smartwizard").on("shown", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
+            $("#smartwizard").on("shown.sw", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
+                console.log("shown.sw", anchorObject, stepIndex, stepDirection, stepPosition);
+
                 $("#prev-btn").removeClass('disabled').prop('disabled', false);
                 $("#next-btn").removeClass('disabled').prop('disabled', false);
                 if(stepPosition === 'first') {
@@ -394,16 +396,12 @@
                 $("#sw-total-step").text(stepInfo.totalSteps);
             });
 
-            $("#smartwizard").on("initialized", function(e) {
-              console.log("initialized");
-            });
-
             $("#smartwizard").on("initialized.sw", function(e) {
                 console.log("initialized.sw");
             });
 
-            $("#smartwizard").on("loaded", function(e) {
-                console.log("loaded");
+            $("#smartwizard").on("loaded.sw", function(e) {
+                console.log("loaded.sw");
             });
 
             $('#smartwizard').smartWizard();

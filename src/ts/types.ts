@@ -1,44 +1,97 @@
+import { SmartWizard } from "./SmartWizard";
+
 // Type definitions for SmartWizard
-export type TransitionEffect = 'none' | 'fade' | 'slideHorizontal' | 'slideVertical' | 'slideSwing' | 'css';
-export type StepDirection = 'forward' | 'backward';
 export type ContentDirection = "ltr" | "rtl";
+export type StepDirection = 'forward' | 'backward';
+export type StepPosition = 'first' | 'middle' | 'last';
+export type StepState =
+  | 'initial'    // Default initial state
+  | 'active'     // Current step
+  | 'completed'  // Successfully visited
+  | 'disabled'   // Not allowed to visit
+  | 'error'      // Validation failed
+  | 'warning'    // Soft validation warning
+  | 'hidden';    // Conditionally not shown
 
-// Options
-export interface TransitionCss {
-    prefix: string;
-    forward: { show: string; hide: string };
-    backward: { show: string; hide: string };
+/**
+ * Represents a step in the wizard
+ */
+export interface WizardStep {
+    index: number;
+    element: JQuery;
+    content: JQuery;
+    state: StepState;
 }
 
-export interface Transition {
-    type: TransitionEffect;
-    speed: number;
-    easing: string;
-    css: TransitionCss;
-}
-
-export interface Toolbar {
-    position: 'none' | 'top' | 'bottom' | 'both';
-    buttons: {
-        showNext: boolean;
-        showPrevious: boolean;
+// Types for the wizard options
+export interface WizardOptions {
+    initialStep: number;
+    theme: string;
+    behavior: Behavior;
+    navigation: Navigation;
+    transition: Transition;
+    toolbar: Toolbar;
+    keyboardNavigation: KeyboardNavigation;
+    localization: Localization;
+    styles: Styles;
+    stepStates: {
+        disabled: number[];
+        error: number[];
+        warning: number[];
+        hidden: number[];
     };
-    extraHtml: string;
+    contentLoader: ContentLoader | null;
+}
+
+export interface Behavior {
+    autoHeight: boolean;
+    useUrlHash: boolean;
+    supportBrowserHistory: boolean;
 }
 
 export interface Navigation {
-    enableAnchors: boolean;
-    alwaysClickable: boolean;
+    enabled: boolean;
     justified: boolean;
-    completedState: {
+    alwaysClickable: boolean;
+
+    completed: {
         enabled: boolean;
-        markPreviousAsCompleted: boolean;
+        completeAllPreviousSteps: boolean;
         clearOnBack: boolean;
-        allowCompletedStateNavigation: boolean;
+        clickable: boolean;
     };
 }
 
-export interface KeyboardShortcuts {
+export interface Transition {
+    effect: 'default' | 'fade' | 'slideHorizontal' | 'slideVertical' | 'slideSwing' | 'css' | string;
+    speed: number;
+    easing: string;
+    css: {
+        prefix: string;
+        forward: {
+            show: string;
+            hide: string
+        };
+        backward: {
+            show: string;
+            hide: string
+        };
+    }
+}
+
+export interface Toolbar {
+    position: ToolbarPosition;
+    buttons: {
+        showNext: boolean;
+        showPrevious: boolean;
+        showReset?: boolean;
+    };
+    extraElements: JQuery.htmlString | JQuery.TypeOrArray<JQuery.Node | JQuery<JQuery.Node>>;
+}
+
+export type ToolbarPosition = 'none' | 'top' | 'bottom' | 'both';
+
+export interface KeyboardNavigation {
     enabled: boolean;
     keys: {
         left: number[];
@@ -50,7 +103,8 @@ export interface Localization {
     buttons: {
         next: string;
         previous: string;
-    };
+        reset?: string;
+    }
 }
 
 export interface Styles {
@@ -78,6 +132,7 @@ export interface Styles {
         base: string;
         next: string;
         previous: string;
+        reset?: string;
     };
     loader: string;
     progressBar: {
@@ -90,53 +145,56 @@ export interface Styles {
     };
 }
 
-export interface StepStates {
-    disabled: number[];
-    error: number[];
-    warning: number[];
-    hidden: number[];
-}
+export type ContentLoader = (
+    stepIndex: number, 
+    stepDirection: StepDirection, 
+    stepPosition: StepPosition, 
+    stepElement: JQuery, 
+    callback: (content: string | JQuery.htmlString | JQuery.Node) => void
+) => void;
 
-export interface WizardOptions {
-    /**
-     * Initial selected step, 0 = first step
-     *
-     * @default 0
-     */
-    initialStep: number;
-    /**
-     * theme for the wizard, related css need to include for other than default theme
-     *
-     * @default 'default'
-     */
-    theme: { name: string };
-    behavior: {
-        autoAdjustHeight: boolean;
-        backButtonSupport: boolean;
-        enableUrlHashNavigation: boolean;
-    };
-    transition: Transition;
-    toolbar: Toolbar;
-    navigation: Navigation;
-    keyboardShortcuts: KeyboardShortcuts;
-    localization: Localization;
-    styles: Styles;
-    stepStates: StepStates;
-    contentLoader: ((idx: number, stepDirection: string, stepPosition: string, selStep: JQuery, callback: any) => void) | null;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export interface StepEventArgs {
     fromStep: number;
     toStep: number;
-    direction: 'forward' | 'backward';
+    direction: StepDirection;
+    fromStepElement?: JQuery;
+    toStepElement?: JQuery;
+    preventChange?: boolean;
 }
 
-export interface TransitionFunction {
+export type TransitionCallback = () => void;
+export interface TransitionHandler {
     (
-        selPage: JQuery,
-        curPage: JQuery,
-        stepDirection: string,
-        wizard: any,
-        callback: (res: boolean) => void
+        next: JQuery,
+        current: JQuery|null,
+        stepDirection: StepDirection,
+        wizard: SmartWizard,
+        callback: TransitionCallback
     ): void;
 }
+
+/**
+ * Callback function types
+ */
+export type StepChangingCallback = (event: JQuery.Event, args: StepEventArgs) => boolean | void;
+export type StepChangedCallback = (event: JQuery.Event, args: StepEventArgs) => void;
+export type InitializedCallback = (event: JQuery.Event, wizard: any) => void;
+export type ResetCallback = (event: JQuery.Event) => void;

@@ -24,7 +24,7 @@ const banner = `/*!
  * https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE
  */`;
 
-const production = !process.env.ROLLUP_WATCH;
+const dev = process.env.ROLLUP_WATCH;
 
 const config = defineConfig([
   {
@@ -66,7 +66,7 @@ const config = defineConfig([
         tsconfig: './tsconfig.json',
         declaration: true,
         declarationDir: './dist/types',
-        rootDir: 'src/ts',
+        // rootDir: 'src/ts',
         sourceMap: true
       }),
       scss({
@@ -86,13 +86,15 @@ const config = defineConfig([
           return processedCss;
         }
       }),
-      !production && serve({
-        open: true,
-        contentBase: ['dist', 'examples', 'src'],
+      dev && serve({
+        contentBase: ['dist', 'examples', './'],
         host: 'localhost',
-        port: 3001
+        port: 3001,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        }
       }),
-      !production && livereload({
+      dev && livereload({
         watch: 'dist'
       })
     ].filter(Boolean)

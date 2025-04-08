@@ -2,16 +2,25 @@ import { WizardOptions } from './types';
 
 export const defaults: WizardOptions = {
     initialStep: 0, // Initial selected step (0 = first step)
-    theme: {
-        name: 'basic' // Theme name, ensure related CSS is included
-    },
+    theme: 'default', // Theme name, ensure related CSS is included
     behavior: {
-        autoAdjustHeight: true, // Auto-adjust content height
-        backButtonSupport: true, // Enable browser back button support
-        enableUrlHashNavigation: true // Enable step selection via URL hash
+        autoHeight: true, // Auto-adjust content height
+        useUrlHash: true, // Enable step selection via URL hash
+        supportBrowserHistory: true // Enable browser history support
+    },
+    navigation: {
+        enabled: true, // Enable/Disable anchor navigation
+        justified: true, // Navigation menu justification (true/false)
+        alwaysClickable: false, // Allow clicking on any anchor at any time
+        completed: {
+            enabled: true, // Mark visited steps as completed
+            completeAllPreviousSteps: true, // Mark all previous steps as completed when using URL hash
+            clearOnBack: false, // Clear completed state when navigating back
+            clickable: true // Allow navigation via completed state steps
+        }
     },
     transition: {
-        type: 'none', // Transition type: none|fade|slideHorizontal|slideVertical|slideSwing|css
+        effect: 'default', // Transition type: default|fade|slideHorizontal|slideVertical|slideSwing|css
         speed: 400, // Animation speed (ignored if type is 'css')
         easing: '', // Animation easing (requires a jQuery easing plugin, ignored for 'css')
         css: {
@@ -26,20 +35,9 @@ export const defaults: WizardOptions = {
             showNext: true, // Show/hide Next button
             showPrevious: true // Show/hide Previous button
         },
-        extraHtml: '' // Additional HTML for toolbar
+        extraElements: '' // Additional HTML for toolbar
     },
-    navigation: {
-        enableAnchors: true, // Enable/Disable anchor navigation
-        alwaysClickable: false, // Allow clicking on any anchor at any time
-        justified: true, // Navigation menu justification (true/false)
-        completedState: {
-            enabled: true, // Mark visited steps as completed
-            markPreviousAsCompleted: true, // Mark all previous steps as completed when using URL hash
-            clearOnBack: false, // Clear completed state when navigating back
-            allowCompletedStateNavigation: true // Allow navigation via completed state steps
-        }
-    },
-    keyboardShortcuts: {
+    keyboardNavigation: {
         enabled: true, // Enable/Disable keyboard navigation (left/right keys)
         keys: {
             left: [37], // Left key codes

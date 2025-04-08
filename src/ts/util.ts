@@ -1,55 +1,90 @@
 import { ContentDirection } from "./types";
 
-export function getFirstDescendant(element: JQuery, selector: string) {
+// TypeScript Util
+/**
+ * Gets the current URL hash (including #).
+ */
+export function getUrlHash(): string {
+    return window.location.hash || '';
+}
+
+/**
+ * Sets the URL hash without reloading the page.
+ */
+export function setUrlHash(hash: string): void {
+    history.pushState(null, '', hash);
+}
+
+/**
+ * Scrolls an element into view smoothly.
+ */
+export function scrollToView(element: JQuery): void {
+    element[0]?.scrollIntoView({ behavior: "smooth" });
+}
+
+/**
+ * Determines if a value is a function.
+ */
+export function isFunction(value: unknown): boolean {
+    return typeof value === "function";
+}
+
+// jQuery Util
+
+/**
+ * Finds the first matching descendant in one of the first two levels of children.
+ */
+export function getFirstDescendant(element: JQuery, selector: string): JQuery {
     // Check for first level element
-    let elm = element.children(selector);
-    if (elm.length > 0) {
-        return elm;
+    const firstLevel = element.children(selector);
+    if (firstLevel.length > 0) {
+        return firstLevel;
     }
 
     // Check for second level element
-    element.children().each((_i: number, n: HTMLElement) => {
-        let tmp = $(n).children(selector);
-        if (tmp.length > 0) {
-            elm = tmp;
-            return false;
+    let result: JQuery | null = null;
+    element.children().each((_i: number, node: HTMLElement) => {
+        const secondLevel = $(node).children(selector);
+        if (secondLevel.length > 0) {
+            result = secondLevel;
+            return false; // Break the loop
         }
     });
-    if (elm.length > 0) {
-        return elm;
+    
+    if (result) {
+        return result;
     }
 
     // Element not found
     throw new Error(`Element not found ${selector}`);
-};
+}
 
+/**
+ * Gets the text direction from an element or falls back to document.
+ */
 export function getContentDirection(element: JQuery): ContentDirection {
     return element.prop('dir') || document.documentElement.dir || '';
 }
 
-export function setContentDirection(element: JQuery, direction: ContentDirection) {
+/**
+ * Sets the text direction of an element.
+ */
+export function setContentDirection(element: JQuery, direction: ContentDirection): void {
     element.prop('dir', direction);
 }
 
-export function triggerEvent(element: JQuery, name: string, params: any = []) {
-    console.log('triggerEvent', name, params);
+/**
+ * Triggers a jQuery event and returns whether default was prevented.
+ */
+export function triggerEvent(element: JQuery, name: string, params: any[] = []): boolean {
     // Trigger an event
-    const e = $.Event(name);
-    element.trigger(e, params);
-    return e.isDefaultPrevented();
+    const event = $.Event(name);
+    element.trigger(event, params);
+    return !event.isDefaultPrevented();
 }
 
-export function getURLHashIndex() {
-    // Get step number from url hash if available
-    return window.location.hash || '';
-}
+export function stopAnimations(...elements: JQuery<HTMLElement>[]) {
+    if (isFunction($.fn.finish)) { return; }
 
-export function setURLHash(hash: string) {
-    // if (this.options.enableUrlHash && window.location.hash !== hash) {
-        history.pushState(null, '', hash);
-    // }
-}
-
-export function scrollToView(elm: any) {
-    elm.get(0).scrollIntoView({ behavior: "smooth" });
+    $(elements).finish();
 }
