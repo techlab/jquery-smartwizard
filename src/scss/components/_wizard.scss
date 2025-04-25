@@ -1,0 +1,30 @@
+// Refactored wizard container styles
+
+.sw-main {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-height: 200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .sw-progress {
+    position: relative;
+    height: 4px;
+    margin-bottom: 20px;
+    background-color: #f1f1f1;
+  
+    .sw-progress-bar {
+      position: absolute;
+      height: 100%;
+      width: 0;
+      transition: width 0.4s ease;
+      background-color: var(--sw-primary-color, #007bff);
+    }
+  }
+  

@@ -1,0 +1,19 @@
+{
+    "srcDir": "src",
+    "srcFiles": [
+      "js/**/*.js",
+      "ts/**/*.ts"
+    ],
+    "specDir": "test",
+    "specFiles": [
+      "**/*[sS]pec.js",
+      "**/*[tT]est.js"
+    ],
+    "helpers": [
+      "setup.js"
+    ],
+    "random": false,
+    "browser": {
+      "name": "chrome"
+    }
+  }

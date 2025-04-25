@@ -1,33 +1,34 @@
 /*!
-* jQuery SmartWizard v6.x
-* The awesome step wizard plugin for jQuery
-* http://www.techlaboratory.net/jquery-smartwizard
-*
-* Created by Dipu Raj (http://dipu.me)
-*
-* Licensed under the terms of the MIT License
-* https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE
-*/
+ * jQuery SmartWizard v6
+ * The awesome jQuery step wizard plugin
+ * http://www.techlaboratory.net/jquery-smartwizard
+ *
+ * Created by Dipu Raj
+ * https://dipu.me
+ *
+ * Licensed under the terms of the MIT License
+ * https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE
+ */
 
-@charset 'utf-8';
+@charset "UTF-8";
 
-/* Root */
-@use 'core/_root';
+// Abstract imports
+@use 'abstracts/variables';
+@use 'abstracts/mixins';
 
-/* Base Styles */
-@use 'core/_base';
+// Base imports
+@use 'base/reset';
 
-/* Theme: Basic */
-@use 'themes/_basic';
+// Components
+@use 'components/wizard';
+@use 'components/toolbar';
+@use 'components/steps';
+// @use 'components/progress';
+// @use 'components/loader';
 
-/* Theme: Arrows */
-@use 'themes/_arrows';
-
-/* Theme: Dots */
-@use 'themes/_dots';
-
-/* Theme: Round */
-@use 'themes/_round';
-
-/* Theme: Verical */
-@use 'themes/_square';
+// Themes
+// @use 'themes/basic';
+// @use 'themes/arrows';
+@use 'themes/dots';
+// @use 'themes/round';
+// @use 'themes/square';

@@ -1,0 +1,33 @@
+/*!
+* jQuery SmartWizard v6.x
+* The awesome step wizard plugin for jQuery
+* http://www.techlaboratory.net/jquery-smartwizard
+*
+* Created by Dipu Raj (http://dipu.me)
+*
+* Licensed under the terms of the MIT License
+* https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE
+*/
+
+@charset 'utf-8';
+
+/* Root */
+@use 'core/_root';
+
+/* Base Styles */
+@use 'core/_base';
+
+/* Theme: Basic */
+@use 'themes/_basic';
+
+/* Theme: Arrows */
+@use 'themes/_arrows';
+
+/* Theme: Dots */
+@use 'themes/_dots';
+
+/* Theme: Round */
+@use 'themes/_round';
+
+/* Theme: Verical */
+@use 'themes/_square';
