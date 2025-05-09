@@ -19,6 +19,11 @@
 // Base imports
 @use 'base/reset';
 
+// Default SmartWizard build (headless + basic UI theme)
+// @use "themes/base/headless";
+// @use "themes/ui/basic";
+
+
 // Components
 @use 'components/wizard';
 @use 'components/toolbar';

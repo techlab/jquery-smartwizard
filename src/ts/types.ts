@@ -1,17 +1,19 @@
-import { SmartWizard } from "./SmartWizard";
+import { Wizard } from "./wizard";
 
 // Type definitions for SmartWizard
 export type ContentDirection = "ltr" | "rtl";
 export type StepDirection = 'forward' | 'backward';
 export type StepPosition = 'first' | 'middle' | 'last';
+export type ToolbarPosition = 'none' | 'top' | 'bottom' | 'both';
 export type StepState =
-  | 'initial'    // Default initial state
+  | 'default'    // Default initial state
   | 'active'     // Current step
   | 'completed'  // Successfully visited
   | 'disabled'   // Not allowed to visit
+  | 'hidden'    // Conditionally not shown
   | 'error'      // Validation failed
-  | 'warning'    // Soft validation warning
-  | 'hidden';    // Conditionally not shown
+  | 'warning';    // Soft validation warning
+  
 
 /**
  * Represents a step in the wizard
@@ -35,10 +37,11 @@ export interface WizardOptions {
     localization: Localization;
     styles: Styles;
     stepStates: {
+        completed: number[];
         disabled: number[];
+        hidden: number[];
         error: number[];
         warning: number[];
-        hidden: number[];
     };
     contentLoader: ContentLoader | null;
 }
@@ -53,7 +56,6 @@ export interface Navigation {
     enabled: boolean;
     justified: boolean;
     alwaysClickable: boolean;
-
     completed: {
         enabled: boolean;
         completeAllPreviousSteps: boolean;
@@ -88,8 +90,6 @@ export interface Toolbar {
     };
     extraElements: JQuery.htmlString | JQuery.TypeOrArray<JQuery.Node | JQuery<JQuery.Node>>;
 }
-
-export type ToolbarPosition = 'none' | 'top' | 'bottom' | 'both';
 
 export interface KeyboardNavigation {
     enabled: boolean;
@@ -153,32 +153,31 @@ export type ContentLoader = (
     callback: (content: string | JQuery.htmlString | JQuery.Node) => void
 ) => void;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export interface StepEventArgs {
-    fromStep: number;
-    toStep: number;
-    direction: StepDirection;
-    fromStepElement?: JQuery;
-    toStepElement?: JQuery;
-    preventChange?: boolean;
+    stepIndex: number;
+    stepElement: JQuery<HTMLElement> | null;
+    stepDirection: StepDirection;
+    stepPosition: StepPosition;
 }
+export interface LeaveStepEventArgs extends StepEventArgs {
+    nextStepIndex: number;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ----------------
+
+
 
 export type TransitionCallback = () => void;
 export interface TransitionHandler {
@@ -186,7 +185,7 @@ export interface TransitionHandler {
         next: JQuery,
         current: JQuery|null,
         stepDirection: StepDirection,
-        wizard: SmartWizard,
+        wizard: Wizard,
         callback: TransitionCallback
     ): void;
 }

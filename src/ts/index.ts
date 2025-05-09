@@ -1,5 +1,5 @@
-import { WizardOptions } from './types';
-import { SmartWizard } from './SmartWizard';
+import { WizardOptions, TransitionHandler } from './types';
+import { Wizard } from './wizard';
 import { transitions } from './transitions';
 
 // Augment jQuery interface
@@ -8,33 +8,30 @@ declare global {
         smartWizard(options?: Partial<WizardOptions>): JQuery;
     }
 
-    // interface JQueryStatic {
-    //     fn: JQuery & {
-    //         smartWizard: {
-    //             (options?: Partial<WizardOptions>): JQuery;
-    //             defaults: WizardOptions;
-    //             transitions: typeof transitions;
-    //         };
-    //     };
-    // }
+    namespace JQueryStatic {
+        const smartWizard: {
+            defaults: WizardOptions;
+            transitions: Record<string, TransitionHandler>;
+        };
+    }
 }
 
 // Define the plugin
 function smartWizard(this: JQuery, options?: Partial<WizardOptions>): JQuery | undefined {
     if (options === undefined || typeof options === 'object') {
-        return this.each(function() {
+        return this.each(function () {
             if (!$.data(this, "smartWizard")) {
-                $.data(this, "smartWizard", new SmartWizard($(this), options));
+                $.data(this, "smartWizard", new Wizard($(this), options));
             }
         });
     } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
-        let instance = $.data(this[0], 'smartWizard');
+        const instance = $.data(this[0], 'smartWizard');
 
         if (options === 'destroy') {
             $.data(this, 'smartWizard', null);
         }
 
-        if (instance instanceof SmartWizard && typeof instance[options] === 'function') {
+        if (instance instanceof Wizard && typeof instance[options] === 'function') {
             return (instance[options] as Function).apply(instance, Array.prototype.slice.call(arguments, 1));
         } else {
             return this;
@@ -50,4 +47,4 @@ $.fn.extend({
 // Define plugin defaults and transitions
 ($.fn.smartWizard as any).transitions = transitions;
 
-export { SmartWizard };
+export { Wizard };

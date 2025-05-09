@@ -1,14 +1,17 @@
 import { TransitionHandler, TransitionCallback, StepDirection } from './types';
-import { SmartWizard } from './SmartWizard';
+import { Wizard } from './wizard';
 import { isFunction } from './util';
 import * as Constants from './constants';
 
 export const transitions: Record<string, TransitionHandler> = {
+    /**
+     * Default transition handler with simple hide/show steps
+     */
     default: function(
         next: JQuery,
         current: JQuery | null,
         _stepDirection: StepDirection,
-        _wizard: SmartWizard,
+        _wizard: Wizard,
         callback: TransitionCallback
     ): void {
         current && current.hide();
@@ -20,7 +23,7 @@ export const transitions: Record<string, TransitionHandler> = {
         next: JQuery,
         current: JQuery | null,
         stepDirection: StepDirection,
-        wizard: SmartWizard,
+        wizard: Wizard,
         callback: TransitionCallback
     ): void {
         // Fallback to default transition if fadeOut is not available
@@ -35,7 +38,7 @@ export const transitions: Record<string, TransitionHandler> = {
         next: JQuery,
         current: JQuery | null,
         stepDirection: StepDirection,
-        wizard: SmartWizard,
+        wizard: Wizard,
         callback: TransitionCallback
     ): void {
         if (!isFunction(next.animate)) { this.default(next, current, stepDirection, wizard, callback); return;  }
@@ -100,7 +103,7 @@ export const transitions: Record<string, TransitionHandler> = {
         next: JQuery,
         current: JQuery | null,
         stepDirection: StepDirection,
-        wizard: SmartWizard,
+        wizard: Wizard,
         callback: TransitionCallback
     ): void {
         if (!isFunction(next.animate)) { this.default(next, current, stepDirection, wizard, callback); return;  }
@@ -146,7 +149,7 @@ export const transitions: Record<string, TransitionHandler> = {
         next: JQuery,
         current: JQuery | null,
         stepDirection: StepDirection,
-        wizard: SmartWizard,
+        wizard: Wizard,
         callback: TransitionCallback
     ): void {
         // Fallback to default transition if fadeOut is not available
@@ -161,7 +164,7 @@ export const transitions: Record<string, TransitionHandler> = {
         next: JQuery,
         current: JQuery | null,
         stepDirection: StepDirection,
-        wizard: SmartWizard,
+        wizard: Wizard,
         callback: TransitionCallback
     ): void {
         const { prefix, forward, backward } = wizard.getOptions().transition.css;
@@ -182,16 +185,16 @@ export const transitions: Record<string, TransitionHandler> = {
         };
 
         const show = () => {
-            const showCss = prefix + ' ' + (stepDirection == 'backward' ? backward.show : forward.show);
-            animateCss(next, showCss, () => {
+            const css = prefix + ' ' + (stepDirection == 'backward' ? backward.show : forward.show);
+            animateCss(next, css, () => {
+                next.show();
                 callback();
             });
-            next.show();
         };
 
         if (current) {
-            const hideCss = prefix + ' ' + (stepDirection == 'backward' ? backward.hide : forward.hide);
-            animateCss(current, hideCss, () => {
+            const css = prefix + ' ' + (stepDirection == 'backward' ? backward.hide : forward.hide);
+            animateCss(current, css, () => {
                 current.hide();
                 show();
             });

@@ -23,7 +23,7 @@ export const defaults: WizardOptions = {
         effect: 'default', // Transition type: default|fade|slideHorizontal|slideVertical|slideSwing|css
         speed: 400, // Animation speed (ignored if type is 'css')
         easing: '', // Animation easing (requires a jQuery easing plugin, ignored for 'css')
-        css: {
+        css: { // Settings for CSS transitions
             prefix: '', // CSS animation prefix
             forward: { show: '', hide: '' }, // Forward animation classes
             backward: { show: '', hide: '' } // Backward animation classes
@@ -87,10 +87,11 @@ export const defaults: WizardOptions = {
         }
     },
     stepStates: {
+        completed: [], // Completed steps
         disabled: [], // Disabled steps
+        hidden: [], // Hidden steps
         error: [], // Steps with errors
         warning: [], // Warning steps
-        hidden: [] // Hidden steps
     },
     contentLoader: null // Callback function for dynamically loading content
 };

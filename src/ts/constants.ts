@@ -1,10 +1,10 @@
 /**
- * Event namespace for SmartWizard
+ * Event namespace
  */
 export const EVENT_NAMESPACE = '.sw';
 
 /**
- * Events used throughout the SmartWizard plugin
+ * Events used on the plugin
  */
 export const EVENTS = {
     // DOM Events
@@ -25,43 +25,44 @@ export const EVENTS = {
     RESET: `reset${EVENT_NAMESPACE}`,
 };
 
-/**
- * CSS class names used in the SmartWizard
- */
-export const CLASSES = {
-    MAIN: 'sw',
-    NAV: 'nav',
-    STEP: 'step',
-    ACTIVE: 'active',
-    DONE: 'done',
-    ERROR: 'error',
-    DISABLED: 'disabled',
-    HIDDEN: 'hidden',
-    LOADING: 'loading',
-    CONTENT: 'content',
-    PROGRESS: 'progress',
-    TOOLBAR: 'toolbar',
-};
+// /**
+//  * Selectors used
+//  */
+// export const SELECTORS = {
+//     STEP: '.step',
+//     CONTENT: '.content',
+//     NAV: '.nav',
+//     TOOLBAR: '.toolbar',
+//     NEXT_BUTTON: '.sw-btn-next',
+//     PREV_BUTTON: '.sw-btn-prev',
+//     RESET_BUTTON: '.sw-btn-reset',
+// };
 
-/**
- * Data attributes used in the SmartWizard
- */
-export const DATA_ATTRIBUTES = {
-    STEP_INDEX: 'data-step-index',
-    STEP_DONE: 'data-step-done',
-    STEP_ERROR: 'data-step-error',
-    STEP_DISABLED: 'data-step-disabled',
-};
+// /**
+//  * CSS class names used
+//  */
+// export const CLASSES = {
+//     MAIN: 'sw',
+//     NAV: 'nav',
+//     STEP: 'step',
+//     LOADING: 'loading',
+//     CONTENT: 'content',
+//     PROGRESS: 'progress',
+//     TOOLBAR: 'toolbar',
+//     STATE_ACTIVE: 'active',
+//     STATE_DONE: 'done',
+//     STATE_ERROR: 'error',
+//     STATE_DISABLED: 'disabled',
+//     STATE_HIDDEN: 'hidden',
+// };
 
-/**
- * Selectors used in the SmartWizard
- */
-export const SELECTORS = {
-    STEP: '.step',
-    CONTENT: '.content',
-    NAV: '.nav',
-    TOOLBAR: '.toolbar',
-    NEXT_BUTTON: '.sw-btn-next',
-    PREV_BUTTON: '.sw-btn-prev',
-    RESET_BUTTON: '.sw-btn-reset',
-};
+// /**
+//  * Data attributes used
+//  */
+// export const DATA_ATTRIBUTES = {
+//     STEP_INDEX: 'data-step-index',
+//     STEP_DONE: 'data-step-done',
+//     STEP_ERROR: 'data-step-error',
+//     STEP_DISABLED: 'data-step-disabled',
+// };
+

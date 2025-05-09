@@ -1,4 +1,4 @@
-import { ContentDirection } from "./types";
+import { ContentDirection, StepEventArgs, LeaveStepEventArgs } from "./types";
 
 // TypeScript Util
 /**
@@ -76,10 +76,10 @@ export function setContentDirection(element: JQuery, direction: ContentDirection
 /**
  * Triggers a jQuery event and returns whether default was prevented.
  */
-export function triggerEvent(element: JQuery, name: string, params: any[] = []): boolean {
+export function triggerEvent(element: JQuery, name: string, args: StepEventArgs|LeaveStepEventArgs|any[] = []): boolean {
     // Trigger an event
     const event = $.Event(name);
-    element.trigger(event, params);
+    element.trigger(event, args);
     return !event.isDefaultPrevented();
 }
 

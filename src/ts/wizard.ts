@@ -1,10 +1,10 @@
-import { WizardOptions, StepEventArgs, StepDirection, ContentDirection, StepPosition } from './types';
+import { WizardOptions, StepEventArgs, LeaveStepEventArgs, StepDirection, ContentDirection, StepPosition } from './types';
 import { transitions } from './transitions';
 import { defaults } from './defaults';
 import * as Util from './util';
 import * as Constants from './constants';
 
-export class SmartWizard {
+export class Wizard {
     private options: WizardOptions;
     private readonly main: JQuery<HTMLElement>;
     private container!: JQuery<HTMLElement>;
@@ -85,13 +85,9 @@ export class SmartWizard {
         this.currentStepIndex = -1;
 
         // Get the initial step index
-        let hash = this.options.behavior.useUrlHash ? Util.getUrlHash() : null;
-        let idx = hash ? this.getStepByAnchor(hash) : false;
-        idx = idx !== false ? idx : this.options.initialStep;
-        const idxShowable = this.getShowable(idx - 1, 'forward');
-        idx = (idxShowable === null && idx > 0) ? this.getShowable(-1, 'forward') : idxShowable;
+        const idx = this.getInitialStep();
 
-        // Mark any previous steps done
+        // Mark any previous steps as completed
         if (idx > 0 && this.options.navigation.completed.enabled && this.options.navigation.completed.completeAllPreviousSteps) {
             this.steps.slice(0, idx).addClass(this.options.styles.anchorStates.completed);
         }
@@ -100,6 +96,21 @@ export class SmartWizard {
         this.showStep(idx);
         // Trigger the loaded event
         Util.triggerEvent(this.main, Constants.EVENTS.LOADED);
+    }
+
+    private getInitialStep(): number {
+        // Determine target step from hash if enabled
+        const hash = this.options.behavior.useUrlHash ? Util.getUrlHash() : null;
+
+        // Determine initial step index
+        const hashIndex = hash ? this.getStepByAnchor(hash) : null;
+        const initialIndex = hashIndex ?? this.options.initialStep;
+
+        // Find the first showable step starting from the initial index
+        const showableIndex = this.getShowable(initialIndex - 1, 'forward');
+
+        // If invalid or not showable, fallback to the first showable step
+        return showableIndex ?? (initialIndex > 0 ? this.getShowable(-1, 'forward') ?? 0 : initialIndex);
     }
 
     private setElements(): void {
@@ -278,12 +289,12 @@ export class SmartWizard {
         return (elm.hasClass(this.options.styles.anchorStates.disabled) || elm.hasClass(this.options.styles.anchorStates.hidden)) ? false : true;
     }
 
-    private getStepByAnchor(hash: string): number {
+    private getStepByAnchor(hash: string): number|null {
         var elm = this.nav.find("a[href*='" + hash + "']");
         if (elm.length > 0) {
             return this.steps.index(elm);
         }
-        return 0;
+        return null;
     }
 
     private setStepStyle(stepIndexes: number[], cssClass: string) {
@@ -479,14 +490,16 @@ export class SmartWizard {
         const stepDirection = this.getStepDirection(stepIdx);
 
         if (this.currentStepIndex !== -1) {
-            // const stepInfo: StepEventArgs = {
-            //     direction: stepDirection,
-            //     fromStep: this.currentStepIdx + 1,
-            //     toStep: stepIdx + 1
-            // };
+            const leaveStepEventArgs: LeaveStepEventArgs = {
+                stepIndex: this.currentStepIndex,
+                nextStepIndex: stepIdx,         // The step being shown/left
+                stepElement: this.getStepAnchor(this.currentStepIndex),  // DOM element of the step
+                stepDirection: stepDirection, // or custom enum
+                stepPosition: this.getStepPosition(stepIdx), // optional helper classification
+            };
 
             // Trigger "leaveStep" event
-            if (Util.triggerEvent(this.main, Constants.EVENTS.LEAVESTEP, [this.getStepAnchor(this.currentStepIndex), this.currentStepIndex, stepIdx, stepDirection]) === false) {
+            if (Util.triggerEvent(this.main, Constants.EVENTS.LEAVESTEP, leaveStepEventArgs) === false) {
                 return;
                 // TODO : Fix this
             }
@@ -513,7 +526,13 @@ export class SmartWizard {
                 // Fix height with content
                 this.fixHeight(stepIdx);
                 // Trigger "showStep" event
-                Util.triggerEvent(this.main, Constants.EVENTS.SHOWSTEP, [selStep, stepIdx, stepDirection, this.getStepPosition(stepIdx)]);
+                const stepEventArgs: StepEventArgs = {
+                    stepIndex: stepIdx,
+                    stepElement: selStep,
+                    stepDirection: stepDirection,
+                    stepPosition: this.getStepPosition(stepIdx),
+                };
+                Util.triggerEvent(this.main, Constants.EVENTS.SHOWSTEP, stepEventArgs);
             });
 
             // Update the current index
