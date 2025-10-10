@@ -2,6 +2,9 @@ import { WizardOptions, TransitionHandler } from './types';
 import { Wizard } from './wizard';
 import { transitions } from './transitions';
 
+// Import base styles (includes default theme)
+import './styles/main.scss';
+
 // Augment jQuery interface
 declare global {
     interface JQuery {

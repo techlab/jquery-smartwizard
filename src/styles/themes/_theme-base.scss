@@ -1,0 +1,26 @@
+// Base theme variables (default theme colors)
+
+// Primary colors
+$sw-primary-color: #4285f4 !default;
+$sw-secondary-color: #6c757d !default;
+$sw-success-color: #28a745 !default;
+$sw-warning-color: #ffc107 !default;
+$sw-danger-color: #dc3545 !default;
+$sw-info-color: #17a2b8 !default;
+
+// Neutral colors
+$sw-text-color: #333333 !default;
+$sw-text-secondary: #6c757d !default;
+$sw-background-color: #ffffff !default;
+$sw-border-color: #dee2e6 !default;
+
+// State colors
+$sw-active-color: $sw-primary-color !default;
+$sw-disabled-color: #e9ecef !default;
+$sw-hover-color: lighten($sw-primary-color, 10%) !default;
+
+// Step indicator colors
+$sw-step-bg: #f8f9fa !default;
+$sw-step-active-bg: $sw-primary-color !default;
+$sw-step-completed-bg: $sw-success-color !default;
+$sw-step-disabled-bg: $sw-disabled-color !default;

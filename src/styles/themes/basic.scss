@@ -1,0 +1,10 @@
+// Default theme (already included in base CSS)
+// This file exists for explicit theme loading
+
+@use '../variables';
+@use '../mixins';
+@use 'theme-base';
+
+.#{$prefix}-theme-basic {
+  // Any default theme specific overrides
+}

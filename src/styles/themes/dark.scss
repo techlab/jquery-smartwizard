@@ -1,0 +1,43 @@
+// Dark theme
+
+@use '../variables';
+@use '../mixins';
+
+// Override theme variables
+$sw-primary-color: #5c9fff;
+$sw-text-color: #e0e0e0;
+$sw-text-secondary: #b0b0b0;
+$sw-background-color: #1e1e1e;
+$sw-border-color: #404040;
+$sw-step-bg: #2a2a2a;
+
+.#{$sw-prefix}-theme-dark {
+  // Color scheme
+  --sw-primary-color: #{$sw-primary-color};
+  --sw-text-color: #{$sw-text-color};
+  --sw-text-secondary: #{$sw-text-secondary};
+  --sw-background-color: #{$sw-background-color};
+  --sw-border-color: #{$sw-border-color};
+  --sw-step-bg: #{$sw-step-bg};
+
+  color: $sw-text-color;
+  background-color: $sw-background-color;
+
+  .#{$sw-prefix}-nav {
+    background-color: $sw-step-bg;
+    border-color: $sw-border-color;
+  }
+
+  .#{$sw-prefix}-step {
+    color: $sw-text-secondary;
+
+    &.active {
+      color: $sw-primary-color;
+    }
+  }
+
+  .#{$sw-prefix}-content {
+    background-color: $sw-background-color;
+    color: $sw-text-color;
+  }
+}

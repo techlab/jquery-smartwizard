@@ -132,7 +132,7 @@ export interface Styles {
         base: string;
         next: string;
         previous: string;
-        reset?: string;
+        reset: string;
     };
     loader: string;
     progressBar: {
@@ -163,22 +163,6 @@ export interface LeaveStepEventArgs extends StepEventArgs {
     nextStepIndex: number;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-// ----------------
-
-
-
 export type TransitionCallback = () => void;
 export interface TransitionHandler {
     (
@@ -189,11 +173,3 @@ export interface TransitionHandler {
         callback: TransitionCallback
     ): void;
 }
-
-/**
- * Callback function types
- */
-export type StepChangingCallback = (event: JQuery.Event, args: StepEventArgs) => boolean | void;
-export type StepChangedCallback = (event: JQuery.Event, args: StepEventArgs) => void;
-export type InitializedCallback = (event: JQuery.Event, wizard: any) => void;
-export type ResetCallback = (event: JQuery.Event) => void;

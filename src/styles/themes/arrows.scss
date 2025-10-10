@@ -1,0 +1,39 @@
+// Arrows theme
+
+@use '../variables';
+@use '../mixins';
+
+.#{$prefix}-theme-arrows {
+  .#{$prefix}-nav {
+    display: flex;
+    
+    .#{$prefix}-step {
+      position: relative;
+      flex: 1;
+      padding: 1rem 2rem;
+      background: #f0f0f0;
+      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%, 20px 50%);
+      margin-right: -20px;
+
+      &:first-child {
+        clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%);
+      }
+
+      &:last-child {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 20px 50%);
+        margin-right: 0;
+      }
+
+      &.active {
+        background: $sw-primary-color;
+        color: white;
+        z-index: 1;
+      }
+
+      &.done {
+        background: $sw-success-color;
+        color: white;
+      }
+    }
+  }
+}

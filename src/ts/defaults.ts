@@ -74,7 +74,8 @@ export const defaults: WizardOptions = {
         buttons: {
             base: 'sw-btn',
             next: 'sw-btn-next',
-            previous: 'sw-btn-prev'
+            previous: 'sw-btn-prev',
+            reset: 'sw-btn-reset'
         },
         loader: 'sw-loading',
         progressBar: {

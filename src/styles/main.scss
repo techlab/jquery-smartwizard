@@ -12,9 +12,9 @@
 
 @charset "UTF-8";
 
-// Abstract imports
-@use 'abstracts/variables';
-@use 'abstracts/mixins';
+// 1. Configuration
+@use 'variables';
+@use 'mixins';
 
 // Base imports
 @use 'base/reset';
@@ -30,10 +30,22 @@
 @use 'components/steps';
 // @use 'components/progress';
 // @use 'components/loader';
+// @import 'components/nav';
+// @import 'components/steps';
+// @import 'components/buttons';
 
 // Themes
-// @use 'themes/basic';
-// @use 'themes/arrows';
+@use 'themes/theme-base';
+// @use 'themes/ui/basic';
+@use 'themes/arrows';
 @use 'themes/dots';
 // @use 'themes/round';
 // @use 'themes/square';
+
+
+
+
+
+
+
+
