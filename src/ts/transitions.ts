@@ -44,7 +44,6 @@ export const transitions: Record<string, TransitionHandler> = {
         if (!isFunction(next.animate)) { this.default(next, current, stepDirection, wizard, callback); return;  }
         
         const { speed, easing } = wizard.getOptions().transition;
-        const contentDirection = wizard.getContentDirection();
         const containerWidth = wizard.getWidth();
 
         // TODO: Apply fix
@@ -109,7 +108,6 @@ export const transitions: Record<string, TransitionHandler> = {
         if (!isFunction(next.animate)) { this.default(next, current, stepDirection, wizard, callback); return;  }
         
         const { speed, easing } = wizard.getOptions().transition;
-        const contentDirection = wizard.getContentDirection();
         const containerWidth = wizard.getWidth();
 
         // TODO: Apply fix

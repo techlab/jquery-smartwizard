@@ -16,11 +16,15 @@
   ],
   "homepage": "http://techlaboratory.net/jquery-smartwizard",
   "license": "MIT",
-  "main": "./dist/js/jquery.smartWizard.cjs.js",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "browser": "./dist/js/jquery.smartWizard.js",
-  "module": "./dist/js/jquery.smartWizard.esm.js",
-  "types": "./dist/types/index.d.ts",
   "style": "./dist/css/smart_wizard.css",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/techlab/jquery-smartwizard.git"
@@ -35,55 +39,26 @@
     "ui",
     "jquery-plugin",
     "tabs",
-    "jquery"
-  ],
-  "files": [
-    "dist",
-    "src"
+    "jquery",
+    "javascript"
   ],
   "scripts": {
-    "start": "rollup -c -w",
-    "dev": "rollup -c -w",
-    "build": "npm run clean && rollup -c",
-    "clean": "rimraf dist",
-    "typecheck": "tsc --noEmit",
-    "test": "jasmine-browser-runner runSpecs",
-    "test:watch": "jasmine-browser-runner serve",
-    "lint": "eslint src/ts/**/*.ts",
-    "serve": "sirv . --dev",
-    "prepublishOnly": "npm run build:prod"
+    "start": "vite",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "test:browser": "playwright test",
+    "test:browser:headed": "playwright test --headed",
+    "test:all": "npm run test && npm run test:browser",
+    "test:watch": "vitest --watch"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^11.1.6",
-    "@types/jest": "^29.5.11",
     "@types/jquery": "^3.5.29",
-    "@types/node": "^20.11.5",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "autoprefixer": "^10.4.17",
-    "cross-env": "^7.0.3",
-    "cssnano": "^7.0.6",
-    "eslint": "^8.0.0",
-    "jasmine-browser-runner": "^3.0.0",
-    "jasmine-core": "^5.6.0",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "jsdom": "^26.0.0",
-    "postcss": "^8.4.31",
-    "rimraf": "^5.0.5",
-    "rollup": "^4.0.0",
-    "rollup-plugin-livereload": "^2.0.5",
-    "rollup-plugin-postcss": "^4.0.2",
-    "rollup-plugin-scss": "^4.0.0",
-    "rollup-plugin-serve": "^3.0.0",
-    "sass": "^1.86.3",
-    "sirv-cli": "^2.0.0",
-    "typescript": "^5.3.3"
-  },
-  "dependencies": {
-    "jquery": "^3.7.1"
+    "typescript": "^5.9.3",
+    "vite": "^7.2.4",
+    "vite-plugin-dts": "^4.5.4"
   }
 }

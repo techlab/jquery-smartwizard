@@ -1,5 +1,19 @@
 import { Wizard } from "./wizard";
 
+// Augment jQuery interface
+declare global {
+    interface JQuery {
+        smartWizard(options?: Partial<WizardOptions>): JQuery;
+    }
+
+    namespace JQueryStatic {
+        const smartWizard: {
+            defaults: WizardOptions;
+            transitions: Record<string, TransitionHandler>;
+        };
+    }
+}
+
 // Type definitions for SmartWizard
 export type ContentDirection = "ltr" | "rtl";
 export type StepDirection = 'forward' | 'backward';

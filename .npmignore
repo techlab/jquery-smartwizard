@@ -71,3 +71,6 @@ Thumbs.db
 /gulpfile.js
 /karma.conf.js
 /.travis.yml
+/playwright.config.js
+/vitest.config.js
+/vite.config.ts

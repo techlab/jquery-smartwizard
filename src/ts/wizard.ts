@@ -614,7 +614,7 @@ export class Wizard {
             css = this.options.styles.anchorStates.warning;
         }
 
-        $.each(stepArray, (i, n) => {
+        $.each(stepArray, (_i, n) => {
             this.steps.eq(n).toggleClass(css, addOrRemove);
         });
     }
