@@ -1,4 +1,4 @@
-import $ from 'jquery';
+// jQuery is already globally available from setup.js
 
 describe('SmartWizard Themes', () => {
     let el;
@@ -62,10 +62,10 @@ describe('SmartWizard Themes', () => {
             const root = document.documentElement;
             root.style.setProperty('--sw-primary-color', '#007bff');
             root.style.setProperty('--sw-success-color', '#28a745');
-            
+
             const navLink = el.find('.nav-link').first();
             const computedStyle = window.getComputedStyle(navLink[0], ':before');
-            
+
             // Test default state
             expect(computedStyle.backgroundColor).toBe('#ccc');
 
@@ -80,7 +80,7 @@ describe('SmartWizard Themes', () => {
 
         test('should be responsive', () => {
             const nav = el.find('.nav');
-            
+
             // Test desktop view
             window.innerWidth = 1024;
             window.dispatchEvent(new Event('resize'));

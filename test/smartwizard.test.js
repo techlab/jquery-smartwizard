@@ -69,8 +69,10 @@ describe('SmartWizard', () => {
                 },
                 toolbar: {
                     position: 'bottom',
-                    showNextButton: false,
-                    showPreviousButton: false
+                    buttons: {
+                        showNext: false,
+                        showPrevious: false
+                    }
                 },
                 anchor: {
                     enableNavigationAlways: true,

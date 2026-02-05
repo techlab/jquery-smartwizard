@@ -1,23 +1,23 @@
 const $ = require('jquery');
+
+// Make jQuery available globally
 global.$ = global.jQuery = $;
 
-// Add TextEncoder and TextDecoder polyfills
-const util = require('util');
-global.TextEncoder = util.TextEncoder;
-global.TextDecoder = util.TextDecoder;
-
-// Mock window and document for jQuery plugin
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
-const dom = new JSDOM('<!doctype html><html><body></body></html>', {
-    url: 'http://localhost'
+// Mock window.matchMedia (used by some CSS features)
+Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: jest.fn().mockImplementation(query => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+    })),
 });
 
-global.window = dom.window;
-global.document = dom.window.document;
-global.navigator = {
-    userAgent: 'node.js'
-};
-
 // Initialize SmartWizard plugin
+// This loads the built UMD file to test the actual output
 require('../dist/js/jquery.smartWizard.js');
