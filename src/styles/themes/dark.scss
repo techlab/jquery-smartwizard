@@ -11,7 +11,7 @@ $sw-background-color: #1e1e1e;
 $sw-border-color: #404040;
 $sw-step-bg: #2a2a2a;
 
-.#{$sw-prefix}-theme-dark {
+.#{variables.$sw-prefix}-theme-dark {
   // Color scheme
   --sw-primary-color: #{$sw-primary-color};
   --sw-text-color: #{$sw-text-color};
@@ -23,12 +23,12 @@ $sw-step-bg: #2a2a2a;
   color: $sw-text-color;
   background-color: $sw-background-color;
 
-  .#{$sw-prefix}-nav {
+  .#{variables.$sw-prefix}-nav {
     background-color: $sw-step-bg;
     border-color: $sw-border-color;
   }
 
-  .#{$sw-prefix}-step {
+  .#{variables.$sw-prefix}-step {
     color: $sw-text-secondary;
 
     &.active {
@@ -36,7 +36,7 @@ $sw-step-bg: #2a2a2a;
     }
   }
 
-  .#{$sw-prefix}-content {
+  .#{variables.$sw-prefix}-content {
     background-color: $sw-background-color;
     color: $sw-text-color;
   }

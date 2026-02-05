@@ -5,6 +5,6 @@
 @use '../mixins';
 @use 'theme-base';
 
-.#{$prefix}-theme-basic {
+.#{variables.$prefix}-theme-basic {
   // Any default theme specific overrides
 }

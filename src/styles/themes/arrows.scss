@@ -3,11 +3,11 @@
 @use '../variables';
 @use '../mixins';
 
-.#{$prefix}-theme-arrows {
-  .#{$prefix}-nav {
+.#{variables.$prefix}-theme-arrows {
+  .#{variables.$prefix}-nav {
     display: flex;
     
-    .#{$prefix}-step {
+    .#{variables.$prefix}-step {
       position: relative;
       flex: 1;
       padding: 1rem 2rem;
@@ -25,13 +25,13 @@
       }
 
       &.active {
-        background: $sw-primary-color;
+        background: variables.$primary-color;
         color: white;
         z-index: 1;
       }
 
       &.done {
-        background: $sw-success-color;
+        background: variables.$done-color;
         color: white;
       }
     }

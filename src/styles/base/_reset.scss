@@ -1,6 +1,8 @@
-@use '../abstracts/variables' as *;
+@use '../variables' as *;
+
 // Reset default styles for SmartWizard
 .#{$prefix} {
+
   *,
   *::before,
   *::after {
@@ -12,7 +14,7 @@
   // font-family: $font-family-base;
   // font-size: $font-size-base;
   // line-height: $line-height-base;
-  
+
   // Reset lists
   ul {
     margin: 0;
@@ -27,7 +29,7 @@
     font-size: inherit;
     line-height: inherit;
     cursor: pointer;
-    
+
     &:focus {
       outline: none;
     }
