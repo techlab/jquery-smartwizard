@@ -1,10 +1,84 @@
-// Default theme (already included in base CSS)
-// This file exists for explicit theme loading
-
+// Basic theme - Complete implementation migrated from scss-old/themes/_basic.scss
 @use '../variables';
 @use '../mixins';
-@use 'theme-base';
 
 .#{variables.$prefix}-theme-basic {
-  // Any default theme specific overrides
+  border: 1px solid var(--#{variables.$var-prefix}border-color);
+
+  // Navigation style
+  &>.nav {
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .1) !important;
+
+    .nav-link {
+      position: relative;
+      height: 100%;
+      min-height: 100%;
+      margin-right: 5px;
+
+      &::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+        height: 2px;
+        width: 0;
+        left: 0px;
+        bottom: -1px;
+        transition: all .35s ease .15s;
+        width: 100%;
+      }
+
+      &.default {
+        color: var(--#{variables.$var-prefix}anchor-default-secondary-color);
+        cursor: not-allowed;
+
+        &::after {
+          background-color: var(--#{variables.$var-prefix}anchor-default-secondary-color);
+        }
+      }
+
+      &.active {
+        color: var(--#{variables.$var-prefix}anchor-active-primary-color) !important;
+        cursor: pointer;
+
+        &::after {
+          background: var(--#{variables.$var-prefix}anchor-active-primary-color) !important;
+        }
+      }
+
+      &.done {
+        color: var(--#{variables.$var-prefix}anchor-done-primary-color);
+        cursor: pointer;
+
+        &::after {
+          background: var(--#{variables.$var-prefix}anchor-done-primary-color);
+        }
+      }
+
+      &.disabled {
+        color: var(--#{variables.$var-prefix}anchor-disabled-primary-color) !important;
+
+        &::after {
+          background: var(--#{variables.$var-prefix}anchor-disabled-primary-color);
+        }
+      }
+
+      &.error {
+        color: var(--#{variables.$var-prefix}anchor-error-primary-color) !important;
+        cursor: pointer;
+
+        &::after {
+          background: var(--#{variables.$var-prefix}anchor-error-primary-color) !important;
+        }
+      }
+
+      &.warning {
+        color: var(--#{variables.$var-prefix}anchor-warning-primary-color) !important;
+        cursor: pointer;
+
+        &::after {
+          background: var(--#{variables.$var-prefix}anchor-warning-primary-color) !important;
+        }
+      }
+    }
+  }
 }

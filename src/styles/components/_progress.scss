@@ -1,0 +1,21 @@
+// Progress bar component - migrated from scss-old/core/_base.scss
+@use '../variables';
+
+.sw {
+    >.progress {
+        padding: 0;
+        margin: 0;
+        border: 0;
+        width: 100%;
+        height: 5px;
+        background: var(--#{variables.$var-prefix}progress-background-color);
+        overflow: hidden;
+
+        &>.progress-bar {
+            height: 5px;
+            width: 0%;
+            background-color: var(--#{variables.$var-prefix}progress-color);
+            transition: width 0.5s ease-in-out;
+        }
+    }
+}

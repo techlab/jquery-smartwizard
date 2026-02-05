@@ -1,38 +1,283 @@
-// Arrows theme
-
+// Arrows theme - Complete implementation migrated from scss-old/themes/_arrows.scss
 @use '../variables';
 @use '../mixins';
 
 .#{variables.$prefix}-theme-arrows {
-  .#{variables.$prefix}-nav {
-    display: flex;
-    
-    .#{variables.$prefix}-step {
+  border: 1px solid var(--#{variables.$var-prefix}border-color);
+
+  // Navigation style
+  &>.nav {
+    overflow: hidden;
+    scroll-margin-left: 50px;
+    scroll-margin-right: 50px;
+
+    .nav-item:first-child .nav-link {
+      @media screen and (min-width: variables.$breakpoint-phone) {
+        padding-left: 10px;
+        margin-left: 0;
+      }
+    }
+
+    .nav-item:last-child .nav-link {
+      margin-right: 0px;
+    }
+
+    .nav-link {
       position: relative;
-      flex: 1;
-      padding: 1rem 2rem;
-      background: #f0f0f0;
-      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%, 20px 50%);
-      margin-right: -20px;
+      height: 100%;
+      padding: 10px;
+      margin-right: 30px;
+      margin-left: -30px;
+      padding-left: 50px;
+      transition: all 0.5s ease-in-out;
+      scroll-margin-left: 50px;
+      scroll-margin-right: 50px;
 
-      &:first-child {
-        clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%);
+      @media screen and (max-width: variables.$breakpoint-phone) {
+        overflow: hidden;
+        margin-right: unset;
+        text-align: left !important;
       }
 
-      &:last-child {
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 20px 50%);
-        margin-right: 0;
+      // Arrow decorations
+      &::after,
+      &::before {
+        content: "";
+        pointer-events: none;
+        position: absolute;
+        display: block;
+        left: 100%;
+        top: 50%;
+        height: 0;
+        width: 0;
+        margin-top: -50px;
+        border: 50px solid transparent;
+        border-left-width: 40px;
+        transition: all 0.5s ease-in-out;
       }
 
-      &.active {
-        background: variables.$primary-color;
-        color: white;
+      &::after {
+        z-index: 2;
+      }
+
+      &::before {
         z-index: 1;
       }
 
+      // Default state
+      &.default {
+        color: var(--#{variables.$var-prefix}anchor-default-secondary-color);
+        background-color: var(--#{variables.$var-prefix}anchor-default-primary-color);
+        cursor: not-allowed;
+
+        @media screen and (max-width: variables.$breakpoint-phone) {
+          border-bottom: 1px solid var(--#{variables.$var-prefix}anchor-default-primary-color);
+        }
+
+        &::after {
+          border-left-color: var(--#{variables.$var-prefix}anchor-default-primary-color);
+        }
+
+        &::before {
+          border-left-color: var(--#{variables.$var-prefix}anchor-default-secondary-color);
+        }
+      }
+
+      // Active state
+      &.active {
+        color: var(--#{variables.$var-prefix}anchor-active-secondary-color) !important;
+        border-color: var(--#{variables.$var-prefix}anchor-active-primary-color);
+        background-color: var(--#{variables.$var-prefix}anchor-active-primary-color);
+        cursor: pointer;
+
+        @media screen and (max-width: variables.$breakpoint-phone) {
+          border-bottom: 1px solid var(--#{variables.$var-prefix}anchor-active-secondary-color);
+        }
+
+        &::after {
+          border-left-color: var(--#{variables.$var-prefix}anchor-active-primary-color);
+        }
+
+        &::before {
+          border-left-color: var(--#{variables.$var-prefix}anchor-active-secondary-color);
+        }
+      }
+
+      // Done state
       &.done {
-        background: variables.$done-color;
-        color: white;
+        color: var(--#{variables.$var-prefix}anchor-done-secondary-color);
+        border-color: var(--#{variables.$var-prefix}anchor-done-primary-color);
+        background-color: var(--#{variables.$var-prefix}anchor-done-primary-color);
+        cursor: pointer;
+
+        @media screen and (max-width: variables.$breakpoint-phone) {
+          border-bottom: 1px solid var(--#{variables.$var-prefix}anchor-done-secondary-color);
+        }
+
+        &::after {
+          border-left-color: var(--#{variables.$var-prefix}anchor-done-primary-color);
+        }
+
+        &::before {
+          border-left-color: var(--#{variables.$var-prefix}anchor-done-secondary-color);
+        }
+      }
+
+      // Disabled state
+      &.disabled {
+        color: var(--#{variables.$var-prefix}anchor-disabled-secondary-color);
+        border-color: var(--#{variables.$var-prefix}anchor-disabled-primary-color);
+        background-color: var(--#{variables.$var-prefix}anchor-disabled-primary-color);
+
+        @media screen and (max-width: variables.$breakpoint-phone) {
+          border-bottom: 1px solid var(--#{variables.$var-prefix}anchor-disabled-secondary-color);
+        }
+
+        &::after {
+          border-left-color: var(--#{variables.$var-prefix}anchor-disabled-primary-color);
+        }
+
+        &::before {
+          border-left-color: var(--#{variables.$var-prefix}anchor-disabled-secondary-color);
+        }
+      }
+
+      // Error state
+      &.error {
+        color: var(--#{variables.$var-prefix}anchor-error-secondary-color);
+        border-color: var(--#{variables.$var-prefix}anchor-error-primary-color);
+        background-color: var(--#{variables.$var-prefix}anchor-error-primary-color);
+        cursor: pointer;
+
+        @media screen and (max-width: variables.$breakpoint-phone) {
+          border-bottom: 1px solid var(--#{variables.$var-prefix}anchor-error-secondary-color);
+        }
+
+        &::after {
+          border-left-color: var(--#{variables.$var-prefix}anchor-error-primary-color);
+        }
+
+        &::before {
+          border-left-color: var(--#{variables.$var-prefix}anchor-error-secondary-color);
+        }
+      }
+
+      // Warning state
+      &.warning {
+        color: var(--#{variables.$var-prefix}anchor-warning-secondary-color);
+        border-color: var(--#{variables.$var-prefix}anchor-warning-primary-color);
+        background-color: var(--#{variables.$var-prefix}anchor-warning-primary-color);
+        cursor: pointer;
+
+        @media screen and (max-width: variables.$breakpoint-phone) {
+          border-bottom: 1px solid var(--#{variables.$var-prefix}anchor-warning-secondary-color);
+        }
+
+        &::after {
+          border-left-color: var(--#{variables.$var-prefix}anchor-warning-primary-color);
+        }
+
+        &::before {
+          border-left-color: var(--#{variables.$var-prefix}anchor-warning-secondary-color);
+        }
+      }
+    }
+  }
+
+  // RTL Support
+  &[dir="rtl"]>.nav {
+    padding-right: 0;
+
+    .nav-item:first-child .nav-link {
+      padding-left: unset;
+      margin-left: unset;
+      padding-right: 10px;
+      margin-right: 0;
+    }
+
+    .nav-item:last-child .nav-link {
+      margin-right: unset;
+      margin-left: 0px;
+    }
+
+    .nav-link {
+      margin-right: unset;
+      margin-left: unset;
+      padding-left: unset;
+      padding-right: 50px;
+
+      @media screen and (max-width: variables.$breakpoint-phone) {
+        margin-left: unset;
+      }
+
+      &::after,
+      &::before {
+        left: unset;
+        right: 100%;
+        border-left-width: 0;
+        border-right-width: 40px;
+      }
+
+      &.default {
+        &::after {
+          border-right-color: var(--#{variables.$var-prefix}anchor-default-primary-color);
+        }
+
+        &::before {
+          border-right-color: var(--#{variables.$var-prefix}anchor-default-secondary-color);
+        }
+      }
+
+      &.active {
+        &::after {
+          border-right-color: var(--#{variables.$var-prefix}anchor-active-primary-color);
+        }
+
+        &::before {
+          border-right-color: var(--#{variables.$var-prefix}anchor-active-secondary-color);
+        }
+      }
+
+      &.done {
+        &::after {
+          border-right-color: var(--#{variables.$var-prefix}anchor-done-primary-color);
+        }
+
+        &::before {
+          border-right-color: var(--#{variables.$var-prefix}anchor-done-secondary-color);
+        }
+      }
+
+      &.disabled {
+        &::after {
+          border-left-color: unset;
+          border-right-color: var(--#{variables.$var-prefix}anchor-disabled-primary-color);
+        }
+
+        &::before {
+          border-left-color: unset;
+          border-right-color: var(--#{variables.$var-prefix}anchor-disabled-secondary-color);
+        }
+      }
+
+      &.error {
+        &::after {
+          border-right-color: var(--#{variables.$var-prefix}anchor-error-primary-color);
+        }
+
+        &::before {
+          border-right-color: var(--#{variables.$var-prefix}anchor-error-secondary-color);
+        }
+      }
+
+      &.warning {
+        &::after {
+          border-right-color: var(--#{variables.$var-prefix}anchor-warning-primary-color);
+        }
+
+        &::before {
+          border-right-color: var(--#{variables.$var-prefix}anchor-warning-secondary-color);
+        }
       }
     }
   }

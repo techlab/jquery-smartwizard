@@ -1,56 +1,54 @@
-import { defineConfig } from 'rollup';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import fs from 'fs';
+import path from 'path';
+import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
+import postcss from 'rollup-plugin-postcss';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
-import postcss from 'rollup-plugin-postcss';
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-// ES module equivalent of __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+const isDev = process.env.ROLLUP_WATCH;
+
+// Banner for output files
 const banner = `/*!
- * ${packageJson.title} v${packageJson.version}
- * ${packageJson.description}
- * ${packageJson.homepage}
+ * jQuery SmartWizard v6
+ * The awesome step wizard plugin
+ * http://www.techlaboratory.net/jquery-smartwizard
  *
  * Created by Dipu Raj
- * http://dipu.me
+ * https://dipu.me
  *
  * Licensed under the terms of the MIT License
  * https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE
  */`;
 
-const dev = process.env.ROLLUP_WATCH;
-
 // ============================================================================
 // JavaScript Build Configurations
 // ============================================================================
 
-// Main JS build config (UMD, ESM, CJS - non-minified)
-const jsBuildConfig = {
+// Main JS build (UMD, ESM, CJS) - non-minified
+const jsConfig = {
     input: 'src/index.ts',
+    external: ['jquery'],
     output: [
         {
             file: 'dist/js/jquery.smartWizard.js',
             format: 'umd',
-            name: 'SmartWizard',
+            name: 'smartWizard',
             banner,
             sourcemap: true,
-            exports: 'named',
             globals: {
                 jquery: 'jQuery'
-            }
+            },
+            exports: 'named'
         },
         {
             file: 'dist/js/jquery.smartWizard.esm.js',
@@ -66,74 +64,70 @@ const jsBuildConfig = {
             exports: 'named'
         }
     ],
-    external: ['jquery'],
     plugins: [
-        nodeResolve(),
+        resolve(),
         commonjs(),
         typescript({
             tsconfig: './tsconfig.json',
             declaration: false,
-            sourceMap: true
-        }),
-        dev && serve({
-            open: true,
-            contentBase: ['dist', 'examples', './'],
-            host: 'localhost',
-            port: 3001,
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            }
-        }),
-        dev && livereload({
-            watch: 'dist'
+            declarationMap: false
         })
-    ].filter(Boolean)
+    ]
 };
 
 // Minified UMD build
-const umdMinConfig = {
+const jsMinUmdConfig = {
     input: 'src/index.ts',
+    external: ['jquery'],
     output: {
         file: 'dist/js/jquery.smartWizard.min.js',
         format: 'umd',
-        name: 'SmartWizard',
+        name: 'smartWizard',
         banner,
         sourcemap: true,
-        exports: 'named',
         globals: {
             jquery: 'jQuery'
-        }
+        },
+        exports: 'named'
     },
-    external: ['jquery'],
     plugins: [
-        nodeResolve(),
+        resolve(),
         commonjs(),
-        typescript({ tsconfig: './tsconfig.json', declaration: false }),
-        terser(),
-    ],
+        typescript({
+            tsconfig: './tsconfig.json',
+            declaration: false,
+            declarationMap: false
+        }),
+        terser()
+    ]
 };
 
 // Minified ESM build
-const esmMinConfig = {
+const jsMinEsmConfig = {
     input: 'src/index.ts',
+    external: ['jquery'],
     output: {
         file: 'dist/js/jquery.smartWizard.esm.min.js',
         format: 'es',
         banner,
         sourcemap: true
     },
-    external: ['jquery'],
     plugins: [
-        nodeResolve(),
+        resolve(),
         commonjs(),
-        typescript({ tsconfig: './tsconfig.json', declaration: false }),
-        terser(),
-    ],
+        typescript({
+            tsconfig: './tsconfig.json',
+            declaration: false,
+            declarationMap: false
+        }),
+        terser()
+    ]
 };
 
 // Minified CJS build
-const cjsMinConfig = {
+const jsMinCjsConfig = {
     input: 'src/index.ts',
+    external: ['jquery'],
     output: {
         file: 'dist/js/jquery.smartWizard.cjs.min.js',
         format: 'cjs',
@@ -141,29 +135,32 @@ const cjsMinConfig = {
         sourcemap: true,
         exports: 'named'
     },
-    external: ['jquery'],
     plugins: [
-        nodeResolve(),
+        resolve(),
         commonjs(),
-        typescript({ tsconfig: './tsconfig.json', declaration: false }),
-        terser(),
-    ],
+        typescript({
+            tsconfig: './tsconfig.json',
+            declaration: false,
+            declarationMap: false
+        }),
+        terser()
+    ]
 };
 
 // ============================================================================
-// CSS Theme Build Configurations
+// Theme CSS Build Configurations
 // ============================================================================
 
-// Get all theme files from the themes directory
-const themesDir = 'src/styles/themes';
-const themeFiles = fs.existsSync(themesDir)
-    ? fs.readdirSync(themesDir)
-        .filter(file => file.endsWith('.scss') && !file.startsWith('_'))
-        .map(file => ({
-            name: file.replace('.scss', ''),
-            path: path.join(themesDir, file)
-        }))
-    : [];
+// Theme files to build
+const themeFiles = [
+    { name: 'arrows', path: 'src/styles/themes/arrows.scss' },
+    { name: 'dots', path: 'src/styles/themes/dots.scss' },
+    { name: 'basic', path: 'src/styles/themes/basic.scss' },
+    { name: 'dark', path: 'src/styles/themes/dark.scss' },
+    { name: 'progress', path: 'src/styles/themes/progress.scss' },
+    { name: 'round', path: 'src/styles/themes/round.scss' },
+    { name: 'square', path: 'src/styles/themes/square.scss' },
+];
 
 // Create configurations for each theme (non-minified)
 const themeConfigs = themeFiles.map(theme => ({
@@ -238,7 +235,7 @@ const themeMinConfigs = themeFiles.map(theme => ({
 // ============================================================================
 
 // Main CSS (non-minified)
-const mainCssConfig = {
+const cssConfig = {
     input: 'src/styles/main-entry.js',
     output: {
         file: 'dist/css/smartwizard.css',
@@ -248,12 +245,11 @@ const mainCssConfig = {
         {
             name: 'main-css-entry-generator',
             buildStart() {
-                // Create temporary entry file for main CSS
                 const entryContent = `import './main.scss';`;
+                fs.mkdirSync('src/styles', { recursive: true });
                 fs.writeFileSync('src/styles/main-entry.js', entryContent);
             },
             buildEnd() {
-                // Clean up temporary entry file
                 const entryFile = 'src/styles/main-entry.js';
                 if (fs.existsSync(entryFile)) {
                     fs.unlinkSync(entryFile);
@@ -271,7 +267,7 @@ const mainCssConfig = {
 };
 
 // Main CSS (minified)
-const mainCssMinConfig = {
+const cssMinConfig = {
     input: 'src/styles/main-entry-min.js',
     output: {
         file: 'dist/css/smartwizard.min.css',
@@ -281,12 +277,11 @@ const mainCssMinConfig = {
         {
             name: 'main-css-entry-generator-min',
             buildStart() {
-                // Create temporary entry file for main CSS
                 const entryContent = `import './main.scss';`;
+                fs.mkdirSync('src/styles', { recursive: true });
                 fs.writeFileSync('src/styles/main-entry-min.js', entryContent);
             },
             buildEnd() {
-                // Clean up temporary entry file
                 const entryFile = 'src/styles/main-entry-min.js';
                 if (fs.existsSync(entryFile)) {
                     fs.unlinkSync(entryFile);
@@ -304,14 +299,50 @@ const mainCssMinConfig = {
 };
 
 // ============================================================================
-// Export all configurations
+// Development Server Configuration
 // ============================================================================
 
-export default defineConfig([
-    jsBuildConfig,
-    ...(!dev ? [umdMinConfig, esmMinConfig, cjsMinConfig] : []),
-    mainCssConfig,
-    ...(!dev ? [mainCssMinConfig] : []),
+const devServerConfig = isDev
+    ? [
+        {
+            input: 'src/index.ts',
+            output: {
+                file: 'dist/dev/smartwizard.dev.js',
+                format: 'umd',
+                name: 'smartWizard',
+                sourcemap: true,
+            },
+            plugins: [
+                resolve(),
+                commonjs(),
+                typescript({
+                    tsconfig: './tsconfig.json',
+                }),
+                serve({
+                    open: false,
+                    contentBase: ['dist', 'examples'],
+                    port: 3001,
+                }),
+                livereload({
+                    watch: ['dist', 'examples'],
+                }),
+            ],
+        },
+    ]
+    : [];
+
+// ============================================================================
+// Export All Configurations
+// ============================================================================
+
+export default [
+    jsConfig,
+    jsMinUmdConfig,
+    jsMinEsmConfig,
+    jsMinCjsConfig,
+    cssConfig,
+    cssMinConfig,
     ...themeConfigs,
-    ...(!dev ? themeMinConfigs : [])
-]);
+    ...themeMinConfigs,
+    ...devServerConfig,
+];

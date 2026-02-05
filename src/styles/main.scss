@@ -1,5 +1,4 @@
-/*!
- * jQuery SmartWizard v6
+/*! * jQuery SmartWizard v6
  * The awesome jQuery step wizard plugin
  * http://www.techlaboratory.net/jquery-smartwizard
  *
@@ -16,36 +15,22 @@
 @use 'variables';
 @use 'mixins';
 
-// Base imports
+// 2. Base styles
 @use 'base/reset';
 
-// Default SmartWizard build (headless + basic UI theme)
-// @use "themes/base/headless";
-// @use "themes/ui/basic";
-
-
-// Components
+// 3. Components
 @use 'components/wizard';
 @use 'components/toolbar';
-@use 'components/steps';
-// @use 'components/progress';
-// @use 'components/loader';
-// @import 'components/nav';
-// @import 'components/steps';
-// @import 'components/buttons';
+@use 'components/navigation';
+@use 'components/progress';
+@use 'components/loader';
 
-// Themes
+// 4. Theme base
 @use 'themes/theme-base';
-// @use 'themes/ui/basic';
+
+// 5. Themes
 @use 'themes/arrows';
 @use 'themes/dots';
-// @use 'themes/round';
-// @use 'themes/square';
-
-
-
-
-
-
-
-
+@use 'themes/basic';
+@use 'themes/round';
+@use 'themes/square';

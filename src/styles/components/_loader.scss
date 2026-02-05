@@ -1,0 +1,46 @@
+// Loading animation component - migrated from scss-old/core/_base.scss
+@use '../variables';
+
+.sw {
+    &.sw-loading {
+        user-select: none;
+
+        &::after {
+            content: "";
+            display: block;
+            position: absolute;
+            opacity: 1;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: var(--#{variables.$var-prefix}loader-background-wrapper-color);
+            z-index: 2;
+        }
+
+        &::before {
+            content: '';
+            display: inline-block;
+            position: absolute;
+            top: 45%;
+            left: 45%;
+            width: 2rem;
+            height: 2rem;
+            border: 10px solid var(--#{variables.$var-prefix}loader-color);
+            border-top: 10px solid var(--#{variables.$var-prefix}loader-background-color);
+            border-radius: 50%;
+            z-index: 10;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    }
+}
