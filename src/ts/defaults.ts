@@ -2,7 +2,7 @@ import { WizardOptions } from './types';
 
 export const defaults: WizardOptions = {
     initialStep: 0, // Initial selected step (0 = first step)
-    theme: 'default', // Theme name, ensure related CSS is included
+    theme: 'basic', // Theme name, ensure related CSS is included
     behavior: {
         autoHeight: true, // Auto-adjust content height
         useUrlHash: true, // Enable step selection via URL hash

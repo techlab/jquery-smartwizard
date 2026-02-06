@@ -1,0 +1,44 @@
+// Root CSS Custom Properties
+// This file defines all CSS variables used for theming and color customization
+
+:root {
+    // Wizard border color
+    --sw-border-color: #eeeeee;
+
+    // Toolbar button colors
+    --sw-toolbar-btn-color: #ffffff;
+    --sw-toolbar-btn-background-color: #009EF7;
+
+    // Anchor default state colors
+    --sw-anchor-default-primary-color: #f8f9fa;
+    --sw-anchor-default-secondary-color: #b0b0b1;
+
+    // Anchor active state colors
+    --sw-anchor-active-primary-color: #009EF7;
+    --sw-anchor-active-secondary-color: #ffffff;
+
+    // Anchor done state colors
+    --sw-anchor-done-primary-color: #90d4fa;
+    --sw-anchor-done-secondary-color: #fefefe;
+
+    // Anchor disabled state colors
+    --sw-anchor-disabled-primary-color: #f8f9fa;
+    --sw-anchor-disabled-secondary-color: #dbe0e5;
+
+    // Anchor error state colors
+    --sw-anchor-error-primary-color: #dc3545;
+    --sw-anchor-error-secondary-color: #ffffff;
+
+    // Anchor warning state colors
+    --sw-anchor-warning-primary-color: #ffc107;
+    --sw-anchor-warning-secondary-color: #ffffff;
+
+    // Progress bar colors
+    --sw-progress-color: #009EF7;
+    --sw-progress-background-color: #f8f9fa;
+
+    // Loader colors
+    --sw-loader-color: #009EF7;
+    --sw-loader-background-color: #f8f9fa;
+    --sw-loader-background-wrapper-color: rgba(255, 255, 255, 0.7);
+}

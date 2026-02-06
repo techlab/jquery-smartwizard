@@ -2,8 +2,9 @@
 @use 'core/variables' as *;
 
 :root {
-    // Set root colors
-    @each $color, $value in $colors {
-      --#{$var-prefix}#{$color}: #{$value};
-    }
+
+  // Set root colors
+  @each $color, $value in $colors {
+    --#{$var-prefix}#{$color}: #{$value};
+  }
 }

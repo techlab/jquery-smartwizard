@@ -15,20 +15,23 @@
 @use 'variables';
 @use 'mixins';
 
-// 2. Base styles
+// 2. Root CSS Custom Properties
+@use 'root';
+
+// 3. Base styles
 @use 'base/reset';
 
-// 3. Components
+// 4. Components
 @use 'components/wizard';
 @use 'components/toolbar';
 @use 'components/navigation';
 @use 'components/progress';
 @use 'components/loader';
 
-// 4. Theme base
+// 5. Theme base
 @use 'themes/theme-base';
 
-// 5. Themes
+// 6. Themes
 @use 'themes/arrows';
 @use 'themes/dots';
 @use 'themes/basic';

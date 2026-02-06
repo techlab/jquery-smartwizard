@@ -1,6 +1,6 @@
 // Theme variables
 $prefix: 'sw' !default;
-$var-prefix: $prefix !default;
+$var-prefix: '#{$prefix}-' !default;
 $sw-prefix: $prefix !default;
 
 // Breakpoints

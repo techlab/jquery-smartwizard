@@ -317,6 +317,8 @@ const devServerConfig = isDev
                 commonjs(),
                 typescript({
                     tsconfig: './tsconfig.json',
+                    declaration: false,
+                    declarationMap: false
                 }),
                 serve({
                     open: false,
