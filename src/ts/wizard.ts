@@ -26,6 +26,7 @@ export class Wizard {
         this.setup();
         // Initialize
         this.init();
+
         // Load wizard asynchronously
         requestAnimationFrame(() => {
             this.load();
@@ -61,7 +62,7 @@ export class Wizard {
         // Set anchor
         this.setNav();
 
-        // TODO: Remove Skip if already init
+        // Remove Skip if already init
         if (this.isInitialized === true) return;
 
         // Assign plugin events
@@ -69,6 +70,8 @@ export class Wizard {
 
         // Trigger the initialized event
         Util.triggerEvent(this.main, Constants.EVENTS.INITIALIZED);
+
+        this.isInitialized = true;
     }
 
     private load(): void {
@@ -147,10 +150,10 @@ export class Wizard {
             } else if (targetElm.hasClass(this.options.styles.buttons.previous)) {
                 e.preventDefault();
                 this.navigate('prev');
-            } else if (targetElm.hasClass('nav-scroll-right')) {
+            } else if (targetElm.hasClass(this.options.styles.buttons.scrollNext)) {
                 e.preventDefault();
                 this.scrollAnchor('right');
-            } else if (targetElm.hasClass('nav-scroll-left')) {
+            } else if (targetElm.hasClass(this.options.styles.buttons.scrollPrevious)) {
                 e.preventDefault();
                 this.scrollAnchor('left');
             }
@@ -224,7 +227,7 @@ export class Wizard {
         this.steps.eq(stepIdx).removeClass(this.options.styles.anchorStates.completed).addClass(this.options.styles.anchorStates.active);
     }
 
-    
+
     private setButtons(idx: number) {
         // Previous/Next Button enable/disable based on step
         this.main.find('.' + this.options.styles.buttons.next + ', .' + this.options.styles.buttons.previous).removeClass(this.options.styles.anchorStates.disabled);
@@ -245,7 +248,7 @@ export class Wizard {
     }
 
     private setProgressbar(idx: number) {
-        const width = this.nav.width()??0;
+        const width = this.nav.width() ?? 0;
         const widthPercentage = ((width / this.steps.length) * (idx + 1) / width) * 100;
         // Set css variable for supported themes
         document.documentElement.style.setProperty('--sw-progress-width', widthPercentage + '%');
@@ -289,7 +292,7 @@ export class Wizard {
         return (elm.hasClass(this.options.styles.anchorStates.disabled) || elm.hasClass(this.options.styles.anchorStates.hidden)) ? false : true;
     }
 
-    private getStepByAnchor(hash: string): number|null {
+    private getStepByAnchor(hash: string): number | null {
         var elm = this.nav.find("a[href*='" + hash + "']");
         if (elm.length > 0) {
             return this.steps.index(elm);
@@ -304,13 +307,25 @@ export class Wizard {
     }
 
     private createAnchorScroll() {
+        // Remove existing scroll buttons if any
+        this.nav.find(this.options.styles.buttons.scroll).remove();
+
+        // Check if the nav bar is scrollable
+        const navElement = this.nav.get(0);
+        if (!navElement) return;
+
+        const isScrollable = navElement.scrollWidth > navElement.clientWidth;
+
+        // Only add scroll buttons if the nav bar is scrollable
+        if (!isScrollable) return;
+
         // Create the scroll buttons
-        // Only add if the nav bar is scrollable
-        const btnNext = $('<button></button>').addClass('nav-scroll-btn nav-scroll-btn-right nav-scroll-right').html("&#11166;").attr('type', 'button');
-        const btnPrevious = $('<button></button>').addClass('nav-scroll-btn nav-scroll-btn-left nav-scroll-left').html("&#11164;").attr('type', 'button');
+        const btnNext = $('<button></button>').addClass(this.options.styles.buttons.scroll + ' ' + this.options.styles.buttons.scrollNext).attr('type', 'button');
+        const btnPrevious = $('<button></button>').addClass(this.options.styles.buttons.scroll + ' ' + this.options.styles.buttons.scrollPrevious).attr('type', 'button');
+        btnNext.height(this.nav.height() ?? 0);
+        btnPrevious.height(this.nav.height() ?? 0);
         return this.nav.append(btnPrevious, btnNext);
     }
-    
 
     private setToolbar(): void {
         // Remove already existing toolbar if any
@@ -336,11 +351,11 @@ export class Wizard {
         const toolbar = $('<div></div>').addClass('sw-toolbar-elm ' + this.options.styles.toolbar.base + ' ' + this.options.styles.toolbar.prefix + position).attr('role', 'toolbar');
         // Create the toolbar buttons
         let buttonArray = [];
-        if (this.options.toolbar.buttons.showNext!== false) {
-            buttonArray.push($('<button></button>').text(this.options.localization.buttons.next).addClass('btn '+ this.options.styles.buttons.next + ' ' + this.options.styles.buttons.base).attr('type', 'button'));
+        if (this.options.toolbar.buttons.showPrevious !== false) {
+            buttonArray.push($('<button></button>').text(this.options.localization.buttons.previous).addClass('btn ' + this.options.styles.buttons.previous + ' ' + this.options.styles.buttons.base).attr('type', 'button'));
         }
-        if (this.options.toolbar.buttons.showPrevious!== false) {
-            buttonArray.push($('<button></button>').text(this.options.localization.buttons.previous).addClass('btn '+ this.options.styles.buttons.previous + ' ' + this.options.styles.buttons.base).attr('type', 'button'));
+        if (this.options.toolbar.buttons.showNext !== false) {
+            buttonArray.push($('<button></button>').text(this.options.localization.buttons.next).addClass('btn ' + this.options.styles.buttons.next + ' ' + this.options.styles.buttons.base).attr('type', 'button'));
         }
         if (buttonArray.length > 0) {
             toolbar.append(...buttonArray);
@@ -367,9 +382,6 @@ export class Wizard {
     }
 
     private scrollAnchor(dir: string) {
-        // element.scrollWidth - element.clientWidth
-        // console.log(this.nav.scrollLeft() + this.nav.width(), this.nav.get(0).scrollWidth);
-
         let scrollLeft = this.nav.scrollLeft() ?? 0;
         if (dir == 'left') {
             if (scrollLeft == 0) return;
@@ -398,14 +410,14 @@ export class Wizard {
         let canScrollLeft = false;
         let canScrollRight = false;
 
-        const scrollLeft = this.nav.scrollLeft()??0;
-        const scrollWidth = this.nav?.get(0)?.scrollWidth??0;
-        const width = this.nav.outerWidth()??0;
+        const scrollLeft = this.nav.scrollLeft() ?? 0;
+        const scrollWidth = this.nav?.get(0)?.scrollWidth ?? 0;
+        const width = this.nav.outerWidth() ?? 0;
         if (width < scrollWidth) {
             hasScroll = true;
         }
 
-        $('.nav-scroll-btn').toggle(hasScroll);
+        $(this.options.styles.buttons.scroll).toggle(hasScroll);
         if (!hasScroll) return;
 
         if (scrollLeft > 0) {
@@ -414,12 +426,8 @@ export class Wizard {
         if (Math.ceil(width + scrollLeft) < scrollWidth) {
             canScrollRight = true;
         }
-
-        $('.nav-scroll-btn-left').toggle(canScrollLeft);
-        $('.nav-scroll-btn-right').toggle(canScrollRight);
-
-        // console.log(this.nav.outerWidth(), scrollLeft, this.nav.get(0).scrollWidth);
-        // console.log(hasScroll, canScrollLeft, canScrollRight);
+        $(this.options.styles.buttons.scrollPrevious).toggle(canScrollLeft);
+        $(this.options.styles.buttons.scrollNext).toggle(canScrollRight);
     }
 
     private keyNav(e: any) {
@@ -450,16 +458,14 @@ export class Wizard {
         return this.steps.eq(stepIdx) ?? null;
     }
 
-    
-
     private getStepPage(idx: number): JQuery<HTMLElement> | null {
         if (idx == null || idx == -1) return null;
         return this.pages.eq(idx) ?? null;
     }
 
-    private transit(next: JQuery, current: JQuery|null, stepDirection: StepDirection, callback: any) {
+    private transit(next: JQuery, current: JQuery | null, stepDirection: StepDirection, callback: any) {
         Util.stopAnimations(this.pages, this.container);
-        
+
         let doTransit = transitions[this.options.transition.effect] ?? null;
         doTransit = Util.isFunction(doTransit) ? doTransit : transitions['default'];
         doTransit(next, current, stepDirection, this, callback);
@@ -470,7 +476,7 @@ export class Wizard {
         const elm = this.getStepPage(idx);
         if (elm == null) return;
         // Auto adjust height of the container
-        const contentHeight = $(elm).outerHeight()??0;
+        const contentHeight = $(elm).outerHeight() ?? 0;
         if (Util.isFunction(this.container.finish) && Util.isFunction(this.container.animate) && contentHeight > 0) {
             this.container.finish().animate({ height: contentHeight }, this.options.transition.speed);
         } else {
@@ -510,7 +516,7 @@ export class Wizard {
             // Get step to show element
             const selStep = this.getStepAnchor(stepIdx);
             // Change the url hash to new step
-            selStep?.attr("href") ?? Util.setUrlHash(selStep?.attr("href")??'');
+            selStep?.attr("href") ?? Util.setUrlHash(selStep?.attr("href") ?? '');
             // Update controls
             this.setAnchor(stepIdx);
             // Scroll the element into view
@@ -558,7 +564,7 @@ export class Wizard {
         let selStep = this.getStepAnchor(idx);
         if (selStep == null) { callback(); return; }
         selStep = $(selStep);
-        
+
         this.options.contentLoader(idx, stepDirection, stepPosition, selStep, (content) => {
             if (content) selPage.html(content);
             callback();
@@ -621,7 +627,7 @@ export class Wizard {
 
     // PUBLIC FUNCTIONS
 
-    goToStep(stepIndex: number, force:boolean) { // TODO: Rename to show
+    goToStep(stepIndex: number, force: boolean) { // TODO: Rename to show
         force = force !== false ? true : false;
         if (force !== true && !this.isShowable(this.steps.eq(stepIndex))) {
             return;
@@ -679,6 +685,10 @@ export class Wizard {
         return this.contentDirection || 'ltr';
     }
 
+    public getCurrentIndex(): number {
+        return this.currentStepIndex;
+    }
+
     public getStepInfo() {
         return {
             currentStep: this.currentStepIndex ? this.currentStepIndex : 0,
@@ -692,6 +702,13 @@ export class Wizard {
 
     public adjustHeight() {
         this.fixHeight(this.currentStepIndex);
+    }
+
+    public resetHeight() {
+        const elm = this.getStepPage(0);
+        if (elm == null) return;
+        const contentHeight = $(elm).outerHeight() ?? 'auto';
+        this.container.css({ height: contentHeight });
     }
 
     public getWidth(): number {

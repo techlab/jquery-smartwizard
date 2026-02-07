@@ -19,12 +19,11 @@ const isDev = process.env.ROLLUP_WATCH;
 
 // Banner for output files
 const banner = `/*!
- * jQuery SmartWizard v6
- * The awesome step wizard plugin
+ * jQuery SmartWizard v7.0.1
+ * The awesome step wizard plugin for jQuery
  * http://www.techlaboratory.net/jquery-smartwizard
  *
- * Created by Dipu Raj
- * https://dipu.me
+ * Created by Dipu Raj (http://dipu.me)
  *
  * Licensed under the terms of the MIT License
  * https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE
@@ -164,25 +163,30 @@ const themeFiles = [
 
 // Create configurations for each theme (non-minified)
 const themeConfigs = themeFiles.map(theme => ({
-    input: `src/styles/theme-entry-${theme.name}.js`,
+    input: `.rollup-cache/theme-entry-${theme.name}.js`,
     output: {
         file: `dist/css/themes/${theme.name}.css`,
         format: 'es',
+    },
+    watch: {
+        exclude: ['dist/**', '.rollup-cache/**'],
     },
     plugins: [
         {
             name: 'theme-entry-generator',
             buildStart() {
                 // Create temporary entry file for the theme
-                const entryContent = `import './${path.relative('src/styles', theme.path)}';`;
-                fs.mkdirSync('src/styles', { recursive: true });
-                fs.writeFileSync(`src/styles/theme-entry-${theme.name}.js`, entryContent);
+                const entryContent = `import '../${theme.path}';`;
+                fs.mkdirSync('.rollup-cache', { recursive: true });
+                fs.writeFileSync(`.rollup-cache/theme-entry-${theme.name}.js`, entryContent);
             },
             buildEnd() {
-                // Clean up temporary entry file
-                const entryFile = `src/styles/theme-entry-${theme.name}.js`;
-                if (fs.existsSync(entryFile)) {
-                    fs.unlinkSync(entryFile);
+                if (!isDev) {
+                    // Clean up temporary entry file
+                    const entryFile = `.rollup-cache/theme-entry-${theme.name}.js`;
+                    if (fs.existsSync(entryFile)) {
+                        fs.unlinkSync(entryFile);
+                    }
                 }
             }
         },
@@ -198,25 +202,30 @@ const themeConfigs = themeFiles.map(theme => ({
 
 // Create minified configurations for each theme
 const themeMinConfigs = themeFiles.map(theme => ({
-    input: `src/styles/theme-entry-${theme.name}-min.js`,
+    input: `.rollup-cache/theme-entry-${theme.name}-min.js`,
     output: {
         file: `dist/css/themes/${theme.name}.min.css`,
         format: 'es',
+    },
+    watch: {
+        exclude: ['dist/**', '.rollup-cache/**'],
     },
     plugins: [
         {
             name: 'theme-entry-generator-min',
             buildStart() {
                 // Create temporary entry file for the theme
-                const entryContent = `import './${path.relative('src/styles', theme.path)}';`;
-                fs.mkdirSync('src/styles', { recursive: true });
-                fs.writeFileSync(`src/styles/theme-entry-${theme.name}-min.js`, entryContent);
+                const entryContent = `import '../${theme.path}';`;
+                fs.mkdirSync('.rollup-cache', { recursive: true });
+                fs.writeFileSync(`.rollup-cache/theme-entry-${theme.name}-min.js`, entryContent);
             },
             buildEnd() {
-                // Clean up temporary entry file
-                const entryFile = `src/styles/theme-entry-${theme.name}-min.js`;
-                if (fs.existsSync(entryFile)) {
-                    fs.unlinkSync(entryFile);
+                if (!isDev) {
+                    // Clean up temporary entry file
+                    const entryFile = `.rollup-cache/theme-entry-${theme.name}-min.js`;
+                    if (fs.existsSync(entryFile)) {
+                        fs.unlinkSync(entryFile);
+                    }
                 }
             }
         },
@@ -236,23 +245,28 @@ const themeMinConfigs = themeFiles.map(theme => ({
 
 // Main CSS (non-minified)
 const cssConfig = {
-    input: 'src/styles/main-entry.js',
+    input: '.rollup-cache/main-entry.js',
     output: {
         file: 'dist/css/smartwizard.css',
         format: 'es',
+    },
+    watch: {
+        exclude: ['dist/**', '.rollup-cache/**'],
     },
     plugins: [
         {
             name: 'main-css-entry-generator',
             buildStart() {
-                const entryContent = `import './main.scss';`;
-                fs.mkdirSync('src/styles', { recursive: true });
-                fs.writeFileSync('src/styles/main-entry.js', entryContent);
+                const entryContent = `import '../src/styles/main.scss';`;
+                fs.mkdirSync('.rollup-cache', { recursive: true });
+                fs.writeFileSync('.rollup-cache/main-entry.js', entryContent);
             },
             buildEnd() {
-                const entryFile = 'src/styles/main-entry.js';
-                if (fs.existsSync(entryFile)) {
-                    fs.unlinkSync(entryFile);
+                if (!isDev) {
+                    const entryFile = '.rollup-cache/main-entry.js';
+                    if (fs.existsSync(entryFile)) {
+                        fs.unlinkSync(entryFile);
+                    }
                 }
             }
         },
@@ -268,23 +282,28 @@ const cssConfig = {
 
 // Main CSS (minified)
 const cssMinConfig = {
-    input: 'src/styles/main-entry-min.js',
+    input: '.rollup-cache/main-entry-min.js',
     output: {
         file: 'dist/css/smartwizard.min.css',
         format: 'es',
+    },
+    watch: {
+        exclude: ['dist/**', '.rollup-cache/**'],
     },
     plugins: [
         {
             name: 'main-css-entry-generator-min',
             buildStart() {
-                const entryContent = `import './main.scss';`;
-                fs.mkdirSync('src/styles', { recursive: true });
-                fs.writeFileSync('src/styles/main-entry-min.js', entryContent);
+                const entryContent = `import '../src/styles/main.scss';`;
+                fs.mkdirSync('.rollup-cache', { recursive: true });
+                fs.writeFileSync('.rollup-cache/main-entry-min.js', entryContent);
             },
             buildEnd() {
-                const entryFile = 'src/styles/main-entry-min.js';
-                if (fs.existsSync(entryFile)) {
-                    fs.unlinkSync(entryFile);
+                if (!isDev) {
+                    const entryFile = '.rollup-cache/main-entry-min.js';
+                    if (fs.existsSync(entryFile)) {
+                        fs.unlinkSync(entryFile);
+                    }
                 }
             }
         },
@@ -327,6 +346,7 @@ const devServerConfig = isDev
                 }),
                 livereload({
                     watch: ['dist', 'examples'],
+                    verbose: true,
                 }),
             ],
         },

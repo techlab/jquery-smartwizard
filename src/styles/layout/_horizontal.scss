@@ -1,5 +1,7 @@
-// layout/_horizontal.scss
 .sw-container-horizontal {
     flex-direction: row;
-    .sw-step { width: 100%; }
+
+    .sw-step {
+        width: 100%;
+    }
 }

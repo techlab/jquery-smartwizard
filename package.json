@@ -43,6 +43,7 @@
     "javascript"
   ],
   "scripts": {
+    "start": "npm run dev",
     "dev": "rollup -c rollup.config.mjs -w",
     "build": "tsc --emitDeclarationOnly --outDir dist/types && rollup -c rollup.config.mjs",
     "clean": "rm -rf dist coverage",

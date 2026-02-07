@@ -2,8 +2,6 @@ import { WizardOptions } from './types';
 import { Wizard } from './wizard';
 import { transitions } from './transitions';
 
-
-
 // Define the plugin
 function smartWizard(this: JQuery, options?: Partial<WizardOptions>): JQuery | undefined {
     if (options === undefined || typeof options === 'object') {

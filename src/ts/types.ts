@@ -20,14 +20,14 @@ export type StepDirection = 'forward' | 'backward';
 export type StepPosition = 'first' | 'middle' | 'last';
 export type ToolbarPosition = 'none' | 'top' | 'bottom' | 'both';
 export type StepState =
-  | 'default'    // Default initial state
-  | 'active'     // Current step
-  | 'completed'  // Successfully visited
-  | 'disabled'   // Not allowed to visit
-  | 'hidden'    // Conditionally not shown
-  | 'error'      // Validation failed
-  | 'warning';    // Soft validation warning
-  
+    | 'default'    // Default initial state
+    | 'active'     // Current step
+    | 'completed'  // Successfully visited
+    | 'disabled'   // Not allowed to visit
+    | 'hidden'    // Conditionally not shown
+    | 'error'      // Validation failed
+    | 'warning';    // Soft validation warning
+
 
 /**
  * Represents a step in the wizard
@@ -147,6 +147,9 @@ export interface Styles {
         next: string;
         previous: string;
         reset: string;
+        scroll: string
+        scrollNext: string;
+        scrollPrevious: string;
     };
     loader: string;
     progressBar: {
@@ -160,10 +163,10 @@ export interface Styles {
 }
 
 export type ContentLoader = (
-    stepIndex: number, 
-    stepDirection: StepDirection, 
-    stepPosition: StepPosition, 
-    stepElement: JQuery, 
+    stepIndex: number,
+    stepDirection: StepDirection,
+    stepPosition: StepPosition,
+    stepElement: JQuery,
     callback: (content: string | JQuery.htmlString | JQuery.Node) => void
 ) => void;
 
@@ -181,7 +184,7 @@ export type TransitionCallback = () => void;
 export interface TransitionHandler {
     (
         next: JQuery,
-        current: JQuery|null,
+        current: JQuery | null,
         stepDirection: StepDirection,
         wizard: Wizard,
         callback: TransitionCallback

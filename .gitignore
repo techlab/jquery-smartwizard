@@ -17,6 +17,7 @@ node_modules
 dist
 dist-ssr
 *.local
+.rollup-cache
 
 # IDE Files
 #-------------------------

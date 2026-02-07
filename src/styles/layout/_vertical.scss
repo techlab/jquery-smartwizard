@@ -1,7 +1,7 @@
+.sw-container-vertical {
+  flex-direction: column;
 
-  // layout/_vertical.scss
-  .sw-container-vertical {
-    flex-direction: column;
-    .sw-step { width: 100%; }
+  .sw-step {
+    width: 100%;
   }
-  
+}

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>jQuery Smart Wizard - Standalone Demo</title>
+    <title>jQuery Smart Wizard - Demo</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -17,7 +17,7 @@
     <link href="./css/themes/round.css" rel="stylesheet" type="text/css" />
     <link href="./css/themes/square.css" rel="stylesheet" type="text/css" />
 
-    <!-- Standalone demo styles (no Bootstrap) -->
+    <!-- Demo styles (no Bootstrap) -->
     <link href="./css/standalone-demo.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -25,13 +25,12 @@
     <!-- Main content -->
     <div class="demo-container">
         <div class="demo-header">
-            <h1>jQuery Smart Wizard - Standalone Demo</h1>
-            <p>A clean example without Bootstrap or external dependencies. Click the button below to customize options.
-            </p>
-            <button class="settings-toggle">Settings</button>
-            <div class="step-info">
-                Step <span id="sw-current-step">1</span> of <span id="sw-total-step">4</span>
+            <div>
+                <h1>jQuery Smart Wizard - Demo </h1>
+                <p>A example without Bootstrap or external dependencies. Click the button below to customize options.
+                </p>
             </div>
+            <button class="settings-toggle">Settings</button>
         </div>
 
         <!-- Settings panel - horizontal collapsible -->
@@ -236,6 +235,10 @@
             </div>
         </div>
 
+        <!-- <div class="step-info">
+            Step <span id="sw-current-step">1</span> of <span id="sw-total-step">4</span>
+        </div> -->
+
         <!-- SmartWizard -->
         <div id="smartwizard">
             <ul class="nav nav-progress">
@@ -296,8 +299,13 @@
     </div>
 
     <!-- Include jQuery (only dependency) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"
+        integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
+
+    <!-- <script src="https://code.jquery.com/jquery-4.0.0.slim.min.js" integrity="sha256-8DGpv13HIm+5iDNWw1XqxgFB4mj+yOKFNb+tHBZOowc=" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
+
 
     <!-- Include SmartWizard JavaScript -->
     <script src="./js/jquery.smartWizard.js"></script>

@@ -28,10 +28,14 @@
 @use 'components/progress';
 @use 'components/loader';
 
-// 5. Theme base
+// 5. Layouts
+@use 'layout/horizontal';
+@use 'layout/vertical';
+
+// 6. Theme base
 @use 'themes/theme-base';
 
-// 6. Themes
+// 7. Themes
 @use 'themes/arrows';
 @use 'themes/dots';
 @use 'themes/basic';

@@ -1,21 +1,20 @@
 // Step states and layout
 
 .sw-container {
-    display: flex;
-    flex-direction: row;
-    overflow-x: hidden;
+  display: flex;
+  flex-direction: row;
+  overflow-x: hidden;
+}
+
+.sw-step {
+  display: none;
+  padding: 20px;
+
+  &.active {
+    display: block;
   }
-  
-  .sw-step {
-    display: none;
-    padding: 20px;
-  
-    &.active {
-      display: block;
-    }
-  
-    &.done {
-      opacity: 0.5;
-    }
+
+  &.done {
+    opacity: 0.5;
   }
-  
+}

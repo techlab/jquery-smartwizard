@@ -7,7 +7,7 @@ export const transitions: Record<string, TransitionHandler> = {
     /**
      * Default transition handler with simple hide/show steps
      */
-    default: function(
+    default: function (
         next: JQuery,
         current: JQuery | null,
         _stepDirection: StepDirection,
@@ -19,7 +19,7 @@ export const transitions: Record<string, TransitionHandler> = {
         callback();
     },
 
-    fade: function(
+    fade: function (
         next: JQuery,
         current: JQuery | null,
         stepDirection: StepDirection,
@@ -27,30 +27,29 @@ export const transitions: Record<string, TransitionHandler> = {
         callback: TransitionCallback
     ): void {
         // Fallback to default transition if fadeOut is not available
-        if (!isFunction(next.fadeOut)) { this.default(next, current, stepDirection, wizard, callback); return;  }
-        
+        if (!isFunction(next.fadeOut)) { this.default(next, current, stepDirection, wizard, callback); return; }
+
         const { speed, easing } = wizard.getOptions().transition;
         const show = () => next.fadeIn(speed, easing, callback);
         current ? current.fadeOut(speed, easing, show) : show();
     },
 
-    slideHorizontal: function(
+    slideHorizontal: function (
         next: JQuery,
         current: JQuery | null,
         stepDirection: StepDirection,
         wizard: Wizard,
         callback: TransitionCallback
     ): void {
-        if (!isFunction(next.animate)) { this.default(next, current, stepDirection, wizard, callback); return;  }
-        
+        if (!isFunction(next.animate)) { this.default(next, current, stepDirection, wizard, callback); return; }
+
         const { speed, easing } = wizard.getOptions().transition;
         const containerWidth = wizard.getWidth();
 
-        // TODO: Apply fix
-        // if (wizardObj.current_index == -1) {
-        //     // Set container height at page load 
-        //     wizardObj.container.height(elmToShow.outerHeight());
-        // }
+        if (wizard.getCurrentIndex() == -1) {
+            // Set container height at page load 
+            wizard.resetHeight();
+        }
 
         // Horizontal slide
         const show = (element: JQuery<HTMLElement>, initial: number, final: number, complete: any) => {
@@ -77,44 +76,24 @@ export const transitions: Record<string, TransitionHandler> = {
             next.css(initialCss);
             callback();
         });
-
-        // -----
-        // const dir = contentDirection === 'rtl' ? 
-        //     (stepDirection === 'forward' ? 'right' : 'left') : 
-        //     (stepDirection === 'forward' ? 'left' : 'right');
-        // const animIn = dir === 'left' ? 'show' : 'show';
-        // const animOut = dir === 'left' ? 'hide' : 'hide';
-
-        // current.stop(true).animate({
-        //     left: animOut
-        // }, speed, () => {
-        //     current.hide();
-        // });
-
-        // next.stop(true).css('left', animIn).show().animate({
-        //     left: 0
-        // }, speed, () => {
-        //     callback();
-        // });
     },
 
-    slideVertical: function(
+    slideVertical: function (
         next: JQuery,
         current: JQuery | null,
         stepDirection: StepDirection,
         wizard: Wizard,
         callback: TransitionCallback
     ): void {
-        if (!isFunction(next.animate)) { this.default(next, current, stepDirection, wizard, callback); return;  }
-        
+        if (!isFunction(next.animate)) { this.default(next, current, stepDirection, wizard, callback); return; }
+
         const { speed, easing } = wizard.getOptions().transition;
         const containerWidth = wizard.getWidth();
 
-        // TODO: Apply fix
-        // if (wizardObj.current_index == -1) {
-        //     // Set container height at page load 
-        //     wizardObj.container.height(elmToShow.outerHeight());
-        // }
+        if (wizard.getCurrentIndex() == -1) {
+            // Set container height at page load 
+            wizard.resetHeight();
+        }
 
         // Horizontal slide
         const show = (element: JQuery<HTMLElement>, initial: number, final: number, complete: any) => {
@@ -143,7 +122,7 @@ export const transitions: Record<string, TransitionHandler> = {
         });
     },
 
-    slideSwing: function(
+    slideSwing: function (
         next: JQuery,
         current: JQuery | null,
         stepDirection: StepDirection,
@@ -151,14 +130,14 @@ export const transitions: Record<string, TransitionHandler> = {
         callback: TransitionCallback
     ): void {
         // Fallback to default transition if fadeOut is not available
-        if (!isFunction(next.slideDown)) { this.default(next, current, stepDirection, wizard, callback); return;  }
-        
+        if (!isFunction(next.slideDown)) { this.default(next, current, stepDirection, wizard, callback); return; }
+
         const { speed, easing } = wizard.getOptions().transition;
         const show = () => next.slideDown(speed, easing, callback);
         current ? current.slideUp(speed, easing, show) : show();
     },
 
-    css: function(
+    css: function (
         next: JQuery,
         current: JQuery | null,
         stepDirection: StepDirection,
