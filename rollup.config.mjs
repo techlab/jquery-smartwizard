@@ -1,7 +1,4 @@
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import fs from 'fs';
-import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
@@ -11,9 +8,6 @@ import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const isDev = process.env.ROLLUP_WATCH;
 
@@ -33,13 +27,15 @@ const banner = `/*!
 // JavaScript Build Configurations
 // ============================================================================
 
+const outputFileName = 'jquery.smartWizard';
+
 // Main JS build (UMD, ESM, CJS) - non-minified
 const jsConfig = {
     input: 'src/index.ts',
     external: ['jquery'],
     output: [
         {
-            file: 'dist/js/jquery.smartWizard.js',
+            file: `dist/js/${outputFileName}.js`,
             format: 'umd',
             name: 'smartWizard',
             banner,
@@ -50,13 +46,13 @@ const jsConfig = {
             exports: 'named'
         },
         {
-            file: 'dist/js/jquery.smartWizard.esm.js',
+            file: `dist/js/${outputFileName}.esm.js`,
             format: 'es',
             banner,
             sourcemap: true
         },
         {
-            file: 'dist/js/jquery.smartWizard.cjs.js',
+            file: `dist/js/${outputFileName}.cjs.js`,
             format: 'cjs',
             banner,
             sourcemap: true,
@@ -74,66 +70,39 @@ const jsConfig = {
     ]
 };
 
-// Minified UMD build
-const jsMinUmdConfig = {
+// Minified builds - all formats in one config
+const jsMinifiedConfigs = {
     input: 'src/index.ts',
     external: ['jquery'],
-    output: {
-        file: 'dist/js/jquery.smartWizard.min.js',
-        format: 'umd',
-        name: 'smartWizard',
-        banner,
-        sourcemap: true,
-        globals: {
-            jquery: 'jQuery'
+    output: [
+        // UMD format
+        {
+            file: `dist/js/${outputFileName}.min.js`,
+            format: 'umd',
+            name: 'smartWizard',
+            banner,
+            sourcemap: true,
+            globals: {
+                jquery: 'jQuery'
+            },
+            exports: 'named'
         },
-        exports: 'named'
-    },
-    plugins: [
-        resolve(),
-        commonjs(),
-        typescript({
-            tsconfig: './tsconfig.json',
-            declaration: false,
-            declarationMap: false
-        }),
-        terser()
-    ]
-};
-
-// Minified ESM build
-const jsMinEsmConfig = {
-    input: 'src/index.ts',
-    external: ['jquery'],
-    output: {
-        file: 'dist/js/jquery.smartWizard.esm.min.js',
-        format: 'es',
-        banner,
-        sourcemap: true
-    },
-    plugins: [
-        resolve(),
-        commonjs(),
-        typescript({
-            tsconfig: './tsconfig.json',
-            declaration: false,
-            declarationMap: false
-        }),
-        terser()
-    ]
-};
-
-// Minified CJS build
-const jsMinCjsConfig = {
-    input: 'src/index.ts',
-    external: ['jquery'],
-    output: {
-        file: 'dist/js/jquery.smartWizard.cjs.min.js',
-        format: 'cjs',
-        banner,
-        sourcemap: true,
-        exports: 'named'
-    },
+        // ESM format
+        {
+            file: `dist/js/${outputFileName}.esm.min.js`,
+            format: 'es',
+            banner,
+            sourcemap: true
+        },
+        // CJS format
+        {
+            file: `dist/js/${outputFileName}.cjs.min.js`,
+            format: 'cjs',
+            banner,
+            sourcemap: true,
+            exports: 'named'
+        }
+    ],
     plugins: [
         resolve(),
         commonjs(),
@@ -181,12 +150,10 @@ const themeConfigs = themeFiles.map(theme => ({
                 fs.writeFileSync(`.rollup-cache/theme-entry-${theme.name}.js`, entryContent);
             },
             buildEnd() {
-                if (!isDev) {
-                    // Clean up temporary entry file
-                    const entryFile = `.rollup-cache/theme-entry-${theme.name}.js`;
-                    if (fs.existsSync(entryFile)) {
-                        fs.unlinkSync(entryFile);
-                    }
+                // Clean up temporary entry file
+                const entryFile = `.rollup-cache/theme-entry-${theme.name}.js`;
+                if (fs.existsSync(entryFile)) {
+                    fs.unlinkSync(entryFile);
                 }
             }
         },
@@ -220,12 +187,10 @@ const themeMinConfigs = themeFiles.map(theme => ({
                 fs.writeFileSync(`.rollup-cache/theme-entry-${theme.name}-min.js`, entryContent);
             },
             buildEnd() {
-                if (!isDev) {
-                    // Clean up temporary entry file
-                    const entryFile = `.rollup-cache/theme-entry-${theme.name}-min.js`;
-                    if (fs.existsSync(entryFile)) {
-                        fs.unlinkSync(entryFile);
-                    }
+                // Clean up temporary entry file
+                const entryFile = `.rollup-cache/theme-entry-${theme.name}-min.js`;
+                if (fs.existsSync(entryFile)) {
+                    fs.unlinkSync(entryFile);
                 }
             }
         },
@@ -262,11 +227,9 @@ const cssConfig = {
                 fs.writeFileSync('.rollup-cache/main-entry.js', entryContent);
             },
             buildEnd() {
-                if (!isDev) {
-                    const entryFile = '.rollup-cache/main-entry.js';
-                    if (fs.existsSync(entryFile)) {
-                        fs.unlinkSync(entryFile);
-                    }
+                const entryFile = '.rollup-cache/main-entry.js';
+                if (fs.existsSync(entryFile)) {
+                    fs.unlinkSync(entryFile);
                 }
             }
         },
@@ -299,11 +262,9 @@ const cssMinConfig = {
                 fs.writeFileSync('.rollup-cache/main-entry-min.js', entryContent);
             },
             buildEnd() {
-                if (!isDev) {
-                    const entryFile = '.rollup-cache/main-entry-min.js';
-                    if (fs.existsSync(entryFile)) {
-                        fs.unlinkSync(entryFile);
-                    }
+                const entryFile = '.rollup-cache/main-entry-min.js';
+                if (fs.existsSync(entryFile)) {
+                    fs.unlinkSync(entryFile);
                 }
             }
         },
@@ -329,7 +290,7 @@ const devServerConfig = isDev
                 file: 'dist/dev/smartwizard.dev.js',
                 format: 'umd',
                 name: 'smartWizard',
-                sourcemap: true,
+                sourcemap: false,  // Disabled to avoid path resolution issues in dev server
             },
             plugins: [
                 resolve(),
@@ -345,8 +306,9 @@ const devServerConfig = isDev
                     port: 3001,
                 }),
                 livereload({
-                    watch: ['dist', 'examples'],
+                    watch: ['dist/dev', 'dist/css', 'examples'],
                     verbose: true,
+                    delay: 500,  // Add delay to ensure files are written before reload
                 }),
             ],
         },
@@ -359,9 +321,7 @@ const devServerConfig = isDev
 
 export default [
     jsConfig,
-    jsMinUmdConfig,
-    jsMinEsmConfig,
-    jsMinCjsConfig,
+    jsMinifiedConfigs,
     cssConfig,
     cssMinConfig,
     ...themeConfigs,

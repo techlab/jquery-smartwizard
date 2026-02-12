@@ -1,4 +1,4 @@
-import { WizardOptions, StepEventArgs, LeaveStepEventArgs, StepDirection, ContentDirection, StepPosition } from './types';
+import { WizardOptions, StepEventArgs, LeaveStepEventArgs, StepDirection, ContentDirection, StepPosition, ToolbarPosition } from './types';
 import { transitions } from './transitions';
 import { defaults } from './defaults';
 import * as Util from './util';
@@ -15,6 +15,7 @@ export class Wizard {
     private contentDirection!: ContentDirection;
     private isInitialized: boolean = false;
     private currentStepIndex: number = -1;
+
 
     constructor(element: JQuery<HTMLElement>, options?: Partial<WizardOptions>) {
         // Merge user settings with default
@@ -103,17 +104,20 @@ export class Wizard {
 
     private getInitialStep(): number {
         // Determine target step from hash if enabled
-        const hash = this.options.behavior.useUrlHash ? Util.getUrlHash() : null;
+        let hashIndex = null;
+        if (this.options.behavior.useUrlHash) {
+            const hash = Util.getUrlHash();
+            hashIndex = hash ? this.getStepByAnchor(hash) : null;
+        }
 
         // Determine initial step index
-        const hashIndex = hash ? this.getStepByAnchor(hash) : null;
         const initialIndex = hashIndex ?? this.options.initialStep;
 
         // Find the first showable step starting from the initial index
-        const showableIndex = this.getShowable(initialIndex - 1, 'forward');
+        const showableIndex = this.getShowable(initialIndex - 1, Constants.STEP_DIRECTION.Forward);
 
         // If invalid or not showable, fallback to the first showable step
-        return showableIndex ?? (initialIndex > 0 ? this.getShowable(-1, 'forward') ?? 0 : initialIndex);
+        return showableIndex ?? (initialIndex > 0 ? this.getShowable(-1, Constants.STEP_DIRECTION.Forward) ?? 0 : initialIndex);
     }
 
     private setElements(): void {
@@ -124,6 +128,43 @@ export class Wizard {
 
         // Set justify option
         this.main.toggleClass(this.options.styles.navigation.justified, this.options.navigation.justified);
+
+        // Set display mode
+        this.setDisplayMode();
+    }
+
+    private setDisplayMode(): void {
+        const mode = this.options.displayMode;
+
+        // Remove existing display mode classes
+        this.main.removeClass('sw-dark sw-light');
+
+        if (mode === 'dark') {
+            this.main.addClass('sw-dark');
+        } else if (mode === 'light') {
+            this.main.addClass('sw-light');
+        } else if (mode === 'auto') {
+            // Auto-detect system color scheme preference
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            this.main.addClass(prefersDark ? 'sw-dark' : 'sw-light');
+
+            // Listen for changes in color scheme preference
+            if (window.matchMedia) {
+                const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+                const handleChange = (e: MediaQueryListEvent) => {
+                    this.main.removeClass('sw-dark sw-light');
+                    this.main.addClass(e.matches ? 'sw-dark' : 'sw-light');
+                };
+
+                // Modern browsers
+                if (mediaQuery.addEventListener) {
+                    mediaQuery.addEventListener('change', handleChange);
+                } else if (mediaQuery.addListener) {
+                    // Legacy browsers
+                    mediaQuery.addListener(handleChange);
+                }
+            }
+        }
     }
 
     private setEvents(): void {
@@ -146,10 +187,10 @@ export class Wizard {
             const targetElm = $(e.target);
             if (targetElm.hasClass(this.options.styles.buttons.next)) {
                 e.preventDefault();
-                this.navigate('next');
+                this.navigate(Constants.STEP_DIRECTION.Forward);
             } else if (targetElm.hasClass(this.options.styles.buttons.previous)) {
                 e.preventDefault();
-                this.navigate('prev');
+                this.navigate(Constants.STEP_DIRECTION.Backward);
             } else if (targetElm.hasClass(this.options.styles.buttons.scrollNext)) {
                 e.preventDefault();
                 this.scrollAnchor('right');
@@ -215,7 +256,7 @@ export class Wizard {
 
             if (this.options.navigation.completed.enabled !== false) {
                 addCss += this.options.styles.anchorStates.completed;
-                if (this.options.navigation.completed.clearOnBack !== false && this.getStepDirection(stepIdx) === 'backward') {
+                if (this.options.navigation.completed.clearOnBack !== false && this.getStepDirection(stepIdx) === Constants.STEP_DIRECTION.Backward) {
                     removeCss += ' ' + this.options.styles.anchorStates.completed;
                 }
             }
@@ -233,15 +274,15 @@ export class Wizard {
         this.main.find('.' + this.options.styles.buttons.next + ', .' + this.options.styles.buttons.previous).removeClass(this.options.styles.anchorStates.disabled);
 
         const p = this.getStepPosition(idx);
-        if (p === 'first' || p === 'last') {
-            const c = (p === 'first') ? '.' + this.options.styles.buttons.previous : '.' + this.options.styles.buttons.next;
+        if (p === Constants.STEP_POSITION.First || p === Constants.STEP_POSITION.Last) {
+            const c = (p === Constants.STEP_POSITION.First) ? '.' + this.options.styles.buttons.previous : '.' + this.options.styles.buttons.next;
             this.main.find(c).addClass(this.options.styles.anchorStates.disabled);
         } else {
-            if (this.getShowable(idx, 'next') === null) {
+            if (this.getShowable(idx, Constants.STEP_DIRECTION.Forward) === null) {
                 this.main.find('.' + this.options.styles.buttons.next).addClass(this.options.styles.anchorStates.disabled);
             }
 
-            if (this.getShowable(idx, 'prev') === null) {
+            if (this.getShowable(idx, Constants.STEP_DIRECTION.Backward) === null) {
                 this.main.find('.' + this.options.styles.buttons.previous).addClass(this.options.styles.anchorStates.disabled);
             }
         }
@@ -258,13 +299,13 @@ export class Wizard {
     }
 
 
-    private getShowable(idx: number, dir: string) {
-        let si = 0;
-        const elmList = (dir == 'prev') ? $(this.steps.slice(0, idx).get().reverse()) : this.steps.slice(idx + 1);
+    private getShowable(idx: number, dir: StepDirection) {
+        let si = -1;
+        const elmList = (dir == Constants.STEP_DIRECTION.Backward) ? $(this.steps.slice(0, idx).get().reverse()) : this.steps.slice(idx + 1);
         // Find the next showable step in the direction
         elmList.each((i, elm) => {
             if (this.isEnabled($(elm))) {
-                si = (dir == 'prev') ? idx - (i + 1) : i + idx + 1;
+                si = (dir == Constants.STEP_DIRECTION.Backward) ? idx - (i + 1) : i + idx + 1;
                 return false;
             }
         });
@@ -277,6 +318,7 @@ export class Wizard {
         }
 
         const isDone = elm.hasClass(this.options.styles.anchorStates.completed);
+        console.log(isDone, this.options.navigation.completed.enabled);
         if (this.options.navigation.completed.enabled === false && isDone) {
             return false;
         }
@@ -307,8 +349,9 @@ export class Wizard {
     }
 
     private createAnchorScroll() {
+        return;
         // Remove existing scroll buttons if any
-        this.nav.find(this.options.styles.buttons.scroll).remove();
+        this.nav.find('.' + this.options.styles.buttons.scroll).remove();
 
         // Check if the nav bar is scrollable
         const navElement = this.nav.get(0);
@@ -332,22 +375,22 @@ export class Wizard {
         this.main.find(".sw-toolbar-elm").remove();
 
         const toolbarPosition = this.options.toolbar.position;
-        if (toolbarPosition === 'none') {
+        if (toolbarPosition === Constants.TOOLBAR_POSITION.None) {
             // Skip right away if the toolbar is not enabled
             return;
         }
 
-        if (toolbarPosition == 'both') {
-            this.container.before(this.createToolbar('top'));
-            this.container.after(this.createToolbar('bottom'));
-        } else if (toolbarPosition == 'top') {
-            this.container.before(this.createToolbar('top'));
+        if (toolbarPosition == Constants.TOOLBAR_POSITION.Both) {
+            this.container.before(this.createToolbar(Constants.TOOLBAR_POSITION.Top));
+            this.container.after(this.createToolbar(Constants.TOOLBAR_POSITION.Bottom));
+        } else if (toolbarPosition == Constants.TOOLBAR_POSITION.Top) {
+            this.container.before(this.createToolbar(Constants.TOOLBAR_POSITION.Top));
         } else {
-            this.container.after(this.createToolbar('bottom'));
+            this.container.after(this.createToolbar(Constants.TOOLBAR_POSITION.Bottom));
         }
     }
 
-    private createToolbar(position: string) {
+    private createToolbar(position: ToolbarPosition) {
         const toolbar = $('<div></div>').addClass('sw-toolbar-elm ' + this.options.styles.toolbar.base + ' ' + this.options.styles.toolbar.prefix + position).attr('role', 'toolbar');
         // Create the toolbar buttons
         let buttonArray = [];
@@ -377,7 +420,7 @@ export class Wizard {
         return false;
     }
 
-    private navigate(dir: string) {
+    private navigate(dir: StepDirection) {
         this.showStep(this.getShowable(this.currentStepIndex, dir));
     }
 
@@ -428,6 +471,15 @@ export class Wizard {
         }
         $(this.options.styles.buttons.scrollPrevious).toggle(canScrollLeft);
         $(this.options.styles.buttons.scrollNext).toggle(canScrollRight);
+
+        $(this.options.styles.buttons.scrollPrevious).toggleClass('nav-scroll-btn-visible', canScrollLeft);
+        $(this.options.styles.buttons.scrollNext).toggleClass('nav-scroll-btn-visible', canScrollRight);
+
+        // const canScrollLeft = navTrack.scrollLeft > 5;
+        // const canScrollRight = navTrack.scrollLeft < navTrack.scrollWidth - navTrack.clientWidth - 5;
+
+        // scrollBtnPrev.classList.toggle('nav-scroll-btn-visible', canScrollLeft);
+        // scrollBtnNext.classList.toggle('nav-scroll-btn-visible', canScrollRight);
     }
 
     private keyNav(e: any) {
@@ -438,11 +490,11 @@ export class Wizard {
         // Keyboard navigation
         if ($.inArray(e.which, this.options.keyboardNavigation.keys.left) > -1) {
             // left
-            this.navigate('prev');
+            this.navigate(Constants.STEP_DIRECTION.Backward);
             e.preventDefault();
         } else if ($.inArray(e.which, this.options.keyboardNavigation.keys.right) > -1) {
             // right
-            this.navigate('next');
+            this.navigate(Constants.STEP_DIRECTION.Forward);
             e.preventDefault();
         } else {
             return; // exit this handler for other keys
@@ -450,7 +502,7 @@ export class Wizard {
     }
 
     private getStepDirection(stepIdx: number): StepDirection {
-        return stepIdx > this.currentStepIndex ? "forward" : "backward";
+        return stepIdx > this.currentStepIndex ? Constants.STEP_DIRECTION.Forward : Constants.STEP_DIRECTION.Backward;
     }
 
     private getStepAnchor(stepIdx: number): JQuery<HTMLElement> | null {
@@ -573,11 +625,11 @@ export class Wizard {
 
     private getStepPosition(idx: number): StepPosition {
         if (idx === 0) {
-            return 'first';
+            return Constants.STEP_POSITION.First;
         } else if (idx === this.steps.length - 1) {
-            return 'last';
+            return Constants.STEP_POSITION.Last;
         }
-        return 'middle';
+        return Constants.STEP_POSITION.Middle;
     }
 
 
@@ -642,11 +694,11 @@ export class Wizard {
     }
 
     public next(): void {
-        this.navigate('next');
+        this.navigate(Constants.STEP_DIRECTION.Forward);
     }
 
     public prev(): void {
-        this.navigate('prev');
+        this.navigate(Constants.STEP_DIRECTION.Backward);
     }
 
     public reset(): void {
@@ -682,7 +734,7 @@ export class Wizard {
     }
 
     public getContentDirection(): ContentDirection {
-        return this.contentDirection || 'ltr';
+        return this.contentDirection || Constants.CONTENT_DIRECTION.LeftToRight;
     }
 
     public getCurrentIndex(): number {

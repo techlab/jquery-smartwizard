@@ -9,7 +9,7 @@
     <!-- Animate CSS for CSS animation support -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
 
-    <!-- Include SmartWizard CSS -->
+    <!-- Include SmartWizard CSS and themes -->
     <link href="./css/smartwizard.css" rel="stylesheet" type="text/css" />
     <link href="./css/themes/arrows.css" rel="stylesheet" type="text/css" />
     <link href="./css/themes/basic.css" rel="stylesheet" type="text/css" />
@@ -17,231 +17,236 @@
     <link href="./css/themes/round.css" rel="stylesheet" type="text/css" />
     <link href="./css/themes/square.css" rel="stylesheet" type="text/css" />
 
-    <!-- Demo styles (no Bootstrap) -->
-    <link href="./css/standalone-demo.css" rel="stylesheet" type="text/css" />
+    <!-- Demo styles -->
+    <link href="./css/demo.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-    <!-- Main content -->
-    <div class="demo-container">
-        <div class="demo-header">
+
+    <!-- HEADER -->
+    <header class="demo-header">
+        <div class="demo-title">
             <div>
                 <h1>jQuery Smart Wizard - Demo </h1>
-                <p>A example without Bootstrap or external dependencies. Click the button below to customize options.
-                </p>
+                <p>Demo with all themes and options.</p>
             </div>
-            <button class="settings-toggle">Settings</button>
+            <div>
+                <button class="ctrl-btn" id="darkToggle">🌙 Dark</button>
+            </div>
         </div>
 
-        <!-- Settings panel - horizontal collapsible -->
-        <div class="settings-panel">
-            <div class="settings-panel-body">
-
-                <!-- Theme Settings -->
-                <div class="settings-section">
-                    <h3>Theme & Layout</h3>
-                    <div class="form-group">
-                        <label for="theme_selector" class="form-label">Theme</label>
-                        <select id="theme_selector" class="form-select">
-                            <option value="basic">Basic</option>
-                            <option value="arrows" selected>Arrows</option>
-                            <option value="square">Square</option>
-                            <option value="round">Round</option>
-                            <option value="dots">Dots</option>
-                        </select>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" id="is_justified" checked>
-                        <label for="is_justified">Justified Navigation</label>
-                    </div>
+        <div class="demo-settings">
+            <div class="demo-control-wrap">
+                <div class="demo-controls" id="themeControls">
+                    <div class="control-label">Theme:</div>
                 </div>
 
-                <!-- Transition Settings -->
-                <div class="settings-section">
-                    <h3>Transition</h3>
-                    <div class="form-group">
-                        <label for="animation" class="form-label">Animation</label>
-                        <select id="animation" class="form-select">
-                            <optgroup label="Built-in Animations">
-                                <option value="none">None</option>
-                                <option value="fade">Fade</option>
-                                <option value="slideHorizontal" selected>Slide Horizontal</option>
-                                <option value="slideVertical">Slide Vertical</option>
-                                <option value="slideSwing">Slide Swing</option>
-                            </optgroup>
-                            <optgroup label="CSS Animations (Animate.css)">
-                                <option value="cssSlideH">Slide Horizontal</option>
-                                <option value="cssSlideV">Slide Vertical</option>
-                                <option value="cssFade">Fade</option>
-                                <option value="cssFadeSlideH">Fade + Slide Horizontal</option>
-                                <option value="cssFadeSlideV">Fade + Slide Vertical</option>
-                                <option value="cssFadeSlideCorner1">Fade + Slide Corner 1</option>
-                                <option value="cssFadeSlideCorner2">Fade + Slide Corner 2</option>
-                                <option value="cssBounce">Bounce</option>
-                                <option value="cssBounceSlideH">Bounce + Slide Horizontal</option>
-                                <option value="cssBounceSlideV">Bounce + Slide Vertical</option>
-                                <option value="cssBackSlideH">Back + Slide Horizontal</option>
-                                <option value="cssBackSlideV">Back + Slide Vertical</option>
-                                <option value="cssFlipH">Flip Horizontal</option>
-                                <option value="cssFlipV">Flip Vertical</option>
-                                <option value="cssLightspeed">Lightspeed</option>
-                                <option value="cssRotate">Rotate</option>
-                                <option value="cssRotateClock">Rotate Clockwise</option>
-                                <option value="cssRotateAntiClock">Rotate Anti Clockwise</option>
-                                <option value="cssZoom">Zoom</option>
-                            </optgroup>
-                        </select>
-                    </div>
+                <div class="demo-controls" id="colorControls">
+                    <div class="control-label">Color:</div>
                 </div>
 
-                <!-- Color Settings -->
-                <div class="settings-section">
-                    <h3>Colors</h3>
-                    <div class="form-group">
-                        <label for="theme_colors" class="form-label">Color Preset</label>
-                        <select id="theme_colors" class="form-select">
-                            <option value="">Choose preset...</option>
-                        </select>
-                    </div>
-                    <div id="color-list" class="color-picker-grid"></div>
+                <div class="demo-controls">
+                    <button class="ctrl-btn" id="moreSettingsToggle">⚙️ More Settings</button>
                 </div>
+            </div>
 
-                <!-- Navigation Settings -->
-                <div class="settings-section">
-                    <h3>Navigation</h3>
-                    <div class="form-check">
-                        <input type="checkbox" class="option-setting-checkbox" id="anchor_navigation" checked>
-                        <label for="anchor_navigation">Enable Navigation</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="option-setting-checkbox" id="enableNavigationAlways">
-                        <label for="enableNavigationAlways">Always Clickable</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="option-setting-checkbox" id="enableDoneState" checked>
-                        <label for="enableDoneState">Enable Done State</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="option-setting-checkbox" id="unDoneOnBackNavigation">
-                        <label for="unDoneOnBackNavigation">Clear Done on Back</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="option-setting-checkbox" id="enableDoneStateNavigation" checked>
-                        <label for="enableDoneStateNavigation">Done State Clickable</label>
-                    </div>
-                </div>
-
-                <!-- Toolbar Settings -->
-                <div class="settings-section">
-                    <h3>Toolbar</h3>
-                    <div class="form-group">
-                        <label class="form-label">Position</label>
-                        <div class="radio-group">
-                            <div class="form-check">
-                                <input type="radio" name="toolbar-position" id="toolbar-position-none" value="none">
-                                <label for="toolbar-position-none">None</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="toolbar-position" id="toolbar-position-top" value="top">
-                                <label for="toolbar-position-top">Top</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="toolbar-position" id="toolbar-position-bottom" value="bottom">
-                                <label for="toolbar-position-bottom">Bottom</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="toolbar-position" id="toolbar-position-both" value="both"
-                                    checked>
-                                <label for="toolbar-position-both">Both</label>
-                            </div>
+            <!-- Advanced Settings - Collapsible -->
+            <div class="advanced-settings" id="advancedSettings">
+                <div class="advanced-settings-body">
+                    <!-- Transition Settings -->
+                    <div class="settings-section">
+                        <h3>Transition</h3>
+                        <div class="form-group">
+                            <label for="animation" class="form-label">Animation</label>
+                            <select id="animation" class="form-select">
+                                <optgroup label="Built-in Animations">
+                                    <option value="none">None</option>
+                                    <option value="fade">Fade</option>
+                                    <option value="slideHorizontal" selected>Slide Horizontal</option>
+                                    <option value="slideVertical">Slide Vertical</option>
+                                    <option value="slideSwing">Slide Swing</option>
+                                </optgroup>
+                                <optgroup label="CSS Animations (Animate.css)">
+                                    <option value="cssSlideH">Slide Horizontal</option>
+                                    <option value="cssSlideV">Slide Vertical</option>
+                                    <option value="cssFade">Fade</option>
+                                    <option value="cssFadeSlideH">Fade + Slide Horizontal</option>
+                                    <option value="cssFadeSlideV">Fade + Slide Vertical</option>
+                                    <option value="cssFadeSlideCorner1">Fade + Slide Corner 1</option>
+                                    <option value="cssFadeSlideCorner2">Fade + Slide Corner 2</option>
+                                    <option value="cssBounce">Bounce</option>
+                                    <option value="cssBounceSlideH">Bounce + Slide Horizontal</option>
+                                    <option value="cssBounceSlideV">Bounce + Slide Vertical</option>
+                                    <option value="cssBackSlideH">Back + Slide Horizontal</option>
+                                    <option value="cssBackSlideV">Back + Slide Vertical</option>
+                                    <option value="cssFlipH">Flip Horizontal</option>
+                                    <option value="cssFlipV">Flip Vertical</option>
+                                    <option value="cssLightspeed">Lightspeed</option>
+                                    <option value="cssRotate">Rotate</option>
+                                    <option value="cssRotateClock">Rotate Clockwise</option>
+                                    <option value="cssRotateAntiClock">Rotate Anti Clockwise</option>
+                                    <option value="cssZoom">Zoom</option>
+                                </optgroup>
+                            </select>
                         </div>
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="option-setting-checkbox" id="toolbar-showNextButton" checked>
-                        <label for="toolbar-showNextButton">Show Next Button</label>
+
+                    <!-- Navigation Settings -->
+                    <div class="settings-section">
+                        <h3>Navigation</h3>
+                        <div class="form-check">
+                            <input type="checkbox" class="option-setting-checkbox" id="anchor_navigation" checked>
+                            <label for="anchor_navigation">Enable Navigation</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="option-setting-checkbox" id="enableNavigationAlways">
+                            <label for="enableNavigationAlways">Always Clickable</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="option-setting-checkbox" id="enableDoneState" checked>
+                            <label for="enableDoneState">Enable Done State</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="option-setting-checkbox" id="unDoneOnBackNavigation">
+                            <label for="unDoneOnBackNavigation">Clear Done on Back</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="option-setting-checkbox" id="enableDoneStateNavigation"
+                                checked>
+                            <label for="enableDoneStateNavigation">Done State Clickable</label>
+                        </div>
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="option-setting-checkbox" id="toolbar-showPreviousButton" checked>
-                        <label for="toolbar-showPreviousButton">Show Previous Button</label>
+
+                    <!-- Toolbar Settings -->
+                    <div class="settings-section">
+                        <h3>Toolbar</h3>
+                        <div class="form-group">
+                            <label class="form-label">Position</label>
+                            <div class="radio-group">
+                                <div class="form-check">
+                                    <input type="radio" name="toolbar-position" id="toolbar-position-none" value="none">
+                                    <label for="toolbar-position-none">None</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" name="toolbar-position" id="toolbar-position-top" value="top">
+                                    <label for="toolbar-position-top">Top</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" name="toolbar-position" id="toolbar-position-bottom"
+                                        value="bottom">
+                                    <label for="toolbar-position-bottom">Bottom</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" name="toolbar-position" id="toolbar-position-both" value="both"
+                                        checked>
+                                    <label for="toolbar-position-both">Both</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="option-setting-checkbox" id="toolbar-showNextButton" checked>
+                            <label for="toolbar-showNextButton">Show Next Button</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="option-setting-checkbox" id="toolbar-showPreviousButton"
+                                checked>
+                            <label for="toolbar-showPreviousButton">Show Previous Button</label>
+                        </div>
+                    </div>
+
+                    <!-- Other Settings -->
+                    <div class="settings-section">
+                        <h3>Other Options</h3>
+                        <div class="form-check">
+                            <input type="checkbox" class="option-setting-checkbox" id="key_navigation" checked>
+                            <label for="key_navigation">Keyboard Navigation</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="option-setting-checkbox" id="back_button_support" checked>
+                            <label for="back_button_support">Browser Back Button</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="option-setting-checkbox" id="autoAdjustHeight" checked>
+                            <label for="autoAdjustHeight">Auto Adjust Height</label>
+                        </div>
+                    </div>
+
+                    <!-- External Controls -->
+                    <div class="settings-section">
+                        <h3>External Controls</h3>
+                        <div class="btn-group">
+                            <button class="btn btn-secondary btn-sm" id="prev-btn">Previous</button>
+                            <button class="btn btn-secondary btn-sm" id="next-btn">Next</button>
+                            <button class="btn btn-danger btn-sm" id="reset-btn">Reset</button>
+                        </div>
+                        <div class="input-group">
+                            <select class="form-select" id="got_to_step">
+                                <option selected>Choose step...</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                            <button class="btn btn-primary btn-sm" id="btn-go-to">Go</button>
+                            <button class="btn btn-warning btn-sm" id="btn-go-to-forced">Force</button>
+                        </div>
+                    </div>
+
+                    <!-- State Controls -->
+                    <div class="settings-section">
+                        <h3>Step State</h3>
+                        <div class="input-group">
+                            <select class="form-select" id="state_step_selection">
+                                <option selected>Choose step...</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                            <select class="form-select" id="state_selection">
+                                <option selected>Choose state...</option>
+                                <option value="default">default</option>
+                                <option value="active">active</option>
+                                <option value="done">done</option>
+                                <option value="disable">disable</option>
+                                <option value="hidden">hidden</option>
+                                <option value="error">error</option>
+                                <option value="warning">warning</option>
+                            </select>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-success btn-sm" id="btn-state-set">Set</button>
+                            <button class="btn btn-danger btn-sm" id="btn-state-unset">Unset</button>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Other Settings -->
-                <div class="settings-section">
-                    <h3>Other Options</h3>
-                    <div class="form-check">
-                        <input type="checkbox" class="option-setting-checkbox" id="key_navigation" checked>
-                        <label for="key_navigation">Keyboard Navigation</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="option-setting-checkbox" id="back_button_support" checked>
-                        <label for="back_button_support">Browser Back Button</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="option-setting-checkbox" id="autoAdjustHeight" checked>
-                        <label for="autoAdjustHeight">Auto Adjust Height</label>
-                    </div>
-                </div>
-
-                <!-- External Controls -->
-                <div class="settings-section">
-                    <h3>External Controls</h3>
-                    <div class="btn-group">
-                        <button class="btn btn-secondary btn-sm" id="prev-btn">Previous</button>
-                        <button class="btn btn-secondary btn-sm" id="next-btn">Next</button>
-                        <button class="btn btn-danger btn-sm" id="reset-btn">Reset</button>
-                    </div>
-                    <div class="input-group">
-                        <select class="form-select" id="got_to_step">
-                            <option selected>Choose step...</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                        <button class="btn btn-primary btn-sm" id="btn-go-to">Go</button>
-                        <button class="btn btn-warning btn-sm" id="btn-go-to-forced">Force</button>
-                    </div>
-                </div>
-
-                <!-- State Controls -->
-                <div class="settings-section">
-                    <h3>Step State</h3>
-                    <div class="input-group">
-                        <select class="form-select" id="state_step_selection">
-                            <option selected>Choose step...</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                        <select class="form-select" id="state_selection">
-                            <option selected>Choose state...</option>
-                            <option value="default">default</option>
-                            <option value="active">active</option>
-                            <option value="done">done</option>
-                            <option value="disable">disable</option>
-                            <option value="hidden">hidden</option>
-                            <option value="error">error</option>
-                            <option value="warning">warning</option>
-                        </select>
-                    </div>
-                    <div class="btn-group">
-                        <button class="btn btn-success btn-sm" id="btn-state-set">Set</button>
-                        <button class="btn btn-danger btn-sm" id="btn-state-unset">Unset</button>
-                    </div>
-                </div>
-
             </div>
         </div>
+    </header>
+
+    <main class="demo-section">
+        <div class="demo-grid" id="demoGrid">
+            <div>
+                <div class="theme-label">Arrow (Default)</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Main content -->
+    <div class="demo-container">
 
         <!-- <div class="step-info">
             Step <span id="sw-current-step">1</span> of <span id="sw-total-step">4</span>
         </div> -->
 
         <!-- SmartWizard -->
-        <div id="smartwizard">
-            <ul class="nav nav-progress">
+        <!-- <div id="smartwizard">
+            <button class="nav-scroll-btn nav-scroll-btn--prev" aria-label="Scroll left">
+                <svg viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M10 12L6 8l4-4" />
+                </svg>
+            </button>
+            <ul class="nav">
                 <li class="nav-item">
                     <a class="nav-link" href="#step-1">
                         <div class="num">1</div>
@@ -267,23 +272,33 @@
                     </a>
                 </li>
             </ul>
+            <button class="nav-scroll-btn nav-scroll-btn--next" aria-label="Scroll right">
+                <svg viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M6 4l4 4-4 4" />
+                </svg>
+            </button>
 
             <div class="tab-content">
                 <div id="step-1" class="tab-pane" role="tabpanel">
                     <h3>Step 1: Customer Details</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-                        the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                        has been
+                        the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                        galley
                         of type and scrambled it to make a type specimen book.</p>
                 </div>
                 <div id="step-2" class="tab-pane" role="tabpanel">
                     <h3>Step 2: Product Selection</h3>
-                    <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining
-                        essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
+                    <p>It has survived not only five centuries, but also the leap into electronic typesetting,
+                        remaining
+                        essentially unchanged. It was popularised in the 1960s with the release of Letraset
+                        sheets
                         containing Lorem Ipsum passages.</p>
                 </div>
                 <div id="step-3" class="tab-pane" role="tabpanel">
                     <h3>Step 3: Shipping Information</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                        has been
                         the industry's standard dummy text ever since the 1500s.</p>
                 </div>
                 <div id="step-4" class="tab-pane" role="tabpanel">
@@ -294,6 +309,296 @@
 
             <div class="progress">
                 <div class="progress-bar" role="progressbar" style="width: 25%"></div>
+            </div>
+        </div> -->
+
+
+        <div id="smartwizard">
+            <ul class="nav nav-progress nav-scroll">
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-1">
+                        <div class="num">1</div>
+                        Customer Details
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-2">
+                        <span class="num">2</span>
+                        Products Details
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-3">
+                        <span class="num">3</span>
+                        Shipping Details
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="#step-4">
+                        <span class="num">4</span>
+                        Confirm Order
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="#step-5">
+                        <span class="num">5</span>
+                        Confirm Order 2
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="#step-6">
+                        <span class="num">6</span>
+                        Confirm Order 3
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="#step-7">
+                        <span class="num">7</span>
+                        Confirm Order 4
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="#step-8">
+                        <span class="num">8</span>
+                        Confirm Order 5
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="#step-9">
+                        <span class="num">9</span>
+                        Confirm Order 6
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="#step-10">
+                        <span class="num">10</span>
+                        Confirm Order 7
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                    <h3>Step 1 Content</h3>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                </div>
+                <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+                    <h3>Step 2 Content</h3>
+                    <div>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                        printer
+                        took a galley of type and scrambled it to make a type specimen book. It has survived not only
+                        five
+                        centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It
+                        was
+                        popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+                        and more
+                        recently with desktop publishing software like Aldus PageMaker including versions of Lorem
+                        Ipsum. </div>
+                </div>
+                <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                </div>
+                <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+                    <h3>Step 4 Content</h3>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                </div>
+                <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
+                    <h3>Step 5 Content</h3>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                </div>
+                <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-6">
+                    <h3>Step 6 Content</h3>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                </div>
+                <div id="step-7" class="tab-pane" role="tabpanel" aria-labelledby="step-7">
+                    <h3>Step 7 Content</h3>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                </div>
+
+                <div id="step-8" class="tab-pane" role="tabpanel" aria-labelledby="step-8">
+                    <h3>Step 8 Content</h3>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                </div>
+                <div id="step-9" class="tab-pane" role="tabpanel" aria-labelledby="step-9">
+                    <h3>Step 9 Content</h3>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                </div>
+                <div id="step-10" class="tab-pane" role="tabpanel" aria-labelledby="step-10">
+                    <h3>Step 10 Content</h3>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's
+                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to
+                    make a type specimen book. It has survived not only five centuries, but also the leap into
+                    electronic
+                    typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset
+                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+                    Aldus
+                    PageMaker including versions of Lorem Ipsum.
+                </div>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0"
+                    aria-valuemax="100"></div>
             </div>
         </div>
     </div>

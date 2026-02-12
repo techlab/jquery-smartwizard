@@ -1,8 +1,8 @@
 // Dots theme - Complete implementation migrated from scss-old/themes/_dots.scss
-@use '../variables';
-@use '../mixins';
+@use '../base/variables' as *;
+@use '../base/mixins' as *;
 
-.#{variables.$prefix}-theme-dots {
+.#{$prefix}-theme-dots {
 
   // Navigation style
   &>.nav {
@@ -17,11 +17,11 @@
       left: 0;
       width: 100%;
       height: 5px;
-      background-color: var(--#{variables.$var-prefix}border-color);
+      background-color: var(--#{$var-prefix}border-color);
       border-radius: 3px;
       z-index: 1;
 
-      @media screen and (max-width: variables.$breakpoint-phone) {
+      @media screen and (max-width: $breakpoint-phone) {
         top: 0;
         left: 20.5px;
         width: 5px;
@@ -30,7 +30,7 @@
     }
 
     .nav-item:last-child .nav-link {
-      @media screen and (max-width: variables.$breakpoint-phone) {
+      @media screen and (max-width: $breakpoint-phone) {
         margin-bottom: 0;
       }
     }
@@ -39,7 +39,7 @@
       position: relative;
       margin-top: 40px;
 
-      @media screen and (max-width: variables.$breakpoint-phone) {
+      @media screen and (max-width: $breakpoint-phone) {
         margin-top: unset;
         margin-bottom: 20px;
         padding-left: 55px;
@@ -60,10 +60,10 @@
         width: 46px;
         height: 46px;
         z-index: 99;
-        border: 8px solid var(--#{variables.$var-prefix}border-color);
+        border: 8px solid var(--#{$var-prefix}border-color);
         transition: all 0.5s ease-in-out;
 
-        @media screen and (max-width: variables.$breakpoint-phone) {
+        @media screen and (max-width: $breakpoint-phone) {
           top: 0;
           right: unset;
         }
@@ -81,7 +81,7 @@
         z-index: 100;
         transition: all 0.5s ease-in-out;
 
-        @media screen and (max-width: variables.$breakpoint-phone) {
+        @media screen and (max-width: $breakpoint-phone) {
           top: 0;
           right: unset;
           width: 46px;
@@ -91,85 +91,85 @@
 
       // Default state
       &.default {
-        color: var(--#{variables.$var-prefix}anchor-default-secondary-color);
+        color: var(--#{$var-prefix}anchor-default-secondary-color);
         cursor: not-allowed;
 
         &>.num {
-          color: var(--#{variables.$var-prefix}anchor-default-primary-color) !important;
+          color: var(--#{$var-prefix}anchor-default-primary-color) !important;
         }
 
         &::after {
-          background-color: var(--#{variables.$var-prefix}anchor-default-secondary-color);
+          background-color: var(--#{$var-prefix}anchor-default-secondary-color);
         }
       }
 
       // Active state
       &.active {
-        color: var(--#{variables.$var-prefix}anchor-active-primary-color) !important;
+        color: var(--#{$var-prefix}anchor-active-primary-color) !important;
         cursor: pointer;
 
         &>.num {
-          color: var(--#{variables.$var-prefix}anchor-active-secondary-color) !important;
+          color: var(--#{$var-prefix}anchor-active-secondary-color) !important;
         }
 
         &::after {
-          background-color: var(--#{variables.$var-prefix}anchor-active-primary-color) !important;
+          background-color: var(--#{$var-prefix}anchor-active-primary-color) !important;
           box-shadow: 0px 1px 7px 1px rgb(0 0 0 / 30%);
         }
       }
 
       // Done state
       &.done {
-        color: var(--#{variables.$var-prefix}anchor-done-primary-color);
+        color: var(--#{$var-prefix}anchor-done-primary-color);
         cursor: pointer;
 
         &>.num {
-          color: var(--#{variables.$var-prefix}anchor-done-secondary-color) !important;
+          color: var(--#{$var-prefix}anchor-done-secondary-color) !important;
         }
 
         &::after {
-          background-color: var(--#{variables.$var-prefix}anchor-done-primary-color);
+          background-color: var(--#{$var-prefix}anchor-done-primary-color);
         }
       }
 
       // Disabled state
       &.disabled {
-        color: var(--#{variables.$var-prefix}anchor-disabled-primary-color);
+        color: var(--#{$var-prefix}anchor-disabled-primary-color);
 
         &>.num {
-          color: var(--#{variables.$var-prefix}anchor-disabled-secondary-color) !important;
+          color: var(--#{$var-prefix}anchor-disabled-secondary-color) !important;
         }
 
         &::after {
-          background-color: var(--#{variables.$var-prefix}anchor-disabled-primary-color);
+          background-color: var(--#{$var-prefix}anchor-disabled-primary-color);
         }
       }
 
       // Error state
       &.error {
-        color: var(--#{variables.$var-prefix}anchor-error-primary-color) !important;
+        color: var(--#{$var-prefix}anchor-error-primary-color) !important;
         cursor: pointer;
 
         &>.num {
-          color: var(--#{variables.$var-prefix}anchor-error-secondary-color) !important;
+          color: var(--#{$var-prefix}anchor-error-secondary-color) !important;
         }
 
         &::after {
-          background-color: var(--#{variables.$var-prefix}anchor-error-primary-color) !important;
+          background-color: var(--#{$var-prefix}anchor-error-primary-color) !important;
         }
       }
 
       // Warning state
       &.warning {
-        color: var(--#{variables.$var-prefix}anchor-warning-primary-color) !important;
+        color: var(--#{$var-prefix}anchor-warning-primary-color) !important;
         cursor: pointer;
 
         &>.num {
-          color: var(--#{variables.$var-prefix}anchor-warning-secondary-color) !important;
+          color: var(--#{$var-prefix}anchor-warning-secondary-color) !important;
         }
 
         &::after {
-          background-color: var(--#{variables.$var-prefix}anchor-warning-primary-color) !important;
+          background-color: var(--#{$var-prefix}anchor-warning-primary-color) !important;
         }
       }
     }
@@ -182,18 +182,18 @@
       position: absolute;
       top: 18px;
       left: 0;
-      width: var(--#{variables.$var-prefix}progress-width);
+      width: var(--#{$var-prefix}progress-width);
       height: 5px;
-      background-color: var(--#{variables.$var-prefix}progress-color);
+      background-color: var(--#{$var-prefix}progress-color);
       border-radius: 3px;
       z-index: 2;
       transition: width 0.5s ease-in-out;
 
-      @media screen and (max-width: variables.$breakpoint-phone) {
+      @media screen and (max-width: $breakpoint-phone) {
         top: 0;
         left: 20.5px;
         width: 5px;
-        height: var(--#{variables.$var-prefix}progress-width);
+        height: var(--#{$var-prefix}progress-width);
       }
     }
   }

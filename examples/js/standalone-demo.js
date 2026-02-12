@@ -3,6 +3,90 @@
 (function () {
     'use strict';
 
+    // ── Dark mode toggle ──
+    const darkToggle = document.getElementById('darkToggle');
+    darkToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        const isDark = document.body.classList.contains('dark');
+        darkToggle.textContent = isDark ? '☀️ Light' : '🌙 Dark';
+        darkToggle.classList.toggle('active', isDark);
+
+        $('#smartwizard').smartWizard('setOptions', { displayMode: isDark ? 'dark' : 'light' });
+    });
+
+    // ── Theme switcher ──
+    const themeList = {
+        'basic': 'Basic',
+        'arrows': 'Arrow',
+        'square': 'Square',
+        'dots': 'Dots',
+        'chevron': 'Chevron',
+        'bold': 'Bold',
+        'pill': 'Pill',
+        'flat-line': 'Flat-Line',
+        'minimal': 'Minimal',
+        'round': 'Round',
+    };
+    const activeTheme = 'basic';
+    const themeListControls = document.getElementById('themeControls');
+
+    Object.entries(themeList).forEach(([key, value]) => {
+        const btn = document.createElement('button');
+        btn.textContent = value;
+        btn.dataset.theme = key;
+        btn.classList.add('ctrl-btn');
+        if (key === activeTheme) btn.classList.add('active');
+        btn.addEventListener('click', () => {
+            themeListControls.querySelectorAll('[data-theme]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            // Add new theme
+            $('#smartwizard').smartWizard('setOptions', {
+                theme: btn.dataset.theme,
+            });
+        });
+
+        themeListControls.appendChild(btn);
+    });
+
+    // ── Color switcher ──
+    const colorList = {
+        '': 'Default',
+        'ocean': 'Ocean',
+        'forest': 'Forest',
+        'violet': 'Violet',
+        'crimson': 'Crimson',
+        'amber': 'Amber',
+        'indigo': 'Indigo',
+        'electric': 'Electric',
+        'neon': 'Neon',
+        'slate': 'Slate',
+        'metallic': 'Metallic',
+        'cyber': 'Cyber',
+    };
+    const activeColor = '';
+    const colorListControls = document.getElementById('colorControls');
+
+    Object.entries(colorList).forEach(([key, value]) => {
+        const btn = document.createElement('button');
+        btn.textContent = value;
+        btn.dataset.color = key;
+        btn.classList.add('ctrl-btn');
+        if (key === activeColor) btn.classList.add('active');
+        btn.addEventListener('click', () => {
+            colorListControls.querySelectorAll('[data-color]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const color = btn.dataset.color;
+            if (color) {
+                $('#smartwizard').attr('data-color', color);
+            } else {
+                $('#smartwizard').removeAttr('data-color');
+            }
+        });
+
+        colorListControls.appendChild(btn);
+    });
+
+
     // CSS Animation definitions (from Animate.css)
     const cssAnimationList = {
         cssSlideH: {
@@ -140,207 +224,18 @@
         }
     };
 
-    // CSS color variables
-    const cssColors = [
-        "--sw-border-color",
-        "--sw-toolbar-btn-color",
-        "--sw-toolbar-btn-background-color",
-        "--sw-anchor-default-primary-color",
-        "--sw-anchor-default-secondary-color",
-        "--sw-anchor-active-primary-color",
-        "--sw-anchor-active-secondary-color",
-        "--sw-anchor-done-primary-color",
-        "--sw-anchor-done-secondary-color",
-        "--sw-anchor-disabled-primary-color",
-        "--sw-anchor-disabled-secondary-color",
-        "--sw-anchor-error-primary-color",
-        "--sw-anchor-error-secondary-color",
-        "--sw-anchor-warning-primary-color",
-        "--sw-anchor-warning-secondary-color",
-        "--sw-progress-color",
-        "--sw-progress-background-color",
-        "--sw-loader-color",
-        "--sw-loader-background-color",
-        "--sw-loader-background-wrapper-color"
-    ];
-
-    // Preset color schemes
-    const presetColors = {
-        "Blue (Default)": {
-            "--sw-toolbar-btn-background-color": "#009EF7",
-            "--sw-anchor-default-primary-color": "#f8f9fa",
-            "--sw-anchor-default-secondary-color": "#b0b0b1",
-            "--sw-anchor-active-primary-color": "#009EF7",
-            "--sw-anchor-active-secondary-color": "#ffffff",
-            "--sw-anchor-done-primary-color": "#90d4fa",
-            "--sw-anchor-done-secondary-color": "#fefefe",
-            "--sw-progress-color": "#009EF7",
-            "--sw-loader-color": "#009EF7",
-        },
-        "Green": {
-            "--sw-border-color": "#eeeeee",
-            "--sw-toolbar-btn-color": "#ffffff",
-            "--sw-toolbar-btn-background-color": "#008931",
-            "--sw-anchor-default-primary-color": "#f8f9fa",
-            "--sw-anchor-default-secondary-color": "#b0b0b1",
-            "--sw-anchor-active-primary-color": "#78c043",
-            "--sw-anchor-active-secondary-color": "#ffffff",
-            "--sw-anchor-done-primary-color": "#588835",
-            "--sw-anchor-done-secondary-color": "#c2c2c2",
-            "--sw-anchor-disabled-primary-color": "#f8f9fa",
-            "--sw-anchor-disabled-secondary-color": "#dbe0e5",
-            "--sw-anchor-error-primary-color": "#dc3545",
-            "--sw-anchor-error-secondary-color": "#ffffff",
-            "--sw-anchor-warning-primary-color": "#ffc107",
-            "--sw-anchor-warning-secondary-color": "#ffffff",
-            "--sw-progress-color": "#78c043",
-            "--sw-progress-background-color": "#f8f9fa",
-            "--sw-loader-color": "#78c043",
-            "--sw-loader-background-color": "#f8f9fa",
-            "--sw-loader-background-wrapper-color": "rgba(255, 255, 255, 0.7)",
-        },
-        "Yellow": {
-            "--sw-border-color": "#eeeeee",
-            "--sw-toolbar-btn-color": "#ffffff",
-            "--sw-toolbar-btn-background-color": "#e4a707",
-            "--sw-anchor-default-primary-color": "#f8f9fa",
-            "--sw-anchor-default-secondary-color": "#b0b0b1",
-            "--sw-anchor-active-primary-color": "#fbbd19",
-            "--sw-anchor-active-secondary-color": "#ffffff",
-            "--sw-anchor-done-primary-color": "#e4a707",
-            "--sw-anchor-done-secondary-color": "#dbe0e5",
-            "--sw-anchor-disabled-primary-color": "#f8f9fa",
-            "--sw-anchor-disabled-secondary-color": "#dbe0e5",
-            "--sw-anchor-error-primary-color": "#dc3545",
-            "--sw-anchor-error-secondary-color": "#ffffff",
-            "--sw-anchor-warning-primary-color": "#ffc107",
-            "--sw-anchor-warning-secondary-color": "#ffffff",
-            "--sw-progress-color": "#fbbd19",
-            "--sw-progress-background-color": "#f8f9fa",
-            "--sw-loader-color": "#fbbd19",
-            "--sw-loader-background-color": "#f8f9fa",
-            "--sw-loader-background-wrapper-color": "rgba(255, 255, 255, 0.7)",
-        },
-        "Red": {
-            "--sw-border-color": "#eeeeee",
-            "--sw-toolbar-btn-color": "#ffffff",
-            "--sw-toolbar-btn-background-color": "#f44336",
-            "--sw-anchor-default-primary-color": "#f8f9fa",
-            "--sw-anchor-default-secondary-color": "#b0b0b1",
-            "--sw-anchor-active-primary-color": "#f44336",
-            "--sw-anchor-active-secondary-color": "#ffffff",
-            "--sw-anchor-done-primary-color": "#f8877f",
-            "--sw-anchor-done-secondary-color": "#fefefe",
-            "--sw-anchor-disabled-primary-color": "#f8f9fa",
-            "--sw-anchor-disabled-secondary-color": "#dbe0e5",
-            "--sw-anchor-error-primary-color": "#dc3545",
-            "--sw-anchor-error-secondary-color": "#ffffff",
-            "--sw-anchor-warning-primary-color": "#ffc107",
-            "--sw-anchor-warning-secondary-color": "#ffffff",
-            "--sw-progress-color": "#f44336",
-            "--sw-progress-background-color": "#f8f9fa",
-            "--sw-loader-color": "#f44336",
-            "--sw-loader-background-color": "#f8f9fa",
-            "--sw-loader-background-wrapper-color": "rgba(255, 255, 255, 0.7)",
-        },
-        "Lite Blue": {
-            "--sw-border-color": "#eeeeee",
-            "--sw-toolbar-btn-color": "#ffffff",
-            "--sw-toolbar-btn-background-color": "#0cb6d8",
-            "--sw-anchor-default-primary-color": "#f8f9fa",
-            "--sw-anchor-default-secondary-color": "#b0b0b1",
-            "--sw-anchor-active-primary-color": "#00d5ff",
-            "--sw-anchor-active-secondary-color": "#ffffff",
-            "--sw-anchor-done-primary-color": "#0cb6d8",
-            "--sw-anchor-done-secondary-color": "#dbe0e5",
-            "--sw-anchor-disabled-primary-color": "#f8f9fa",
-            "--sw-anchor-disabled-secondary-color": "#dbe0e5",
-            "--sw-anchor-error-primary-color": "#dc3545",
-            "--sw-anchor-error-secondary-color": "#ffffff",
-            "--sw-anchor-warning-primary-color": "#ffc107",
-            "--sw-anchor-warning-secondary-color": "#ffffff",
-            "--sw-progress-color": "#0dcaf0",
-            "--sw-progress-background-color": "#f8f9fa",
-            "--sw-loader-color": "#0dcaf0",
-            "--sw-loader-background-color": "#f8f9fa",
-            "--sw-loader-background-wrapper-color": "rgba(255, 255, 255, 0.7)",
-        },
-        "Dark": {
-            "--sw-border-color": "#eeeeee",
-            "--sw-toolbar-btn-color": "#ffffff",
-            "--sw-toolbar-btn-background-color": "#0a2730",
-            "--sw-anchor-default-primary-color": "#757575",
-            "--sw-anchor-default-secondary-color": "#b0b0b1",
-            "--sw-anchor-active-primary-color": "#000000",
-            "--sw-anchor-active-secondary-color": "#ffffff",
-            "--sw-anchor-done-primary-color": "#333333",
-            "--sw-anchor-done-secondary-color": "#aaaaaa",
-            "--sw-anchor-disabled-primary-color": "#f8f9fa",
-            "--sw-anchor-disabled-secondary-color": "#dbe0e5",
-            "--sw-anchor-error-primary-color": "#dc3545",
-            "--sw-anchor-error-secondary-color": "#ffffff",
-            "--sw-anchor-warning-primary-color": "#ffc107",
-            "--sw-anchor-warning-secondary-color": "#ffffff",
-            "--sw-progress-color": "#0a2730",
-            "--sw-progress-background-color": "#f8f9fa",
-            "--sw-loader-color": "#0a2730",
-            "--sw-loader-background-color": "#f8f9fa",
-            "--sw-loader-background-wrapper-color": "rgba(255, 255, 255, 0.7)",
-        }
-    };
-
     // Settings panel toggle functionality
     function initSettingsPanel() {
-        const toggleBtn = document.querySelector('.settings-toggle');
-        const panel = document.querySelector('.settings-panel');
+        const toggleBtn = document.querySelector('#moreSettingsToggle');
+        const panel = document.querySelector('#advancedSettings');
 
         function togglePanel() {
             const isActive = panel.classList.toggle('active');
             toggleBtn.classList.toggle('active', isActive);
+            toggleBtn.textContent = isActive ? '⚙️ Less Settings' : '⚙️ More Settings';
         }
 
         if (toggleBtn) toggleBtn.addEventListener('click', togglePanel);
-    }
-
-    // Display color pickers
-    function displayColors() {
-        let html = '';
-        const cmpStyle = window.getComputedStyle(document.documentElement);
-        cssColors.forEach(col => {
-            let color = cmpStyle.getPropertyValue(col).trim();
-            // Convert rgba to hex if needed
-            if (!color || color === '') color = '#000000';
-            html += `<input type="color" class="color-picker" id="${col}" value="${color}" title="${col}">`;
-        });
-        document.getElementById('color-list').innerHTML = html;
-
-        // Add event listeners to color pickers
-        document.querySelectorAll('.color-picker').forEach(picker => {
-            picker.addEventListener('change', function () {
-                document.documentElement.style.setProperty(this.id, this.value);
-            });
-        });
-    }
-
-    // Load color preset list
-    function loadColorList() {
-        const select = document.getElementById('theme_colors');
-        Object.keys(presetColors).forEach(key => {
-            const option = document.createElement('option');
-            option.value = key;
-            option.text = key;
-            option.dataset.colors = window.btoa(JSON.stringify(presetColors[key]));
-            select.appendChild(option);
-        });
-    }
-
-    // Apply color preset
-    function applyColors(colorObj) {
-        colorObj = JSON.parse(window.atob(colorObj));
-        Object.keys(colorObj).forEach(key => {
-            document.documentElement.style.setProperty(key, colorObj[key]);
-        });
-        displayColors();
     }
 
     // Initialize wizard with dynamic options
@@ -350,7 +245,8 @@
         // Get current options from UI
         function getWizardOptions() {
             return {
-                theme: document.getElementById('theme_selector')?.value || 'arrows',
+                theme: document.getElementById('theme_selector')?.value || activeTheme || 'arrows',
+                displayMode: document.body.classList.contains('dark') ? 'dark' : 'light',
                 transition: {
                     effect: document.getElementById('animation')?.value || 'slideHorizontal',
                     speed: 400,
@@ -458,17 +354,6 @@
             radio.addEventListener('change', reinitializeWizard);
         });
 
-        // Color preset selector
-        const colorSelector = document.getElementById('theme_colors');
-        if (colorSelector) {
-            colorSelector.addEventListener('change', function () {
-                const selectedOption = this.options[this.selectedIndex];
-                if (selectedOption.dataset.colors) {
-                    applyColors(selectedOption.dataset.colors);
-                }
-            });
-        }
-
         // External controls
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
@@ -532,8 +417,6 @@
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () {
             initSettingsPanel();
-            loadColorList();
-            displayColors();
             // Wait for jQuery to be available
             if (typeof $ !== 'undefined') {
                 initWizard();
@@ -541,8 +424,6 @@
         });
     } else {
         initSettingsPanel();
-        loadColorList();
-        displayColors();
         if (typeof $ !== 'undefined') {
             initWizard();
         }

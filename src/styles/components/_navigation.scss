@@ -1,84 +1,104 @@
 // Navigation component - migrated from scss-old/core/_base.scss
-@use '../variables';
+@use '../base/variables' as *;
 
 // Navigation container
-.sw {
+.#{$prefix} {
     >.nav {
         display: flex;
-        flex-wrap: wrap;
         list-style: none;
-        padding-left: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-
-        overflow-x: hidden;
-        overflow-y: hidden;
-        flex-wrap: nowrap;
+        gap: 0;
+        margin: 0;
+        padding: 0;
+        background: var(--sw-surface);
+        position: relative;
+        overflow: hidden;
         -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap;
 
         &::-webkit-scrollbar {
             display: none;
         }
 
-        @media screen and (max-width: variables.$breakpoint-phone) {
+        @media screen and (max-width: $breakpoint-phone) {
             flex-direction: column !important;
             flex: 1 auto;
+        }
+
+        // When nav-scroll class is present
+        &.nav-scroll {
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
         }
 
         // Scroll navigation buttons
         .nav-scroll-btn {
             position: absolute;
             top: 0;
-            bottom: 0;
-            margin-left: 0;
-            margin-top: 0;
-            border: 0;
-            text-decoration: none;
-            background-color: transparent;
-            opacity: 0;
-            transition: opacity 0.5s ease-out;
-            z-index: 10;
-
-            background-position: 50%;
-            background-size: 100% 100%;
-
-            display: flex;
+            height: 100%;
+            width: 36px;
+            display: none;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            padding: 0;
-            color: #fff;
-            text-align: center;
-            background-repeat: no-repeat;
-            border: 0;
+            background: var(--sw-surface);
+            border: none;
             cursor: pointer;
+            z-index: 10;
+            color: var(--sw-inactive-text);
+            transition: color var(--sw-transition), background var(--sw-transition);
+            padding: 0;
 
             &:hover {
+                color: var(--sw-accent);
                 background-color: rgba(0, 0, 0, 0.1);
+            }
+
+            svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            &--prev {
+                left: 0;
+                box-shadow: 4px 0 10px -2px rgba(0, 0, 0, .12);
+            }
+
+            &--next {
+                right: 0;
+                box-shadow: -4px 0 10px -2px rgba(0, 0, 0, .12);
+            }
+
+            &.nav-scroll-btn-visible {
+                display: flex;
             }
         }
 
-        .nav-scroll-btn-right,
-        .nav-scroll-right {
-            right: 0;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23aaa'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
-        }
-
-        .nav-scroll-btn-left,
-        .nav-scroll-left {
-            left: 0;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23aaa'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e");
-        }
-
+        // Nav item
         .nav-item {
-            flex: 0 0 auto;
+            display: flex;
+            position: relative;
+            z-index: 1;
         }
 
         .nav-link {
-            display: block;
-            padding: .5rem 1rem;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            cursor: pointer;
+            user-select: none;
+            color: var(--sw-inactive-text);
             text-decoration: none;
-            width: 200px;
+            position: relative;
+            color: var(--sw-inactive-text);
+            padding: 14px 20px;
+            background: transparent;
+            gap: 10px;
 
             &:hover,
             &:active,
@@ -90,9 +110,38 @@
                 border: 0;
             }
 
-            &.disabled {
-                pointer-events: none;
-                cursor: not-allowed;
+            // ── State classes ──
+            &.completed {
+                color: var(--sw-completed-text);
+                z-index: 2;
+
+                .num {
+                    background: var(--sw-completed-bg);
+                    color: #fff;
+                }
+            }
+
+            &.active {
+                color: var(--sw-active-text);
+                cursor: default;
+                z-index: 4;
+
+                .num {
+                    background: var(--sw-active-bg);
+                    color: #fff;
+                }
+            }
+
+            &.error {
+                background: var(--sw-error-bg);
+                color: var(--sw-error-text);
+                z-index: 2;
+            }
+
+            &.warning {
+                background: var(--sw-warning-bg);
+                color: var(--sw-warning-text);
+                z-index: 2;
             }
 
             &.hidden {
@@ -100,23 +149,33 @@
                 visibility: none;
             }
 
+            &.disabled,
+            &:disabled {
+                opacity: 0.45;
+                pointer-events: none;
+                cursor: not-allowed;
+            }
+
             &>.num {
                 display: flex;
-                justify-content: center;
                 align-items: center;
-                float: left;
+                justify-content: center;
+                flex-shrink: 0;
+                width: var(--sw-badge-size);
+                height: var(--sw-badge-size);
+                border-radius: var(--sw-badge-radius);
                 pointer-events: none;
-                height: 100%;
-                padding-left: .5rem;
-                padding-right: .5rem;
-                border-radius: 10em;
-                text-align: center;
-                font-size: 2em;
-                font-weight: 800;
                 clear: both;
                 line-height: 1;
-                text-decoration: none;
+                background: var(--sw-inactive-bg);
+                color: var(--sw-inactive-text);
+                transition: background var(--sw-transition), transform var(--sw-transition);
             }
+
+            &:hover:not(.disabled) .num {
+                transform: scale(1.05);
+            }
+
         }
     }
 
@@ -131,13 +190,7 @@
     // Justified navigation
     &.sw-justified {
         &>.nav {
-
-            &>li,
-            .nav-link {
-                flex-basis: 0;
-                // flex-grow: 1;
-                text-align: center;
-            }
+            justify-content: space-between;
         }
     }
 

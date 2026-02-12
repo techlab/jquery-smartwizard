@@ -1,188 +1,275 @@
 // Arrows theme - Complete implementation migrated from scss-old/themes/_arrows.scss
-@use '../variables';
-@use '../mixins';
+@use '../base/variables' as *;
+@use '../base/mixins' as *;
 
-.#{variables.$prefix}-theme-arrows {
-  border: 1px solid var(--#{variables.$var-prefix}border-color);
+.#{$prefix}-theme-arrows {
+  border: 1px solid var(--#{$var-prefix}border-color);
 
   // Navigation style
   &>.nav {
-    overflow: hidden;
-    scroll-margin-left: 50px;
-    scroll-margin-right: 50px;
 
-    .nav-item:first-child .nav-link {
-      @media screen and (min-width: variables.$breakpoint-phone) {
-        padding-left: 10px;
-        margin-left: 0;
+    // Nav item
+    .nav-item {
+      flex: 1 0 var(--sw-min-step-width);
+      // Overlap: pull left so each arrow's notch covers previous point
+      margin-right: calc(-1 * var(--sw-arrow-tip));
+
+      // Position variants
+      &:first-child {
+        margin-right: calc(-1 * var(--sw-arrow-tip));
+
+        &>.nav-link {
+          @include arrow-clip-first(20px);
+
+          @media screen and (min-width: $breakpoint-phone) {
+            padding-left: 10px;
+            margin-left: 0;
+          }
+        }
+
+      }
+
+      &:last-child {
+        margin-right: 0;
+
+        &>.nav-link {
+          @include arrow-clip-last(20px);
+        }
+      }
+
+      &:only-child {
+        margin-right: 0;
+
+        &>.nav-link {
+          clip-path: none;
+          border-radius: var(--sw-radius);
+        }
       }
     }
 
-    .nav-item:last-child .nav-link {
-      margin-right: 0px;
-    }
-
     .nav-link {
-      position: relative;
-      height: 100%;
-      padding: 10px;
-      margin-right: 30px;
-      margin-left: -30px;
-      padding-left: 50px;
-      transition: all 0.5s ease-in-out;
-      scroll-margin-left: 50px;
-      scroll-margin-right: 50px;
+      gap: 10px;
+      min-height: var(--sw-arrow-height);
+      padding: 10px 20px 10px calc(var(--sw-arrow-tip) + 14px);
 
-      @media screen and (max-width: variables.$breakpoint-phone) {
+      // Default arrow
+      @include arrow-clip(20px);
+
+      @media screen and (max-width: $breakpoint-phone) {
         overflow: hidden;
         margin-right: unset;
         text-align: left !important;
       }
 
-      // Arrow decorations
-      &::after,
-      &::before {
-        content: "";
-        pointer-events: none;
-        position: absolute;
-        display: block;
-        left: 100%;
-        top: 50%;
-        height: 0;
-        width: 0;
-        margin-top: -50px;
-        border: 50px solid transparent;
-        border-left-width: 40px;
-        transition: all 0.5s ease-in-out;
+      // Hover state (inactive only)
+      &:hover:not(.active):not(.completed):not(.disabled) {
+        background: color-mix(in srgb, var(--sw-inactive-bg) 80%, var(--sw-accent) 20%);
+        color: color-mix(in srgb, var(--sw-inactive-text) 50%, var(--sw-accent) 50%);
+        z-index: 3;
       }
 
-      &::after {
+      // ── State classes ──
+      &.completed {
+        background: var(--sw-completed-bg);
+        color: var(--sw-completed-text);
+        z-index: 2;
+
+        .num {
+          background: var(--sw-accent);
+          transition: background var(--sw-transition), transform var(--sw-transition);
+        }
+      }
+
+      &.active {
+        background: var(--sw-active-bg);
+        color: var(--sw-active-text);
+        cursor: default;
+        z-index: 4;
+      }
+
+      &.error {
+        background: var(--sw-error-bg);
+        color: var(--sw-error-text);
         z-index: 2;
       }
 
-      &::before {
-        z-index: 1;
+      &.warning {
+        background: var(--sw-warning-bg);
+        color: var(--sw-warning-text);
+        z-index: 2;
       }
+
+      &.disabled,
+      &:disabled {
+        opacity: 0.45;
+        pointer-events: none;
+      }
+
+      // Badge number (your <span class="num">)
+      .num {
+        background: rgba(0, 0, 0, .15);
+        transition: background var(--sw-transition), transform var(--sw-transition);
+      }
+
+      &.active .num,
+      &.done .num {
+        background: rgba(255, 255, 255, .25);
+      }
+
+      // Icon in badge
+      .num svg {
+        width: 14px;
+        height: 14px;
+        fill: currentColor;
+      }
+
+      // // Arrow decorations
+      // &::after,
+      // &::before {
+      //   content: "";
+      //   pointer-events: none;
+      //   position: absolute;
+      //   display: block;
+      //   left: 100%;
+      //   top: 50%;
+      //   height: 0;
+      //   width: 0;
+      //   margin-top: -50px;
+      //   border: 50px solid transparent;
+      //   border-left-width: 40px;
+      //   transition: all 0.5s ease-in-out;
+      // }
+
+      // &::after {
+      //   z-index: 2;
+      // }
+
+      // &::before {
+      //   z-index: 1;
+      // }
 
       // Default state
-      &.default {
-        color: var(--#{variables.$var-prefix}anchor-default-secondary-color);
-        background-color: var(--#{variables.$var-prefix}anchor-default-primary-color);
-        cursor: not-allowed;
+      // &.default {
+      //   color: var(--#{$var-prefix}anchor-default-secondary-color);
+      //   background-color: var(--#{$var-prefix}anchor-default-primary-color);
+      //   cursor: not-allowed;
 
-        @media screen and (max-width: variables.$breakpoint-phone) {
-          border-bottom: 1px solid var(--#{variables.$var-prefix}anchor-default-primary-color);
-        }
+      //   @media screen and (max-width: $breakpoint-phone) {
+      //     border-bottom: 1px solid var(--#{$var-prefix}anchor-default-primary-color);
+      //   }
 
-        &::after {
-          border-left-color: var(--#{variables.$var-prefix}anchor-default-primary-color);
-        }
+      //   &::after {
+      //     border-left-color: var(--#{$var-prefix}anchor-default-primary-color);
+      //   }
 
-        &::before {
-          border-left-color: var(--#{variables.$var-prefix}anchor-default-secondary-color);
-        }
-      }
+      //   &::before {
+      //     border-left-color: var(--#{$var-prefix}anchor-default-secondary-color);
+      //   }
+      // }
 
-      // Active state
-      &.active {
-        color: var(--#{variables.$var-prefix}anchor-active-secondary-color) !important;
-        border-color: var(--#{variables.$var-prefix}anchor-active-primary-color);
-        background-color: var(--#{variables.$var-prefix}anchor-active-primary-color);
-        cursor: pointer;
+      // // Active state
+      // &.active {
+      //   color: var(--#{$var-prefix}anchor-active-secondary-color) !important;
+      //   border-color: var(--#{$var-prefix}anchor-active-primary-color);
+      //   background-color: var(--#{$var-prefix}anchor-active-primary-color);
+      //   cursor: pointer;
 
-        @media screen and (max-width: variables.$breakpoint-phone) {
-          border-bottom: 1px solid var(--#{variables.$var-prefix}anchor-active-secondary-color);
-        }
+      //   @media screen and (max-width: $breakpoint-phone) {
+      //     border-bottom: 1px solid var(--#{$var-prefix}anchor-active-secondary-color);
+      //   }
 
-        &::after {
-          border-left-color: var(--#{variables.$var-prefix}anchor-active-primary-color);
-        }
+      //   &::after {
+      //     border-left-color: var(--#{$var-prefix}anchor-active-primary-color);
+      //   }
 
-        &::before {
-          border-left-color: var(--#{variables.$var-prefix}anchor-active-secondary-color);
-        }
-      }
+      //   &::before {
+      //     border-left-color: var(--#{$var-prefix}anchor-active-secondary-color);
+      //   }
+      // }
 
-      // Done state
-      &.done {
-        color: var(--#{variables.$var-prefix}anchor-done-secondary-color);
-        border-color: var(--#{variables.$var-prefix}anchor-done-primary-color);
-        background-color: var(--#{variables.$var-prefix}anchor-done-primary-color);
-        cursor: pointer;
+      // // Done state
+      // &.done {
+      //   color: var(--#{$var-prefix}anchor-done-secondary-color);
+      //   border-color: var(--#{$var-prefix}anchor-done-primary-color);
+      //   background-color: var(--#{$var-prefix}anchor-done-primary-color);
+      //   cursor: pointer;
 
-        @media screen and (max-width: variables.$breakpoint-phone) {
-          border-bottom: 1px solid var(--#{variables.$var-prefix}anchor-done-secondary-color);
-        }
+      //   @media screen and (max-width: $breakpoint-phone) {
+      //     border-bottom: 1px solid var(--#{$var-prefix}anchor-done-secondary-color);
+      //   }
 
-        &::after {
-          border-left-color: var(--#{variables.$var-prefix}anchor-done-primary-color);
-        }
+      //   &::after {
+      //     border-left-color: var(--#{$var-prefix}anchor-done-primary-color);
+      //   }
 
-        &::before {
-          border-left-color: var(--#{variables.$var-prefix}anchor-done-secondary-color);
-        }
-      }
+      //   &::before {
+      //     border-left-color: var(--#{$var-prefix}anchor-done-secondary-color);
+      //   }
+      // }
 
-      // Disabled state
-      &.disabled {
-        color: var(--#{variables.$var-prefix}anchor-disabled-secondary-color);
-        border-color: var(--#{variables.$var-prefix}anchor-disabled-primary-color);
-        background-color: var(--#{variables.$var-prefix}anchor-disabled-primary-color);
+      // // Disabled state
+      // &.disabled {
+      //   color: var(--#{$var-prefix}anchor-disabled-secondary-color);
+      //   border-color: var(--#{$var-prefix}anchor-disabled-primary-color);
+      //   background-color: var(--#{$var-prefix}anchor-disabled-primary-color);
 
-        @media screen and (max-width: variables.$breakpoint-phone) {
-          border-bottom: 1px solid var(--#{variables.$var-prefix}anchor-disabled-secondary-color);
-        }
+      //   @media screen and (max-width: $breakpoint-phone) {
+      //     border-bottom: 1px solid var(--#{$var-prefix}anchor-disabled-secondary-color);
+      //   }
 
-        &::after {
-          border-left-color: var(--#{variables.$var-prefix}anchor-disabled-primary-color);
-        }
+      //   &::after {
+      //     border-left-color: var(--#{$var-prefix}anchor-disabled-primary-color);
+      //   }
 
-        &::before {
-          border-left-color: var(--#{variables.$var-prefix}anchor-disabled-secondary-color);
-        }
-      }
+      //   &::before {
+      //     border-left-color: var(--#{$var-prefix}anchor-disabled-secondary-color);
+      //   }
+      // }
 
-      // Error state
-      &.error {
-        color: var(--#{variables.$var-prefix}anchor-error-secondary-color);
-        border-color: var(--#{variables.$var-prefix}anchor-error-primary-color);
-        background-color: var(--#{variables.$var-prefix}anchor-error-primary-color);
-        cursor: pointer;
+      // // Error state
+      // &.error {
+      //   color: var(--#{$var-prefix}anchor-error-secondary-color);
+      //   border-color: var(--#{$var-prefix}anchor-error-primary-color);
+      //   background-color: var(--#{$var-prefix}anchor-error-primary-color);
+      //   cursor: pointer;
 
-        @media screen and (max-width: variables.$breakpoint-phone) {
-          border-bottom: 1px solid var(--#{variables.$var-prefix}anchor-error-secondary-color);
-        }
+      //   @media screen and (max-width: $breakpoint-phone) {
+      //     border-bottom: 1px solid var(--#{$var-prefix}anchor-error-secondary-color);
+      //   }
 
-        &::after {
-          border-left-color: var(--#{variables.$var-prefix}anchor-error-primary-color);
-        }
+      //   &::after {
+      //     border-left-color: var(--#{$var-prefix}anchor-error-primary-color);
+      //   }
 
-        &::before {
-          border-left-color: var(--#{variables.$var-prefix}anchor-error-secondary-color);
-        }
-      }
+      //   &::before {
+      //     border-left-color: var(--#{$var-prefix}anchor-error-secondary-color);
+      //   }
+      // }
 
-      // Warning state
-      &.warning {
-        color: var(--#{variables.$var-prefix}anchor-warning-secondary-color);
-        border-color: var(--#{variables.$var-prefix}anchor-warning-primary-color);
-        background-color: var(--#{variables.$var-prefix}anchor-warning-primary-color);
-        cursor: pointer;
+      // // Warning state
+      // &.warning {
+      //   color: var(--#{$var-prefix}anchor-warning-secondary-color);
+      //   border-color: var(--#{$var-prefix}anchor-warning-primary-color);
+      //   background-color: var(--#{$var-prefix}anchor-warning-primary-color);
+      //   cursor: pointer;
 
-        @media screen and (max-width: variables.$breakpoint-phone) {
-          border-bottom: 1px solid var(--#{variables.$var-prefix}anchor-warning-secondary-color);
-        }
+      //   @media screen and (max-width: $breakpoint-phone) {
+      //     border-bottom: 1px solid var(--#{$var-prefix}anchor-warning-secondary-color);
+      //   }
 
-        &::after {
-          border-left-color: var(--#{variables.$var-prefix}anchor-warning-primary-color);
-        }
+      //   &::after {
+      //     border-left-color: var(--#{$var-prefix}anchor-warning-primary-color);
+      //   }
 
-        &::before {
-          border-left-color: var(--#{variables.$var-prefix}anchor-warning-secondary-color);
-        }
-      }
+      //   &::before {
+      //     border-left-color: var(--#{$var-prefix}anchor-warning-secondary-color);
+      //   }
+      // }
     }
   }
+
+
+  // =================
 
   // RTL Support
   &[dir="rtl"]>.nav {
@@ -206,7 +293,7 @@
       padding-left: unset;
       padding-right: 50px;
 
-      @media screen and (max-width: variables.$breakpoint-phone) {
+      @media screen and (max-width: $breakpoint-phone) {
         margin-left: unset;
       }
 
@@ -220,63 +307,63 @@
 
       &.default {
         &::after {
-          border-right-color: var(--#{variables.$var-prefix}anchor-default-primary-color);
+          border-right-color: var(--#{$var-prefix}anchor-default-primary-color);
         }
 
         &::before {
-          border-right-color: var(--#{variables.$var-prefix}anchor-default-secondary-color);
+          border-right-color: var(--#{$var-prefix}anchor-default-secondary-color);
         }
       }
 
       &.active {
         &::after {
-          border-right-color: var(--#{variables.$var-prefix}anchor-active-primary-color);
+          border-right-color: var(--#{$var-prefix}anchor-active-primary-color);
         }
 
         &::before {
-          border-right-color: var(--#{variables.$var-prefix}anchor-active-secondary-color);
+          border-right-color: var(--#{$var-prefix}anchor-active-secondary-color);
         }
       }
 
       &.done {
         &::after {
-          border-right-color: var(--#{variables.$var-prefix}anchor-done-primary-color);
+          border-right-color: var(--#{$var-prefix}anchor-done-primary-color);
         }
 
         &::before {
-          border-right-color: var(--#{variables.$var-prefix}anchor-done-secondary-color);
+          border-right-color: var(--#{$var-prefix}anchor-done-secondary-color);
         }
       }
 
       &.disabled {
         &::after {
           border-left-color: unset;
-          border-right-color: var(--#{variables.$var-prefix}anchor-disabled-primary-color);
+          border-right-color: var(--#{$var-prefix}anchor-disabled-primary-color);
         }
 
         &::before {
           border-left-color: unset;
-          border-right-color: var(--#{variables.$var-prefix}anchor-disabled-secondary-color);
+          border-right-color: var(--#{$var-prefix}anchor-disabled-secondary-color);
         }
       }
 
       &.error {
         &::after {
-          border-right-color: var(--#{variables.$var-prefix}anchor-error-primary-color);
+          border-right-color: var(--#{$var-prefix}anchor-error-primary-color);
         }
 
         &::before {
-          border-right-color: var(--#{variables.$var-prefix}anchor-error-secondary-color);
+          border-right-color: var(--#{$var-prefix}anchor-error-secondary-color);
         }
       }
 
       &.warning {
         &::after {
-          border-right-color: var(--#{variables.$var-prefix}anchor-warning-primary-color);
+          border-right-color: var(--#{$var-prefix}anchor-warning-primary-color);
         }
 
         &::before {
-          border-right-color: var(--#{variables.$var-prefix}anchor-warning-secondary-color);
+          border-right-color: var(--#{$var-prefix}anchor-warning-secondary-color);
         }
       }
     }

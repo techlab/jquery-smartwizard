@@ -1,8 +1,8 @@
 // Round theme - Complete implementation migrated from scss-old/themes/_round.scss
-@use '../variables';
-@use '../mixins';
+@use '../base/variables' as *;
+@use '../base/mixins' as *;
 
-.#{variables.$prefix}-theme-round {
+.#{$prefix}-theme-round {
 
     // Navigation style
     &>.nav {
@@ -15,44 +15,44 @@
             margin-right: 4px;
             transition: all 0.5s ease-in-out;
 
-            @media screen and (max-width: variables.$breakpoint-phone) {
+            @media screen and (max-width: $breakpoint-phone) {
                 margin-right: unset;
                 text-align: left !important;
             }
 
             &.default {
-                background-color: var(--#{variables.$var-prefix}anchor-default-primary-color);
-                color: var(--#{variables.$var-prefix}anchor-default-secondary-color);
+                background-color: var(--#{$var-prefix}anchor-default-primary-color);
+                color: var(--#{$var-prefix}anchor-default-secondary-color);
                 cursor: not-allowed;
             }
 
             &.active {
-                background-color: var(--#{variables.$var-prefix}anchor-active-primary-color);
-                color: var(--#{variables.$var-prefix}anchor-active-secondary-color) !important;
+                background-color: var(--#{$var-prefix}anchor-active-primary-color);
+                color: var(--#{$var-prefix}anchor-active-secondary-color) !important;
                 box-shadow: 0px 1px 7px 1px rgb(0 0 0 / 30%);
                 cursor: pointer;
             }
 
             &.done {
-                background-color: var(--#{variables.$var-prefix}anchor-done-primary-color);
-                color: var(--#{variables.$var-prefix}anchor-done-secondary-color);
+                background-color: var(--#{$var-prefix}anchor-done-primary-color);
+                color: var(--#{$var-prefix}anchor-done-secondary-color);
                 cursor: pointer;
             }
 
             &.disabled {
-                background-color: var(--#{variables.$var-prefix}anchor-disabled-primary-color);
-                color: var(--#{variables.$var-prefix}anchor-disabled-secondary-color) !important;
+                background-color: var(--#{$var-prefix}anchor-disabled-primary-color);
+                color: var(--#{$var-prefix}anchor-disabled-secondary-color) !important;
             }
 
             &.error {
-                background-color: var(--#{variables.$var-prefix}anchor-error-primary-color);
-                color: var(--#{variables.$var-prefix}anchor-error-secondary-color) !important;
+                background-color: var(--#{$var-prefix}anchor-error-primary-color);
+                color: var(--#{$var-prefix}anchor-error-secondary-color) !important;
                 cursor: pointer;
             }
 
             &.warning {
-                background-color: var(--#{variables.$var-prefix}anchor-warning-primary-color);
-                color: var(--#{variables.$var-prefix}anchor-warning-secondary-color) !important;
+                background-color: var(--#{$var-prefix}anchor-warning-primary-color);
+                color: var(--#{$var-prefix}anchor-warning-secondary-color) !important;
                 cursor: pointer;
             }
         }

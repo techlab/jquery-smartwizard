@@ -15,7 +15,7 @@ export const EVENTS = {
     RESIZE: `resize${EVENT_NAMESPACE}`,
     ANIMATIONEND: `animationend${EVENT_NAMESPACE}`,
     ANIMATIONCANCEL: `animationcancel${EVENT_NAMESPACE}`,
-    
+
     // SmartWizard Custom Events
     INITIALIZED: `initialized${EVENT_NAMESPACE}`,
     LOADED: `loaded${EVENT_NAMESPACE}`,
@@ -24,6 +24,29 @@ export const EVENTS = {
     STEPCHANGE: `stepchange${EVENT_NAMESPACE}`,
     RESET: `reset${EVENT_NAMESPACE}`,
 };
+
+export const STEP_DIRECTION = {
+    Forward: "forward",
+    Backward: "backward",
+} as const;
+
+export const CONTENT_DIRECTION = {
+    LeftToRight: "ltr",
+    RightToLeft: "rtl",
+} as const;
+
+export const STEP_POSITION = {
+    First: "first",
+    Middle: "middle",
+    Last: "last",
+} as const;
+
+export const TOOLBAR_POSITION = {
+    None: "none",
+    Top: "top",
+    Bottom: "bottom",
+    Both: "both",
+} as const;
 
 // /**
 //  * Selectors used

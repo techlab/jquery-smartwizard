@@ -45,6 +45,7 @@
 // Typography mixins
 @mixin font-size($size, $line-height: null) {
   font-size: $size;
+
   @if $line-height {
     line-height: $line-height;
   }
@@ -52,9 +53,45 @@
 
 // Transitions
 @mixin transition($transition...) {
-  @if length($transition) == 0 {
+  @if length($transition)==0 {
     transition: $transition-base;
-  } @else {
+  }
+
+  @else {
     transition: $transition;
   }
+}
+
+// ─────────────────────────────────────────────
+// MIXINS for arrow clip-path
+// ─────────────────────────────────────────────
+@mixin arrow-clip($tip: 20px) {
+  clip-path: polygon(0% 0%,
+    calc(100% - #{$tip}) 0%,
+    100% 50%,
+    calc(100% - #{$tip}) 100%,
+    0% 100%,
+    #{$tip} 50%);
+}
+
+@mixin arrow-clip-first($tip: 20px) {
+  clip-path: polygon(0% 0%,
+    calc(100% - #{$tip}) 0%,
+    100% 50%,
+    calc(100% - #{$tip}) 100%,
+    0% 100%);
+}
+
+@mixin arrow-clip-last($tip: 20px) {
+  clip-path: polygon(0% 0%,
+    100% 0%,
+    100% 100%,
+    0% 100%,
+    #{$tip} 50%);
+}
+
+
+@mixin arrow-clip-only {
+  clip-path: none;
+  border-radius: var(--sw-radius);
 }

@@ -1,5 +1,5 @@
 // Loading animation component - migrated from scss-old/core/_base.scss
-@use '../variables';
+@use '../base/variables' as *;
 
 .sw {
     &.sw-loading {
@@ -14,8 +14,8 @@
             left: 0;
             height: 100%;
             width: 100%;
-            background: var(--#{variables.$var-prefix}loader-background-wrapper-color);
-            z-index: 2;
+            background: var(--#{$var-prefix}loader-background-wrapper-color);
+            z-index: 99;
         }
 
         &::before {
@@ -26,8 +26,8 @@
             left: 45%;
             width: 2rem;
             height: 2rem;
-            border: 10px solid var(--#{variables.$var-prefix}loader-color);
-            border-top: 10px solid var(--#{variables.$var-prefix}loader-background-color);
+            border: 10px solid var(--#{$var-prefix}loader-color);
+            border-top: 10px solid var(--#{$var-prefix}loader-background-color);
             border-radius: 50%;
             z-index: 10;
             animation: spin 1s linear infinite;

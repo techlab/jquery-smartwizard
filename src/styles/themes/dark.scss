@@ -1,7 +1,7 @@
 // Dark theme
 
-@use '../variables';
-@use '../mixins';
+@use '../base/variables' as *;
+@use '../base/mixins' as *;
 
 // Override theme variables
 $sw-primary-color: #5c9fff;
@@ -11,7 +11,7 @@ $sw-background-color: #1e1e1e;
 $sw-border-color: #404040;
 $sw-step-bg: #2a2a2a;
 
-.#{variables.$sw-prefix}-theme-dark {
+.#{$sw-prefix}-theme-dark {
   // Color scheme
   --sw-primary-color: #{$sw-primary-color};
   --sw-text-color: #{$sw-text-color};
@@ -23,12 +23,12 @@ $sw-step-bg: #2a2a2a;
   color: $sw-text-color;
   background-color: $sw-background-color;
 
-  .#{variables.$sw-prefix}-nav {
+  .#{$sw-prefix}-nav {
     background-color: $sw-step-bg;
     border-color: $sw-border-color;
   }
 
-  .#{variables.$sw-prefix}-step {
+  .#{$sw-prefix}-step {
     color: $sw-text-secondary;
 
     &.active {
@@ -36,7 +36,7 @@ $sw-step-bg: #2a2a2a;
     }
   }
 
-  .#{variables.$sw-prefix}-content {
+  .#{$sw-prefix}-content {
     background-color: $sw-background-color;
     color: $sw-text-color;
   }

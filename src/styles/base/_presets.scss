@@ -1,0 +1,290 @@
+/* Color presets */
+[data-color="ocean"] {
+    --sw-accent: #0288d1;
+    --sw-accent-dark: #01579b;
+    --sw-accent-light: #4fc3f7;
+    --sw-completed-bg: #00897b;
+    --sw-active-bg: #00796b;
+}
+
+[data-color="forest"] {
+    --sw-accent: #388e3c;
+    --sw-accent-dark: #1b5e20;
+    --sw-accent-light: #66bb6a;
+    --sw-completed-bg: #558b2f;
+    --sw-active-bg: #047857;
+}
+
+[data-color="violet"] {
+    --sw-accent: #7b1fa2;
+    --sw-accent-dark: #4a148c;
+    --sw-accent-light: #9c27b0;
+    --sw-completed-bg: #6a1b9a;
+    --sw-active-bg: #5a1783;
+}
+
+[data-color="slate"] {
+    --sw-accent: #455a64;
+    --sw-accent-dark: #263238;
+    --sw-accent-light: #607d8b;
+    --sw-completed-bg: #37474f
+}
+
+[data-color="crimson"] {
+    --sw-accent: #c2185b;
+    --sw-accent-dark: #880e4f;
+    --sw-accent-light: #e91e63;
+    --sw-completed-bg: #ad1457;
+    --sw-active-bg: #93114a;
+}
+
+[data-color="amber"] {
+    --sw-accent: #ffa000;
+    --sw-accent-dark: #ff6f00;
+    --sw-accent-light: #ffb300;
+    --sw-completed-bg: #f57c00;
+    --sw-active-bg: #d06a00;
+}
+
+[data-color="indigo"] {
+    --sw-accent: #3949ab;
+    --sw-accent-dark: #283593;
+    --sw-accent-light: #5c6bc0;
+    --sw-completed-bg: #303f9f;
+    --sw-active-bg: #293687;
+}
+
+/* Extended Color presets */
+
+// Monochromatic: "Deep Electric Blue"
+[data-color="electric"] {
+    --sw-accent: #007AFF;
+    --sw-accent-dark: #003A7A;
+    --sw-accent-text: #ffffff;
+    --sw-completed-bg: var(--sw-accent);
+    --sw-completed-text: #ffffff;
+    --sw-active-bg: linear-gradient(90deg, var(--sw-accent), var(--sw-accent-dark));
+    --sw-active-text: var(--sw-accent-text);
+    --sw-inactive-bg: #F0F7FF;
+    --sw-inactive-text: #94A3B8;
+    --sw-inactive-border: #E2E8F0;
+    /* Surface */
+    --sw-surface: #ffffff;
+    --sw-border: #34D399;
+    --sw-shadow: 0 4px 12px rgba(0, 122, 255, 0.1);
+}
+
+// Modern Slate
+[data-color="slate"] {
+    --sw-accent: #334155;
+    --sw-accent-dark: #475569;
+    --sw-accent-text: #ffffff;
+
+    /* Step states */
+    --sw-completed-bg: #64748b;
+    --sw-active-bg: #556376;
+    --sw-active-text: var(--sw-accent-text);
+    --sw-inactive-bg: #e2e8f0;
+    --sw-inactive-text: #94a3b8;
+
+    /* Surface */
+    --sw-surface: #f1f5f9;
+    --sw-border: #cbd5e1;
+    --sw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+// Cyber Glow (Neon Dark Mode)
+[data-color="neon"] {
+    --sw-accent: #00f2ff;
+    --sw-accent-dark: #00c2cc;
+    --sw-accent-text: #000000;
+
+    /* Step states */
+    --sw-completed-bg: #adff2f;
+    --sw-active-bg: var(--sw-accent);
+    --sw-inactive-bg: #1a1a1a;
+    --sw-inactive-text: #4a4a4a;
+
+    /* Surface */
+    --sw-surface: #0a0a0a;
+    --sw-border: #333333;
+    --sw-content-text: #e0e0e0;
+
+    /* The Glow Effect */
+    --sw-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
+}
+
+
+
+// Silver Metallic
+[data-color="metallic"] {
+    --sw-accent: #94A3B8;
+    --sw-accent-dark: #475569;
+    --sw-accent-text: #ffffff;
+
+    --sw-completed-bg: #F1F5F9;
+    --sw-completed-text: #64748B;
+    --sw-active-bg: linear-gradient(145deg, #94A3B8, #64748B);
+    /* Added gradient */
+    --sw-active-text: #ffffff;
+    --sw-inactive-bg: #F8FAFC;
+    --sw-inactive-text: #94A3B8;
+
+    --sw-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --sw-border: #D1D5DB;
+}
+
+// Cyber Glow (Neon)
+[data-color="cyber"] {
+    --sw-accent: #00F2FF;
+    --sw-accent-dark: #00B4D8;
+    --sw-accent-text: #000000;
+
+    --sw-completed-bg: rgba(0, 242, 255, 0.1);
+    --sw-completed-text: #00F2FF;
+    --sw-active-bg: var(--sw-accent);
+    --sw-active-text: #000000;
+    --sw-inactive-bg: #1A1A1A;
+    /* Assuming Dark Mode for Glow */
+    --sw-inactive-text: #444444;
+
+    --sw-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+    --sw-surface: #000000;
+}
+
+// // Preset color schemes
+// const presetColors= {
+//     "Blue (Default)": {
+//         "--sw-toolbar-btn-background-color": "#009EF7",
+//             "--sw-anchor-default-primary-color": "#f8f9fa",
+//             "--sw-anchor-default-secondary-color": "#b0b0b1",
+//             "--sw-anchor-active-primary-color": "#009EF7",
+//             "--sw-anchor-active-secondary-color": "#ffffff",
+//             "--sw-anchor-done-primary-color": "#90d4fa",
+//             "--sw-anchor-done-secondary-color": "#fefefe",
+//             "--sw-progress-color": "#009EF7",
+//             "--sw-loader-color": "#009EF7",
+//     }
+
+//     ,
+//     "Green": {
+//         "--sw-border-color": "#eeeeee",
+//             "--sw-toolbar-btn-color": "#ffffff",
+//             "--sw-toolbar-btn-background-color": "#008931",
+//             "--sw-anchor-default-primary-color": "#f8f9fa",
+//             "--sw-anchor-default-secondary-color": "#b0b0b1",
+//             "--sw-anchor-active-primary-color": "#78c043",
+//             "--sw-anchor-active-secondary-color": "#ffffff",
+//             "--sw-anchor-done-primary-color": "#588835",
+//             "--sw-anchor-done-secondary-color": "#c2c2c2",
+//             "--sw-anchor-disabled-primary-color": "#f8f9fa",
+//             "--sw-anchor-disabled-secondary-color": "#dbe0e5",
+//             "--sw-anchor-error-primary-color": "#dc3545",
+//             "--sw-anchor-error-secondary-color": "#ffffff",
+//             "--sw-anchor-warning-primary-color": "#ffc107",
+//             "--sw-anchor-warning-secondary-color": "#ffffff",
+//             "--sw-progress-color": "#78c043",
+//             "--sw-progress-background-color": "#f8f9fa",
+//             "--sw-loader-color": "#78c043",
+//             "--sw-loader-background-color": "#f8f9fa",
+//             "--sw-loader-background-wrapper-color": "rgba(255, 255, 255, 0.7)",
+//     }
+
+//     ,
+//     "Yellow": {
+//         "--sw-border-color": "#eeeeee",
+//             "--sw-toolbar-btn-color": "#ffffff",
+//             "--sw-toolbar-btn-background-color": "#e4a707",
+//             "--sw-anchor-default-primary-color": "#f8f9fa",
+//             "--sw-anchor-default-secondary-color": "#b0b0b1",
+//             "--sw-anchor-active-primary-color": "#fbbd19",
+//             "--sw-anchor-active-secondary-color": "#ffffff",
+//             "--sw-anchor-done-primary-color": "#e4a707",
+//             "--sw-anchor-done-secondary-color": "#dbe0e5",
+//             "--sw-anchor-disabled-primary-color": "#f8f9fa",
+//             "--sw-anchor-disabled-secondary-color": "#dbe0e5",
+//             "--sw-anchor-error-primary-color": "#dc3545",
+//             "--sw-anchor-error-secondary-color": "#ffffff",
+//             "--sw-anchor-warning-primary-color": "#ffc107",
+//             "--sw-anchor-warning-secondary-color": "#ffffff",
+//             "--sw-progress-color": "#fbbd19",
+//             "--sw-progress-background-color": "#f8f9fa",
+//             "--sw-loader-color": "#fbbd19",
+//             "--sw-loader-background-color": "#f8f9fa",
+//             "--sw-loader-background-wrapper-color": "rgba(255, 255, 255, 0.7)",
+//     }
+
+//     ,
+//     "Red": {
+//         "--sw-border-color": "#eeeeee",
+//             "--sw-toolbar-btn-color": "#ffffff",
+//             "--sw-toolbar-btn-background-color": "#f44336",
+//             "--sw-anchor-default-primary-color": "#f8f9fa",
+//             "--sw-anchor-default-secondary-color": "#b0b0b1",
+//             "--sw-anchor-active-primary-color": "#f44336",
+//             "--sw-anchor-active-secondary-color": "#ffffff",
+//             "--sw-anchor-done-primary-color": "#f8877f",
+//             "--sw-anchor-done-secondary-color": "#fefefe",
+//             "--sw-anchor-disabled-primary-color": "#f8f9fa",
+//             "--sw-anchor-disabled-secondary-color": "#dbe0e5",
+//             "--sw-anchor-error-primary-color": "#dc3545",
+//             "--sw-anchor-error-secondary-color": "#ffffff",
+//             "--sw-anchor-warning-primary-color": "#ffc107",
+//             "--sw-anchor-warning-secondary-color": "#ffffff",
+//             "--sw-progress-color": "#f44336",
+//             "--sw-progress-background-color": "#f8f9fa",
+//             "--sw-loader-color": "#f44336",
+//             "--sw-loader-background-color": "#f8f9fa",
+//             "--sw-loader-background-wrapper-color": "rgba(255, 255, 255, 0.7)",
+//     }
+
+//     ,
+//     "Lite Blue": {
+//         "--sw-border-color": "#eeeeee",
+//             "--sw-toolbar-btn-color": "#ffffff",
+//             "--sw-toolbar-btn-background-color": "#0cb6d8",
+//             "--sw-anchor-default-primary-color": "#f8f9fa",
+//             "--sw-anchor-default-secondary-color": "#b0b0b1",
+//             "--sw-anchor-active-primary-color": "#00d5ff",
+//             "--sw-anchor-active-secondary-color": "#ffffff",
+//             "--sw-anchor-done-primary-color": "#0cb6d8",
+//             "--sw-anchor-done-secondary-color": "#dbe0e5",
+//             "--sw-anchor-disabled-primary-color": "#f8f9fa",
+//             "--sw-anchor-disabled-secondary-color": "#dbe0e5",
+//             "--sw-anchor-error-primary-color": "#dc3545",
+//             "--sw-anchor-error-secondary-color": "#ffffff",
+//             "--sw-anchor-warning-primary-color": "#ffc107",
+//             "--sw-anchor-warning-secondary-color": "#ffffff",
+//             "--sw-progress-color": "#0dcaf0",
+//             "--sw-progress-background-color": "#f8f9fa",
+//             "--sw-loader-color": "#0dcaf0",
+//             "--sw-loader-background-color": "#f8f9fa",
+//             "--sw-loader-background-wrapper-color": "rgba(255, 255, 255, 0.7)",
+//     }
+
+//     ,
+//     "Dark": {
+//         "--sw-border-color": "#eeeeee",
+//             "--sw-toolbar-btn-color": "#ffffff",
+//             "--sw-toolbar-btn-background-color": "#0a2730",
+//             "--sw-anchor-default-primary-color": "#757575",
+//             "--sw-anchor-default-secondary-color": "#b0b0b1",
+//             "--sw-anchor-active-primary-color": "#000000",
+//             "--sw-anchor-active-secondary-color": "#ffffff",
+//             "--sw-anchor-done-primary-color": "#333333",
+//             "--sw-anchor-done-secondary-color": "#aaaaaa",
+//             "--sw-anchor-disabled-primary-color": "#f8f9fa",
+//             "--sw-anchor-disabled-secondary-color": "#dbe0e5",
+//             "--sw-anchor-error-primary-color": "#dc3545",
+//             "--sw-anchor-error-secondary-color": "#ffffff",
+//             "--sw-anchor-warning-primary-color": "#ffc107",
+//             "--sw-anchor-warning-secondary-color": "#ffffff",
+//             "--sw-progress-color": "#0a2730",
+//             "--sw-progress-background-color": "#f8f9fa",
+//             "--sw-loader-color": "#0a2730",
+//             "--sw-loader-background-color": "#f8f9fa",
+//             "--sw-loader-background-wrapper-color": "rgba(255, 255, 255, 0.7)",
+//     }
+// }
+
+// ;

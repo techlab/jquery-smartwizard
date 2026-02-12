@@ -3,14 +3,15 @@ import { WizardOptions } from './types';
 export const defaults: WizardOptions = {
     initialStep: 0, // Initial selected step (0 = first step)
     theme: 'basic', // Theme name, ensure related CSS is included
+    displayMode: 'auto', // Display mode: auto (system preference) | dark | light
     behavior: {
         autoHeight: true, // Auto-adjust content height
-        useUrlHash: true, // Enable step selection via URL hash
-        supportBrowserHistory: true // Enable browser history support
+        useUrlHash: false, // Enable step selection via URL hash
+        supportBrowserHistory: false // Enable browser history support
     },
     navigation: {
         enabled: true, // Enable/Disable anchor navigation
-        justified: true, // Navigation menu justification (true/false)
+        justified: false, // Navigation menu justification (true/false)
         alwaysClickable: false, // Allow clicking on any anchor at any time
         completed: {
             enabled: true, // Mark visited steps as completed

@@ -16,6 +16,7 @@ declare global {
 
 // Type definitions for SmartWizard
 export type ContentDirection = "ltr" | "rtl";
+export type DisplayMode = 'auto' | 'dark' | 'light';
 export type StepDirection = 'forward' | 'backward';
 export type StepPosition = 'first' | 'middle' | 'last';
 export type ToolbarPosition = 'none' | 'top' | 'bottom' | 'both';
@@ -43,6 +44,7 @@ export interface WizardStep {
 export interface WizardOptions {
     initialStep: number;
     theme: string;
+    displayMode: DisplayMode;
     behavior: Behavior;
     navigation: Navigation;
     transition: Transition;

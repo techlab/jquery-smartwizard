@@ -1,27 +1,24 @@
 // Wizard container component - enhanced from scss-old/core/_base.scss
-@use '../variables';
+@use '../base/variables' as *;
 
-.sw {
+.#{$prefix} {
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius);
+  box-shadow: var(--sw-shadow);
+  overflow: hidden;
+  background: var(--sw-surface);
   position: relative;
 
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
-
-  // Tab content container
+  // CONTENT AREA
   &>.tab-content {
     position: relative;
-    overflow: hidden;
+    padding: var(--sw-content-pad);
+    background: var(--sw-content-bg);
+    color: var(--sw-content-text);
+    min-height: 140px;
 
     &>.tab-pane {
       padding: .8rem;
     }
-  }
-
-  // RTL Support for toolbar
-  &[dir="rtl"]>.toolbar {
-    text-align: left;
   }
 }

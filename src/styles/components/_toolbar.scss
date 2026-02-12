@@ -1,32 +1,77 @@
 // Toolbar component - migrated from scss-old/core/_base.scss
-@use '../variables';
+@use '../base/variables' as *;
 
-.sw {
+// TOOLBAR
+.#{$prefix} {
   .toolbar {
-    padding: .8rem;
-    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 14px 24px;
+    border-top: 1px solid var(--sw-border);
+    background: var(--sw-surface);
+    gap: 10px;
 
+    &-bottom {
+      border-top: 1px solid var(--sw-border);
+    }
+
+    &-top {
+      border-bottom: 1px solid var(--sw-border);
+    }
+
+    // Button styles
     &>.sw-btn {
-      display: inline-block;
-      text-decoration: none;
-      text-align: center;
-      text-transform: none;
-      vertical-align: middle;
-      user-select: none;
-      margin-left: .2rem;
-      margin-right: .2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 22px;
+      border: none;
+      border-radius: 7px;
+      font: 600 13px/1 var(--sw-font-family);
       cursor: pointer;
-      padding: .375rem .75rem;
-      border-radius: .25rem;
-      font-weight: 400;
-      color: var(--#{variables.$var-prefix}toolbar-btn-color);
-      background-color: var(--#{variables.$var-prefix}toolbar-btn-background-color);
-      border: 1px solid var(--#{variables.$var-prefix}toolbar-btn-background-color);
+      transition: all var(--sw-transition);
+      background: var(--sw-accent);
+      color: var(--sw-accent-text);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .12);
+
+      &:hover {
+        background: var(--sw-accent-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .16);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
 
       &.disabled,
       &:disabled {
-        opacity: .65;
+        opacity: 0.4;
+        pointer-events: none;
+      }
+
+      svg {
+        width: 14px;
+        height: 14px;
+        fill: currentColor;
       }
     }
+
+    // Secondary button variant
+    &>.sw-btn-secondary {
+      background: var(--sw-inactive-bg);
+      color: var(--sw-inactive-text);
+      box-shadow: none;
+
+      &:hover {
+        background: color-mix(in srgb, var(--sw-inactive-bg) 85%, var(--sw-accent) 15%);
+      }
+    }
+  }
+
+  // RTL Support for toolbar
+  &[dir="rtl"]>.toolbar {
+    text-align: left;
   }
 }
