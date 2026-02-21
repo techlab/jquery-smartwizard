@@ -1,8 +1,8 @@
 {
   "name": "smartwizard",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "title": "jQuery Smart Wizard",
-  "description": "The awesome jQuery step wizard library",
+  "description": "A modern, accessible step wizard plugin for jQuery",
   "author": {
     "name": "Dipu Raj",
     "email": "hello.techlab@gmail.com",
@@ -46,7 +46,7 @@
     "start": "npm run dev",
     "dev": "rollup -c rollup.config.mjs -w",
     "build": "tsc --emitDeclarationOnly --outDir dist/types && rollup -c rollup.config.mjs",
-    "clean": "rm -rf dist coverage",
+    "clean": "rm -rf dist coverage .rollup-cache",
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "jest",
     "test:unit:watch": "jest --watch",

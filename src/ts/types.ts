@@ -16,7 +16,7 @@ declare global {
 
 // Type definitions for SmartWizard
 export type ContentDirection = "ltr" | "rtl";
-export type DisplayMode = 'auto' | 'dark' | 'light';
+export type DisplayMode = 'auto' | 'dark' | 'light' | 'none';
 export type StepDirection = 'forward' | 'backward';
 export type StepPosition = 'first' | 'middle' | 'last';
 export type ToolbarPosition = 'none' | 'top' | 'bottom' | 'both';
@@ -59,6 +59,7 @@ export interface WizardOptions {
         error: number[];
         warning: number[];
     };
+    swipeNavigation: SwipeNavigation;
     contentLoader: ContentLoader | null;
 }
 
@@ -70,7 +71,6 @@ export interface Behavior {
 
 export interface Navigation {
     enabled: boolean;
-    justified: boolean;
     alwaysClickable: boolean;
     completed: {
         enabled: boolean;
@@ -115,11 +115,15 @@ export interface KeyboardNavigation {
     };
 }
 
+export interface SwipeNavigation {
+    enabled: boolean;
+    threshold: number; // Minimum px distance to trigger a swipe
+}
+
 export interface Localization {
     buttons: {
         next: string;
         previous: string;
-        reset?: string;
     }
 }
 
@@ -128,7 +132,6 @@ export interface Styles {
     navigation: {
         container: string;
         link: string;
-        justified: string;
     };
     content: {
         container: string;

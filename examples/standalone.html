@@ -28,7 +28,6 @@
         <div class="demo-title">
             <div>
                 <h1>jQuery Smart Wizard - Demo </h1>
-                <p>Demo with all themes and options.</p>
             </div>
             <div>
                 <button class="ctrl-btn" id="darkToggle">🌙 Dark</button>
@@ -240,81 +239,8 @@
         </div> -->
 
         <!-- SmartWizard -->
-        <!-- <div id="smartwizard">
-            <button class="nav-scroll-btn nav-scroll-btn--prev" aria-label="Scroll left">
-                <svg viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M10 12L6 8l4-4" />
-                </svg>
-            </button>
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#step-1">
-                        <div class="num">1</div>
-                        Customer Details
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#step-2">
-                        <span class="num">2</span>
-                        Product Selection
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#step-3">
-                        <span class="num">3</span>
-                        Shipping Info
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#step-4">
-                        <span class="num">4</span>
-                        Confirmation
-                    </a>
-                </li>
-            </ul>
-            <button class="nav-scroll-btn nav-scroll-btn--next" aria-label="Scroll right">
-                <svg viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M6 4l4 4-4 4" />
-                </svg>
-            </button>
-
-            <div class="tab-content">
-                <div id="step-1" class="tab-pane" role="tabpanel">
-                    <h3>Step 1: Customer Details</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                        has been
-                        the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                        galley
-                        of type and scrambled it to make a type specimen book.</p>
-                </div>
-                <div id="step-2" class="tab-pane" role="tabpanel">
-                    <h3>Step 2: Product Selection</h3>
-                    <p>It has survived not only five centuries, but also the leap into electronic typesetting,
-                        remaining
-                        essentially unchanged. It was popularised in the 1960s with the release of Letraset
-                        sheets
-                        containing Lorem Ipsum passages.</p>
-                </div>
-                <div id="step-3" class="tab-pane" role="tabpanel">
-                    <h3>Step 3: Shipping Information</h3>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                        has been
-                        the industry's standard dummy text ever since the 1500s.</p>
-                </div>
-                <div id="step-4" class="tab-pane" role="tabpanel">
-                    <h3>Step 4: Confirmation</h3>
-                    <p>Thank you for completing the wizard! Review your information and confirm your order.</p>
-                </div>
-            </div>
-
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%"></div>
-            </div>
-        </div> -->
-
-
         <div id="smartwizard">
-            <ul class="nav nav-progress nav-scroll">
+            <ul class="nav">
                 <li class="nav-item">
                     <a class="nav-link" href="#step-1">
                         <div class="num">1</div>
@@ -376,6 +302,11 @@
                     </a>
                 </li>
             </ul>
+
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0"
+                    aria-valuemax="100"></div>
+            </div>
 
             <div class="tab-content">
                 <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
@@ -596,10 +527,7 @@
                 </div>
             </div>
 
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0"
-                    aria-valuemax="100"></div>
-            </div>
+
         </div>
     </div>
 
@@ -607,7 +535,8 @@
     <script src="https://code.jquery.com/jquery-4.0.0.min.js"
         integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
 
-    <!-- <script src="https://code.jquery.com/jquery-4.0.0.slim.min.js" integrity="sha256-8DGpv13HIm+5iDNWw1XqxgFB4mj+yOKFNb+tHBZOowc=" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-4.0.0.slim.min.js"
+        integrity="sha256-8DGpv13HIm+5iDNWw1XqxgFB4mj+yOKFNb+tHBZOowc=" crossorigin="anonymous"></script> -->
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
 

@@ -12,17 +12,18 @@ export const EVENTS = {
     KEYUP: `keyup${EVENT_NAMESPACE}`,
     HASHCHANGE: `hashchange${EVENT_NAMESPACE}`,
     SCROLLEND: `scrollend${EVENT_NAMESPACE}`,
+    WHEEL: `wheel${EVENT_NAMESPACE}`,
     RESIZE: `resize${EVENT_NAMESPACE}`,
     ANIMATIONEND: `animationend${EVENT_NAMESPACE}`,
     ANIMATIONCANCEL: `animationcancel${EVENT_NAMESPACE}`,
+    TOUCHSTART: `touchstart${EVENT_NAMESPACE}`,
+    TOUCHEND: `touchend${EVENT_NAMESPACE}`,
 
     // SmartWizard Custom Events
     INITIALIZED: `initialized${EVENT_NAMESPACE}`,
     LOADED: `loaded${EVENT_NAMESPACE}`,
     LEAVESTEP: `leave${EVENT_NAMESPACE}`,
     SHOWSTEP: `shown${EVENT_NAMESPACE}`,
-    STEPCHANGE: `stepchange${EVENT_NAMESPACE}`,
-    RESET: `reset${EVENT_NAMESPACE}`,
 };
 
 export const STEP_DIRECTION = {
@@ -48,44 +49,23 @@ export const TOOLBAR_POSITION = {
     Both: "both",
 } as const;
 
-// /**
-//  * Selectors used
-//  */
-// export const SELECTORS = {
-//     STEP: '.step',
-//     CONTENT: '.content',
-//     NAV: '.nav',
-//     TOOLBAR: '.toolbar',
-//     NEXT_BUTTON: '.sw-btn-next',
-//     PREV_BUTTON: '.sw-btn-prev',
-//     RESET_BUTTON: '.sw-btn-reset',
-// };
+/**
+ * CSS Custom Properties
+ */
+export const CSS_PROPERTIES = {
+    PROGRESS_PERCENTAGE: '--sw-progress-percentage',
+};
 
-// /**
-//  * CSS class names used
-//  */
-// export const CLASSES = {
-//     MAIN: 'sw',
-//     NAV: 'nav',
-//     STEP: 'step',
-//     LOADING: 'loading',
-//     CONTENT: 'content',
-//     PROGRESS: 'progress',
-//     TOOLBAR: 'toolbar',
-//     STATE_ACTIVE: 'active',
-//     STATE_DONE: 'done',
-//     STATE_ERROR: 'error',
-//     STATE_DISABLED: 'disabled',
-//     STATE_HIDDEN: 'hidden',
-// };
+/**
+ * Selectors used
+ */
+export const SELECTORS = {
+    TOOLBAR_ELM: '.sw-toolbar-elm',
+};
 
-// /**
-//  * Data attributes used
-//  */
-// export const DATA_ATTRIBUTES = {
-//     STEP_INDEX: 'data-step-index',
-//     STEP_DONE: 'data-step-done',
-//     STEP_ERROR: 'data-step-error',
-//     STEP_DISABLED: 'data-step-disabled',
-// };
-
+/**
+ * Data attributes used
+ */
+export const DATA_ATTRIBUTES = {
+    THEME: 'data-theme',
+};

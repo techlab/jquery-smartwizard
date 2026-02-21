@@ -8,6 +8,7 @@
 .lock-wscript
 .svn
 .wafpickle-*
+.rollup-cache
 CVS
 npm-debug.log
 
@@ -74,3 +75,6 @@ Thumbs.db
 /playwright.config.js
 /vitest.config.js
 /vite.config.ts
+/rollup.config.mjs
+/tsconfig.json
+/jest.config.js

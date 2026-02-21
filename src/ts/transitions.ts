@@ -27,7 +27,7 @@ export const transitions: Record<string, TransitionHandler> = {
         callback: TransitionCallback
     ): void {
         // Fallback to default transition if fadeOut is not available
-        if (!isFunction(next.fadeOut)) { this.default(next, current, stepDirection, wizard, callback); return; }
+        if (!isFunction(next.fadeOut)) { transitions.default(next, current, stepDirection, wizard, callback); return; }
 
         const { speed, easing } = wizard.getOptions().transition;
         const show = () => next.fadeIn(speed, easing, callback);
@@ -41,7 +41,7 @@ export const transitions: Record<string, TransitionHandler> = {
         wizard: Wizard,
         callback: TransitionCallback
     ): void {
-        if (!isFunction(next.animate)) { this.default(next, current, stepDirection, wizard, callback); return; }
+        if (!isFunction(next.animate)) { transitions.default(next, current, stepDirection, wizard, callback); return; }
 
         const { speed, easing } = wizard.getOptions().transition;
         const containerWidth = wizard.getWidth();
@@ -85,7 +85,7 @@ export const transitions: Record<string, TransitionHandler> = {
         wizard: Wizard,
         callback: TransitionCallback
     ): void {
-        if (!isFunction(next.animate)) { this.default(next, current, stepDirection, wizard, callback); return; }
+        if (!isFunction(next.animate)) { transitions.default(next, current, stepDirection, wizard, callback); return; }
 
         const { speed, easing } = wizard.getOptions().transition;
         const containerWidth = wizard.getWidth();
@@ -95,12 +95,12 @@ export const transitions: Record<string, TransitionHandler> = {
             wizard.resetHeight();
         }
 
-        // Horizontal slide
+        // Vertical slide
         const show = (element: JQuery<HTMLElement>, initial: number, final: number, complete: any) => {
-            element.css({ position: 'absolute', left: initial })
+            element.css({ position: 'absolute', top: initial })
                 .show()
                 .stop(true)
-                .animate({ left: final },
+                .animate({ top: final },
                     speed,
                     easing,
                     complete);
@@ -130,7 +130,7 @@ export const transitions: Record<string, TransitionHandler> = {
         callback: TransitionCallback
     ): void {
         // Fallback to default transition if fadeOut is not available
-        if (!isFunction(next.slideDown)) { this.default(next, current, stepDirection, wizard, callback); return; }
+        if (!isFunction(next.slideDown)) { transitions.default(next, current, stepDirection, wizard, callback); return; }
 
         const { speed, easing } = wizard.getOptions().transition;
         const show = () => next.slideDown(speed, easing, callback);
@@ -145,26 +145,32 @@ export const transitions: Record<string, TransitionHandler> = {
         callback: TransitionCallback
     ): void {
         const { prefix, forward, backward } = wizard.getOptions().transition.css;
-        if (forward.show.length == 0 || backward.show.length == 0) { this.default(next, current, stepDirection, wizard, callback); return; }
+        if (forward.show.length == 0 || backward.show.length == 0) { transitions.default(next, current, stepDirection, wizard, callback); return; }
 
         // CSS Animation
         const animateCss = (element: JQuery<HTMLElement>, animation: string, complete: any) => {
-            if (!animation || animation.length == 0) complete();
+            if (!animation || animation.length == 0) { complete(); return; }
 
-            element.addClass(animation).one(Constants.EVENTS.ANIMATIONEND, (e) => {
-                $(e.currentTarget).removeClass(animation);
-                complete();
-            });
-            element.addClass(animation).one(Constants.EVENTS.ANIMATIONCANCEL, (e) => {
-                $(e.currentTarget).removeClass(animation);
-                complete('cancel');
-            });
+            // Element must be visible before adding animation classes,
+            // otherwise the browser won't run the animation and animationend never fires.
+            element.show();
+
+            let called = false;
+            const done = (reason?: string) => {
+                if (called) return;
+                called = true;
+                element.removeClass(animation);
+                complete(reason);
+            };
+
+            element.addClass(animation)
+                .one(Constants.EVENTS.ANIMATIONEND, () => done())
+                .one(Constants.EVENTS.ANIMATIONCANCEL, () => done('cancel'));
         };
 
         const show = () => {
             const css = prefix + ' ' + (stepDirection == 'backward' ? backward.show : forward.show);
             animateCss(next, css, () => {
-                next.show();
                 callback();
             });
         };

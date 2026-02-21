@@ -3,7 +3,7 @@ import { WizardOptions } from './types';
 export const defaults: WizardOptions = {
     initialStep: 0, // Initial selected step (0 = first step)
     theme: 'basic', // Theme name, ensure related CSS is included
-    displayMode: 'auto', // Display mode: auto (system preference) | dark | light
+    displayMode: 'auto', // Display mode: auto (system preference) | dark | light | none (no class applied)
     behavior: {
         autoHeight: true, // Auto-adjust content height
         useUrlHash: false, // Enable step selection via URL hash
@@ -11,7 +11,6 @@ export const defaults: WizardOptions = {
     },
     navigation: {
         enabled: true, // Enable/Disable anchor navigation
-        justified: false, // Navigation menu justification (true/false)
         alwaysClickable: false, // Allow clicking on any anchor at any time
         completed: {
             enabled: true, // Mark visited steps as completed
@@ -56,7 +55,6 @@ export const defaults: WizardOptions = {
         navigation: {
             container: 'nav',
             link: 'nav-link',
-            justified: 'sw-justified'
         },
         content: {
             container: 'tab-content',
@@ -97,6 +95,10 @@ export const defaults: WizardOptions = {
         hidden: [], // Hidden steps
         error: [], // Steps with errors
         warning: [], // Warning steps
+    },
+    swipeNavigation: {
+        enabled: false, // Enable/Disable swipe navigation on touch devices
+        threshold: 50, // Minimum swipe distance in pixels to trigger navigation
     },
     contentLoader: null // Callback function for dynamically loading content
 };

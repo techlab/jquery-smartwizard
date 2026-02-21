@@ -14,13 +14,13 @@ const isDev = process.env.ROLLUP_WATCH;
 // Banner for output files
 const banner = `/*!
  * jQuery SmartWizard v7.0.1
- * The awesome step wizard plugin for jQuery
+ * A modern, accessible step wizard plugin for jQuery
  * http://www.techlaboratory.net/jquery-smartwizard
  *
  * Created by Dipu Raj (http://dipu.me)
  *
- * Licensed under the terms of the MIT License
- * https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE
+ * Licensed under the terms of the MIT License - Free for personal and open-source projects.
+ * For commercial use, please purchase a commercial license: https://techlaboratory.net/jquery-smartwizard#license
  */`;
 
 // ============================================================================
@@ -287,7 +287,7 @@ const devServerConfig = isDev
         {
             input: 'src/index.ts',
             output: {
-                file: 'dist/dev/smartwizard.dev.js',
+                file: 'dist/js/jquery.smartWizard.js',
                 format: 'umd',
                 name: 'smartWizard',
                 sourcemap: false,  // Disabled to avoid path resolution issues in dev server
@@ -306,7 +306,7 @@ const devServerConfig = isDev
                     port: 3001,
                 }),
                 livereload({
-                    watch: ['dist/dev', 'dist/css', 'examples'],
+                    watch: ['dist', 'examples'],
                     verbose: true,
                     delay: 500,  // Add delay to ensure files are written before reload
                 }),

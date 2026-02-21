@@ -50,7 +50,7 @@ export function getFirstDescendant(element: JQuery, selector: string): JQuery {
             return false; // Break the loop
         }
     });
-    
+
     if (result) {
         return result;
     }
@@ -76,7 +76,7 @@ export function setContentDirection(element: JQuery, direction: ContentDirection
 /**
  * Triggers a jQuery event and returns whether default was prevented.
  */
-export function triggerEvent(element: JQuery, name: string, args: StepEventArgs|LeaveStepEventArgs|any[] = []): boolean {
+export function triggerEvent(element: JQuery, name: string, args: StepEventArgs | LeaveStepEventArgs | any[] = []): boolean {
     // Trigger an event
     const event = $.Event(name);
     element.trigger(event, args);
@@ -84,7 +84,7 @@ export function triggerEvent(element: JQuery, name: string, args: StepEventArgs|
 }
 
 export function stopAnimations(...elements: JQuery<HTMLElement>[]) {
-    if (isFunction($.fn.finish)) { return; }
+    if (!isFunction($.fn.finish)) { return; }
 
     $(elements).finish();
 }

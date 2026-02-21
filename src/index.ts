@@ -8,4 +8,4 @@ export * from './ts/defaults';
 export * from './ts/transitions';
 export * from './ts/util';
 export * from './ts/wizard';
-export { default } from './ts/jquery-smartwizard';
+export { default } from './ts/plugin';
