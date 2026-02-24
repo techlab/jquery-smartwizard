@@ -20,7 +20,7 @@ export class Wizard {
 
     constructor(element: JQuery<HTMLElement>, options?: Partial<WizardOptions>) {
         // Merge user settings with default
-        this.options = { ...defaults, ...options };
+        this.options = Util.deepMerge(defaults, options ?? {});
         // Main container element
         this.main = $(element);
 
@@ -563,7 +563,7 @@ export class Wizard {
         const elm = this.getStepPage(idx);
         if (elm == null) return;
         // Auto adjust height of the container
-        const contentHeight = $(elm).outerHeight(true) ?? 0;
+        const contentHeight = ($(elm).outerHeight(true) ?? 0) + 10;
         if (Util.isFunction(this.container.finish) && Util.isFunction(this.container.animate) && contentHeight > 0) {
             this.container.finish().animate({ height: contentHeight }, this.options.transition.speed);
         } else {
@@ -747,7 +747,7 @@ export class Wizard {
     }
 
     public setOptions(options: Partial<WizardOptions>) {
-        this.options = { ...this.options, ...options };
+        this.options = Util.deepMerge(this.options, options);
         this.init();
         this.load();
     }

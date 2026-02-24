@@ -29,6 +29,35 @@ export function isFunction(value: unknown): boolean {
     return typeof value === "function";
 }
 
+/**
+ * Recursively merges `override` into a deep clone of `base`.
+ * Plain-object values are merged key-by-key; all other values are replaced.
+ */
+export function deepMerge<T extends object>(base: T, override: Partial<T>): T {
+    const result = { ...base } as Record<string, unknown>;
+    for (const key of Object.keys(override) as (keyof T)[]) {
+        const baseVal = base[key];
+        const overrideVal = override[key];
+        if (
+            overrideVal !== null &&
+            typeof overrideVal === 'object' &&
+            !Array.isArray(overrideVal) &&
+            baseVal !== null &&
+            typeof baseVal === 'object' &&
+            !Array.isArray(baseVal)
+        ) {
+            result[key as string] = deepMerge(
+                baseVal as object,
+                overrideVal as Partial<object>
+            );
+        } else if (overrideVal !== undefined) {
+            result[key as string] = overrideVal;
+        }
+    }
+    return result as T;
+}
+
+
 // jQuery Util
 
 /**

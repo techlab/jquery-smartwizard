@@ -218,7 +218,7 @@ That's it!
 
 Please see the detailed [documentation](https://techlaboratory.net/jquery-smartwizard#documentation) for implementation and usage.  
 
-##### All options
+### All options
 
 ```javascript
 $('#smartwizard').smartWizard({
@@ -296,7 +296,7 @@ $('#smartwizard').smartWizard({
 });
 ```
 
-##### Events
+### Events
 
 ```javascript
 // Fires after the wizard is fully initialized
@@ -317,7 +317,7 @@ $('#smartwizard').on('shown.sw', function(e, args) {
 });
 ```
 
-##### Public methods
+### Public methods
 
 ```javascript
 const wizard = $('#smartwizard');
@@ -329,9 +329,9 @@ wizard.smartWizard('goToStep', 2, true);     // Go to step index 2 (force, marks
 wizard.smartWizard('reset');                 // Reset wizard to initial state
 wizard.smartWizard('setOptions', { theme: 'arrows' }); // Update options at runtime
 
-wizard.smartWizard('setState',   [1, 2], 'disabled'); // Disable steps 1 and 2
+wizard.smartWizard('setState',   [1, 2], 'disable'); // Disable steps 1 and 2
 wizard.smartWizard('setState',   [3],    'error');     // Mark step 3 as error
-wizard.smartWizard('unsetState', [1, 2], 'disabled'); // Re-enable steps 1 and 2
+wizard.smartWizard('unsetState', [1, 2], 'disable'); // Re-enable steps 1 and 2
 
 wizard.smartWizard('loader', 'show'); // Show loader
 wizard.smartWizard('loader', 'hide'); // Hide loader
@@ -345,12 +345,12 @@ const info = wizard.smartWizard('getStepInfo');
 License
 ----
 
-SmartWizard is dual-licensed:
+jQuery SmartWizard v7 is dual-licensed:
 
 **[MIT License](https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE)** — Free for personal and open-source projects.
 
 **[Commercial License](https://techlaboratory.net/jquery-smartwizard#license)** — Required for closed-source, SaaS, or client-facing commercial projects.  
-If you use SmartWizard in a commercial or client application, please purchase a commercial license.
+If you use jQuery SmartWizard in a commercial or client application, please purchase a commercial license.
 
 Commercial licenses help support continued development, maintenance, and new features.
 
