@@ -1,0 +1,544 @@
+/* Demo page styles - Standalone version without Bootstrap */
+
+/* Reset and base styles */
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f4f6f8;
+    color: #222;
+    min-height: 50vh;
+    transition: background .3s, color .3s;
+    margin: 0;
+    padding: 0;
+}
+
+body.dark {
+    background: #222;
+    color: #ddd;
+}
+
+.theme-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e0e0e0;
+}
+
+body.dark .theme-label::after {
+    background: #2a2a2a;
+}
+
+body.dark .theme-label {
+    color: #555;
+}
+
+.demo-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.demo-section {
+    padding: 30px;
+    padding-bottom: 0;
+    margin: 0;
+}
+
+.demo-section+.demo-section {
+    padding-top: 0;
+}
+
+.demo-container {
+    margin: 0;
+    padding: 30px;
+    padding-top: 0;
+}
+
+/* Header */
+.demo-header {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 18px 28px;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    flex-wrap: wrap;
+}
+
+body.dark .demo-header {
+    background: #181818;
+    border-color: #2a2a2a;
+}
+
+.demo-header .demo-title {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.demo-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -.4px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+body.dark .demo-header h1 {
+    color: #fff;
+}
+
+.demo-header span {
+    font-size: 13px;
+    opacity: .55;
+    margin-left: 8px;
+}
+
+.demo-header p {
+    color: #7f8c8d;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.demo-control-wrap {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: start;
+    flex-direction: column;
+}
+
+.control-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #888;
+    line-height: 1;
+    min-width: 90px;
+    flex-shrink: 0;
+}
+
+.demo-controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.ctrl-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.ctrl-btn {
+    padding: 6px 13px;
+    border-radius: 6px;
+    border: 1.5px solid #d0d0d0;
+    background: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    transition: all .2s;
+}
+
+.ctrl-btn:hover {
+    border-color: #2196f3;
+    color: #2196f3;
+}
+
+.ctrl-btn.active {
+    background: #2196f3;
+    color: #fff;
+    border-color: #2196f3;
+}
+
+body.dark .ctrl-btn {
+    background: #222;
+    color: #aaa;
+    border-color: #333;
+}
+
+body.dark .ctrl-btn.active {
+    background: #42a5f5;
+    color: #fff;
+    border-color: #42a5f5;
+}
+
+/* Custom dropdown for animation picker */
+.ctrl-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.ctrl-dropdown-trigger {
+    min-width: 160px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.ctrl-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 1000;
+    background: #fff;
+    border: 1.5px solid #d0d0d0;
+    border-radius: 8px;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 180px;
+    max-height: 260px;
+    overflow-y: auto;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity .15s ease, transform .15s ease;
+}
+
+.ctrl-dropdown.open .ctrl-dropdown-menu {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.ctrl-dropdown-item {
+    padding: 6px 10px;
+    border: none;
+    background: none;
+    border-radius: 5px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    color: #444;
+    transition: background .12s;
+    white-space: nowrap;
+}
+
+.ctrl-dropdown-item:hover {
+    background: #e8f4ff;
+    color: #2196f3;
+}
+
+body.dark .ctrl-dropdown-menu {
+    background: #222;
+    border-color: #333;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
+}
+
+body.dark .ctrl-dropdown-item {
+    color: #bbb;
+}
+
+body.dark .ctrl-dropdown-item:hover {
+    background: #1a3a5c;
+    color: #42a5f5;
+}
+
+
+.settings-toggle-btn {
+    margin-top: 10px;
+}
+
+/* Settings toggle button */
+.settings-toggle {
+    padding: 10px 20px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.settings-toggle:hover {
+    background: #2980b9;
+}
+
+.settings-toggle:active {
+    transform: scale(0.98);
+}
+
+.settings-toggle::before {
+    content: '▼';
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+.settings-toggle.active::before {
+    transform: rotate(180deg);
+}
+
+/* Advanced Settings — always visible, separated by a top rule */
+.advanced-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-top: 1px solid #e8e8e8;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+body.dark .advanced-settings {
+    border-color: #2a2a2a;
+}
+
+.advanced-settings-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+
+/* Settings sections */
+.settings-section {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.settings-section h3 {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Form controls */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-check input[type="checkbox"],
+.form-check input[type="radio"] {
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.form-check label {
+    font-size: 0.875rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Radio group */
+.radio-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+}
+
+.btn-secondary {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #7f8c8d;
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c0392b;
+}
+
+.btn-success {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #229954;
+}
+
+.btn-warning {
+    background: #f39c12;
+    color: white;
+}
+
+.btn-warning:hover {
+    background: #d68910;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Button groups */
+.btn-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+/* Input groups */
+.input-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.input-group .form-select {
+    flex: 1;
+}
+
+.demo-controls .form-select {
+    width: auto;
+}
+
+
+/* Step info */
+.step-info {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    color: #555;
+}
+
+/* Color picker grid */
+.color-picker-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.color-picker-grid input[type="color"] {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.color-picker-grid input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 2px;
+}
+
+.color-picker-grid input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .demo-container {
+        padding: 20px;
+    }
+
+    .settings-panel-body {
+        grid-template-columns: 1fr;
+    }
+
+    .demo-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .color-picker-grid {
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    }
+}
+
+.fixed-plugin {
+    position: fixed;
+    top: 81px;
+    right: 0;
+    background: rgba(0, 0, 0, .3);
+    z-index: 1031;
+    border-radius: 8px 0 0 8px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.fixed-plugin i {
+    color: #fff;
+    font-size: 1.5em;
+}

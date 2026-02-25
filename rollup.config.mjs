@@ -290,8 +290,11 @@ const devServerConfig = isDev
                 file: 'dist/js/jquery.smartWizard.js',
                 format: 'umd',
                 name: 'smartWizard',
+                globals: { jquery: 'jQuery' },
+                exports: 'named',
                 sourcemap: false,  // Disabled to avoid path resolution issues in dev server
             },
+            external: ['jquery'],
             plugins: [
                 resolve(),
                 commonjs(),
@@ -302,8 +305,9 @@ const devServerConfig = isDev
                 }),
                 serve({
                     open: false,
-                    contentBase: ['dist', 'examples'],
+                    contentBase: ['.'],
                     port: 3001,
+                    openPage: 'examples/index.html',
                 }),
                 livereload({
                     watch: ['dist', 'examples'],
