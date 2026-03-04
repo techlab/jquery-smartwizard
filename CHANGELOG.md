@@ -1,6 +1,62 @@
 CHANGELOG
 =========
 
+v7.0.1 
+-----
+**All new jQuery SmartWizard v7 — full TypeScript rewrite**
+
+- **Added:** Complete rewrite in TypeScript with bundled type declarations (`dist/types/`)
+- **Added:** `displayMode` option — `auto` (follows system preference) | `dark` | `light` | `none`
+- **Added:** `swipeNavigation` option — swipe left/right on touch devices to navigate steps (`enabled`, `threshold`)
+- **Added:** Horizontal mouse-wheel scroll on the nav bar when steps overflow
+- **Added:** `behavior.useUrlHash` and `behavior.supportBrowserHistory` options replace old `enableUrlHash` / `backButtonSupport`
+- **Added:** `navigation.completed.clickable` option — control whether completed steps are re-clickable
+- **Added:** `DATA_ATTRIBUTES` constants for `data-theme` attribute management
+- **Added:** `contentLoader` callback for dynamic step content loading
+- **Added:** CSS animation support for transitions via `transition.css` (`prefix`, `forward`, `backward` class groups)
+- **Added:** Nav scroll buttons shown automatically when nav content overflows
+- **Added:** UMD, ESM, and CJS build outputs
+- **Added:** `scrollToView` option — scroll the active step anchor into view on step change
+
+- **Changed:** All options restructured with clearer namespacing (see README for full reference)
+  - `selected` → `initialStep`
+  - `autoAdjustHeight` → `behavior.autoHeight`
+  - `enableUrlHash` → `behavior.useUrlHash`
+  - `backButtonSupport` → `behavior.supportBrowserHistory`
+  - `anchor.enableNavigation` → `navigation.enabled`
+  - `anchor.enableNavigationAlways` → `navigation.alwaysClickable`
+  - `anchor.enableDoneState` → `navigation.completed.enabled`
+  - `anchor.markPreviousStepsAsDone` → `navigation.completed.completeAllPreviousSteps`
+  - `anchor.unDoneOnBackNavigation` → `navigation.completed.clearOnBack`
+  - `anchor.enableDoneStateNavigation` → `navigation.completed.clickable`
+  - `transition.animation` → `transition.effect`
+  - `toolbar.showNextButton` / `showPreviousButton` → `toolbar.buttons.showNext` / `showPrevious`
+  - `toolbar.extraHtml` → `toolbar.extraElements`
+  - `keyboard.keyNavigation` → `keyboardNavigation.enabled`
+  - `keyboard.keyLeft` / `keyRight` → `keyboardNavigation.keys.left` / `right`
+  - `lang` → `localization.buttons`
+  - `disabledSteps`, `errorSteps`, `warningSteps`, `hiddenSteps` → `stepStates.disabled`, `.error`, `.warning`, `.hidden`
+  - `getContent` → `contentLoader`
+- **Changed:** Events renamed for consistency
+  - `leaveStep` → `leave.sw`
+  - `showStep` → `shown.sw`
+  - `initialized` → `initialized.sw`
+  - `loaded` → `loaded.sw`
+- **Changed:** `reset()` no longer manipulates URL hash unless `useUrlHash` + `supportBrowserHistory` are both enabled
+- **Changed:** `transition.css` animations require the element to be visible before class is applied (fixes `animationend` not firing)
+- **Changed:** `this.default(...)` references inside transition handlers replaced with direct `transitions.default(...)` to prevent `TypeError` when handlers are invoked without object context
+- **Changed:** Progressbar width uses `.toFixed(2)` for cleaner CSS values
+- **Changed:** `ANIMATIONEND` / `ANIMATIONCANCEL` events are now namespaced (`.sw`)
+
+- **Fixed:** `this is undefined` TypeError in CSS / fade / slide transition fallbacks
+- **Fixed:** `animationend` event not firing on hidden elements (element now shown before animation class is applied)
+- **Fixed:** Double-invocation of transition `complete` callback (guard flag added)
+- **Fixed:** URL hash incorrectly always set; now only when both `useUrlHash` and `supportBrowserHistory` are `true`
+
+- **Removed:** `justified` option (layout handled by CSS)
+- **Removed:** `cycleNavigation` option
+- **Removed:** `STEPCHANGE` and `RESET` events (use `shown.sw` and handle externally)
+
 v6.0.6
 -----
 - **Fixed:** History back on step1 not working https://github.com/techlab/jquery-smartwizard/issues/152

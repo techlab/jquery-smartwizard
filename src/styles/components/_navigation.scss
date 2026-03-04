@@ -1,0 +1,217 @@
+@use '../base/variables' as *;
+
+// Navigation container
+.sw {
+    >.nav {
+        display: flex;
+        list-style: none;
+        gap: 0;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        overflow: hidden;
+        flex-wrap: nowrap;
+        list-style: none;
+        -webkit-overflow-scrolling: touch;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        @media screen and (max-width: $breakpoint-phone) {
+            flex-direction: column !important;
+            flex: 1 auto;
+        }
+
+        // When nav-scroll class is present
+        &.nav-scroll {
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+        }
+
+        // Scroll navigation buttons
+        .nav-scroll-btn {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 36px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: var(--sw-surface);
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+            color: var(--sw-inactive-text);
+            transition: color var(--sw-transition), background var(--sw-transition);
+            padding: 0;
+
+            &:hover {
+                color: var(--sw-accent);
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+
+            svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            &--prev {
+                left: 0;
+                box-shadow: 4px 0 10px -2px rgba(0, 0, 0, .12);
+            }
+
+            &--next {
+                right: 0;
+                box-shadow: -4px 0 10px -2px rgba(0, 0, 0, .12);
+            }
+
+            &.nav-scroll-btn-visible {
+                display: flex;
+            }
+        }
+
+        // Nav item
+        .nav-item {
+            display: flex;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            cursor: pointer;
+            user-select: none;
+            color: var(--sw-nav-default-text);
+            background: var(--sw-nav-default-bg);
+            text-decoration: none;
+            position: relative;
+            padding: 14px 20px;
+            gap: 10px;
+            transition: all 0.3s ease;
+
+
+            &:hover,
+            &:active,
+            &:focus {
+                text-decoration: none;
+            }
+
+            &::-moz-focus-inner {
+                border: 0;
+            }
+
+            // ── State classes ──
+            &.active {
+                color: var(--sw-nav-active-text);
+                background: var(--sw-nav-active-bg);
+                cursor: default;
+                z-index: 4;
+
+                .badge {
+                    color: var(--sw-nav-active-badge-text);
+                    background: var(--sw-nav-active-badge-bg);
+                }
+            }
+
+            &.completed {
+                color: var(--sw-nav-completed-text);
+                background: var(--sw-nav-completed-bg);
+                z-index: 2;
+
+                .badge {
+                    color: var(--sw-nav-completed-badge-text);
+                    background: var(--sw-nav-completed-badge-bg);
+                }
+            }
+
+            &.error {
+                color: var(--sw-nav-error-text);
+                background: var(--sw-nav-error-bg);
+                z-index: 2;
+
+                .badge {
+                    color: var(--sw-nav-error-badge-text);
+                    background: var(--sw-nav-error-badge-bg);
+                }
+            }
+
+            &.warning {
+                color: var(--sw-nav-warning-text);
+                background: var(--sw-nav-warning-bg);
+                z-index: 2;
+
+                .badge {
+                    color: var(--sw-nav-warning-badge-text);
+                    background: var(--sw-nav-warning-badge-bg);
+                }
+            }
+
+            &.hidden {
+                display: none;
+                visibility: none;
+            }
+
+            &.disabled,
+            &:disabled {
+                opacity: 0.45;
+                pointer-events: none;
+                cursor: not-allowed;
+            }
+
+            &>.badge {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                width: var(--sw-nav-badge-size);
+                height: var(--sw-nav-badge-size);
+                border-radius: var(--sw-nav-badge-radius);
+                pointer-events: none;
+                clear: both;
+                line-height: 1;
+                color: var(--sw-nav-default-badge-text);
+                background: var(--sw-nav-default-badge-bg);
+                transition: background var(--sw-transition), transform var(--sw-transition);
+            }
+
+            &:hover:not(.disabled) .badge {
+                transform: scale(1.05);
+            }
+
+        }
+    }
+
+    // Show scroll buttons on hover
+    &:hover,
+    &:focus {
+        &>.nav>.nav-scroll-btn {
+            opacity: 1;
+        }
+    }
+
+    // Justified navigation
+    &.sw-justified {
+        &>.nav {
+            justify-content: space-between;
+        }
+    }
+
+    // RTL Support
+    &[dir="rtl"]>.nav {
+        .nav-link {
+            &>.badge {
+                float: right;
+            }
+        }
+    }
+}

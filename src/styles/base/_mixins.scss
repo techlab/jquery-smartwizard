@@ -1,0 +1,27 @@
+// ─────────────────────────────────────────────
+// MIXINS for arrow clip-path
+// ─────────────────────────────────────────────
+@mixin arrow-clip($tip: 20px) {
+  clip-path: polygon(0% 0%,
+    calc(100% - #{$tip}) 0%,
+    100% 50%,
+    calc(100% - #{$tip}) 100%,
+    0% 100%,
+    #{$tip} 50%);
+}
+
+@mixin arrow-clip-first($tip: 20px) {
+  clip-path: polygon(0% 0%,
+    calc(100% - #{$tip}) 0%,
+    100% 50%,
+    calc(100% - #{$tip}) 100%,
+    0% 100%);
+}
+
+@mixin arrow-clip-last($tip: 20px) {
+  clip-path: polygon(0% 0%,
+    100% 0%,
+    100% 100%,
+    0% 100%,
+    #{$tip} 50%);
+}

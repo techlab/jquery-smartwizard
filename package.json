@@ -1,23 +1,30 @@
 {
   "name": "smartwizard",
+  "version": "7.0.1",
   "title": "jQuery Smart Wizard",
-  "version": "6.0.6",
+  "description": "A modern and accessible step wizard plugin for jQuery",
   "author": {
     "name": "Dipu Raj",
     "email": "hello.techlab@gmail.com",
-    "url": "http://dipu.me"
+    "url": "https://github.com/techlab"
   },
-  "description": "The awesome step wizard plugin for jQuery",
-  "homepage": "http://techlaboratory.net/jquery-smartwizard",
-  "license": "MIT",
   "contributors": [
     {
       "name": "Dipu Raj",
       "email": "hello.techlab@gmail.com"
     }
   ],
-  "main": "./dist/js/jquery.smartWizard.js",
-  "style": "./dist/css/smart_wizard.css",
+  "homepage": "http://techlaboratory.net/jquery-smartwizard",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/js/jquery.smartWizard.cjs.js",
+  "module": "dist/js/jquery.smartWizard.esm.js",
+  "types": "dist/types/index.d.ts",
+  "browser": "dist/js/jquery.smartWizard.js",
+  "style": "dist/css/smartwizard.css",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/techlab/jquery-smartwizard.git"
@@ -26,51 +33,51 @@
     "url": "https://github.com/techlab/jquery-smartwizard/issues"
   },
   "keywords": [
-    "jQuery",
-    "Wizard",
-    "Tabs",
-    "Steps",
-    "Bootstrap",
-    "Plugin",
-    "Step",
+    "wizard",
+    "steps",
     "ui",
     "jquery-plugin",
-    "Tabs"
+    "tabs",
+    "jquery",
+    "javascript"
   ],
   "scripts": {
-    "start": "gulp build && gulp serve",
-    "watch": "gulp watch",
-    "test": "./node_modules/karma/bin/karma start --single-run",
-    "build": "gulp build",
-    "clean": "gulp clean",
-    "lint": "gulp lint"
+    "start": "npm run dev",
+    "dev": "rollup -c rollup.config.mjs -w",
+    "build": "tsc --emitDeclarationOnly --outDir dist/types && rollup -c rollup.config.mjs",
+    "clean": "rm -rf dist coverage .rollup-cache",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "jest",
+    "test:unit:watch": "jest --watch",
+    "test:unit:coverage": "jest --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:ui": "playwright test --ui",
+    "test:all": "npm run build && npm run test"
+  },
+  "peerDependencies": {
+    "jquery": ">=1.11.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.5",
-    "@babel/preset-env": "^7.18.2",
-    "autoprefixer": "^10.4.7",
-    "browser-sync": "^2.27.10",
-    "del": "^6.1.1",
-    "gulp": "^4.0.2",
-    "gulp-babel": "^8.0.0",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-cssbeautify": "^3.0.1",
-    "gulp-dart-sass": "^1.0.2",
-    "gulp-jasmine": "^4.0.0",
-    "gulp-jshint": "^2.1.0",
-    "gulp-postcss": "^9.0.1",
-    "gulp-rename": "^2.0.0",
-    "gulp-sass": "^5.1.0",
-    "gulp-uglify": "^3.0.2",
-    "jasmine-core": "^4.2.0",
-    "jasmine-jquery": "^2.1.1",
-    "jshint": "^2.13.4",
-    "karma": "^6.4.0",
-    "karma-chrome-launcher": "^3.1.1",
-    "karma-jasmine": "^5.1.0",
-    "karma-jasmine-jquery": "^0.1.1",
-    "karma-spec-reporter": "0.0.34",
-    "sass": "^1.53.0",
-    "uglify-save-license": "^0.4.1"
+    "@playwright/test": "^1.40.0",
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@swc/jest": "^0.2.36",
+    "@types/jest": "^29.5.12",
+    "@types/jquery": "^3.5.29",
+    "autoprefixer": "^10.4.20",
+    "cssnano": "^7.0.6",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jquery": "^3.7.1",
+    "rollup": "^4.30.1",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-serve": "^1.1.1",
+    "sass": "^1.83.4",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.3"
   }
 }

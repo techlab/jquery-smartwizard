@@ -8,6 +8,7 @@
 .lock-wscript
 .svn
 .wafpickle-*
+.rollup-cache
 CVS
 npm-debug.log
 
@@ -71,3 +72,9 @@ Thumbs.db
 /gulpfile.js
 /karma.conf.js
 /.travis.yml
+/playwright.config.js
+/vitest.config.js
+/vite.config.ts
+/rollup.config.mjs
+/tsconfig.json
+/jest.config.js
