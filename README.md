@@ -28,15 +28,7 @@ Demos
 
 Screenshots
 -----
-![Smart Wizard Demo](https://techlaboratory.net/assets/media/jquery-smart-wizard/v6/gif/sw-6-validation.gif)  
-
-![Smart Wizard Demo](https://techlaboratory.net/assets/media/jquery-smart-wizard/v6/gif/sw-6-basic-green.gif)   
-
-![Smart Wizard Arrows Dark](https://techlaboratory.net/assets/media/jquery-smart-wizard/v6/sw-6-arrows-dark.png)   
-
-![Smart Wizard Round](https://techlaboratory.net/assets/media/jquery-smart-wizard/v6/sw-6-round-lite-blue.png) 
-
-![Smart Wizard Dots](https://techlaboratory.net/assets/media/jquery-smart-wizard/v6/sw-6-dots-red.png)
+![Smart Wizard](https://techlaboratory.net/media/jquery-smart-wizard/v7/all-screens.png)   
 
 Requirements
 -----
@@ -144,25 +136,25 @@ Include HTML (*This is the basic HTML markup. Customize it by adding your own st
     <ul class="nav">
         <li class="nav-item">
           <a class="nav-link" href="#step-1">
-            <div class="num">1</div>
+            <div class="badge">1</div>
             Step Title
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#step-2">
-            <span class="num">2</span>
+            <span class="badge">2</span>
             Step Title
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#step-3">
-            <span class="num">3</span>
+            <span class="badge">3</span>
             Step Title
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#step-4">
-            <span class="num">4</span>
+            <span class="badge">4</span>
             Step Title
           </a>
         </li>
@@ -191,21 +183,20 @@ Include HTML (*This is the basic HTML markup. Customize it by adding your own st
 </div>
 ```
 
-Include jQuery (*skip if already on the page*).  
-```html
-<script src="https://code.jquery.com/jquery-4.0.0.min.js"
-        integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
-```
+### Include JavaScript
+_Note:- jQuery should be included before the jQuery SmartWizard JavaScript file._
 
 Include SmartWizard plugin JavaScript
 ```html
 <script src="https://cdn.jsdelivr.net/npm/smartwizard@7/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
 ```
 
-Initialize the SmartWizard
-```js
+### Initialize the jQuery SmartWizard
+
+```javascript
 $(function() {
-    $('#smartwizard').smartWizard();
+  // SmartWizard initialize
+  $('#smartwizard').smartWizard();
 });
 ```
 
