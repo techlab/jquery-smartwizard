@@ -1,19 +1,18 @@
-// Navigation component - migrated from scss-old/core/_base.scss
 @use '../base/variables' as *;
 
 // Navigation container
-.#{$prefix} {
+.sw {
     >.nav {
         display: flex;
         list-style: none;
         gap: 0;
         margin: 0;
         padding: 0;
-        background: var(--sw-surface);
         position: relative;
         overflow: hidden;
-        -webkit-overflow-scrolling: touch;
         flex-wrap: nowrap;
+        list-style: none;
+        -webkit-overflow-scrolling: touch;
 
         &::-webkit-scrollbar {
             display: none;
@@ -92,13 +91,14 @@
             width: 100%;
             cursor: pointer;
             user-select: none;
-            color: var(--sw-inactive-text);
+            color: var(--sw-nav-default-text);
+            background: var(--sw-nav-default-bg);
             text-decoration: none;
             position: relative;
-            color: var(--sw-inactive-text);
             padding: 14px 20px;
-            background: transparent;
             gap: 10px;
+            transition: all 0.3s ease;
+
 
             &:hover,
             &:active,
@@ -111,37 +111,49 @@
             }
 
             // ── State classes ──
-            &.completed {
-                color: var(--sw-completed-text);
-                z-index: 2;
-
-                .num {
-                    background: var(--sw-completed-bg);
-                    color: #fff;
-                }
-            }
-
             &.active {
-                color: var(--sw-active-text);
+                color: var(--sw-nav-active-text);
+                background: var(--sw-nav-active-bg);
                 cursor: default;
                 z-index: 4;
 
-                .num {
-                    background: var(--sw-active-bg);
-                    color: #fff;
+                .badge {
+                    color: var(--sw-nav-active-badge-text);
+                    background: var(--sw-nav-active-badge-bg);
+                }
+            }
+
+            &.completed {
+                color: var(--sw-nav-completed-text);
+                background: var(--sw-nav-completed-bg);
+                z-index: 2;
+
+                .badge {
+                    color: var(--sw-nav-completed-badge-text);
+                    background: var(--sw-nav-completed-badge-bg);
                 }
             }
 
             &.error {
-                background: var(--sw-error-bg);
-                color: var(--sw-error-text);
+                color: var(--sw-nav-error-text);
+                background: var(--sw-nav-error-bg);
                 z-index: 2;
+
+                .badge {
+                    color: var(--sw-nav-error-badge-text);
+                    background: var(--sw-nav-error-badge-bg);
+                }
             }
 
             &.warning {
-                background: var(--sw-warning-bg);
-                color: var(--sw-warning-text);
+                color: var(--sw-nav-warning-text);
+                background: var(--sw-nav-warning-bg);
                 z-index: 2;
+
+                .badge {
+                    color: var(--sw-nav-warning-badge-text);
+                    background: var(--sw-nav-warning-badge-bg);
+                }
             }
 
             &.hidden {
@@ -156,23 +168,23 @@
                 cursor: not-allowed;
             }
 
-            &>.num {
+            &>.badge {
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 flex-shrink: 0;
-                width: var(--sw-badge-size);
-                height: var(--sw-badge-size);
-                border-radius: var(--sw-badge-radius);
+                width: var(--sw-nav-badge-size);
+                height: var(--sw-nav-badge-size);
+                border-radius: var(--sw-nav-badge-radius);
                 pointer-events: none;
                 clear: both;
                 line-height: 1;
-                background: var(--sw-inactive-bg);
-                color: var(--sw-inactive-text);
+                color: var(--sw-nav-default-badge-text);
+                background: var(--sw-nav-default-badge-bg);
                 transition: background var(--sw-transition), transform var(--sw-transition);
             }
 
-            &:hover:not(.disabled) .num {
+            &:hover:not(.disabled) .badge {
                 transform: scale(1.05);
             }
 
@@ -197,7 +209,7 @@
     // RTL Support
     &[dir="rtl"]>.nav {
         .nav-link {
-            &>.num {
+            &>.badge {
                 float: right;
             }
         }

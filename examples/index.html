@@ -12,19 +12,21 @@
   <!-- Animate.css for CSS animation support -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
 
-  <!-- Include SmartWizard CSS and themes -->
+  <!-- Include SmartWizard CSS -->
   <link href="../dist/css/smartwizard.css" rel="stylesheet" type="text/css" />
-  <link href="../dist/css/themes/arrows.css" rel="stylesheet" type="text/css" />
+
+  <!-- Include SmartWizard Themes -->
   <link href="../dist/css/themes/basic.css" rel="stylesheet" type="text/css" />
-  <link href="../dist/css/themes/dots.css" rel="stylesheet" type="text/css" />
-  <link href="../dist/css/themes/round.css" rel="stylesheet" type="text/css" />
-  <link href="../dist/css/themes/square.css" rel="stylesheet" type="text/css" />
+  <link href="../dist/css/themes/arrows.css" rel="stylesheet" type="text/css" />
+  <link href="../dist/css/themes/pills.css" rel="stylesheet" type="text/css" />
+  <link href="../dist/css/themes/glow.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
   <!-- Header -->
   <header class="demo-header">
     <h1>jQuery SmartWizard 7 - Examples</h1>
+    <div class="header-right" id="demo-nav"></div>
     <div class="header-right">
       <button class="header-btn" id="toggle-dark"> ⚡Auto</button>
     </div>
@@ -52,15 +54,7 @@
 
       <div class="control-group">
         <span class="control-label">Color:</span>
-        <div class="color-swatches">
-          <button class="swatch active" data-color="" title="Blue (Default)"></button>
-          <button class="swatch" data-color="ocean" title="Ocean"></button>
-          <button class="swatch" data-color="forest" title="Forest"></button>
-          <button class="swatch" data-color="violet" title="Violet"></button>
-          <button class="swatch" data-color="crimson" title="Crimson"></button>
-          <button class="swatch" data-color="amber" title="Amber"></button>
-          <button class="swatch" data-color="indigo" title="Indigo"></button>
-          <button class="swatch" data-color="slate" title="Slate"></button>
+        <div class="btn-group" id="color-list">
         </div>
       </div>
 
@@ -82,10 +76,10 @@
       <div class="control-group">
         <label class="control-label" for="toolbar-select">External Controls:</label>
         <!-- External controls -->
-        <div>
-          <button class="ext-btn" id="btn-prev">← Prev</button>
-          <button class="ext-btn" id="btn-next">Next →</button>
-          <button class="ext-btn" id="btn-reset">↺ Reset</button>
+        <div class="btn-group">
+          <button class="btn" id="btn-prev">← Prev</button>
+          <button class="btn" id="btn-next">Next →</button>
+          <button class="btn" id="btn-reset">↺ Reset</button>
         </div>
       </div>
 
@@ -111,61 +105,61 @@
         <ul class="nav">
           <li class="nav-item">
             <a class="nav-link" href="#step-1">
-              <div class="num">1</div>
+              <div class="badge">1</div>
               Customer Details
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#step-2">
-              <span class="num">2</span>
+              <span class="badge">2</span>
               Products Details
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#step-3">
-              <span class="num">3</span>
+              <span class="badge">3</span>
               Shipping Details
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link " href="#step-4">
-              <span class="num">4</span>
+              <span class="badge">4</span>
               Confirm Order
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link " href="#step-5">
-              <span class="num">5</span>
+              <span class="badge">5</span>
               Confirm Order 2
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link " href="#step-6">
-              <span class="num">6</span>
+              <span class="badge">6</span>
               Confirm Order 3
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link " href="#step-7">
-              <span class="num">7</span>
+              <span class="badge">7</span>
               Confirm Order 4
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link " href="#step-8">
-              <span class="num">8</span>
+              <span class="badge">8</span>
               Confirm Order 5
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link " href="#step-9">
-              <span class="num">9</span>
+              <span class="badge">9</span>
               Confirm Order 6
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link " href="#step-10">
-              <span class="num">10</span>
+              <span class="badge">10</span>
               Confirm Order 7
             </a>
           </li>
@@ -414,12 +408,20 @@
   <!-- Page-specific SmartWizard init -->
   <script>
     $(function () {
+      wizardElement = $('#smartwizard');
+      activeTheme = 'arrows';
+      activeTransition = 'slideHorizontal';
+      activeColor = '';
+
+      initWizardControls(wizardElement);
+      initTheme();
+
       // Init SmartWizard
-      $('#smartwizard').smartWizard({
-        theme: 'basic',
-        displayMode: 'none',
+      wizardElement.smartWizard({
+        theme: activeTheme,
+        displayMode: displayMode,
         transition: {
-          effect: 'slideHorizontal',
+          effect: activeTransition,
           speed: 400,
         },
         toolbar: {
@@ -427,33 +429,7 @@
         },
       });
 
-      $("#theme_selector").on("change", function () {
-        // Change theme
-        var options = {
-          theme: $(this).val()
-        };
-        $('#smartwizard').smartWizard("setOptions", options);
-        return true;
-      });
 
-      // External Button Events
-      $("#btn-reset").on("click", function () {
-        // Reset wizard
-        $('#smartwizard').smartWizard("reset");
-        return true;
-      });
-
-      $("#btn-prev").on("click", function () {
-        // Navigate previous
-        $('#smartwizard').smartWizard("prev");
-        return true;
-      });
-
-      $("#btn-next").on("click", function () {
-        // Navigate next
-        $('#smartwizard').smartWizard("next");
-        return true;
-      });
     });
   </script>
 

@@ -100,5 +100,6 @@ export const defaults: WizardOptions = {
         enabled: false, // Enable/Disable swipe navigation on touch devices
         threshold: 50, // Minimum swipe distance in pixels to trigger navigation
     },
+    scrollToView: false, // Scroll the active step anchor into view on step change
     contentLoader: null // Callback function for dynamically loading content
 };

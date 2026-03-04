@@ -1,27 +1,2 @@
-// Theme variables
-$prefix: 'sw' !default;
-$var-prefix: '#{$prefix}-' !default;
-$sw-prefix: $prefix !default;
-
 // Breakpoints
 $breakpoint-phone: 640px !default;
-$breakpoint-tablet: 768px !default;
-$breakpoint-desktop: 1024px !default;
-
-// Colors
-$primary-color: #1e88e5 !default;
-$secondary-color: #ffffff !default;
-$border-color: #eeeeee !default;
-
-// States colors
-$default-color: #f8f9fa !default;
-$active-color: $primary-color !default;
-$done-color: #4caf50 !default;
-$disabled-color: #d9d9d9 !default;
-$error-color: #dc3545 !default;
-$warning-color: #ffc107 !default;
-
-// Typography
-$font-family-base: system-ui, -apple-system, "Segoe UI", Roboto !default;
-$font-size-base: 1rem !default;
-$line-height-base: 1.5 !default;

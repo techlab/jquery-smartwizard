@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-v7.0.1 (2026-02-22)
+v7.0.1 
 -----
 **All new jQuery SmartWizard v7 — full TypeScript rewrite**
 
@@ -16,6 +16,7 @@ v7.0.1 (2026-02-22)
 - **Added:** CSS animation support for transitions via `transition.css` (`prefix`, `forward`, `backward` class groups)
 - **Added:** Nav scroll buttons shown automatically when nav content overflows
 - **Added:** UMD, ESM, and CJS build outputs
+- **Added:** `scrollToView` option — scroll the active step anchor into view on step change
 
 - **Changed:** All options restructured with clearer namespacing (see README for full reference)
   - `selected` → `initialStep`
@@ -55,8 +56,6 @@ v7.0.1 (2026-02-22)
 - **Removed:** `justified` option (layout handled by CSS)
 - **Removed:** `cycleNavigation` option
 - **Removed:** `STEPCHANGE` and `RESET` events (use `shown.sw` and handle externally)
-
----
 
 v6.0.6
 -----

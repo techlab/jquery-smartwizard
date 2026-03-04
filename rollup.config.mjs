@@ -14,10 +14,10 @@ const isDev = process.env.ROLLUP_WATCH;
 // Banner for output files
 const banner = `/*!
  * jQuery SmartWizard v7.0.1
- * A modern, accessible step wizard plugin for jQuery
+ * A modern and accessible step wizard plugin for jQuery
  * http://www.techlaboratory.net/jquery-smartwizard
  *
- * Created by Dipu Raj (http://dipu.me)
+ * Created by Dipu Raj (https://github.com/techlab)
  *
  * Licensed under the terms of the MIT License - Free for personal and open-source projects.
  * For commercial use, please purchase a commercial license: https://techlaboratory.net/jquery-smartwizard#license
@@ -121,13 +121,10 @@ const jsMinifiedConfigs = {
 
 // Theme files to build
 const themeFiles = [
-    { name: 'arrows', path: 'src/styles/themes/arrows.scss' },
-    { name: 'dots', path: 'src/styles/themes/dots.scss' },
     { name: 'basic', path: 'src/styles/themes/basic.scss' },
-    { name: 'dark', path: 'src/styles/themes/dark.scss' },
-    { name: 'progress', path: 'src/styles/themes/progress.scss' },
-    { name: 'round', path: 'src/styles/themes/round.scss' },
-    { name: 'square', path: 'src/styles/themes/square.scss' },
+    { name: 'arrows', path: 'src/styles/themes/arrows.scss' },
+    { name: 'pills', path: 'src/styles/themes/pills.scss' },
+    { name: 'glow', path: 'src/styles/themes/glow.scss' },
 ];
 
 // Create configurations for each theme (non-minified)

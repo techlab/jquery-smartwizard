@@ -1,8 +1,5 @@
-// Basic theme - Complete implementation migrated from scss-old/themes/_basic.scss
-@use '../base/variables' as *;
-@use '../base/mixins' as *;
-
-.#{$prefix}-theme-basic {
+// Basic theme
+.sw-theme-basic {
 
   // Navigation style
   &>.nav {
@@ -23,38 +20,29 @@
       justify-content: flex-start;
       padding: 14px 20px !important;
       background: transparent;
-      color: var(--sw-inactive-text);
-
-      &:hover:not(.active):not(.done) {
-        background: color-mix(in srgb, var(--sw-surface) 95%, var(--sw-accent) 5%);
-      }
+      color: var(--sw-nav-default-text);
 
       &.completed {
         background: transparent;
-        color: var(--sw-inactive-text);
+        color: var(--sw-nav-completed-bg);
 
-        .num {
-          background: var(--sw-completed-bg);
-          color: #fff;
+        .badge {
+          color: var(--sw-nav-completed-badge-text);
+          background: var(--sw-nav-completed-badge-bg);
         }
+
       }
 
       &.active {
         background: transparent;
-        color: var(--sw-accent);
+        color: var(--sw-nav-active-bg);
 
-        .num {
-          background: var(--sw-accent);
-          color: #fff;
+        .badge {
+          color: var(--sw-nav-active-badge-bg);
+          background: var(--sw-nav-active-badge-text);
         }
       }
 
-      .num {
-        background: var(--sw-inactive-bg);
-        color: var(--sw-inactive-text);
-        font-size: 14px;
-        font-weight: 600;
-      }
     }
   }
 }

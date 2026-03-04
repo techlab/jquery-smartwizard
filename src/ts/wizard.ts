@@ -294,6 +294,7 @@ export class Wizard {
         // Current step anchor > Remove other classes and add done class
         if (this.currentStepIndex !== null && this.currentStepIndex >= 0) {
             let removeCss = this.options.styles.anchorStates.active;
+            removeCss += ' ' + this.options.styles.anchorStates.default;
             let addCss = '';
 
             if (this.options.navigation.completed.enabled !== false) {
@@ -303,11 +304,15 @@ export class Wizard {
                 }
             }
 
-            this.steps.eq(this.currentStepIndex).addClass(addCss).removeClass(removeCss);
+            this.steps.eq(this.currentStepIndex)
+                .addClass(addCss)
+                .removeClass(removeCss);
         }
 
         // Next step anchor > Remove other classes and add active class
-        this.steps.eq(stepIdx).removeClass(this.options.styles.anchorStates.completed).addClass(this.options.styles.anchorStates.active);
+        this.steps.eq(stepIdx)
+            .removeClass(this.options.styles.anchorStates.completed + ' ' + this.options.styles.anchorStates.default)
+            .addClass(this.options.styles.anchorStates.active);
     }
 
     private setButtons(idx: number) {
@@ -563,7 +568,9 @@ export class Wizard {
         const elm = this.getStepPage(idx);
         if (elm == null) return;
         // Auto adjust height of the container
-        const contentHeight = ($(elm).outerHeight(true) ?? 0) + 10;
+        const parentPadding = parseFloat(this.container.css('padding-top')) + parseFloat(this.container.css('padding-bottom'));
+        const parentBorders = parseFloat(this.container.css('border-top-width')) + parseFloat(this.container.css('border-bottom-width'));
+        const contentHeight = ($(elm).outerHeight(true) ?? 0) + parentPadding + parentBorders;
         if (Util.isFunction(this.container.finish) && Util.isFunction(this.container.animate) && contentHeight > 0) {
             this.container.finish().animate({ height: contentHeight }, this.options.transition.speed);
         } else {
@@ -588,7 +595,7 @@ export class Wizard {
                 nextStepIndex: stepIdx,         // The step being shown/left
                 stepElement: this.getStepAnchor(this.currentStepIndex),  // DOM element of the step
                 stepDirection: stepDirection, // or custom enum
-                stepPosition: this.getStepPosition(stepIdx), // optional helper classification
+                stepPosition: this.getStepPosition(this.currentStepIndex), // optional helper classification
             };
 
             // Trigger "leaveStep" event
@@ -611,7 +618,9 @@ export class Wizard {
             // Update controls
             this.setAnchor(stepIdx);
             // Scroll the element into view
-            selStep && Util.scrollToView(selStep);
+            if (this.options.scrollToView) {
+                selStep && Util.scrollToView(selStep);
+            }
 
             // Get current step element
             const curPage = this.getStepPage(this.currentStepIndex);

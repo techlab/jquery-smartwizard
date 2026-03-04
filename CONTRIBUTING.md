@@ -8,7 +8,6 @@
 - Add documentation.
 - Add a demo page.
 - [GitHub Sponsor](https://github.com/sponsors/techlab) - Sponsor on GitHub.
-- [Donate on Paypal](https://www.paypal.me/dipuraj)
 
 ## How to contribute code?
 Here are the basic steps to get started contributing code:
@@ -17,7 +16,7 @@ Here are the basic steps to get started contributing code:
 2. Install the dependencies, run `npm install`.
 3. Start the project, run `npm start`.
 4. Replicate the issue you're trying to fix or spec out the feature you're trying to add.
-5. Modify the code to fix the bug or to add the feature. All changes should happen in the relevant `src/js/*.js` and `src/scss/*.scss` files.
+5. Modify the code to fix the bug or to add the feature. All changes should happen in the relevant `src/ts/*.js` and `src/styles/*.scss` files.
 6. Verify that your fix or feature works.
 7. Run the test cases by running `npm test`, you can also add more test cases based on your new change.
 8. Build the code by running `npm run build`.

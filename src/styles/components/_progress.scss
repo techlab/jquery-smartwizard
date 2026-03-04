@@ -1,7 +1,5 @@
-// Progress bar component - migrated from scss-old/core/_base.scss
-@use '../base/variables' as *;
-
-.#{$prefix} {
+// Progress bar component
+.sw {
     >.progress {
         padding: 0;
         margin: 0;

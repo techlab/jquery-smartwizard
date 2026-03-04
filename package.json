@@ -2,11 +2,11 @@
   "name": "smartwizard",
   "version": "7.0.1",
   "title": "jQuery Smart Wizard",
-  "description": "A modern, accessible step wizard plugin for jQuery",
+  "description": "A modern and accessible step wizard plugin for jQuery",
   "author": {
     "name": "Dipu Raj",
     "email": "hello.techlab@gmail.com",
-    "url": "http://dipu.me"
+    "url": "https://github.com/techlab"
   },
   "contributors": [
     {
@@ -33,9 +33,8 @@
     "url": "https://github.com/techlab/jquery-smartwizard/issues"
   },
   "keywords": [
-    "bootstrap",
     "wizard",
-    "step",
+    "steps",
     "ui",
     "jquery-plugin",
     "tabs",

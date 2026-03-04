@@ -1,32 +1,44 @@
-(function () {
-    'use strict';
+function initWizardControls(wizardElement) {
+
+    // External Button Events
+    $("#btn-reset").on("click", function () {
+        // Reset wizard
+        wizardElement.smartWizard("reset");
+        return true;
+    });
+
+    $("#btn-prev").on("click", function () {
+        // Navigate previous
+        wizardElement.smartWizard("prev");
+        return true;
+    });
+
+    $("#btn-next").on("click", function () {
+        // Navigate next
+        wizardElement.smartWizard("next");
+        return true;
+    });
 
     // ── Theme switcher ──
     const themeList = {
+        '': 'Default',
+        'arrows': 'Arrows',
+        'glow': 'Glow',
         'basic': 'Basic',
-        'arrows': 'Arrow',
-        'square': 'Square',
-        'dots': 'Dots',
-        'chevron': 'Chevron',
-        'bold': 'Bold',
-        'pill': 'Pill',
-        'flat-line': 'Flat-Line',
-        'minimal': 'Minimal',
-        'round': 'Round',
+        'pills': 'Pills',
     };
-    const activeTheme = 'basic';
     const themeListControls = document.getElementById('theme-select');
     if (themeListControls) {
         Object.entries(themeList).forEach(([key, value]) => {
             const option = document.createElement('option');
             option.textContent = value;
             option.value = key;
-            if (key === activeTheme) option.selected = true;
+            if (typeof activeTheme !== 'undefined' && key === activeTheme) option.selected = true;
             themeListControls.appendChild(option);
         });
 
         themeListControls.addEventListener('change', () => {
-            $('#smartwizard').smartWizard('setOptions', { theme: themeListControls.value });
+            wizardElement.smartWizard('setOptions', { theme: themeListControls.value });
         });
     }
 
@@ -95,6 +107,7 @@
                 const option = document.createElement('option');
                 option.value = key;
                 option.textContent = value;
+                if (typeof activeTransition !== 'undefined' && key === activeTransition) option.selected = true;
                 optgroup.appendChild(option);
             });
 
@@ -106,7 +119,7 @@
             const options = cssAnim
                 ? { transition: { effect: 'css', css: { ...cssAnim } } }
                 : { transition: { effect: transitionControls.value } };
-            $('#smartwizard').smartWizard('setOptions', options);
+            wizardElement.smartWizard('setOptions', options);
         });
     }
 
@@ -114,37 +127,56 @@
     const colorList = {
         '': 'Default',
         'ocean': 'Ocean',
+        'teal': 'Teal',
         'forest': 'Forest',
         'violet': 'Violet',
         'crimson': 'Crimson',
         'amber': 'Amber',
         'indigo': 'Indigo',
-        'electric': 'Electric',
-        'neon': 'Neon',
-        'slate': 'Slate',
-        'metallic': 'Metallic',
-        'cyber': 'Cyber',
+        'slate': 'Slate ♿',
     };
-    const colorListControls = document.getElementById('colorControls');
+
+    const colorListControls = document.getElementById('color-list');
     if (colorListControls) {
         Object.entries(colorList).forEach(([key, value]) => {
             const btn = document.createElement('button');
             btn.textContent = value;
             btn.dataset.color = key;
-            btn.classList.add('ctrl-btn');
-            if (key === '') btn.classList.add('active');
+            btn.classList.add('btn');
+            if (typeof activeColor !== 'undefined' && key === activeColor) btn.classList.add('active');
+
             btn.addEventListener('click', () => {
                 colorListControls.querySelectorAll('[data-color]').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 if (key) {
-                    $('#smartwizard').attr('data-color', key);
+                    wizardElement.attr('data-color', key);
                 } else {
-                    $('#smartwizard').removeAttr('data-color');
+                    wizardElement.removeAttr('data-color');
                 }
             });
             colorListControls.appendChild(btn);
         });
     }
 
+    // ── Toolbar swicher
+    const toolbarSelect = document.getElementById('toolbar-select');
+    if (toolbarSelect) {
+        toolbarSelect.addEventListener('change', () => {
+            if (toolbarSelect.value) {
+                wizardElement.smartWizard('setOptions', { toolbar: { position: toolbarSelect.value } });
+            }
+        });
+    }
 
-})();
+    // ── Step infor
+    const swCur = document.getElementById('sw-cur');
+    const swTotal = document.getElementById('sw-total');
+    if (swCur && swTotal) {
+        // Step show event
+        wizardElement.on("shown.sw", function (e, args) {
+            swCur.textContent = args.stepIndex + 1;
+            swTotal.textContent = wizardElement.smartWizard('getStepInfo').totalSteps;
+        });
+    }
+
+}

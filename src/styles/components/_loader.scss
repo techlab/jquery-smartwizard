@@ -1,6 +1,4 @@
-// Loading animation component - migrated from scss-old/core/_base.scss
-@use '../base/variables' as *;
-
+// Loading animation component
 .sw {
     &.sw-loading {
         user-select: none;
@@ -14,7 +12,7 @@
             left: 0;
             height: 100%;
             width: 100%;
-            background: var(--#{$var-prefix}loader-background-wrapper-color);
+            background: var(--sw-loader-background-wrapper-color);
             z-index: 99;
         }
 
@@ -26,8 +24,8 @@
             left: 45%;
             width: 2rem;
             height: 2rem;
-            border: 10px solid var(--#{$var-prefix}loader-color);
-            border-top: 10px solid var(--#{$var-prefix}loader-background-color);
+            border: 10px solid var(--sw-loader-color);
+            border-top: 10px solid var(--sw-loader-background-color);
             border-radius: 50%;
             z-index: 10;
             animation: spin 1s linear infinite;

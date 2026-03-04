@@ -60,6 +60,7 @@ export interface WizardOptions {
         warning: number[];
     };
     swipeNavigation: SwipeNavigation;
+    scrollToView: boolean;
     contentLoader: ContentLoader | null;
 }
 

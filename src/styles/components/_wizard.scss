@@ -1,7 +1,6 @@
-// Wizard container component - enhanced from scss-old/core/_base.scss
-@use '../base/variables' as *;
+// Wizard container component
 
-.#{$prefix} {
+.sw {
   border: 1px solid var(--sw-border);
   border-radius: var(--sw-radius);
   box-shadow: var(--sw-shadow);
@@ -16,6 +15,7 @@
     background: var(--sw-content-bg);
     color: var(--sw-content-text);
     min-height: 140px;
+    margin-top: 1rem;
 
     &>.tab-pane {
       padding: .8rem;

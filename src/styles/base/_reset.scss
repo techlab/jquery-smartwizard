@@ -1,7 +1,4 @@
-@use './variables' as *;
-
-// Reset default styles for SmartWizard
-.#{$prefix} {
+.sw {
 
   *,
   *::before,
@@ -9,24 +6,5 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-  }
-
-  // Reset lists
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  // Reset buttons
-  button {
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-    cursor: pointer;
-
-    &:focus {
-      outline: none;
-    }
   }
 }

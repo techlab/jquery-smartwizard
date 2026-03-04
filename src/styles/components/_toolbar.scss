@@ -1,8 +1,7 @@
 // Toolbar component - migrated from scss-old/core/_base.scss
-@use '../base/variables' as *;
 
 // TOOLBAR
-.#{$prefix} {
+.sw {
   .toolbar {
     display: flex;
     align-items: center;
@@ -18,6 +17,7 @@
 
     &-top {
       border-bottom: 1px solid var(--sw-border);
+      margin-bottom: -1rem;
     }
 
     // Button styles
@@ -28,11 +28,10 @@
       padding: 10px 22px;
       border: none;
       border-radius: 7px;
-      font: 600 13px/1 var(--sw-font-family);
       cursor: pointer;
       transition: all var(--sw-transition);
-      background: var(--sw-accent);
-      color: var(--sw-accent-text);
+      background: var(--sw-btn-primary-bg);
+      color: var(--sw-btn-primary-text);
       box-shadow: 0 1px 3px rgba(0, 0, 0, .12);
 
       &:hover {
@@ -60,12 +59,12 @@
 
     // Secondary button variant
     &>.sw-btn-secondary {
-      background: var(--sw-inactive-bg);
-      color: var(--sw-inactive-text);
+      background: var(--sw-btn-secondary-bg);
+      color: var(--sw-btn-secondary-text);
       box-shadow: none;
 
       &:hover {
-        background: color-mix(in srgb, var(--sw-inactive-bg) 85%, var(--sw-accent) 15%);
+        background: color-mix(in srgb, var(--sw-btn-secondary-bg) 85%, var(--sw-accent) 15%);
       }
     }
   }

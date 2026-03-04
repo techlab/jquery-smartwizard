@@ -1,0 +1,24 @@
+.sw-theme-pills {
+
+    // Navigation style
+    &>.nav {
+        padding: 8px 10px;
+        gap: 8px;
+
+        .nav-link {
+            clip-path: none !important;
+            border-radius: 999px;
+            border: 2px solid transparent;
+            padding: 10px 18px !important;
+
+            &.active {
+                border-color: color-mix(in srgb, var(--sw-nav-active-bg) 50%, transparent);
+                box-shadow: 0 0 0 3px color-mix(in srgb, var(--sw-nav-active-bg) 38%, transparent);
+            }
+
+            &.completed {
+                border-color: color-mix(in srgb, var(--sw-nav-completed-bg) 50%, transparent);
+            }
+        }
+    }
+}
