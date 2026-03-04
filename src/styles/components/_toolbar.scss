@@ -1,0 +1,76 @@
+// Toolbar component - migrated from scss-old/core/_base.scss
+
+// TOOLBAR
+.sw {
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 14px 24px;
+    border-top: 1px solid var(--sw-border);
+    background: var(--sw-surface);
+    gap: 10px;
+
+    &-bottom {
+      border-top: 1px solid var(--sw-border);
+    }
+
+    &-top {
+      border-bottom: 1px solid var(--sw-border);
+      margin-bottom: -1rem;
+    }
+
+    // Button styles
+    &>.sw-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 22px;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all var(--sw-transition);
+      background: var(--sw-btn-primary-bg);
+      color: var(--sw-btn-primary-text);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .12);
+
+      &:hover {
+        background: var(--sw-accent-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .16);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      &.disabled,
+      &:disabled {
+        opacity: 0.4;
+        pointer-events: none;
+      }
+
+      svg {
+        width: 14px;
+        height: 14px;
+        fill: currentColor;
+      }
+    }
+
+    // Secondary button variant
+    &>.sw-btn-secondary {
+      background: var(--sw-btn-secondary-bg);
+      color: var(--sw-btn-secondary-text);
+      box-shadow: none;
+
+      &:hover {
+        background: color-mix(in srgb, var(--sw-btn-secondary-bg) 85%, var(--sw-accent) 15%);
+      }
+    }
+  }
+
+  // RTL Support for toolbar
+  &[dir="rtl"]>.toolbar {
+    text-align: left;
+  }
+}
