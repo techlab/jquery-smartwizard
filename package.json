@@ -62,7 +62,7 @@
     "@playwright/test": "^1.40.0",
     "@rollup/plugin-commonjs": "^28.0.2",
     "@rollup/plugin-node-resolve": "^15.3.0",
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.1.2",
     "@swc/jest": "^0.2.36",
     "@types/jest": "^29.5.12",
