@@ -15,6 +15,8 @@ function smartWizard(this: JQuery, options?: Partial<WizardOptions>): JQuery | u
 
         if (options === 'destroy') {
             $.data(this, 'smartWizard', null);
+            instance?.destroy();
+            return this;
         }
 
         if (instance instanceof Wizard && typeof instance[options] === 'function') {

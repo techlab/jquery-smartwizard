@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v7.0.2 
+-----
+- **Fixed:** `destroy` method corection
+- **Fixed:** `_reset.scss` The reset breaks Bootstrap, Tailwind, and modern CSS frameworks [#191](https://github.com/techlab/jquery-smartwizard/pull/191)
 
 v7.0.1 
 -----
