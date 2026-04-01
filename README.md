@@ -19,13 +19,6 @@
 + [StackOverflow Q&A](https://stackoverflow.com/questions/tagged/smart-wizard)
 + [GitHub Issues](https://github.com/techlab/jquery-smartwizard/issues)
 
-Demos
------
-+ [Basic Example](https://techlaboratory.net/jquery-smartwizard/v7/demo#basic-example)
-+ [Ajax Content Example](https://techlaboratory.net/jquery-smartwizard/v7/demo#ajax-content-example)
-+ [Form Validation Example](https://techlaboratory.net/jquery-smartwizard/v7/demo#form-validation-example)
-+ [RTL (Right-to-left Language) Example](https://techlaboratory.net/jquery-smartwizard/v7/demo#rtl-right-to-left-language-example)
-
 Screenshots
 -----
 ![Smart Wizard](https://techlaboratory.net/media/jquery-smart-wizard/v7/all-screens.png)   
@@ -348,4 +341,4 @@ If you like the project please support with your contribution.
 
 [GitHub Sponsor](https://github.com/sponsors/techlab)  
 
-Happy Coding :heart:
+Happy Coding ❤️

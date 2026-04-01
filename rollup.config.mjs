@@ -13,7 +13,7 @@ const isDev = process.env.ROLLUP_WATCH;
 
 // Banner for output files
 const banner = `/*!
- * jQuery SmartWizard v7.0.1
+ * jQuery SmartWizard v7.0.2
  * A modern and accessible step wizard plugin for jQuery
  * http://www.techlaboratory.net/jquery-smartwizard
  *
