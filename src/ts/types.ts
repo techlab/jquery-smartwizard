@@ -62,6 +62,7 @@ export interface WizardOptions {
     swipeNavigation: SwipeNavigation;
     scrollToView: boolean;
     contentLoader: ContentLoader | null;
+    contentLoaderSanitize: boolean;
 }
 
 export interface Behavior {

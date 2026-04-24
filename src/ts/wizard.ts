@@ -666,7 +666,15 @@ export class Wizard {
         selStep = $(selStep);
 
         this.options.contentLoader(idx, stepDirection, stepPosition, selStep, (content) => {
-            if (content) selPage.html(content);
+            if (content) {
+                if (this.options.contentLoaderSanitize !== false && typeof content === 'string') {
+                    // Use $.parseHTML to parse the string safely (avoids executing inline scripts)
+                    // The third parameter keepScripts defaults to false
+                    selPage.empty().append($.parseHTML(content));
+                } else {
+                    selPage.html(content);
+                }
+            }
             callback();
         });
     }
