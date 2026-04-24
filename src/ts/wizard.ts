@@ -232,8 +232,17 @@ export class Wizard {
         });
 
         // Fix content height on window resize
+        let resizeTimer: number | null = null;
         $(window).on(EVENTS.RESIZE, () => {
-            this.fixHeight(this.currentStepIndex);
+            // ⚡ Bolt Optimization: Throttle/Debounce layout thrashing during window resize
+            // Using requestAnimationFrame to ensure DOM read/writes happen right before repaint
+            // This prevents main thread blocking and reduces synchronous reflows
+            if (resizeTimer !== null) {
+                cancelAnimationFrame(resizeTimer);
+            }
+            resizeTimer = requestAnimationFrame(() => {
+                this.fixHeight(this.currentStepIndex);
+            });
         });
 
         // Swipe navigation on touch devices
