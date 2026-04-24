@@ -1,0 +1,3 @@
+## 2024-04-24 - jQuery DOM Iteration Optimization
+**Learning:** Native `for` loops and `HTMLElement.classList.contains` are drastically faster than slicing jQuery objects and using `.each` + `.hasClass`. Also, type definitions for jQuery might map `$` to `JQueryStatic`, meaning `elm instanceof $` might fail strict TypeScript checks. It's safer to use `(elm instanceof $) ? (elm as JQuery)[0] : elm as HTMLElement` or `instanceof HTMLElement` when unpacking.
+**Action:** Unpack jQuery elements to their raw `HTMLElement`s and use standard DOM methods for tight iteration loops, and use native `for` loops when navigating sequential arrays/NodeLists rather than `.each`.

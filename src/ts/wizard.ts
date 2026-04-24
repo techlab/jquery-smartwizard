@@ -344,25 +344,33 @@ export class Wizard {
         }
     }
 
-    private getShowable(idx: number, dir: StepDirection) {
-        let si = -1;
-        const elmList = (dir == STEP_DIRECTION.Backward) ? $(this.steps.slice(0, idx).get().reverse()) : this.steps.slice(idx + 1);
-        // Find the next showable step in the direction
-        elmList.each((i, elm) => {
-            if (this.isEnabled($(elm))) {
-                si = (dir == STEP_DIRECTION.Backward) ? idx - (i + 1) : i + idx + 1;
-                return false;
+    private getShowable(idx: number, dir: StepDirection): number | null {
+        if (dir == STEP_DIRECTION.Backward) {
+            for (let i = idx - 1; i >= 0; i--) {
+                if (this.isEnabled(this.steps[i])) {
+                    return i;
+                }
             }
-        });
-        return si;
+        } else {
+            const len = this.steps.length;
+            for (let i = idx + 1; i < len; i++) {
+                if (this.isEnabled(this.steps[i])) {
+                    return i;
+                }
+            }
+        }
+        return null;
     }
 
-    private isShowable(elm: JQuery) {
-        if (!this.isEnabled(elm)) {
+    private isShowable(elm: JQuery | HTMLElement) {
+        if (!elm) return false;
+        const rawElm = (elm instanceof $) ? (elm as JQuery)[0] : elm as HTMLElement;
+        if (!rawElm) return false;
+        if (!this.isEnabled(rawElm)) {
             return false;
         }
 
-        const isCompleted = elm.hasClass(this.options.styles.anchorStates.completed);
+        const isCompleted = rawElm.classList.contains(this.options.styles.anchorStates.completed);
         if (this.options.navigation.completed.enabled === false && isCompleted) {
             return false;
         }
@@ -378,8 +386,11 @@ export class Wizard {
         return true;
     }
 
-    private isEnabled(elm: JQuery) {
-        return (elm.hasClass(this.options.styles.anchorStates.disabled) || elm.hasClass(this.options.styles.anchorStates.hidden)) ? false : true;
+    private isEnabled(elm: JQuery | HTMLElement) {
+        if (!elm) return false;
+        const rawElm = (elm instanceof $) ? (elm as JQuery)[0] : elm as HTMLElement;
+        if (!rawElm) return false;
+        return (rawElm.classList.contains(this.options.styles.anchorStates.disabled) || rawElm.classList.contains(this.options.styles.anchorStates.hidden)) ? false : true;
     }
 
     private getStepByAnchor(hash: string): number | null {
@@ -468,7 +479,10 @@ export class Wizard {
     }
 
     private navigate(dir: StepDirection) {
-        this.showStep(this.getShowable(this.currentStepIndex, dir));
+        const nextStep = this.getShowable(this.currentStepIndex, dir);
+        if (nextStep !== null) {
+            this.showStep(nextStep);
+        }
     }
 
     private scrollAnchor(dir: string) {
