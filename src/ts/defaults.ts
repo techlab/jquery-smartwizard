@@ -102,5 +102,5 @@ export const defaults: WizardOptions = {
     },
     scrollToView: false, // Scroll the active step anchor into view on step change
     contentLoader: null, // Callback function for dynamically loading content
-    contentLoaderSanitize: true // Sanitize the content loaded by contentLoader to prevent XSS
+    contentSanitize: true // Sanitize the content loaded by contentLoader to prevent XSS
 };
