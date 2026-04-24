@@ -101,5 +101,6 @@ export const defaults: WizardOptions = {
         threshold: 50, // Minimum swipe distance in pixels to trigger navigation
     },
     scrollToView: false, // Scroll the active step anchor into view on step change
-    contentLoader: null // Callback function for dynamically loading content
+    contentLoader: null, // Callback function for dynamically loading content
+    contentSanitize: true // Sanitize the content loaded by contentLoader to prevent XSS
 };
