@@ -1,0 +1,58 @@
+name: Publish to npm
+
+# Triggers when you publish a GitHub Release (not a draft).
+# Workflow:
+#   1. Bump version in package.json + update CHANGELOG
+#   2. Commit & push to master (via PR or direct)
+#   3. GitHub → Releases → Draft a new release
+#      → Create tag: v7.0.4  (must match package.json version)
+#      → Write release notes
+#      → Click "Publish release"  ← this triggers the workflow
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    name: Build & Publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Checkout the commit the release tag points to
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Guard: ensure the release tag matches package.json version
+      - name: Verify tag matches package version
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          TAG_VERSION="${{ github.event.release.tag_name }}"
+          TAG_VERSION="${TAG_VERSION#v}"   # strip leading 'v'
+          if [ "$PKG_VERSION" != "$TAG_VERSION" ]; then
+            echo "::error::Release tag ($TAG_VERSION) does not match package.json version ($PKG_VERSION). Update package.json before publishing."
+            exit 1
+          fi
+          echo "Version check passed: $PKG_VERSION"
+
+      - name: Build
+        run: npm run build
+
+      - name: Run unit tests
+        run: npm run test:unit
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
