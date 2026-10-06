@@ -37,21 +37,21 @@ Update CDN links:
 
 ## 2. HTML Structure
 
-The HTML structure is **unchanged**. Your existing markup will work as-is.
+The HTML structure is **unchanged** but class names are changed. You can use the same HTML structure as before, but with the new class names.
 
 ```html
 <div id="smartwizard">
-    <ul class="nav">
-        <li class="nav-item"><a class="nav-link" href="#step-1">Step 1</a></li>
-        <li class="nav-item"><a class="nav-link" href="#step-2">Step 2</a></li>
+    <ul class="sw-nav">
+        <li class="sw-nav-item"><a class="sw-nav-link" href="#step-1">Step 1</a></li>
+        <li class="sw-nav-item"><a class="sw-nav-link" href="#step-2">Step 2</a></li>
     </ul>
-    <div class="tab-content">
-        <div id="step-1" class="tab-pane">...</div>
-        <div id="step-2" class="tab-pane">...</div>
+    <div class="sw-tab-content">
+        <div id="step-1" class="sw-tab-pane">...</div>
+        <div id="step-2" class="sw-tab-pane">...</div>
     </div>
     <!-- Optional progressbar -->
-    <div class="progress">
-        <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+    <div class="sw-progress">
+        <div class="sw-progress-bar" role="progressbar" style="width: 0%"></div>
     </div>
 </div>
 ```
