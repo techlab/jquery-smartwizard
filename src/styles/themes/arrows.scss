@@ -12,10 +12,10 @@
   border: 1px solid var(--sw-border-color);
 
   // Navigation style
-  &>.nav {
+  &>.sw-nav {
 
     // Nav item
-    .nav-item {
+    .sw-nav-item {
       flex: 1 0 var(--sw-min-step-width);
       // Overlap: pull left so each arrow's notch covers previous point
       margin-right: calc(-1 * var(--sw-arrow-tip));
@@ -24,7 +24,7 @@
       &:first-child {
         margin-right: calc(-1 * var(--sw-arrow-tip));
 
-        &>.nav-link {
+        &>.sw-nav-link {
           @include arrow-clip-first(20px);
 
           @media screen and (min-width: $breakpoint-phone) {
@@ -38,7 +38,7 @@
       &:last-child {
         margin-right: 0;
 
-        &>.nav-link {
+        &>.sw-nav-link {
           @include arrow-clip-last(20px);
         }
       }
@@ -46,7 +46,7 @@
       &:only-child {
         margin-right: 0;
 
-        &>.nav-link {
+        &>.sw-nav-link {
           clip-path: none;
           border-radius: var(--sw-radius);
         }
@@ -58,14 +58,14 @@
         margin-left: 0 !important;
         flex: 1 0 auto;
 
-        &>.nav-link {
+        &>.sw-nav-link {
           clip-path: none !important;
           padding: 10px 14px !important;
         }
       }
     }
 
-    .nav-link {
+    .sw-nav-link {
       gap: 10px;
       min-height: var(--sw-arrow-height);
       padding: 10px 20px 10px calc(var(--sw-arrow-tip) + 14px);
@@ -86,9 +86,9 @@
 
   // RTL Support — all clip-paths are the exact horizontal mirror of their LTR counterparts.
   // mirror rule: x% → calc(100% - x%)
-  &[dir="rtl"]>.nav {
+  &[dir="rtl"]>.sw-nav {
 
-    .nav-item {
+    .sw-nav-item {
       margin-right: 0;
       margin-left: calc(-1 * var(--sw-arrow-tip));
 
@@ -97,7 +97,7 @@
       &:first-child {
         margin-left: calc(-1 * var(--sw-arrow-tip));
 
-        &>.nav-link {
+        &>.sw-nav-link {
           clip-path: polygon(var(--sw-arrow-tip) 0%,
               100% 0%,
               100% 100%,
@@ -116,7 +116,7 @@
       &:last-child {
         margin-left: 0;
 
-        &>.nav-link {
+        &>.sw-nav-link {
           clip-path: polygon(0% 0%,
               100% 0%,
               calc(100% - var(--sw-arrow-tip)) 50%,
@@ -128,7 +128,7 @@
       &:only-child {
         margin-left: 0;
 
-        &>.nav-link {
+        &>.sw-nav-link {
           clip-path: none;
           border-radius: var(--sw-radius);
         }
@@ -140,14 +140,14 @@
         margin-left: 0 !important;
         flex: 1 0 auto;
 
-        &>.nav-link {
+        &>.sw-nav-link {
           clip-path: none !important;
           padding: 10px 14px !important;
         }
       }
     }
 
-    .nav-link {
+    .sw-nav-link {
       // Indent on the right (receives the incoming notch from the step to the right)
       padding: 10px calc(var(--sw-arrow-tip) + 14px) 10px 20px;
 

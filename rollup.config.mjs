@@ -306,7 +306,7 @@ const devServerConfig = isDev
                     declarationMap: false
                 }),
                 serve({
-                    open: false,
+                    open: true,
                     contentBase: ['.'],
                     port: 3001,
                     openPage: 'examples/index.html',

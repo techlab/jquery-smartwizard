@@ -1,10 +1,10 @@
 {
   "name": "smartwizard",
-  "version": "7.0.3",
+  "version": "7.1.0",
   "title": "jQuery Smart Wizard",
   "description": "A modern and accessible step wizard plugin for jQuery",
   "author": {
-    "name": "Dipu Raj",
+    "name": "Dipu Rajendran",
     "email": "hello.techlab@gmail.com",
     "url": "https://github.com/techlab"
   },

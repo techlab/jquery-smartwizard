@@ -2,7 +2,7 @@
 
 // Navigation container
 .sw {
-    >.nav {
+    >.sw-nav {
         display: flex;
         list-style: none;
         gap: 0;
@@ -24,7 +24,7 @@
         }
 
         // When nav-scroll class is present
-        &.nav-scroll {
+        &.sw-nav-scroll {
             overflow-x: auto;
             overflow-y: hidden;
             scroll-behavior: smooth;
@@ -37,7 +37,7 @@
         }
 
         // Scroll navigation buttons
-        .nav-scroll-btn {
+        .sw-nav-scroll-btn {
             position: absolute;
             top: 0;
             height: 100%;
@@ -73,19 +73,19 @@
                 box-shadow: -4px 0 10px -2px rgba(0, 0, 0, .12);
             }
 
-            &.nav-scroll-btn-visible {
+            &.sw-nav-scroll-btn-visible {
                 display: flex;
             }
         }
 
         // Nav item
-        .nav-item {
+        .sw-nav-item {
             display: flex;
             position: relative;
             z-index: 1;
         }
 
-        .nav-link {
+        .sw-nav-link {
             display: flex;
             align-items: center;
             width: 100%;
@@ -117,7 +117,7 @@
                 cursor: default;
                 z-index: 4;
 
-                .badge {
+                .sw-badge {
                     color: var(--sw-nav-active-badge-text);
                     background: var(--sw-nav-active-badge-bg);
                 }
@@ -128,7 +128,7 @@
                 background: var(--sw-nav-completed-bg);
                 z-index: 2;
 
-                .badge {
+                .sw-badge {
                     color: var(--sw-nav-completed-badge-text);
                     background: var(--sw-nav-completed-badge-bg);
                 }
@@ -139,7 +139,7 @@
                 background: var(--sw-nav-error-bg);
                 z-index: 2;
 
-                .badge {
+                .sw-badge {
                     color: var(--sw-nav-error-badge-text);
                     background: var(--sw-nav-error-badge-bg);
                 }
@@ -150,7 +150,7 @@
                 background: var(--sw-nav-warning-bg);
                 z-index: 2;
 
-                .badge {
+                .sw-badge {
                     color: var(--sw-nav-warning-badge-text);
                     background: var(--sw-nav-warning-badge-bg);
                 }
@@ -168,7 +168,7 @@
                 cursor: not-allowed;
             }
 
-            &>.badge {
+            &>.sw-badge {
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -184,7 +184,7 @@
                 transition: background var(--sw-transition), transform var(--sw-transition);
             }
 
-            &:hover:not(.disabled) .badge {
+            &:hover:not(.disabled) .sw-badge {
                 transform: scale(1.05);
             }
 
@@ -194,22 +194,22 @@
     // Show scroll buttons on hover
     &:hover,
     &:focus {
-        &>.nav>.nav-scroll-btn {
+        &>.sw-nav>.sw-nav-scroll-btn {
             opacity: 1;
         }
     }
 
     // Justified navigation
     &.sw-justified {
-        &>.nav {
+        &>.sw-nav {
             justify-content: space-between;
         }
     }
 
     // RTL Support
-    &[dir="rtl"]>.nav {
-        .nav-link {
-            &>.badge {
+    &[dir="rtl"]>.sw-nav {
+        .sw-nav-link {
+            &>.sw-badge {
                 float: right;
             }
         }
