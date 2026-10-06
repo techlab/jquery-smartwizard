@@ -21,19 +21,19 @@
     overflow: hidden;
     background: var(--sw-surface);
 
-    .tab-content {
+    .sw-tab-content {
         padding: 2rem;
         border-radius: 20px;
     }
 
-    .toolbar {
+    .sw-toolbar {
         border: 0;
     }
 
-    .progress {
+    .sw-progress {
         background: rgba(255, 255, 255, 0.08);
 
-        .progress-bar {
+        .sw-progress-bar {
             background: linear-gradient(90deg,
                     var(--sw-accent-dark),
                     var(--sw-accent),
@@ -42,7 +42,7 @@
         }
     }
 
-    .nav {
+    .sw-nav {
         gap: 1rem;
         padding: 1rem 1.5rem;
 
@@ -60,7 +60,7 @@
             display: none;
         }
 
-        .nav-link {
+        .sw-nav-link {
             border-radius: 16px;
 
             &.active {

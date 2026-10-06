@@ -126,51 +126,51 @@ Include HTML (*This is the basic HTML markup. Customize it by adding your own st
 ```html
 <!-- SmartWizard HTML -->
 <div id="smartwizard">
-    <ul class="nav">
-        <li class="nav-item">
-          <a class="nav-link" href="#step-1">
-            <div class="badge">1</div>
+    <ul class="sw-nav">
+        <li class="sw-nav-item">
+          <a class="sw-nav-link" href="#step-1">
+            <div class="sw-badge">1</div>
             Step Title
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#step-2">
-            <span class="badge">2</span>
+        <li class="sw-nav-item">
+          <a class="sw-nav-link" href="#step-2">
+            <span class="sw-badge">2</span>
             Step Title
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#step-3">
-            <span class="badge">3</span>
+        <li class="sw-nav-item">
+          <a class="sw-nav-link" href="#step-3">
+            <span class="sw-badge">3</span>
             Step Title
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#step-4">
-            <span class="badge">4</span>
+        <li class="sw-nav-item">
+          <a class="sw-nav-link" href="#step-4">
+            <span class="sw-badge">4</span>
             Step Title
           </a>
         </li>
     </ul>
 
-    <div class="tab-content">
-        <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+    <div class="sw-tab-content">
+        <div id="step-1" class="sw-tab-pane" role="tabpanel" aria-labelledby="step-1">
             Step 1 content
         </div>
-        <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+        <div id="step-2" class="sw-tab-pane" role="tabpanel" aria-labelledby="step-2">
             Step 2 content
         </div>
-        <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+        <div id="step-3" class="sw-tab-pane" role="tabpanel" aria-labelledby="step-3">
             Step 3 content
         </div>
-        <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+        <div id="step-4" class="sw-tab-pane" role="tabpanel" aria-labelledby="step-4">
             Step 4 content
         </div>
     </div>
 
     <!-- Optional progressbar -->
-    <div class="progress">
-      <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="sw-progress">
+      <div class="sw-progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
 
 </div>
@@ -202,7 +202,7 @@ Please see the detailed [documentation](https://techlaboratory.net/jquery-smartw
 ```javascript
 $('#smartwizard').smartWizard({
     initialStep: 0,         // Initial selected step (0 = first step)
-    theme: 'basic',         // Theme: basic | arrows | dots | round | square | progress (ensure related CSS is included)
+    theme: 'basic',         // Theme: default | arrows | basic | glow | pills (ensure related CSS is included)
     displayMode: 'auto',    // Display mode: auto (system preference) | dark | light | none
 
     behavior: {

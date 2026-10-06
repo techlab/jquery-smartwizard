@@ -2,10 +2,10 @@
 .sw-theme-basic {
 
   // Navigation style
-  &>.nav {
+  &>.sw-nav {
     box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .1) !important;
 
-    .nav-item {
+    .sw-nav-item {
       margin-right: 0 !important;
       border-right: 1px solid var(--sw-border);
 
@@ -14,7 +14,7 @@
       }
     }
 
-    .nav-link {
+    .sw-nav-link {
       clip-path: none !important;
       border-radius: 0;
       justify-content: flex-start;
@@ -26,7 +26,7 @@
         background: transparent;
         color: var(--sw-nav-completed-bg);
 
-        .badge {
+        .sw-badge {
           color: var(--sw-nav-completed-badge-text);
           background: var(--sw-nav-completed-badge-bg);
         }
@@ -37,7 +37,7 @@
         background: transparent;
         color: var(--sw-nav-active-bg);
 
-        .badge {
+        .sw-badge {
           color: var(--sw-nav-active-badge-bg);
           background: var(--sw-nav-active-badge-text);
         }

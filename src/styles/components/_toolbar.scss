@@ -2,7 +2,7 @@
 
 // TOOLBAR
 .sw {
-  .toolbar {
+  .sw-toolbar {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -70,7 +70,7 @@
   }
 
   // RTL Support for toolbar
-  &[dir="rtl"]>.toolbar {
+  &[dir="rtl"]>.sw-toolbar {
     text-align: left;
   }
 }

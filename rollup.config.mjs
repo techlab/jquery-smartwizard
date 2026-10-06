@@ -8,12 +8,17 @@ import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const pkg = JSON.parse(fs.readFileSync(join(__dirname, 'package.json'), 'utf8'));
 
 const isDev = process.env.ROLLUP_WATCH;
 
 // Banner for output files
 const banner = `/*!
- * jQuery SmartWizard v7.0.2
+ * jQuery SmartWizard v${pkg.version}
  * A modern and accessible step wizard plugin for jQuery
  * http://www.techlaboratory.net/jquery-smartwizard
  *
@@ -301,7 +306,7 @@ const devServerConfig = isDev
                     declarationMap: false
                 }),
                 serve({
-                    open: false,
+                    open: true,
                     contentBase: ['.'],
                     port: 3001,
                     openPage: 'examples/index.html',
