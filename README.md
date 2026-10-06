@@ -202,7 +202,7 @@ Please see the detailed [documentation](https://techlaboratory.net/jquery-smartw
 ```javascript
 $('#smartwizard').smartWizard({
     initialStep: 0,         // Initial selected step (0 = first step)
-    theme: 'basic',         // Theme: basic | arrows | dots | round | square | progress (ensure related CSS is included)
+    theme: 'basic',         // Theme: default | arrows | basic | glow | pills (ensure related CSS is included)
     displayMode: 'auto',    // Display mode: auto (system preference) | dark | light | none
 
     behavior: {
