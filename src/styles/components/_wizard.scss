@@ -9,7 +9,7 @@
   position: relative;
 
   // CONTENT AREA
-  &>.tab-content {
+  &>.sw-tab-content {
     position: relative;
     padding: var(--sw-content-pad);
     background: var(--sw-content-bg);
@@ -17,7 +17,7 @@
     min-height: 140px;
     margin-top: 1rem;
 
-    &>.tab-pane {
+    &>.sw-tab-pane {
       padding: .8rem;
     }
   }

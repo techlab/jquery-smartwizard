@@ -31,7 +31,7 @@ test.describe('SmartWizard E2E Tests', () => {
         const nextBtn = page.locator('.sw-btn-next');
 
         // Check first step is active
-        let activeStep = page.locator('.sw-nav .nav-link.active');
+        let activeStep = page.locator('.sw-nav .sw-nav-link.active');
         await expect(activeStep).toContainText('Step 1');
 
         // Click next
@@ -39,7 +39,7 @@ test.describe('SmartWizard E2E Tests', () => {
         await page.waitForTimeout(500); // Wait for transition
 
         // Check second step is active
-        activeStep = page.locator('.sw-nav .nav-link.active');
+        activeStep = page.locator('.sw-nav .sw-nav-link.active');
         await expect(activeStep).toContainText('Step 2');
 
         // Click next again
@@ -47,7 +47,7 @@ test.describe('SmartWizard E2E Tests', () => {
         await page.waitForTimeout(500);
 
         // Check third step is active
-        activeStep = page.locator('.sw-nav .nav-link.active');
+        activeStep = page.locator('.sw-nav .sw-nav-link.active');
         await expect(activeStep).toContainText('Step 3');
     });
 
@@ -64,7 +64,7 @@ test.describe('SmartWizard E2E Tests', () => {
         await page.waitForTimeout(500);
 
         // Verify we're on step 1
-        const activeStep = page.locator('.sw-nav .nav-link.active');
+        const activeStep = page.locator('.sw-nav .sw-nav-link.active');
         await expect(activeStep).toContainText('Step 1');
     });
 
@@ -74,7 +74,7 @@ test.describe('SmartWizard E2E Tests', () => {
         await page.waitForTimeout(500);
 
         // Verify step 3 is active
-        const activeStep = page.locator('.sw-nav .nav-link.active');
+        const activeStep = page.locator('.sw-nav .sw-nav-link.active');
         await expect(activeStep).toContainText('Step 3');
     });
 

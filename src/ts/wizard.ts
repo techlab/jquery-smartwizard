@@ -232,8 +232,18 @@ export class Wizard {
         });
 
         // Fix content height on window resize
+        let resizeTimer: number | null = null;
         $(window).on(EVENTS.RESIZE, () => {
-            this.fixHeight(this.currentStepIndex);
+            // ⚡ Bolt Optimization: Throttle/Debounce layout thrashing during window resize
+            // Using requestAnimationFrame to ensure DOM read/writes happen right before repaint
+            // This prevents main thread blocking and reduces synchronous reflows
+            if (resizeTimer !== null) {
+                cancelAnimationFrame(resizeTimer);
+            }
+            resizeTimer = requestAnimationFrame(() => {
+                this.fixHeight(this.currentStepIndex);
+                this.scrollCheck();
+            });
         });
 
         // Swipe navigation on touch devices
@@ -286,8 +296,6 @@ export class Wizard {
         this.setStepStyle(this.options.stepStates.error, this.options.styles.anchorStates.error);
         // Hidden steps
         this.setStepStyle(this.options.stepStates.hidden, this.options.styles.anchorStates.hidden);
-        // Add scroll buttons for nav bar
-        this.createAnchorScroll();
     }
 
     private setAnchor(stepIdx: number) {
@@ -344,25 +352,33 @@ export class Wizard {
         }
     }
 
-    private getShowable(idx: number, dir: StepDirection) {
-        let si = -1;
-        const elmList = (dir == STEP_DIRECTION.Backward) ? $(this.steps.slice(0, idx).get().reverse()) : this.steps.slice(idx + 1);
-        // Find the next showable step in the direction
-        elmList.each((i, elm) => {
-            if (this.isEnabled($(elm))) {
-                si = (dir == STEP_DIRECTION.Backward) ? idx - (i + 1) : i + idx + 1;
-                return false;
+    private getShowable(idx: number, dir: StepDirection): number | null {
+        if (dir == STEP_DIRECTION.Backward) {
+            for (let i = idx - 1; i >= 0; i--) {
+                if (this.isEnabled(this.steps[i])) {
+                    return i;
+                }
             }
-        });
-        return si;
+        } else {
+            const len = this.steps.length;
+            for (let i = idx + 1; i < len; i++) {
+                if (this.isEnabled(this.steps[i])) {
+                    return i;
+                }
+            }
+        }
+        return null;
     }
 
-    private isShowable(elm: JQuery) {
-        if (!this.isEnabled(elm)) {
+    private isShowable(elm: JQuery | HTMLElement) {
+        if (!elm) return false;
+        const rawElm = (elm instanceof $) ? (elm as JQuery)[0] : elm as HTMLElement;
+        if (!rawElm) return false;
+        if (!this.isEnabled(rawElm)) {
             return false;
         }
 
-        const isCompleted = elm.hasClass(this.options.styles.anchorStates.completed);
+        const isCompleted = rawElm.classList.contains(this.options.styles.anchorStates.completed);
         if (this.options.navigation.completed.enabled === false && isCompleted) {
             return false;
         }
@@ -378,8 +394,11 @@ export class Wizard {
         return true;
     }
 
-    private isEnabled(elm: JQuery) {
-        return (elm.hasClass(this.options.styles.anchorStates.disabled) || elm.hasClass(this.options.styles.anchorStates.hidden)) ? false : true;
+    private isEnabled(elm: JQuery | HTMLElement) {
+        if (!elm) return false;
+        const rawElm = (elm instanceof $) ? (elm as JQuery)[0] : elm as HTMLElement;
+        if (!rawElm) return false;
+        return (rawElm.classList.contains(this.options.styles.anchorStates.disabled) || rawElm.classList.contains(this.options.styles.anchorStates.hidden)) ? false : true;
     }
 
     private getStepByAnchor(hash: string): number | null {
@@ -394,27 +413,6 @@ export class Wizard {
         $.each(stepIndexes, (_i, n: any) => {
             this.steps.eq(n).addClass(cssClass);
         });
-    }
-
-    private createAnchorScroll() {
-        // Remove existing scroll buttons if any
-        this.nav.find('.' + this.options.styles.buttons.scroll).remove();
-
-        // Check if the nav bar is scrollable
-        const navElement = this.nav.get(0);
-        if (!navElement) return;
-
-        const isScrollable = navElement.scrollWidth > navElement.clientWidth;
-
-        // Only add scroll buttons if the nav bar is scrollable
-        if (!isScrollable) return;
-
-        // Create the scroll buttons
-        const btnNext = $('<button></button>').addClass(this.options.styles.buttons.scroll + ' ' + this.options.styles.buttons.scrollNext).attr('type', 'button');
-        const btnPrevious = $('<button></button>').addClass(this.options.styles.buttons.scroll + ' ' + this.options.styles.buttons.scrollPrevious).attr('type', 'button');
-        btnNext.height(this.nav.height() ?? 0);
-        btnPrevious.height(this.nav.height() ?? 0);
-        return this.nav.append(btnPrevious, btnNext);
     }
 
     private setToolbar(): void {
@@ -468,76 +466,126 @@ export class Wizard {
     }
 
     private navigate(dir: StepDirection) {
-        this.showStep(this.getShowable(this.currentStepIndex, dir));
+        const nextStep = this.getShowable(this.currentStepIndex, dir);
+        if (nextStep !== null) {
+            this.showStep(nextStep);
+        }
     }
 
     private scrollAnchor(dir: string) {
-        let scrollLeft = this.nav.scrollLeft() ?? 0;
-        if (dir == 'left') {
-            if (scrollLeft == 0) return;
-            scrollLeft = scrollLeft - 200;
-        } else {
-            const navWidth = this.nav.width() ?? 0;
-            const scrollWidth = this.nav?.get(0)?.scrollWidth ?? 0;
-            if (scrollLeft + navWidth >= scrollWidth) return;
-            scrollLeft = scrollLeft + 200;
-        }
+        const navEl = this.nav.get(0);
+        if (!navEl) return;
 
-        if (Util.isFunction(this.nav.animate)) {
-            this.nav.animate({
-                scrollLeft: scrollLeft
-            },
-                this.options.transition.speed,
-                this.options.transition.easing);
+        const isHorizontal = window.getComputedStyle(navEl).flexDirection !== 'column';
+
+        const scrollAmount = isHorizontal
+            ? navEl.clientWidth / 2
+            : navEl.clientHeight / 2;
+
+        const maxScroll = isHorizontal
+            ? navEl.scrollWidth - navEl.clientWidth
+            : navEl.scrollHeight - navEl.clientHeight;
+
+        let target = isHorizontal ? navEl.scrollLeft : navEl.scrollTop;
+        target += (dir === 'right' || dir === 'next') ? scrollAmount : -scrollAmount;
+        target = Math.max(0, Math.min(target, maxScroll));
+
+        if (typeof navEl.scrollTo === 'function') {
+            navEl.scrollTo({
+                [isHorizontal ? 'left' : 'top']: target,
+                behavior: 'smooth',
+            });
         } else {
-            this.nav.scrollLeft(scrollLeft);
+            if (isHorizontal) {
+                navEl.scrollLeft = target;
+            } else {
+                navEl.scrollTop = target;
+            }
         }
     }
 
     private scrollCheck() {
-        let hasScroll = false;
-        let canScrollLeft = false;
-        let canScrollRight = false;
+        const navEl = this.nav.get(0);
+        if (!navEl) return;
 
-        const scrollLeft = this.nav.scrollLeft() ?? 0;
-        const scrollWidth = this.nav?.get(0)?.scrollWidth ?? 0;
-        const width = this.nav.outerWidth() ?? 0;
-        if (width < scrollWidth) {
-            hasScroll = true;
-        }
+        const isHorizontal = window.getComputedStyle(navEl).flexDirection !== 'column';
 
-        $(this.options.styles.buttons.scroll).toggle(hasScroll);
+        const scrollPos = isHorizontal ? navEl.scrollLeft : navEl.scrollTop;
+        const scrollSize = isHorizontal ? navEl.scrollWidth : navEl.scrollHeight;
+        const clientSize = isHorizontal ? navEl.clientWidth : navEl.clientHeight;
+        const hasScroll = scrollSize > clientSize;
+
+        this.nav.find('.' + this.options.styles.buttons.scroll).toggle(hasScroll);
         if (!hasScroll) return;
 
-        if (scrollLeft > 0) {
-            canScrollLeft = true;
-        }
-        if (Math.ceil(width + scrollLeft) < scrollWidth) {
-            canScrollRight = true;
-        }
-        $(this.options.styles.buttons.scrollPrevious).toggle(canScrollLeft);
-        $(this.options.styles.buttons.scrollNext).toggle(canScrollRight);
+        const canScrollPrev = scrollPos > 0;
+        const canScrollNext = Math.ceil(clientSize + scrollPos) < scrollSize;
 
-        $(this.options.styles.buttons.scrollPrevious).toggleClass('nav-scroll-btn-visible', canScrollLeft);
-        $(this.options.styles.buttons.scrollNext).toggleClass('nav-scroll-btn-visible', canScrollRight);
+        this.nav.find('.' + this.options.styles.buttons.scrollPrevious).toggle(canScrollPrev);
+        this.nav.find('.' + this.options.styles.buttons.scrollNext).toggle(canScrollNext);
     }
 
-    private keyNav(e: any) {
-        if (!this.options.keyboardNavigation.enabled) {
-            return;
+    private scrollNavToStep(stepIdx: number): void {
+        const stepAnchor = this.steps.eq(stepIdx);
+        if (!stepAnchor.length) return;
+        const navEl = this.nav.get(0);
+        if (!navEl) return;
+
+        // Resolve the step element (use parent li if present, matching NavScroll step items)
+        const stepItem = stepAnchor.closest('li, .sw-nav-item');
+        const stepEl = (stepItem.length > 0 ? stepItem.get(0) : stepAnchor.get(0)) as HTMLElement;
+        if (!stepEl) return;
+
+        const isHorizontal = window.getComputedStyle(navEl).flexDirection !== 'column';
+
+        let itemStart = isHorizontal ? stepEl.offsetLeft : stepEl.offsetTop;
+        if (stepEl.offsetParent !== navEl) {
+            const navRect = navEl.getBoundingClientRect();
+            const stepRect = stepEl.getBoundingClientRect();
+            itemStart = isHorizontal
+                ? stepRect.left - navRect.left + navEl.scrollLeft
+                : stepRect.top - navRect.top + navEl.scrollTop;
         }
 
-        // Keyboard navigation
-        if ($.inArray(e.which, this.options.keyboardNavigation.keys.left) > -1) {
-            // left
+        const itemSize = isHorizontal ? stepEl.offsetWidth : stepEl.offsetHeight;
+        const navSize = isHorizontal ? navEl.clientWidth : navEl.clientHeight;
+        const maxScroll = isHorizontal
+            ? navEl.scrollWidth - navEl.clientWidth
+            : navEl.scrollHeight - navEl.clientHeight;
+
+        const center = itemStart + itemSize / 2 - navSize / 2;
+        const clamped = Math.max(0, Math.min(center, maxScroll));
+
+        if (typeof navEl.scrollTo === 'function') {
+            navEl.scrollTo({
+                [isHorizontal ? 'left' : 'top']: clamped,
+                behavior: 'smooth',
+            });
+        } else {
+            if (isHorizontal) {
+                navEl.scrollLeft = clamped;
+            } else {
+                navEl.scrollTop = clamped;
+            }
+        }
+    }
+
+    private keyNav(e: JQuery.TriggeredEvent): void {
+        if (!this.options.keyboardNavigation.enabled) return;
+
+        // Ignore key events originating from input fields
+        const tag = (e.target as HTMLElement)?.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+        const key = e.key;
+        if (!key) return;
+
+        if (this.options.keyboardNavigation.keys.left.includes(key)) {
             this.navigate(STEP_DIRECTION.Backward);
             e.preventDefault();
-        } else if ($.inArray(e.which, this.options.keyboardNavigation.keys.right) > -1) {
-            // right
+        } else if (this.options.keyboardNavigation.keys.right.includes(key)) {
             this.navigate(STEP_DIRECTION.Forward);
             e.preventDefault();
-        } else {
-            return; // exit this handler for other keys
         }
     }
 
@@ -619,7 +667,7 @@ export class Wizard {
             this.setAnchor(stepIdx);
             // Scroll the element into view
             if (this.options.scrollToView) {
-                selStep && Util.scrollToView(selStep);
+                this.scrollNavToStep(stepIdx);
             }
 
             // Get current step element
@@ -666,7 +714,15 @@ export class Wizard {
         selStep = $(selStep);
 
         this.options.contentLoader(idx, stepDirection, stepPosition, selStep, (content) => {
-            if (content) selPage.html(content);
+            if (content) {
+                if (this.options.contentSanitize !== false && typeof content === 'string') {
+                    // Use $.parseHTML to parse the string safely (avoids executing inline scripts)
+                    // The third parameter keepScripts defaults to false
+                    selPage.empty().append($.parseHTML(content));
+                } else {
+                    selPage.html(content);
+                }
+            }
             callback();
         });
     }
