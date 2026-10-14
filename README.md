@@ -19,9 +19,8 @@
 + [StackOverflow Q&A](https://stackoverflow.com/questions/tagged/smart-wizard)
 + [GitHub Issues](https://github.com/techlab/jquery-smartwizard/issues)
 
-Screenshots
------
-![Smart Wizard](https://techlaboratory.net/media/jquery-smart-wizard/v7/all-screens.png)   
+
+![Smart Wizard](https://techlaboratory.net/media/jquery-smart-wizard/v7/smart-wizard-showcase.png)   
 
 Requirements
 -----
@@ -119,7 +118,11 @@ Usage
 
 Include SmartWizard CSS
 ```html
-<link href="https://cdn.jsdelivr.net/npm/smartwizard@7/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
+<!-- Base CSS -->
+<link href="https://cdn.jsdelivr.net/npm/smartwizard@7/dist/css/smartwizard.min.css" rel="stylesheet" type="text/css" />
+
+<!-- Optional Theme CSS -->
+<link href="https://cdn.jsdelivr.net/npm/smartwizard@7/dist/css/themes/arrows.min.css" rel="stylesheet" type="text/css" />
 ```
 
 Include HTML (*This is the basic HTML markup. Customize it by adding your own step content*).
@@ -245,8 +248,8 @@ $('#smartwizard').smartWizard({
     keyboardNavigation: {
         enabled: true,             // Enable left/right arrow key navigation
         keys: {
-            left: [37],            // Key codes for backward navigation
-            right: [39]            // Key codes for forward navigation
+            left: ['ArrowLeft'],   // Key names for backward navigation
+            right: ['ArrowRight']  // Key names for forward navigation
         }
     },
 
@@ -270,10 +273,11 @@ $('#smartwizard').smartWizard({
         warning: []     // Step indexes to mark as warning on init
     },
 
-    scrollToView: false, // Scroll the active step anchor into view on step change
+    scrollToView: true, // Scroll the active step anchor into view on step change
 
-    contentLoader: null  // function(stepIndex, stepDirection, stepPosition, stepElement, callback)
+    contentLoader: null, // function(stepIndex, stepDirection, stepPosition, stepElement, callback)
                          // Dynamically load step content; call callback(htmlContent) when ready
+    contentSanitize: true // Sanitize dynamic HTML content loaded via contentLoader to prevent XSS
 });
 ```
 

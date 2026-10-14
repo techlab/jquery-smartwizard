@@ -46,14 +46,14 @@
     "dev": "rollup -c rollup.config.mjs -w",
     "build": "tsc --emitDeclarationOnly --outDir dist/types && rollup -c rollup.config.mjs",
     "clean": "rm -rf dist coverage .rollup-cache",
-    "test": "npm run test:unit && npm run test:e2e",
+    "test": "npm run test:unit",
     "test:unit": "jest",
     "test:unit:watch": "jest --watch",
     "test:unit:coverage": "jest --coverage",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:ui": "playwright test --ui",
-    "test:all": "npm run build && npm run test"
+    "test:all": "npm run build && npm run test:unit && npm run test:e2e"
   },
   "peerDependencies": {
     "jquery": ">=1.11.1"

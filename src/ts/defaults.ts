@@ -40,8 +40,8 @@ export const defaults: WizardOptions = {
     keyboardNavigation: {
         enabled: true, // Enable/Disable keyboard navigation (left/right keys)
         keys: {
-            left: [37], // Left key codes
-            right: [39] // Right key codes
+            left: ['ArrowLeft'], // Left keys
+            right: ['ArrowRight'] // Right keys
         }
     },
     localization: {
@@ -100,7 +100,7 @@ export const defaults: WizardOptions = {
         enabled: false, // Enable/Disable swipe navigation on touch devices
         threshold: 50, // Minimum swipe distance in pixels to trigger navigation
     },
-    scrollToView: false, // Scroll the active step anchor into view on step change
+    scrollToView: true, // Scroll the active step anchor into view on step change
     contentLoader: null, // Callback function for dynamically loading content
     contentSanitize: true // Sanitize the content loaded by contentLoader to prevent XSS
 };

@@ -112,8 +112,8 @@ export interface Toolbar {
 export interface KeyboardNavigation {
     enabled: boolean;
     keys: {
-        left: number[];
-        right: number[];
+        left: string[];
+        right: string[];
     };
 }
 
