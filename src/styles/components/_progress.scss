@@ -1,6 +1,6 @@
 // Progress bar component
 .sw {
-    >.progress {
+    >.sw-progress {
         padding: 0;
         margin: 0;
         border: 0;
@@ -9,7 +9,7 @@
         background: var(--sw-inactive-bg);
         overflow: hidden;
 
-        &>.progress-bar {
+        &>.sw-progress-bar {
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, var(--sw-accent-dark), var(--sw-accent));

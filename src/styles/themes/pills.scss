@@ -1,11 +1,11 @@
 .sw-theme-pills {
 
     // Navigation style
-    &>.nav {
+    &>.sw-nav {
         padding: 8px 10px;
         gap: 8px;
 
-        .nav-link {
+        .sw-nav-link {
             clip-path: none !important;
             border-radius: 999px;
             border: 2px solid transparent;

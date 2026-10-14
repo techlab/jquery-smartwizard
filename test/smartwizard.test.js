@@ -4,15 +4,15 @@ describe('SmartWizard', () => {
     beforeEach(() => {
         document.body.innerHTML = `
             <div id="smartwizard">
-                <ul class="nav">
-                    <li><a href="#step-1">Step 1</a></li>
-                    <li><a href="#step-2">Step 2</a></li>
-                    <li><a href="#step-3">Step 3</a></li>
+                <ul class="sw-nav">
+                    <li class="sw-nav-item"><a class="sw-nav-link" href="#step-1">Step 1</a></li>
+                    <li class="sw-nav-item"><a class="sw-nav-link" href="#step-2">Step 2</a></li>
+                    <li class="sw-nav-item"><a class="sw-nav-link" href="#step-3">Step 3</a></li>
                 </ul>
-                <div class="tab-content">
-                    <div id="step-1" class="tab-pane">Step 1 Content</div>
-                    <div id="step-2" class="tab-pane">Step 2 Content</div>
-                    <div id="step-3" class="tab-pane">Step 3 Content</div>
+                <div class="sw-tab-content">
+                    <div id="step-1" class="sw-tab-pane">Step 1 Content</div>
+                    <div id="step-2" class="sw-tab-pane">Step 2 Content</div>
+                    <div id="step-3" class="sw-tab-pane">Step 3 Content</div>
                 </div>
             </div>
         `;
@@ -30,12 +30,11 @@ describe('SmartWizard', () => {
         });
 
         test('should add default theme to the element', () => {
-            expect(el.hasClass('sw-theme-default')).toBeTruthy();
+            expect(el.hasClass('sw-theme-basic')).toBeTruthy();
         });
 
         test('should add toolbar elements', () => {
-            expect(el.find('.toolbar-top').length).toBe(1);
-            expect(el.find('.toolbar-bottom').length).toBe(1);
+            expect(el.find('.sw-toolbar-bottom').length).toBe(1);
         });
     });
 
@@ -43,48 +42,41 @@ describe('SmartWizard', () => {
         test('should initialize with custom options', () => {
             document.body.innerHTML = `
                 <div id="smartwizard">
-                    <ul class="nav">
-                        <li><a href="#step-1">Step 1</a></li>
-                        <li><a href="#step-2">Step 2</a></li>
+                    <ul class="sw-nav">
+                        <li class="sw-nav-item"><a class="sw-nav-link" href="#step-1">Step 1</a></li>
+                        <li class="sw-nav-item"><a class="sw-nav-link" href="#step-2">Step 2</a></li>
                     </ul>
-                    <div class="tab-content">
-                        <div id="step-1" class="tab-pane">Step 1 Content</div>
-                        <div id="step-2" class="tab-pane">Step 2 Content</div>
+                    <div class="sw-tab-content">
+                        <div id="step-1" class="sw-tab-pane">Step 1 Content</div>
+                        <div id="step-2" class="sw-tab-pane">Step 2 Content</div>
                     </div>
                 </div>
             `;
             el = $('#smartwizard');
             el.smartWizard({
-                selected: 1,
+                initialStep: 1,
                 theme: 'arrows',
-                justified: true,
-                darkMode: true,
-                autoAdjustHeight: false,
-                cycleSteps: true,
-                backButtonSupport: false,
-                enableURLhash: false,
-                transition: {
-                    animation: 'slide-horizontal',
-                    speed: '400'
-                },
+                displayMode: 'dark',
                 toolbar: {
-                    position: 'bottom',
+                    position: 'both',
                     buttons: {
                         showNext: false,
                         showPrevious: false
                     }
                 },
-                anchor: {
-                    enableNavigationAlways: true,
-                    enableDoneState: true,
-                    doneClass: 'done',
-                    enableDoneStateNavigation: true
+                navigation: {
+                    alwaysClickable: true,
+                    completed: {
+                        enabled: true,
+                        clickable: true
+                    }
                 }
             });
 
             expect(el.hasClass('sw-theme-arrows')).toBeTruthy();
-            expect(el.hasClass('sw-justified')).toBeTruthy();
-            expect(el.hasClass('sw-dark')).toBeTruthy();
+            expect(el.attr('data-theme')).toBe('dark');
+            expect(el.find('.sw-toolbar-top').length).toBe(1);
+            expect(el.find('.sw-toolbar-bottom').length).toBe(1);
         });
     });
 
@@ -92,15 +84,15 @@ describe('SmartWizard', () => {
         beforeEach(() => {
             document.body.innerHTML = `
                 <div id="smartwizard">
-                    <ul class="nav">
-                        <li><a href="#step-1">Step 1</a></li>
-                        <li><a href="#step-2">Step 2</a></li>
-                        <li><a href="#step-3">Step 3</a></li>
+                    <ul class="sw-nav">
+                        <li class="sw-nav-item"><a class="sw-nav-link" href="#step-1">Step 1</a></li>
+                        <li class="sw-nav-item"><a class="sw-nav-link" href="#step-2">Step 2</a></li>
+                        <li class="sw-nav-item"><a class="sw-nav-link" href="#step-3">Step 3</a></li>
                     </ul>
-                    <div class="tab-content">
-                        <div id="step-1" class="tab-pane">Step 1 Content</div>
-                        <div id="step-2" class="tab-pane">Step 2 Content</div>
-                        <div id="step-3" class="tab-pane">Step 3 Content</div>
+                    <div class="sw-tab-content">
+                        <div id="step-1" class="sw-tab-pane">Step 1 Content</div>
+                        <div id="step-2" class="sw-tab-pane">Step 2 Content</div>
+                        <div id="step-3" class="sw-tab-pane">Step 3 Content</div>
                     </div>
                 </div>
             `;
@@ -110,13 +102,13 @@ describe('SmartWizard', () => {
 
         test('should navigate to next step when clicking next button', () => {
             el.smartWizard('next');
-            expect(el.find('.nav-link.active').parent().index()).toBe(1);
+            expect(el.find('.sw-nav-link.active').parent().index()).toBe(1);
         });
 
         test('should navigate to previous step when clicking previous button', () => {
             el.smartWizard('next');
             el.smartWizard('prev');
-            expect(el.find('.nav-link.active').parent().index()).toBe(0);
+            expect(el.find('.sw-nav-link.active').parent().index()).toBe(0);
         });
     });
 
@@ -124,15 +116,15 @@ describe('SmartWizard', () => {
         beforeEach(() => {
             document.body.innerHTML = `
                 <div id="smartwizard">
-                    <ul class="nav">
-                        <li><a href="#step-1">Step 1</a></li>
-                        <li><a href="#step-2">Step 2</a></li>
-                        <li><a href="#step-3">Step 3</a></li>
+                    <ul class="sw-nav">
+                        <li class="sw-nav-item"><a class="sw-nav-link" href="#step-1">Step 1</a></li>
+                        <li class="sw-nav-item"><a class="sw-nav-link" href="#step-2">Step 2</a></li>
+                        <li class="sw-nav-item"><a class="sw-nav-link" href="#step-3">Step 3</a></li>
                     </ul>
-                    <div class="tab-content">
-                        <div id="step-1" class="tab-pane">Step 1 Content</div>
-                        <div id="step-2" class="tab-pane">Step 2 Content</div>
-                        <div id="step-3" class="tab-pane">Step 3 Content</div>
+                    <div class="sw-tab-content">
+                        <div id="step-1" class="sw-tab-pane">Step 1 Content</div>
+                        <div id="step-2" class="sw-tab-pane">Step 2 Content</div>
+                        <div id="step-3" class="sw-tab-pane">Step 3 Content</div>
                     </div>
                 </div>
             `;
@@ -141,18 +133,18 @@ describe('SmartWizard', () => {
         });
 
         test('should disable steps correctly', () => {
-            el.smartWizard('stepState', [1], 'disable');
-            expect(el.find('.nav-link').eq(1).hasClass('disabled')).toBeTruthy();
+            el.smartWizard('setState', [1], 'disable');
+            expect(el.find('.sw-nav-link').eq(1).hasClass('disabled')).toBeTruthy();
         });
 
-        test('should mark steps as done correctly', () => {
-            el.smartWizard('stepState', [0], 'done');
-            expect(el.find('.nav-link').eq(0).hasClass('done')).toBeTruthy();
+        test('should mark steps as completed correctly', () => {
+            el.smartWizard('setState', [0], 'completed');
+            expect(el.find('.sw-nav-link').eq(0).hasClass('completed')).toBeTruthy();
         });
 
         test('should handle error states correctly', () => {
-            el.smartWizard('stepState', [2], 'error');
-            expect(el.find('.nav-link').eq(2).hasClass('error')).toBeTruthy();
+            el.smartWizard('setState', [2], 'error');
+            expect(el.find('.sw-nav-link').eq(2).hasClass('error')).toBeTruthy();
         });
     });
 });

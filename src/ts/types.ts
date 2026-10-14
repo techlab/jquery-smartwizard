@@ -62,6 +62,7 @@ export interface WizardOptions {
     swipeNavigation: SwipeNavigation;
     scrollToView: boolean;
     contentLoader: ContentLoader | null;
+    contentSanitize: boolean;
 }
 
 export interface Behavior {
@@ -111,8 +112,8 @@ export interface Toolbar {
 export interface KeyboardNavigation {
     enabled: boolean;
     keys: {
-        left: number[];
-        right: number[];
+        left: string[];
+        right: string[];
     };
 }
 

@@ -38,3 +38,8 @@ dist-ssr
 *.sublime-workspace
 *.sublime-project
 /nbproject/private/
+
+# Test outputs
+playwright-report/
+test-results/
+coverage/

@@ -40,8 +40,8 @@ export const defaults: WizardOptions = {
     keyboardNavigation: {
         enabled: true, // Enable/Disable keyboard navigation (left/right keys)
         keys: {
-            left: [37], // Left key codes
-            right: [39] // Right key codes
+            left: ['ArrowLeft'], // Left keys
+            right: ['ArrowRight'] // Right keys
         }
     },
     localization: {
@@ -53,12 +53,12 @@ export const defaults: WizardOptions = {
     styles: {
         baseClass: 'sw',
         navigation: {
-            container: 'nav',
-            link: 'nav-link',
+            container: 'sw-nav',
+            link: 'sw-nav-link',
         },
         content: {
-            container: 'tab-content',
-            panel: 'tab-pane'
+            container: 'sw-tab-content',
+            panel: 'sw-tab-pane'
         },
         themePrefix: 'sw-theme-',
         anchorStates: {
@@ -75,18 +75,18 @@ export const defaults: WizardOptions = {
             next: 'sw-btn-next',
             previous: 'sw-btn-prev',
             reset: 'sw-btn-reset',
-            scroll: 'nav-scroll-btn',
-            scrollNext: 'nav-scroll-btn-right',
-            scrollPrevious: 'nav-scroll-btn-left',
+            scroll: 'sw-nav-scroll-btn',
+            scrollNext: 'sw-nav-scroll-btn-right',
+            scrollPrevious: 'sw-nav-scroll-btn-left',
         },
         loader: 'sw-loading',
         progressBar: {
-            container: 'progress',
-            bar: 'progress-bar'
+            container: 'sw-progress',
+            bar: 'sw-progress-bar'
         },
         toolbar: {
-            base: 'toolbar',
-            prefix: 'toolbar-'
+            base: 'sw-toolbar',
+            prefix: 'sw-toolbar-'
         }
     },
     stepStates: {
@@ -100,6 +100,7 @@ export const defaults: WizardOptions = {
         enabled: false, // Enable/Disable swipe navigation on touch devices
         threshold: 50, // Minimum swipe distance in pixels to trigger navigation
     },
-    scrollToView: false, // Scroll the active step anchor into view on step change
-    contentLoader: null // Callback function for dynamically loading content
+    scrollToView: true, // Scroll the active step anchor into view on step change
+    contentLoader: null, // Callback function for dynamically loading content
+    contentSanitize: true // Sanitize the content loaded by contentLoader to prevent XSS
 };
