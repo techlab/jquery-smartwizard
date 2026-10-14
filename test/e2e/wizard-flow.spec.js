@@ -22,17 +22,17 @@ test.describe('SmartWizard E2E Tests', () => {
         await expect(nav).toBeVisible();
 
         // Check if toolbar exists
-        const toolbar = wizard.locator('.sw-toolbar');
+        const toolbar = wizard.locator('.sw-toolbar').first();
         await expect(toolbar).toBeVisible();
     });
 
     test('should navigate through steps using next button', async ({ page }) => {
-        // Get the next button
-        const nextBtn = page.locator('.sw-btn-next');
+        // Get the next button (first element to avoid multi-match when toolbar: both)
+        const nextBtn = page.locator('.sw-btn-next').first();
 
         // Check first step is active
         let activeStep = page.locator('.sw-nav .sw-nav-link.active');
-        await expect(activeStep).toContainText('Step 1');
+        await expect(activeStep).toHaveAttribute('href', '#step-1');
 
         // Click next
         await nextBtn.click();
@@ -40,7 +40,7 @@ test.describe('SmartWizard E2E Tests', () => {
 
         // Check second step is active
         activeStep = page.locator('.sw-nav .sw-nav-link.active');
-        await expect(activeStep).toContainText('Step 2');
+        await expect(activeStep).toHaveAttribute('href', '#step-2');
 
         // Click next again
         await nextBtn.click();
@@ -48,12 +48,12 @@ test.describe('SmartWizard E2E Tests', () => {
 
         // Check third step is active
         activeStep = page.locator('.sw-nav .sw-nav-link.active');
-        await expect(activeStep).toContainText('Step 3');
+        await expect(activeStep).toHaveAttribute('href', '#step-3');
     });
 
     test('should navigate using previous button', async ({ page }) => {
-        const nextBtn = page.locator('.sw-btn-next');
-        const prevBtn = page.locator('.sw-btn-prev');
+        const nextBtn = page.locator('.sw-btn-next').first();
+        const prevBtn = page.locator('.sw-btn-prev').first();
 
         // Go to step 2
         await nextBtn.click();
@@ -65,17 +65,23 @@ test.describe('SmartWizard E2E Tests', () => {
 
         // Verify we're on step 1
         const activeStep = page.locator('.sw-nav .sw-nav-link.active');
-        await expect(activeStep).toContainText('Step 1');
+        await expect(activeStep).toHaveAttribute('href', '#step-1');
     });
 
     test('should navigate by clicking step anchors', async ({ page }) => {
-        // Click on step 3 directly
-        await page.click('.sw-nav a[href="#step-3"]');
+        const nextBtn = page.locator('.sw-btn-next').first();
+
+        // Navigate to step 2 so step 1 is marked as completed
+        await nextBtn.click();
         await page.waitForTimeout(500);
 
-        // Verify step 3 is active
+        // Click on step 1 anchor (completed steps are clickable)
+        await page.click('.sw-nav a[href="#step-1"]');
+        await page.waitForTimeout(500);
+
+        // Verify step 1 is active
         const activeStep = page.locator('.sw-nav .sw-nav-link.active');
-        await expect(activeStep).toContainText('Step 3');
+        await expect(activeStep).toHaveAttribute('href', '#step-1');
     });
 
     test('should apply theme class correctly', async ({ page }) => {
@@ -99,7 +105,7 @@ test.describe('SmartWizard E2E Tests', () => {
         await expect(step2Content).not.toBeVisible();
 
         // Navigate to step 2
-        await page.click('.sw-btn-next');
+        await page.locator('.sw-btn-next').first().click();
         await page.waitForTimeout(500);
 
         // Now step 2 should be visible
