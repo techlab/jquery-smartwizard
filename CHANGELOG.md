@@ -1,5 +1,21 @@
 CHANGELOG
 =========
+v7.1.0 
+-----
+- **Changed:** HTML class names prefixed with `sw-` to avoid styling and layout conflicts with CSS frameworks like Bootstrap and Tailwind (`.sw-nav`, `.sw-nav-item`, `.sw-nav-link`, `.sw-tab-content`, `.sw-tab-pane`, `.sw-progress`, `.sw-progress-bar`, `.sw-badge`) [#208](https://github.com/techlab/jquery-smartwizard/issues/208)
+- **Changed:** `keyboardNavigation.keys.left` and `right` now use standard `KeyboardEvent.key` string names (`['ArrowLeft']` / `['ArrowRight']`) instead of deprecated numeric key codes
+- **Changed:** Keyboard navigation now automatically ignores key events originating inside `<input>`, `<textarea>`, and `<select>` elements
+- **Security:** Added `contentSanitize: true` default in `contentLoader` to safely parse HTML using `$.parseHTML` and prevent DOM XSS [#202](https://github.com/techlab/jquery-smartwizard/pull/202)
+- **Performance:** Throttled/debounced `fixHeight` using `requestAnimationFrame` during window resize to prevent layout thrashing and main thread blocking [#200](https://github.com/techlab/jquery-smartwizard/pull/200)
+- **Performance:** Optimized `getShowable` loop to eliminate unnecessary intermediate jQuery object allocations [#203](https://github.com/techlab/jquery-smartwizard/pull/203)
+- **Improved:** Nav bar scroll navigation buttons (`scrollCheck`, `scrollAnchor`):
+  - Fixed selector bug in `scrollCheck` by scoping query to nav container with class dot prefix
+  - Replaced fixed 200px scroll delta with adaptive half-width scrolling (`clientWidth / 2`) and native smooth `scrollBy`
+- **Improved:** `scrollToView` now smoothly centers the active step within the navigation bar (`scrollNavToStep`) instead of scrolling the entire window
+- **Fixed:** Comprehensive fixes and unit tests for `deepMerge` utility [#204](https://github.com/techlab/jquery-smartwizard/pull/204)
+- **Fixed:** Documentation links and typos [#209](https://github.com/techlab/jquery-smartwizard/issues/209)
+- **Added:** GitHub Actions CI/CD workflows for automated build, Jest unit tests with coverage, Playwright E2E tests, and npm publishing on release
+
 v7.0.2 
 -----
 - **Fixed:** `destroy` method corection

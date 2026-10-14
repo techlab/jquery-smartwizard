@@ -34,10 +34,28 @@ export function isFunction(value: unknown): boolean {
  * Plain-object values are merged key-by-key; all other values are replaced.
  */
 export function deepMerge<T extends object>(base: T, override: Partial<T>): T {
-    const result = { ...base } as Record<string, unknown>;
+    // Helper to deep clone objects/arrays
+    const deepClone = <V>(val: V): V => {
+        if (val === null || typeof val !== 'object') {
+            return val;
+        }
+
+        if (Array.isArray(val)) {
+            return val.map(deepClone) as unknown as V;
+        }
+
+        const clone = {} as Record<string, unknown>;
+        for (const key of Object.keys(val)) {
+            clone[key] = deepClone((val as Record<string, unknown>)[key]);
+        }
+        return clone as unknown as V;
+    };
+
+    const result = deepClone(base) as Record<string, unknown>;
     for (const key of Object.keys(override) as (keyof T)[]) {
-        const baseVal = base[key];
+        const baseVal = result[key as string];
         const overrideVal = override[key];
+
         if (
             overrideVal !== null &&
             typeof overrideVal === 'object' &&
@@ -51,7 +69,7 @@ export function deepMerge<T extends object>(base: T, override: Partial<T>): T {
                 overrideVal as Partial<object>
             );
         } else if (overrideVal !== undefined) {
-            result[key as string] = overrideVal;
+            result[key as string] = deepClone(overrideVal);
         }
     }
     return result as T;

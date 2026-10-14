@@ -37,21 +37,32 @@ Update CDN links:
 
 ## 2. HTML Structure
 
-The HTML structure is **unchanged**. Your existing markup will work as-is.
+The HTML structure is **unchanged**, but class names have been prefixed with `sw-` to prevent conflicts with popular CSS frameworks like Bootstrap and Tailwind.
+
+| Previous Class (v6) | v7 Class | Description |
+|---|---|---|
+| `.nav` | `.sw-nav` | Step navigation container |
+| `.nav-item` | `.sw-nav-item` | Navigation item wrapper |
+| `.nav-link` | `.sw-nav-link` | Navigation anchor element |
+| `.tab-content` | `.sw-tab-content` | Steps panel container |
+| `.tab-pane` | `.sw-tab-pane` | Step content panel |
+| `.progress` | `.sw-progress` | Optional progress bar container |
+| `.progress-bar` | `.sw-progress-bar` | Progress bar indicator |
+| `.badge` | `.sw-badge` | Step number badge |
 
 ```html
 <div id="smartwizard">
-    <ul class="nav">
-        <li class="nav-item"><a class="nav-link" href="#step-1">Step 1</a></li>
-        <li class="nav-item"><a class="nav-link" href="#step-2">Step 2</a></li>
+    <ul class="sw-nav">
+        <li class="sw-nav-item"><a class="sw-nav-link" href="#step-1">Step 1</a></li>
+        <li class="sw-nav-item"><a class="sw-nav-link" href="#step-2">Step 2</a></li>
     </ul>
-    <div class="tab-content">
-        <div id="step-1" class="tab-pane">...</div>
-        <div id="step-2" class="tab-pane">...</div>
+    <div class="sw-tab-content">
+        <div id="step-1" class="sw-tab-pane">...</div>
+        <div id="step-2" class="sw-tab-pane">...</div>
     </div>
     <!-- Optional progressbar -->
-    <div class="progress">
-        <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+    <div class="sw-progress">
+        <div class="sw-progress-bar" role="progressbar" style="width: 0%"></div>
     </div>
 </div>
 ```
@@ -93,6 +104,7 @@ All options have been restructured into logical groups. Below is the full mappin
 | `keyboard.keyNavigation` | `keyboardNavigation.enabled` |
 | `keyboard.keyLeft` | `keyboardNavigation.keys.left` |
 | `keyboard.keyRight` | `keyboardNavigation.keys.right` |
+| — | `contentSanitize` |
 | `lang.next` | `localization.buttons.next` |
 | `lang.previous` | `localization.buttons.previous` |
 | `disabledSteps` | `stepStates.disabled` |
@@ -194,8 +206,8 @@ $('#smartwizard').smartWizard({
     keyboardNavigation: {
         enabled: true,
         keys: {
-            left: [37],
-            right: [39],
+            left: ['ArrowLeft'],
+            right: ['ArrowRight'],
         },
     },
     swipeNavigation: {  // NEW
@@ -216,6 +228,7 @@ $('#smartwizard').smartWizard({
         completed: [],
     },
     contentLoader: null,
+    contentSanitize: true, // NEW: Sanitizes dynamic HTML content to prevent XSS
 });
 ```
 
@@ -295,6 +308,11 @@ These are entirely new capabilities not available in v6:
 - **`displayMode`** option — `'auto'` (system preference) | `'dark'` | `'light'` | `'none'`
 - **`swipeNavigation`** — swipe left/right on touch devices to navigate steps
 - **Horizontal nav scroll** — mouse wheel over the nav bar scrolls horizontally when steps overflow
+- **Dynamic nav scroll buttons** — automatically created and toggled on overflow with adaptive smooth scrolling
+- **Active step centering** — `scrollToView` smoothly centers active step within nav bar without scrolling page window
+- **Modern `KeyboardEvent.key` navigation** — uses standard key names (e.g. `['ArrowLeft']`, `['ArrowRight']`) and ignores inputs
+- **Built-in XSS protection** — `contentSanitize: true` safely parses dynamically loaded step HTML
+- **`sw-*` CSS isolation** — custom classes prevent conflicts with Bootstrap, Tailwind, and other frameworks
 - **TypeScript support** — full type declarations in `dist/types/`
 
 ---
@@ -340,6 +358,8 @@ You no longer need to use `require('smartwizard/dist/js/...')` directly — the 
 - [ ] Update CDN links — split base CSS + theme CSS
 - [ ] Rename all options per the mapping table above
 - [ ] Update event listeners to use `.sw` suffix and new `args` object
+- [ ] Update HTML class names to `sw-*` (`.sw-nav`, `.sw-nav-link`, `.sw-tab-content`, `.sw-tab-pane`, etc.)
+- [ ] Update `keyboardNavigation.keys` from numeric codes (`[37]`/`[39]`) to key names (`['ArrowLeft']`/`['ArrowRight']`)
 - [ ] Update `setState`/`unsetState` state name from `'disabled'` to `'disable'`
 - [ ] Replace `fixHeight` calls with `adjustHeight`
 - [ ] Test CSS transitions — `transition.css` structure has changed
