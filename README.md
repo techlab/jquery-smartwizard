@@ -9,9 +9,30 @@
 [![GitHub Sponsor](https://img.shields.io/badge/Sponsor-techlab-blue.svg?logo=github)](https://github.com/sponsors/techlab)
 
 
-**jQuery Smart Wizard v7** is a lightweight and extensible step wizard plugin built for modern web applications using jQuery. It provides a clean, intuitive interface for managing multi-step processes such as registration forms, checkout screens, surveys, configuration flows, and more.
+**jQuery Smart Wizard v7** is a lightweight and extensible step wizard plugin built for modern web applications using jQuery. It provides a clean, intuitive interface for managing multi-step processes such as registration forms, checkout screens, surveys, configuration flows, and more. Whether you’re building a simple step form or a complex workflow, Smart Wizard adapts to your needs.
 
-**jQuery Smart Wizard v7** focuses on usability and flexibility. It offers customizable navigation styles, toolbars, transitions, and events, making it easy to integrate into existing applications. Whether you’re building a simple step form or a complex workflow, Smart Wizard adapts to your needs.
+## ✨ Meet the Next Generation of [SmartWizard](https://github.com/techlab/smart-wizard)
+
+We’ve launched [**SmartWizard**](https://github.com/techlab/smart-wizard) - a modern, framework-agnostic, standalone continuation of the original [jQuery SmartWizard](https://github.com/techlab/jquery-smartwizard) plugin.
+
+Redesigned from the ground up for today's web, SmartWizard is built with **TypeScript**, enhanced accessibility, modern tooling, and **first-class React and Vue support** - all without any jQuery dependencies.
+
+### Why SmartWizard?
+
+*We wanted to build a wizard component that is:*
+
+- 🧩 **Framework-agnostic**
+- ⚡ **Free from jQuery dependencies**
+- 🎨 **Flexible and extensible**
+- 🚀 **Built with modern JavaScript & TypeScript**
+- ⚛️ **First-class React & Vue support**
+- 🛠️ **Powered by modern tooling**
+
+The original [jQuery SmartWizard](https://github.com/techlab/jquery-smartwizard) will remain **active and available** for existing jQuery-based projects.
+
+If you're starting a new project or need **modern JavaScript, React, or Vue support**, we recommend giving the next-generation [**SmartWizard**](https://github.com/techlab/smart-wizard) a try.
+
+---
 
 + [Homepage](https://techlaboratory.net/jquery-smartwizard)
 + [Documentation](https://techlaboratory.net/jquery-smartwizard#documentation)
