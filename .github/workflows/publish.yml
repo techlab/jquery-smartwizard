@@ -4,10 +4,10 @@ name: Publish to npm
 # Workflow:
 #   1. Bump version in package.json + update CHANGELOG
 #   2. Commit & push to master (via PR or direct)
-#   3. GitHub → Releases → Draft a new release
-#      → Create tag: v7.0.4  (must match package.json version)
-#      → Write release notes
-#      → Click "Publish release"  ← this triggers the workflow
+#   3. GitHub -> Releases -> Draft a new release
+#      -> Create tag: v7.0.4  (must match package.json version)
+#      -> Write release notes
+#      -> Click "Publish release"  <- this triggers the workflow
 
 on:
   release:
@@ -17,7 +17,9 @@ jobs:
   publish:
     name: Build & Publish
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      id-token: write # Required for npm OIDC trusted publishing
     steps:
       - uses: actions/checkout@v4
         with:
@@ -52,7 +54,5 @@ jobs:
       - name: Run unit tests
         run: npm run test:unit
 
-      - name: Publish to npm
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to npm (OIDC)
+        run: npm publish --access public --provenance

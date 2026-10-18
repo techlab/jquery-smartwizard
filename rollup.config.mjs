@@ -22,6 +22,9 @@ const banner = `/*!
  * A modern and accessible step wizard plugin for jQuery
  * http://www.techlaboratory.net/jquery-smartwizard
  *
+ * See the next-generation [SmartWizard](https://github.com/techlab/smart-wizard)
+ * A framework-agnostic wizard component with React & Vue support.
+ *
  * Created by Dipu Raj (https://github.com/techlab)
  *
  * Licensed under the terms of the MIT License - Free for personal and open-source projects.
