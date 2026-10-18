@@ -1,5 +1,10 @@
 CHANGELOG
 =========
+v7.1.2 
+-----
+- **Updated:** Readme update and OIDC release
+
+
 v7.1.0 
 -----
 - **Changed:** HTML class names prefixed with `sw-` to avoid styling and layout conflicts with CSS frameworks like Bootstrap and Tailwind (`.sw-nav`, `.sw-nav-item`, `.sw-nav-link`, `.sw-tab-content`, `.sw-tab-pane`, `.sw-progress`, `.sw-progress-bar`, `.sw-badge`) [#208](https://github.com/techlab/jquery-smartwizard/issues/208)
