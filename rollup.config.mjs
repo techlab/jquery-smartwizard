@@ -25,9 +25,9 @@ const banner = `/*!
  * See the next-generation [SmartWizard](https://github.com/techlab/smart-wizard)
  * A framework-agnostic wizard component with React & Vue support.
  *
- * Created by Dipu Raj (https://github.com/techlab)
+ * Created by Dipu Rajendran (https://github.com/techlab)
  *
- * Licensed under the terms of the MIT License - Free for personal and open-source projects.
+ * Licensed under the terms of the GNU General Public License v3.0 (GPLv3) - free and open-source under the GNU General Public License v3.0.
  * For commercial use, please purchase a commercial license: https://techlaboratory.net/jquery-smartwizard#license
  */`;
 

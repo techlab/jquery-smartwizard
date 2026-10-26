@@ -1,5 +1,9 @@
 CHANGELOG
 =========
+v7.2.0
+-----
+- **Updated:** License update from MIT to GNU General Public License v3.0 (GPLv3)
+
 v7.1.2 
 -----
 - **Updated:** Readme update and OIDC release
