@@ -1,21 +1,14 @@
 {
   "name": "smartwizard",
-  "version": "7.1.2",
+  "version": "7.2.0",
   "title": "jQuery Smart Wizard",
   "description": "A modern and accessible step wizard plugin for jQuery",
   "author": {
     "name": "Dipu Rajendran",
-    "email": "hello.techlab@gmail.com",
     "url": "https://github.com/techlab"
   },
-  "contributors": [
-    {
-      "name": "Dipu Raj",
-      "email": "hello.techlab@gmail.com"
-    }
-  ],
   "homepage": "http://techlaboratory.net/jquery-smartwizard",
-  "license": "MIT",
+  "license": "(GPL-3.0-or-later OR LicenseRef-commercial)",
   "type": "module",
   "main": "dist/js/jquery.smartWizard.cjs.js",
   "module": "dist/js/jquery.smartWizard.esm.js",
