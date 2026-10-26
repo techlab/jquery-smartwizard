@@ -4,7 +4,7 @@
 [![npm version](https://badge.fury.io/js/smartwizard.svg)](https://www.npmjs.com/package/smartwizard)
 [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/smartwizard/badge?style=rounded)](https://www.jsdelivr.com/package/npm/smartwizard)
 [![Npm Downloads](https://badgen.net/npm/dm/smartwizard?icon=npm)](https://www.npmjs.com/package/smartwizard)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/techlab/jquery-smartwizard/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/techlab/jquery-smartwizard)](https://github.com/techlab/jquery-smartwizard?tab=License-1-ov-file)
 [![GitHub Repo](https://badgen.net/badge/icon/jquery-smartwizard?icon=github&label=&color=0da4d3)](https://github.com/techlab/jquery-smartwizard)
 [![GitHub Sponsor](https://img.shields.io/badge/Sponsor-techlab-blue.svg?logo=github)](https://github.com/sponsors/techlab)
 
@@ -353,10 +353,9 @@ License
 
 **jQuery SmartWizard v7** is dual-licensed:
 
-**[MIT License](https://github.com/techlab/jquery-smartwizard/blob/master/LICENSE)** — Free for personal and open-source projects.
+**[GNU General Public License v3.0 (GPLv3)](https://github.com/techlab/jquery-smartwizard/blob/main/LICENSE)** - free and open-source under the GNU General Public License v3.0
 
-**[Commercial License](https://techlaboratory.net/jquery-smartwizard#license)** — Required for closed-source, SaaS, or any  commercial projects.  
-If you use **jQuery SmartWizard v7** in a commercial or client application, please purchase a commercial license.
+**[Commercial License](https://techlaboratory.net/jquery-smartwizard#license)** — Required for **proprietary (closed-source) application, commercial SaaS, or client project** without releasing your application's source code under the GPLv3.
 
 Commercial licenses help support continued development, maintenance, and new features.
 
